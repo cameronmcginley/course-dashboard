@@ -12,52 +12,66 @@ import {
 
 function App() {
   const [newName, setNewName] = useState("");
-  const [newAge, setNewAge] = useState(0);
+  const [newAge, setNewAge] = useState("");
 
   const [users, setUsers] = useState([]);
   const usersCollectionRef = collection(db, "users");
 
-  const createUser = async () => {
+  const createUser = async (e) => {
+    // Prevent auto refresh when recieving event
+    e.preventDefault();
+
     await addDoc(usersCollectionRef, { name: newName, age: Number(newAge) });
+
+    // Empty the inputs
+    setNewName("")
+    setNewAge("")
+
+    // Refresh users list for render
+    getUsers();
   };
 
   const updateUser = async (id, age) => {
     const userDoc = doc(db, "users", id);
     const newFields = { age: age + 1 };
     await updateDoc(userDoc, newFields);
+    getUsers();
   };
 
   const deleteUser = async (id) => {
     const userDoc = doc(db, "users", id);
     await deleteDoc(userDoc);
+    getUsers();
+  };
+
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     const data = await getDocs(usersCollectionRef);
+  //     setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   };
+
+  //   getUsers();
+  // }, []);
+
+  const getUsers = async () => {
+    const data = await getDocs(usersCollectionRef);
+    setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
   useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
     getUsers();
   }, []);
 
   return (
     <div className="App">
-      <input
-        placeholder="Name..."
-        onChange={(event) => {
-          setNewName(event.target.value);
-        }}
-      />
-      <input
-        type="number"
-        placeholder="Age..."
-        onChange={(event) => {
-          setNewAge(event.target.value);
-        }}
-      />
+      <form onSubmit={createUser}>
+        <input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Name..." />
+        <input value={newAge} onChange={(e) => setNewAge(e.target.value)} placeholder="Age..." />
+        <button type="submit">Add Course</button>
+      </form>
 
-      <button onClick={createUser}> Create User</button>
+      {/* <button onClick={createUser}> Create User</button> */}
+
       {users.map((user) => {
         return (
           <div>
@@ -86,5 +100,7 @@ function App() {
     </div>
   );
 }
+
+
 
 export default App;
