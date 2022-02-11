@@ -8,92 +8,112 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  FieldValue,
 } from "firebase/firestore";
 
 function App() {
-  const [newName, setNewName] = useState("");
-  const [newAge, setNewAge] = useState("");
+  const [newCourseName, setNewCourseName] = useState("");
+  const [newCourseID, setNewCourseID] = useState("");
+  const [newFormURL, setNewFormURL] = useState("");
+  const [newTimeCreated, setNewTimeCreated] = useState("");
 
-  const [users, setUsers] = useState([]);
-  const usersCollectionRef = collection(db, "users");
+  const [courses, setCourses] = useState([]);
+  const coursesCollectionRef = collection(db, "courses");
 
   const createUser = async (e) => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    await addDoc(usersCollectionRef, { name: newName, age: Number(newAge) });
+    await addDoc(coursesCollectionRef, 
+      { courseName: newCourseName, 
+        courseID: Number(newCourseID),
+        formURL: "Empty",
+        timeCreated: new Date()
+       });
 
     // Empty the inputs
-    setNewName("")
-    setNewAge("")
+    setNewCourseName("")
+    setNewCourseID("")
 
     // Refresh users list for render
-    getUsers();
+    getCourses();
   };
 
-  const updateUser = async (id, age) => {
-    const userDoc = doc(db, "users", id);
-    const newFields = { age: age + 1 };
-    await updateDoc(userDoc, newFields);
-    getUsers();
+  const deleteCourse = async (id) => {
+    const courseDoc = doc(db, "courses", id);
+    await deleteDoc(courseDoc);
+    getCourses();
   };
 
-  const deleteUser = async (id) => {
-    const userDoc = doc(db, "users", id);
-    await deleteDoc(userDoc);
-    getUsers();
+  const getCourses = async () => {
+    const data = await getDocs(coursesCollectionRef);
+    setCourses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
-  // useEffect(() => {
-  //   const getUsers = async () => {
-  //     const data = await getDocs(usersCollectionRef);
-  //     setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  //   };
-
-  //   getUsers();
-  // }, []);
-
-  const getUsers = async () => {
-    const data = await getDocs(usersCollectionRef);
-    setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
-
+  // called for rendering
   useEffect(() => {
-    getUsers();
+    getCourses();
   }, []);
 
   return (
     <div className="App">
       <form onSubmit={createUser}>
-        <input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Name..." />
-        <input value={newAge} onChange={(e) => setNewAge(e.target.value)} placeholder="Age..." />
+        <input value={newCourseName} onChange={(e) => setNewCourseName(e.target.value)} placeholder="Course Name..." />
+        <input value={newCourseID} onChange={(e) => setNewCourseID(e.target.value)} placeholder="Course ID..." />
         <button type="submit">Add Course</button>
       </form>
 
       {/* <button onClick={createUser}> Create User</button> */}
 
-      {users.map((user) => {
+      <table>
+        <tr>
+          <th>Course Name</th>
+          <th>Course ID</th>
+          <th>Forms URL</th>
+          <th>Time Created</th>
+        </tr>
+      </table>
+
+      {courses.map((course) => {
         return (
           <div>
             {" "}
-            <h1>Name: {user.name}</h1>
-            <h1>Age: {user.age}</h1>
-            <button
+            <table>
+              <tr>
+                <th>{course.courseName}</th>
+                <th>{course.courseID}</th>
+                <th>{course.formURL}</th>
+                <th>{course.timeCreated.toDate().toDateString()} {course.timeCreated.toDate().toLocaleTimeString('en-US')}</th>
+              </tr>
+            </table>
+
+            <button class="delete"
+              onClick={() => {
+                deleteCourse(course.id);
+              }}
+            >
+              {" "}
+              Delete Course
+            </button>
+
+
+
+            {/* <button
               onClick={() => {
                 updateUser(user.id, user.age);
               }}
             >
               {" "}
               Increase Age
-            </button>
-            <button
+            </button> */}
+            {/* <button
               onClick={() => {
-                deleteUser(user.id);
+                deleteCourse(course.id);
               }}
             >
               {" "}
               Delete User
-            </button>
+            </button> */}
           </div>
         );
       })}
