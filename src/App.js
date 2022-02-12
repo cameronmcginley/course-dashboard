@@ -27,7 +27,7 @@ function App() {
     await addDoc(coursesCollectionRef, 
       { courseName: newCourseName, 
         courseID: Number(newCourseID),
-        formURL: "Empty",
+        formURL: "https://docs.google.com/forms/d/e/1FAIpQLSdZv-dww4a_hH7NiQnACpuR0Nm9rKrnFDwpCOmaitxzj5T_3w/viewform?usp=pp_url&entry.1688819987=" + newCourseID,
         timeCreated: new Date()
        });
 
