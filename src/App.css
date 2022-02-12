@@ -54,6 +54,8 @@ td, th {
   padding: 8px;
 }
 
-.delete {
-  display: inline-block;
+.deletebtn {
+  margin-left: 0;
+  left: 0;
 }
+

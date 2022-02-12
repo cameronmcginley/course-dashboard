@@ -72,52 +72,29 @@ function App() {
           <th>Forms URL</th>
           <th>Time Created</th>
         </tr>
+
+        {/* Adds each course as a row in the table */}
+        {courses.map((course) => {
+          return (
+            <tr>
+              <th>{course.courseName}</th>
+              <th>{course.courseID}</th>
+              <th>{course.formURL}</th>
+              <th>{course.timeCreated.toDate().toDateString()} {course.timeCreated.toDate().toLocaleTimeString('en-US')}</th>
+
+              <button class="deletebtn"
+                onClick={() => {
+                  deleteCourse(course.id);
+                }}
+              >
+                Delete Course
+              </button>
+            </tr>
+          );
+        })}
       </table>
 
-      {courses.map((course) => {
-        return (
-          <div>
-            {" "}
-            <table>
-              <tr>
-                <th>{course.courseName}</th>
-                <th>{course.courseID}</th>
-                <th>{course.formURL}</th>
-                <th>{course.timeCreated.toDate().toDateString()} {course.timeCreated.toDate().toLocaleTimeString('en-US')}</th>
-              </tr>
-            </table>
-
-            <button class="delete"
-              onClick={() => {
-                deleteCourse(course.id);
-              }}
-            >
-              {" "}
-              Delete Course
-            </button>
-
-
-
-            {/* <button
-              onClick={() => {
-                updateUser(user.id, user.age);
-              }}
-            >
-              {" "}
-              Increase Age
-            </button> */}
-            {/* <button
-              onClick={() => {
-                deleteCourse(course.id);
-              }}
-            >
-              {" "}
-              Delete User
-            </button> */}
-          </div>
-        );
-      })}
-    </div>
+    </div>  
   );
 }
 
