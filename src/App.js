@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from 'react-router';
 import "./App.css";
 import { db } from "./firebase-config";
 import {
@@ -79,7 +80,8 @@ function App() {
             <tr>
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
-              <th>{course.formURL}</th>
+              {/* <th>{"Link".link(course.formURL)}</th> */}
+              <th><a href={course.formURL} rel="noreferrer">Link</a></th>
               <th>{course.timeCreated.toDate().toDateString()} {course.timeCreated.toDate().toLocaleTimeString('en-US')}</th>
 
               <button class="deletebtn"
