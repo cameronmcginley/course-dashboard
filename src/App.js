@@ -76,13 +76,16 @@ function App() {
 
         {/* Adds each course as a row in the table */}
         {courses.map((course) => {
+          // toDate() errors if there is no time saved
+          const hasTime = Boolean(course.timeCreated)
+
           return (
             <tr>
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
               <th><a href={course.formURL} rel="noreferrer">Link</a></th>
-              <th>{course.timeCreated.toDate().toDateString()} {course.timeCreated.toDate().toLocaleTimeString('en-US')}</th>
-
+              <th>{hasTime ? (course.timeCreated.toDate().toDateString() + " " 
+              + course.timeCreated.toDate().toLocaleTimeString('en-US') ) : ("")}</th>
               <button class="deletebtn"
                 onClick={() => {
                   deleteCourse(course.id);
