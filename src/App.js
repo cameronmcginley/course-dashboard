@@ -58,7 +58,7 @@ function App() {
 
   return (
     <div className="App">
-      <form onSubmit={createUser}>
+      <form onSubmit={createUser} className="courseEntryForm">
         <input value={newCourseName} onChange={(e) => setNewCourseName(e.target.value)} placeholder="Course Name..." />
         <input value={newCourseID} onChange={(e) => setNewCourseID(e.target.value)} placeholder="Course ID..." />
         <button type="submit">Add Course</button>
@@ -80,7 +80,6 @@ function App() {
             <tr>
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
-              {/* <th>{"Link".link(course.formURL)}</th> */}
               <th><a href={course.formURL} rel="noreferrer">Link</a></th>
               <th>{course.timeCreated.toDate().toDateString()} {course.timeCreated.toDate().toLocaleTimeString('en-US')}</th>
 
