@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Home from './Home';
 import Courses from './Courses';
 import Form from './Form';
+import ViewData from './ViewData';
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<Home/>} />
             <Route path="/courses" element={<Courses/>} />
             <Route path="/form" element={<Form/>} />
+            <Route path="/viewdata" element={<ViewData/>} />
           </Routes>
         </div>
       </div> 

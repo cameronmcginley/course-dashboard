@@ -1,3 +1,9 @@
-a {
-    margin-left: 1rem;
+ul li {
+    display: inline-block;
+    text-align: center;
+    margin:0 1rem;
+}
+
+ul {
+    padding: 0;
 }
