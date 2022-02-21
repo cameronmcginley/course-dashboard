@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import "./App.css";
+import "./Form.css";
 import { db } from "./firebase-config";
 import {
   collection,
@@ -37,7 +37,7 @@ const Form = () => {
       <form onSubmit={saveData} className="userSignin">
         <input value={newUserName} onChange={(e) => setNewUserName(e.target.value)} placeholder="Enter First Name.." />
         <input value={newCourseID} onChange={(e) => setNewCourseID(e.target.value)} placeholder="Enter Course ID..." />
-        <button type="submit">Add Course</button>
+        <button type="submit">Submit</button>
       </form>
     </div>  
   );
