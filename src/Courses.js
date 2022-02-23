@@ -69,8 +69,10 @@ const Courses = () => {
         <tr>
           <th>Course Name</th>
           <th>Course ID</th>
-          <th>Forms URL</th>
-          <th>Time Created</th>
+          <th>QR Code</th>
+          <th>Live Attendance Sheet + Sign In</th>
+          {/* <th>Forms URL</th>
+          <th>Time Created</th> */}
         </tr>
 
         {/* Adds each course as a row in the table */}
@@ -82,9 +84,8 @@ const Courses = () => {
             <tr>
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
-              <th><a href={course.formURL} rel="noreferrer">Link</a></th>
-              <th>{hasTime ? (course.timeCreated.toDate().toDateString() + " " 
-              + course.timeCreated.toDate().toLocaleTimeString('en-US') ) : ("")}</th>
+              <th></th>
+              <th><a href="/attendance" rel="noreferrer">Temp Link</a></th>
               <button class="deletebtn"
                 onClick={() => {
                   deleteCourse(course.id);
