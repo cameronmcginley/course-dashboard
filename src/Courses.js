@@ -57,10 +57,13 @@ const Courses = () => {
     const data = await getDocs(coursesCollectionRef);
     setCourses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
-
   
-  const qrPrintRef = useRef();
-
+  // Unique qr reference for each course, so not overwritten by the map func
+  // https://github.com/gregnb/react-to-print/issues/323#issuecomment-986947323
+  const qrPrintRefs = useRef([]);
+	useEffect(() => {
+		qrPrintRefs.current = qrPrintRefs.current.slice(0, courses.length);
+	}, [courses]);
 
   // called for rendering
   useEffect(() => {
@@ -84,9 +87,10 @@ const Courses = () => {
         </tr>
 
         {/* Adds each course as a row in the table */}
-        {courses.map((course) => {
+        {courses.map((course, i) => {
           // toDate() errors if there is no time saved
-          const hasTime = Boolean(course.timeCreated)
+          // const hasTime = Boolean(course.timeCreated)
+          let key={i}
 
           return (
             <tr>
@@ -100,13 +104,14 @@ const Courses = () => {
                 
                 {/* Print Button */}
                 {/* https://github.com/gregnb/react-to-print/issues/83 */}
+                {/* https://github.com/gregnb/react-to-print/issues/323#issuecomment-986947323 */}
                 <ReactToPrint
                   trigger={() => <button>Print</button>}
-                  content={() => qrPrintRef.current}
+                  content={() => { return qrPrintRefs.current[i]; }}
                 />
 
                 {/* Content to print, hidden with display: none */}
-                <QrPrint ref={qrPrintRef} />
+                <QrPrint value={course.courseID.toString()} ref={(el) => (qrPrintRefs.current[i] = el)} />
               </th>
 
               <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Link</a></th>

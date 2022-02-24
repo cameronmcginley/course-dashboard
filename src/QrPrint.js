@@ -8,8 +8,8 @@ export class QrPrint extends React.PureComponent {
       return (
         <div className='printComponent'>
           <h1 className="printCompTitle">Course Title</h1>
-          <h2 className="printCompID">Course ID</h2>
-          <QRCodeReact renderAs="svg" className="printCompQR" size={200} value={"123"} />
+          <h2 className="printCompID">{this.props.value}</h2>
+          <QRCodeReact renderAs="svg" className="printCompQR" size={200} value={this.props.value} />
         </div>
       );
     }
