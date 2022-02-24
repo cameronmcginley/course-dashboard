@@ -12,6 +12,7 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
+import Attendance from "./Attendance";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/courses" element={<Courses/>} />
             <Route path="/form" element={<Form/>} />
             <Route path="/viewdata" element={<ViewData/>} />
+            <Route path="/courses/:courseid/attendance" element={<Attendance/>} />
           </Routes>
         </div>
       </div> 
