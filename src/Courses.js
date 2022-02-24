@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import "./App.css";
+import "./Courses.css";
 import { db } from "./firebase-config";
 import {
   collection,
@@ -10,6 +11,7 @@ import {
   doc,
   FieldValue,
 } from "firebase/firestore";
+import QRCode from "qrcode.react";
 
 const Courses = () => {
   const [newCourseName, setNewCourseName] = useState("");
@@ -20,14 +22,13 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const coursesCollectionRef = collection(db, "courses");
 
-  const createUser = async (e) => {
+  const createCourse = async (e) => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
     await addDoc(coursesCollectionRef, 
       { courseName: newCourseName, 
         courseID: Number(newCourseID),
-        formURL: "https://docs.google.com/forms/d/e/1FAIpQLSdZv-dww4a_hH7NiQnACpuR0Nm9rKrnFDwpCOmaitxzj5T_3w/viewform?usp=pp_url&entry.1688819987=" + newCourseID,
         timeCreated: new Date()
        });
 
@@ -55,15 +56,19 @@ const Courses = () => {
     getCourses();
   }, []);
 
+
+
+
+
   return (
     <div className="App">
-      <form onSubmit={createUser} className="courseEntryForm">
+      <form onSubmit={createCourse} className="courseEntryForm">
         <input value={newCourseName} onChange={(e) => setNewCourseName(e.target.value)} placeholder="Course Name..." />
         <input value={newCourseID} onChange={(e) => setNewCourseID(e.target.value)} placeholder="Course ID..." />
         <button type="submit">Add Course</button>
       </form>
 
-      {/* <button onClick={createUser}> Create User</button> */}
+      {/* <button onClick={createCourse}> Create User</button> */}
 
       <table>
         <tr>
@@ -82,7 +87,7 @@ const Courses = () => {
             <tr>
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
-              <th></th>
+              <th><div><QRCode value="hey"/></div></th>
               <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Link</a></th>
               <button class="deletebtn"
                 onClick={() => {
