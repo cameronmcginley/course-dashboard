@@ -111,7 +111,10 @@ const Courses = () => {
                 />
 
                 {/* Content to print, hidden with display: none */}
-                <QrPrint value={course.courseID.toString()} ref={(el) => (qrPrintRefs.current[i] = el)} />
+                <QrPrint 
+                  value={course.courseID.toString()} 
+                  coursename={course.courseName} 
+                  ref={(el) => (qrPrintRefs.current[i] = el)} />
               </th>
 
               <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Link</a></th>
