@@ -10,12 +10,14 @@ import {
   doc,
   FieldValue,
 } from "firebase/firestore";
+import { useParams } from "react-router-dom";
 
 const Attendance = () => {
+  const { courseid } = useParams()
 
 
   return (
-    <div>Hi</div>  
+    <div>{courseid}</div>  
   );
 }
 
