@@ -11,7 +11,9 @@ import {
   doc,
   FieldValue,
 } from "firebase/firestore";
-import QRCode from "qrcode.react";
+// import QRCode from "qrcode.react";
+
+import QRCode from "./QRCode"
 
 const Courses = () => {
   const [newCourseName, setNewCourseName] = useState("");
@@ -87,7 +89,8 @@ const Courses = () => {
             <tr>
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
-              <th><div><QRCode value="hey"/></div></th>
+              {/* <th><div><QRCode value="hey"/></div></th> */}
+              <th><QRCode value="hey"/></th>
               <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Link</a></th>
               <button class="deletebtn"
                 onClick={() => {
