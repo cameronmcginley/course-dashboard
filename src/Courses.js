@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import "./App.css";
 import "./Courses.css";
 import { db } from "./firebase-config";
@@ -13,6 +13,12 @@ import {
 } from "firebase/firestore";
 
 import QRCode from "./QRCode"
+import ReactToPrint from "react-to-print";
+
+
+import { ComponentToPrint } from './ComponentToPrint';
+
+
 
 const Courses = () => {
   const [newCourseName, setNewCourseName] = useState("");
@@ -52,6 +58,10 @@ const Courses = () => {
     setCourses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
+  const qrRef = useRef();
+  const componentRef = useRef();
+
+
   // called for rendering
   useEffect(() => {
     getCourses();
@@ -82,7 +92,19 @@ const Courses = () => {
             <tr>
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
-              <th><QRCode value={course.courseID.toString()}/></th>
+              <th>
+                {/* <QRCode ref={(el) => (qrRef = el)} value={course.courseID.toString()}/> */}
+                <ReactToPrint
+                  trigger={() => <button>Print</button>}
+                  content={() => componentRef.current}
+                />
+                <ComponentToPrint ref={componentRef} />
+                {/* <button
+                  onClick={() => {
+                   
+                  }}
+                > Print </button> */}
+              </th>
               <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Link</a></th>
               <button class="deletebtn"
                 onClick={() => {
