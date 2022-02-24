@@ -11,7 +11,6 @@ import {
   doc,
   FieldValue,
 } from "firebase/firestore";
-// import QRCode from "qrcode.react";
 
 import QRCode from "./QRCode"
 
@@ -58,10 +57,6 @@ const Courses = () => {
     getCourses();
   }, []);
 
-
-
-
-
   return (
     <div className="App">
       <form onSubmit={createCourse} className="courseEntryForm">
@@ -69,8 +64,6 @@ const Courses = () => {
         <input value={newCourseID} onChange={(e) => setNewCourseID(e.target.value)} placeholder="Course ID..." />
         <button type="submit">Add Course</button>
       </form>
-
-      {/* <button onClick={createCourse}> Create User</button> */}
 
       <table>
         <tr>
@@ -89,8 +82,7 @@ const Courses = () => {
             <tr>
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
-              {/* <th><div><QRCode value="hey"/></div></th> */}
-              <th><QRCode value="hey"/></th>
+              <th><QRCode value={course.courseID.toString()}/></th>
               <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Link</a></th>
               <button class="deletebtn"
                 onClick={() => {

@@ -1,6 +1,7 @@
 import QRCodeReact from 'qrcode.react'
 import React from 'react'
 import styled from 'styled-components'
+// https://github.com/zpao/qrcode.react/issues/12
 
 const ResponsiveSvgWrapper = styled.div`
   & > svg {
