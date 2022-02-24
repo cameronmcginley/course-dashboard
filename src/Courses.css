@@ -6,7 +6,7 @@
 }
 
 @media screen {
-	.ComponentToPrint {
-		visibility: hidden;
+	.printComponent {
+		display: none;
 	}
 }

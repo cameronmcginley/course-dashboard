@@ -16,7 +16,7 @@ import QRCode from "./QRCode"
 import ReactToPrint from "react-to-print";
 
 
-import { ComponentToPrint } from './ComponentToPrint';
+import { QrPrint } from './QrPrint';
 
 
 
@@ -58,8 +58,8 @@ const Courses = () => {
     setCourses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
-  const qrRef = useRef();
-  const componentRef = useRef();
+  
+  const qrPrintRef = useRef();
 
 
   // called for rendering
@@ -91,21 +91,26 @@ const Courses = () => {
           return (
             <tr>
               <th>{course.courseName}</th>
+
               <th>{course.courseID}</th>
+
               <th>
-                {/* <QRCode ref={(el) => (qrRef = el)} value={course.courseID.toString()}/> */}
+                {/* Displayed QR Code */}
+                <QRCode value={course.courseID.toString()}/>
+                
+                {/* Print Button */}
+                {/* https://github.com/gregnb/react-to-print/issues/83 */}
                 <ReactToPrint
                   trigger={() => <button>Print</button>}
-                  content={() => componentRef.current}
+                  content={() => qrPrintRef.current}
                 />
-                <ComponentToPrint ref={componentRef} />
-                {/* <button
-                  onClick={() => {
-                   
-                  }}
-                > Print </button> */}
+
+                {/* Content to print, hidden with display: none */}
+                <QrPrint ref={qrPrintRef} />
               </th>
+
               <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Link</a></th>
+              
               <button class="deletebtn"
                 onClick={() => {
                   deleteCourse(course.id);
@@ -113,6 +118,7 @@ const Courses = () => {
               >
                 Delete Course
               </button>
+
             </tr>
           );
         })}
