@@ -71,8 +71,6 @@ const Courses = () => {
           <th>Course ID</th>
           <th>QR Code</th>
           <th>Live Attendance Sheet + Sign In</th>
-          {/* <th>Forms URL</th>
-          <th>Time Created</th> */}
         </tr>
 
         {/* Adds each course as a row in the table */}
@@ -85,7 +83,7 @@ const Courses = () => {
               <th>{course.courseName}</th>
               <th>{course.courseID}</th>
               <th></th>
-              <th><a href="/attendance" rel="noreferrer">Temp Link</a></th>
+              <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Temp Link</a></th>
               <button class="deletebtn"
                 onClick={() => {
                   deleteCourse(course.id);
