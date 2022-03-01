@@ -31,7 +31,7 @@ const ViewData = () => {
             var data = query(collection(db, "sign-ins"), orderBy("currentTime"), startAt(firstVisibleDoc), limit(25));
         }
         else if (getSigninDataType === "previous") {
-            var data = query(collection(db, "sign-ins"), orderBy("currentTime"), endBefore(firstVisibleDoc), limitToLast(25));
+            var data = query(collection(db, "sign-ins"), orderBy("currentTime"), endBefore(firstVisibleDoc), limitToLast(26));
         }
         else if (getSigninDataType === "next") {
             var data = query(collection(db, "sign-ins"), orderBy("currentTime"), startAfter(lastVisibleDoc), limit(25));
@@ -45,9 +45,9 @@ const ViewData = () => {
         firstVisibleDoc = documentSnapshots.docs[0];
 
         console.log("First")
-        console.log(firstVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
+        // console.log(firstVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
         console.log("Last")
-        console.log(lastVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
+        // console.log(lastVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
     }
 
     const deleteSignin = async (id) => {
