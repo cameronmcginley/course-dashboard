@@ -1,0 +1,10 @@
+.userSignin {
+    margin-top: 10%;
+}
+
+input {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+}
