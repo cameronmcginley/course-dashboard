@@ -25,15 +25,22 @@ let firstVisibleDoc = null
 const ViewData = () => {
     const [signinData, setSigninData] = useState([]);
 
-    // Get Initial page of docs
-    const getSigninData = async () => {
-        // console.log(lastVisibleDoc)
+    const getSigninData = async (getSigninDataType) => {
+        // Collect docs based on type of get
+        if (getSigninDataType === "refresh") {
+            var data = query(collection(db, "sign-ins"), orderBy("currentTime"), startAt(firstVisibleDoc), limit(25));
+        }
+        else if (getSigninDataType === "previous") {
+            var data = query(collection(db, "sign-ins"), orderBy("currentTime"), endBefore(firstVisibleDoc), limitToLast(25));
+        }
+        else if (getSigninDataType === "next") {
+            var data = query(collection(db, "sign-ins"), orderBy("currentTime"), startAfter(lastVisibleDoc), limit(25));
+        }
+        // Update page
+        const documentSnapshots = await getDocs(data);
+        setSigninData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
-        // Page of documents
-        const first = query(collection(db, "sign-ins"), orderBy("currentTime"), startAfter(lastVisibleDoc), limit(25));
-        const documentSnapshots = await getDocs(first);
-
-        // Get the last visible document
+        // Update first and last documents after updating page
         lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length-1];
         firstVisibleDoc = documentSnapshots.docs[0];
 
@@ -41,48 +48,12 @@ const ViewData = () => {
         console.log(firstVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
         console.log("Last")
         console.log(lastVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-
-        setSigninData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
-
-    const getPreviousPage = async () => {
-        // console.log(prevPageStart._document.data.value.mapValue.fields.currentTime.timestampValue)
-
-        const next = query(collection(db, "sign-ins"), orderBy("currentTime"), endBefore(firstVisibleDoc), limitToLast(25));
-        const documentSnapshots = await getDocs(next);
-
-        lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length-1];
-        firstVisibleDoc = documentSnapshots.docs[0];
-
-        console.log("First")
-        console.log(firstVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-        console.log("Last")
-        console.log(lastVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-
-        setSigninData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
-    const getNextPage = async () => {
-        // console.log(lastVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-
-        const next = query(collection(db, "sign-ins"), orderBy("currentTime"), startAfter(lastVisibleDoc), limit(25));
-        const documentSnapshots = await getDocs(next);
-
-        lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length-1];
-        firstVisibleDoc = documentSnapshots.docs[0];
-        
-        console.log("First")
-        console.log(firstVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-        console.log("Last")
-        console.log(lastVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-
-        setSigninData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
 
     const deleteSignin = async (id) => {
         const signinDoc = doc(db, "sign-ins", id);
         await deleteDoc(signinDoc);
-        getSigninData();
+        getSigninData("refresh");
     };
 
     // const archiveSignin = async (id) => {
@@ -93,7 +64,7 @@ const ViewData = () => {
 
     // called for rendering
     useEffect(() => {
-        getSigninData();
+        getSigninData("refresh");
     }, []);
 
     return (
@@ -141,8 +112,8 @@ const ViewData = () => {
                 })}
             </table>
 
-            <button onClick={() => getPreviousPage()}>Previous Page</button>
-            <button onClick={() => getNextPage()}>Next Page</button>
+            <button onClick={() => getSigninData("previous")}>Previous Page</button>
+            <button onClick={() => getSigninData("next")}>Next Page</button>
 
         </div>
     );
