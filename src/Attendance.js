@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom";
 
 const Attendance = () => {
   // Get course id from url
-  const { courseid } = useParams()
+  const { pageCourseID } = useParams()
 
   // Input form functions
   // --------------------------
@@ -29,7 +29,7 @@ const Attendance = () => {
 
     await addDoc(signinCollectionRef, 
       { userFirstName: newUserName, 
-        courseID: courseid, 
+        courseID: pageCourseID, 
         currentTime: new Date()
        });
 
@@ -60,11 +60,10 @@ const Attendance = () => {
   useEffect(() => {
       getSigninData();
   }, []);
-
-
+  
   return (
     <div>
-      <div>{courseid}</div>  
+      <div>{pageCourseID}</div>  
 
       {/* Input Form */}
       <div className="App">
@@ -78,41 +77,34 @@ const Attendance = () => {
       <div className="App">
         <table>
             <tr>
-                <th>People Signed In</th>
-                {/* <th>Course ID</th> */}
-                {/* <th>Time Logged</th> */}
+                <th>People Signed In Today</th>
             </tr>
 
             {/* Adds each course as a row in the table */}
             {signinData.map((signin) => {
-                // toDate() errors if there is no time saved
-                const hasTime = Boolean(signin.currentTime);
+              // Verify date exists first
+              if (Boolean(signin.currentTime)) {
+                // Only show data if they signed in today
+                // and are in the correct course id
+                const dataDay = signin.currentTime.toDate().setHours(0,0,0,0);
+                const currDay = new Date().setHours(0,0,0,0);
 
-                return (
+                if(dataDay == currDay && signin.courseID == pageCourseID) {
+                // if (datesAreOnSameDay(signin.currentTime.toDate(), Date())) {
+                  return (
                     <tr>
-                        <th>{signin.userFirstName}</th>
-                        {/* <th>{signin.courseID}</th> */}
-                        {/* <th>
-                            {hasTime
-                                ? signin.currentTime
-                                      .toDate()
-                                      .toDateString() +
-                                  " " +
-                                  signin.currentTime
-                                      .toDate()
-                                      .toLocaleTimeString("en-US")
-                                : ""}
-                        </th> */}
-                        <button
-                            class="deletebtn"
-                            onClick={() => {
-                                deleteSignin(signin.id);
-                            }}
-                        >
-                            Delete
-                        </button>
+                      <th>{signin.userFirstName}</th>
+
+                      <button
+                        class="deletebtn"
+                        onClick={() => {
+                            deleteSignin(signin.id);
+                        }}
+                      > Delete </button>
                     </tr>
-                );
+                  );
+                }
+              }
             })}
         </table>
       </div>
