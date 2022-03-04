@@ -37,7 +37,7 @@
   }
 }
 
-table {
+/* table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
@@ -46,7 +46,7 @@ table {
   margin-right: auto;
   width: 50%;
   table-layout: fixed;
-}
+} */
 
 td, th {
   border: 1px solid #dddddd;

@@ -55,37 +55,37 @@ const Styles = styled.div`
   }
 `
 
-// Create an editable cell renderer
-const EditableCell = ({
-  value: initialValue,
-  row: { index },
-  column: { id },
-  updateMyData, // This is a custom function that we supplied to our table instance
-  editable,
-}) => {
-  // We need to keep and update the state of the cell normally
-  const [value, setValue] = React.useState(initialValue)
+// // Create an editable cell renderer
+// const EditableCell = ({
+//   value: initialValue,
+//   row: { index },
+//   column: { id },
+//   updateMyData, // This is a custom function that we supplied to our table instance
+//   editable,
+// }) => {
+//   // We need to keep and update the state of the cell normally
+//   const [value, setValue] = React.useState(initialValue)
 
-  const onChange = e => {
-    setValue(e.target.value)
-  }
+//   const onChange = e => {
+//     setValue(e.target.value)
+//   }
 
-  // We'll only update the external data when the input is blurred
-  const onBlur = () => {
-    updateMyData(index, id, value)
-  }
+//   // We'll only update the external data when the input is blurred
+//   const onBlur = () => {
+//     updateMyData(index, id, value)
+//   }
 
-  // If the initialValue is changed externall, sync it up with our state
-  React.useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
+//   // If the initialValue is changed externall, sync it up with our state
+//   React.useEffect(() => {
+//     setValue(initialValue)
+//   }, [initialValue])
 
-  if (!editable) {
-    return `${initialValue}`
-  }
+//   if (!editable) {
+//     return `${initialValue}`
+//   }
 
-  return <input value={value} onChange={onChange} onBlur={onBlur} />
-}
+//   return <input value={value} onChange={onChange} onBlur={onBlur} />
+// }
 
 // Define a default UI for filtering
 function DefaultColumnFilter({
@@ -259,7 +259,7 @@ function Table({ columns, data, updateMyData, skipReset }) {
       // Let's set up our default Filter UI
       Filter: DefaultColumnFilter,
       // And also our default editable cell
-      Cell: EditableCell,
+    //   Cell: EditableCell,
     }),
     []
   )
