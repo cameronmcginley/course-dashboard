@@ -10,6 +10,7 @@ import {
   useRowSelect,
 } from 'react-table'
 import { matchSorter } from 'match-sorter'
+import moment from 'moment'
 
 import makeData from './makeData'
 
@@ -533,11 +534,11 @@ function ViewData() {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Name',
+        Header: 'Sign In Data',
         columns: [
           {
-            Header: 'First Name',
-            accessor: 'firstName',
+            Header: 'User ID',
+            accessor: 'userID',
             // Use a two-stage aggregator here to first
             // count the total rows being aggregated,
             // then sum any of those counts if they are
@@ -546,8 +547,8 @@ function ViewData() {
             Aggregated: ({ value }) => `${value} Names`,
           },
           {
-            Header: 'Last Name',
-            accessor: 'lastName',
+            Header: 'Course Name',
+            accessor: 'courseName',
             // Use our custom `fuzzyText` filter on this column
             filter: 'fuzzyText',
             // Use another two-stage aggregator here to
@@ -557,23 +558,25 @@ function ViewData() {
             aggregate: 'uniqueCount',
             Aggregated: ({ value }) => `${value} Unique Names`,
           },
-        ],
-      },
-      {
-        Header: 'Info',
-        columns: [
           {
-            Header: 'Age',
-            accessor: 'age',
-            Filter: SliderColumnFilter,
-            filter: 'equals',
-            // Aggregate the average age of visitors
-            aggregate: 'average',
-            Aggregated: ({ value }) => `${value} (avg)`,
+            Header: 'Course ID',
+            accessor: 'courseID',
+            // Use our custom `fuzzyText` filter on this column
+            filter: 'fuzzyText',
+            // Use another two-stage aggregator here to
+            // first count the UNIQUE values from the rows
+            // being aggregated, then sum those counts if
+            // they are aggregated further
+            aggregate: 'uniqueCount',
+            Aggregated: ({ value }) => `${value} Unique Names`,
           },
           {
-            Header: 'Visits',
-            accessor: 'visits',
+            Header: 'Date',
+            accessor: d => {
+                return moment(d.timestampLogged)
+                  .local()
+                  .format("DD-MM-YYYY hh:mm:ss a")
+              },
             Filter: NumberRangeColumnFilter,
             filter: 'between',
             // Aggregate the sum of all visits
@@ -581,20 +584,11 @@ function ViewData() {
             Aggregated: ({ value }) => `${value} (total)`,
           },
           {
-            Header: 'Status',
-            accessor: 'status',
+            Header: 'Archival Status',
+            accessor: 'isArchived',
             Filter: SelectColumnFilter,
             filter: 'includes',
-          },
-          {
-            Header: 'Profile Progress',
-            accessor: 'progress',
-            Filter: SliderColumnFilter,
-            filter: filterGreaterThan,
-            // Use our custom roundedMedian aggregator
-            aggregate: roundedMedian,
-            Aggregated: ({ value }) => `${value} (med)`,
-          },
+          }
         ],
       },
     ],
