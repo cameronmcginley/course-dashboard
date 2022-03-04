@@ -16,23 +16,24 @@ import {
     startAfter,
     startAt,
     endBefore,
-    limitToLast
+    limitToLast,
+    setState
 } from "firebase/firestore";
 
 let lastVisibleDoc = null
 let firstVisibleDoc = null
-let isFirstPage = null
-let isLastPage = null
 
 const ViewData = () => {
     const [signinData, setSigninData] = useState([]);
+    const [isFirstPage, setIsFirstPage] = useState(null);
+    const [isLastPage, setIsLastPage] = useState(null);
 
     const isFirstPageFunc = async (pageZero) => {
         var data = query(collection(db, "sign-ins"), orderBy("currentTime"), endBefore(pageZero), limit(1));
         const documentSnapshots = await getDocs(data);
 
         // Returns false if page exists, otherwise true
-        return Boolean(!documentSnapshots.docs[0])
+        setIsFirstPage(!documentSnapshots.docs[0])
     }
 
     const isLastPageFunc = async (pageLast) => {
@@ -40,7 +41,7 @@ const ViewData = () => {
         const documentSnapshots = await getDocs(data);
 
         // Returns false if page exists, otherwise true
-        return Boolean(!documentSnapshots.docs[0])
+        setIsLastPage(!documentSnapshots.docs[0])
     }
 
     const getSigninData = async (getSigninDataType) => {
@@ -72,16 +73,10 @@ const ViewData = () => {
         lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length-1];
         firstVisibleDoc = documentSnapshots.docs[0];
 
-        // console.log(lastVisibleDoc)
-        isFirstPage = await isFirstPageFunc(firstVisibleDoc)
-        isLastPage = await isLastPageFunc(lastVisibleDoc)
-        // console.log(isFirstPage)
-        // console.log(isLastPage)
-        // console.log("First")
-        // console.log(firstVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-        // console.log("Last")
-        // console.log(lastVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-    }
+        // Set states
+        await isFirstPageFunc(firstVisibleDoc)
+        await isLastPageFunc(lastVisibleDoc)
+ }
 
     const deleteSignin = async (id) => {
         const signinDoc = doc(db, "sign-ins", id);
@@ -144,8 +139,13 @@ const ViewData = () => {
                     );
                 })}
             </table>
-            <button onClick={() => getSigninData("previous")}>Previous Page</button>
-            <button onClick={() => getSigninData("next")}>Next Page</button>
+
+            {!isFirstPage &&
+                <button onClick={() => getSigninData("previous")}>Previous Page</button>
+            }
+            {!isLastPage &&
+                <button onClick={() => getSigninData("next")}>Next Page</button>
+            }
         </div>
     );
 };
