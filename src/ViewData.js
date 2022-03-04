@@ -21,9 +21,27 @@ import {
 
 let lastVisibleDoc = null
 let firstVisibleDoc = null
+let isFirstPage = null
+let isLastPage = null
 
 const ViewData = () => {
     const [signinData, setSigninData] = useState([]);
+
+    const isFirstPageFunc = async (pageZero) => {
+        var data = query(collection(db, "sign-ins"), orderBy("currentTime"), endBefore(pageZero), limit(1));
+        const documentSnapshots = await getDocs(data);
+
+        // Returns false if page exists, otherwise true
+        return Boolean(!documentSnapshots.docs[0])
+    }
+
+    const isLastPageFunc = async (pageLast) => {
+        var data = query(collection(db, "sign-ins"), orderBy("currentTime"), startAfter(pageLast), limit(1));
+        const documentSnapshots = await getDocs(data);
+
+        // Returns false if page exists, otherwise true
+        return Boolean(!documentSnapshots.docs[0])
+    }
 
     const getSigninData = async (getSigninDataType) => {
         // Collect docs based on type of get
@@ -31,9 +49,19 @@ const ViewData = () => {
             var data = query(collection(db, "sign-ins"), orderBy("currentTime"), startAt(firstVisibleDoc), limit(25));
         }
         else if (getSigninDataType === "previous") {
+            // Do nothing if first page
+            if (isFirstPage) {
+                console.log(isFirstPage)
+                console.log("Already first page");
+                return}
             var data = query(collection(db, "sign-ins"), orderBy("currentTime"), endBefore(firstVisibleDoc), limitToLast(26));
         }
         else if (getSigninDataType === "next") {
+            // Use the value to check if last page
+            if (isLastPage) {
+                console.log(isLastPage)
+                console.log("Already last page");
+                return}
             var data = query(collection(db, "sign-ins"), orderBy("currentTime"), startAfter(lastVisibleDoc), limit(25));
         }
         // Update page
@@ -44,9 +72,14 @@ const ViewData = () => {
         lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length-1];
         firstVisibleDoc = documentSnapshots.docs[0];
 
-        console.log("First")
+        // console.log(lastVisibleDoc)
+        isFirstPage = await isFirstPageFunc(firstVisibleDoc)
+        isLastPage = await isLastPageFunc(lastVisibleDoc)
+        // console.log(isFirstPage)
+        // console.log(isLastPage)
+        // console.log("First")
         // console.log(firstVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
-        console.log("Last")
+        // console.log("Last")
         // console.log(lastVisibleDoc._document.data.value.mapValue.fields.currentTime.timestampValue)
     }
 
@@ -111,10 +144,8 @@ const ViewData = () => {
                     );
                 })}
             </table>
-
             <button onClick={() => getSigninData("previous")}>Previous Page</button>
             <button onClick={() => getSigninData("next")}>Next Page</button>
-
         </div>
     );
 };
