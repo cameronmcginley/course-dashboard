@@ -13,6 +13,7 @@ import { matchSorter } from 'match-sorter'
 import moment from 'moment'
 
 import makeData from './makeData'
+import DateRangeColumnFilter from './DateRangeColumnFilter'
 
 const Styles = styled.div`
   padding: 1rem;
@@ -233,12 +234,37 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 // Let the table remove the filter if the string is empty
 fuzzyTextFilterFn.autoRemove = val => !val
 
+// Custom date between filter
+function dateBetweenFilterFn(rows, id, filterValues) {
+    const sd = filterValues[0] ? new Date(filterValues[0]) : undefined
+    const ed = filterValues[1] ? new Date(filterValues[1]) : undefined
+
+    if (ed || sd) {
+      return rows.filter(r => {
+        const cellDate = new Date(r.values[id])
+
+        if (ed && sd) {
+          return cellDate >= sd && cellDate <= ed
+        } else if (sd){
+          return cellDate >= sd
+        } else if (ed){
+          return cellDate <= ed
+        }
+      })
+    } else {
+      return rows
+    }
+  }
+
+dateBetweenFilterFn.autoRemove = val => !val;
+
 // Be sure to pass our updateMyData and the skipReset option
 function Table({ columns, data, updateMyData, skipReset }) {
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
       fuzzyText: fuzzyTextFilterFn,
+      dateBetween: dateBetweenFilterFn,
       // Or, override the default text filter to use
       // "startWith"
       text: (rows, id, filterValue) => {
@@ -575,10 +601,10 @@ function ViewData() {
             accessor: d => {
                 return moment(d.timestampLogged)
                   .local()
-                  .format("DD-MM-YYYY hh:mm:ss a")
+                  .format("MM-DD-YYYY hh:mm:ss a")
               },
-            Filter: NumberRangeColumnFilter,
-            filter: 'between',
+            Filter: DateRangeColumnFilter,
+            filter: 'dateBetween',
             // Aggregate the sum of all visits
             aggregate: 'sum',
             Aggregated: ({ value }) => `${value} (total)`,
