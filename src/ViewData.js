@@ -267,6 +267,9 @@ function Table({ columns, data, updateMyData, skipReset, isFirstPage, isLastPage
     }
   )
 
+  const [isNextDisabled, setIsNextDisabled] = React.useState();
+  const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
+
   // Render the UI for your table
   return (
     <>
@@ -333,7 +336,16 @@ function Table({ columns, data, updateMyData, skipReset, isFirstPage, isLastPage
       */}
       <div className="pagination">
         {/* <button onClick={() => previousPage()} disabled={isFirstPage}> */}
-        <button onClick={() => getSigninData("previous")} disabled={isFirstPage}>
+        <button 
+            onClick={() => {
+                setIsPreviousDisabled(true);
+                setTimeout(() => {
+                  setIsPreviousDisabled(false);
+                }, 200)
+                getSigninData("previous");
+            }} 
+            // Disabled based on click delay, or if its first page (the timeout would re-enable even if first page)
+            disabled={isPreviousDisabled || isFirstPage}> 
           {'<'}
         </button>{' '}
         <span>
@@ -342,7 +354,15 @@ function Table({ columns, data, updateMyData, skipReset, isFirstPage, isLastPage
             {pageIndex + 1} of {pageOptions.length}
           </strong>{' '}
         </span>
-        <button onClick={() => getSigninData("next")} disabled={isLastPage}>
+        <button
+          onClick={() => {
+                setIsNextDisabled(true);
+                setTimeout(() => {
+                  setIsNextDisabled(false);
+                }, 200)
+                getSigninData("next");
+            }} 
+            disabled={isNextDisabled || isLastPage}>
           {'>'}
         </button>{' '}
         {/* <span>
