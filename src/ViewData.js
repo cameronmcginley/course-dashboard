@@ -32,6 +32,8 @@ import { db } from "./firebase-config";
 import makeData from './makeData'
 import DateRangeColumnFilter from './DateRangeColumnFilter'
 
+import { CSVLink, CSVDownload } from "react-csv";
+
 const Styles = styled.div`
   padding: 1rem;
 
@@ -657,9 +659,32 @@ function ViewData() {
     setData(originalData)
   }
 
+  // this.state = {csvData: []}
+  const [csvData, setCsvData] = React.useState([])
+  const csvReport = async () => {
+    // Don't reset the page when we do this
+    console.log("Generating CSV report with all data")
+
+    var data = query(collection(db, "sign-ins"), orderBy("sortKey"), startAt(firstVisibleDoc), limit(10));
+    const documentSnapshots = await getDocs(data);
+
+    // console.log((documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id }))))
+
+    setCsvData(documentSnapshots.docs.map((doc) => ({ ...doc.data()})))
+    console.log(csvData)
+    return(csvData)
+    // return (documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+  }
+
   return (
     <Styles>
-      <button onClick={resetData}>Reset Data</button>
+      {/* <button onClick={csvReport}>Generate CSV Report</button> */}
+      <CSVLink 
+        data={csvData}
+        asyncOnClick={true}
+        onClick={csvReport}
+        >Generate CSV Report
+      </CSVLink>;
       <Table
         columns={columns}
         data={data}

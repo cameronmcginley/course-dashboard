@@ -9,6 +9,7 @@ import {
   deleteDoc,
   doc,
   FieldValue,
+  serverTimestamp 
 } from "firebase/firestore";
 
 const Form = () => {
@@ -21,13 +22,14 @@ const Form = () => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
+    const logTime = serverTimestamp();
     await addDoc(signinCollectionRef, 
       { userID: newUserID, 
         courseName: 'temp',
         courseID: Number(newCourseID),
-        timestampLogged: FieldValue.serverTimestamp(),
-        lastModified: FieldValue.serverTimestamp(),
-        sortKey: 9999999999999 - FieldValue.serverTimestamp(),
+        timestampLogged: logTime,
+        lastModified: logTime,
+        sortKey: 9999999999999 - logTime,
         isArchived: false,
        });
 
