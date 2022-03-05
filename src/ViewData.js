@@ -498,6 +498,12 @@ function ViewData() {
         const documentSnapshots = await getDocs(data);
         setData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
+
+    React.useEffect(() => {
+        // skipResetRef.current = false
+        getSigninData();
+        console.log("hit")
+      }, [])
     
   const [originalData] = React.useState(data)
 
@@ -529,8 +535,7 @@ function ViewData() {
   // editing it, the page is reset
   React.useEffect(() => {
     skipResetRef.current = false
-    // getSigninData();
-  }, [data])
+  }, [])
 
   // Let's add a data resetter/randomizer to help
   // illustrate that flow...
