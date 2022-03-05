@@ -504,8 +504,6 @@ function ViewData() {
     []
   )
 
-//   const [data, setData] = React.useState(() => makeData(10000))
-//   const [data, setData] = React.useState(() => makeData(10))
     const [data, setData] = React.useState([]);
 
     const getSigninData = async () => {
@@ -513,97 +511,7 @@ function ViewData() {
         const documentSnapshots = await getDocs(data);
         setData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
-
-    // called for rendering
-    React.useEffect(() => {
-        getSigninData();
-    }, []);
-
-
-
-
-
-//   const getSigninData = async () => {
-    // const querySnapshot = getDocs(collection(db, "sign-ins"))
-
-    // let dataArr = new Array();
     
-    // querySnapshot.forEach((doc) => {
-    //     // doc.data() is never undefined for query doc snapshots
-    //     console.log(doc.id, " => ", doc.data());
-    //     dataArr.push(doc.data())
-    // });
-
-    // console.log(dataArr)
-    // return dataArr
-    // setData(dataArr)
-    // setData(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    // console.log(data)
-    // return querySnapshot.docs.map(function(doc) {
-
-    // })
-//   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   let data = await getSigninData()
-//   console.log(data)
-
-//   const [data, setData] = React.useState(null)
-
-//     setData(React.useMemo(
-//     () => [
-//         {
-//         col1: 'Hello',
-//         col2: 'World',
-//         },
-//         {
-//         col1: 'react-table',
-//         col2: 'rocks',
-//         },
-//         {
-//         col1: 'whatever',
-//         col2: 'you want',
-//         },
-//     ],
-//     []
-//     ))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const [originalData] = React.useState(data)
 
   // We need to keep the table from resetting the pageIndex when we
@@ -613,40 +521,41 @@ function ViewData() {
   // When our cell renderer calls updateMyData, we'll use
   // the rowIndex, columnId and new value to update the
   // original data
-//   const updateMyData = (rowIndex, columnId, value) => {
-//     // We also turn on the flag to not reset the page
-//     skipResetRef.current = true
-//     setData(old =>
-//       old.map((row, index) => {
-//         if (index === rowIndex) {
-//           return {
-//             ...row,
-//             [columnId]: value,
-//           }
-//         }
-//         return row
-//       })
-//     )
-//   }
+  const updateMyData = (rowIndex, columnId, value) => {
+    // We also turn on the flag to not reset the page
+    skipResetRef.current = true
+    setData(old =>
+      old.map((row, index) => {
+        if (index === rowIndex) {
+          return {
+            ...row,
+            [columnId]: value,
+          }
+        }
+        return row
+      })
+    )
+  }
 
   // After data changes, we turn the flag back off
   // so that if data actually changes when we're not
   // editing it, the page is reset
   React.useEffect(() => {
     skipResetRef.current = false
+    // getSigninData();
   }, [data])
 
   // Let's add a data resetter/randomizer to help
   // illustrate that flow...
-//   const resetData = () => {
-//     // Don't reset the page when we do this
-//     skipResetRef.current = true
-//     setData(originalData)
-//   }
+  const resetData = () => {
+    // Don't reset the page when we do this
+    skipResetRef.current = true
+    setData(originalData)
+  }
 
   return (
     <Styles>
-      {/* <button onClick={resetData}>Reset Data</button> */}
+      <button onClick={resetData}>Reset Data</button>
       <Table
         columns={columns}
         data={data}
