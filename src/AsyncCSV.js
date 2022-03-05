@@ -19,6 +19,7 @@ import {
     setState
 } from "firebase/firestore";
 import { db } from "./firebase-config";
+import moment from 'moment';
 
 const headers = [
   { label: "User ID", key: "userID" },
@@ -37,25 +38,29 @@ class AsyncCSV extends Component {
     this.csvLinkEl = React.createRef();
   }
 
-  getUserList = async () => {
-    // return fetch('https://jsonplaceholder.typicode.com/users')
-    //   .then(res => res.json());
+  getData = async () => {
     console.log("Generating CSV report with all data")
 
     var data = query(collection(db, "sign-ins"), orderBy("sortKey"), limit(10));
     const documentSnapshots = await getDocs(data);
 
-    // console.log((documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id }))))
+    // Only maps specific data, and reformats timestamps
+    let signinData = []
+    documentSnapshots.forEach((doc) => {
+        signinData.push({
+            'userID': doc.data().userID,
+            'courseName': doc.data().courseName,
+            'courseID': doc.data().courseID,
+            'timestampLogged': moment(doc.data().timestampLogged.toDate()).local().format("MM-DD-yyyy HH:mm:ss"),
+            'lastModified': moment(doc.data().lastModified.toDate()).local().format("MM-DD-yyyy HH:mm:ss")
+        })
+      });
 
-    return (documentSnapshots.docs.map((doc) => ({ 
-      // ...
-      ...doc.data()
-      // doc.data()
-    })))
+    return signinData
   }
 
   downloadReport = async () => {
-    const data = await this.getUserList();
+    const data = await this.getData();
     this.setState({ data: data }, () => {
       setTimeout(() => {
         this.csvLinkEl.current.link.click();
@@ -68,10 +73,10 @@ class AsyncCSV extends Component {
 
     return (
       <div>
-        <input type="button" value="Export to CSV (Async)" onClick={this.downloadReport} />
+        <input type="button" value="Export all to CSV" onClick={this.downloadReport} />
         <CSVLink
           headers={headers}
-          filename="Clue_Mediator_Report_Async.csv"
+          filename={"SignInDataReport-" + moment().format("MMDDYYYY_HHmmss")}
           data={data}
           ref={this.csvLinkEl}
         />
