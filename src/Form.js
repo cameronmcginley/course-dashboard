@@ -27,7 +27,8 @@ const Form = () => {
         courseID: Number(newCourseID),
         timestampLogged: FieldValue.serverTimestamp(),
         lastModified: FieldValue.serverTimestamp(),
-        isArchived: false
+        sortKey: 9999999999999 - FieldValue.serverTimestamp(),
+        isArchived: false,
        });
 
     // Empty the inputs

@@ -11,8 +11,6 @@ export function DateRangeColumnFilter({
     const [min, max] = React.useMemo(() => {
       let min = preFilteredRows.length ? new Date(preFilteredRows[0].values[id]) : new Date(0)
       let max = preFilteredRows.length ? new Date(preFilteredRows[0].values[id]) : new Date(0)
-
-      console.log(min)
   
       preFilteredRows.forEach(row => {
         const rowDate = new Date(row.values[id])
@@ -20,8 +18,6 @@ export function DateRangeColumnFilter({
         min = rowDate <= min ? rowDate : min
         max = rowDate >= max ? rowDate : max
       })
-
-      console.log(min)
   
       return [min, max]
     }, [id, preFilteredRows])
@@ -29,7 +25,7 @@ export function DateRangeColumnFilter({
     return (
       <div>
         <input
-          min={console.log(min) && min.toISOString().slice(0, 10)}
+          min={min.toISOString().slice(0, 10)}
           onChange={e => {
             const val = e.target.value
             setFilter((old = []) => [val ? val : undefined, old[1]])
@@ -39,7 +35,7 @@ export function DateRangeColumnFilter({
         />
         {' to '}
         <input
-          max={console.log(max) && max.toISOString().slice(0, 10)}
+          max={max.toISOString().slice(0, 10)}
           onChange={e => {
             const val = e.target.value
             setFilter((old = []) => [old[0], val ? val.concat('T23:59:59.999Z') : undefined])

@@ -499,7 +499,7 @@ function ViewData() {
             //       .format("MM-DD-YYYY hh:mm:ss a")
             //   },
             accessor: d => {
-                console.log(d.timestampLogged)
+                // console.log(d.timestampLogged)
                 return moment(d.timestampLogged.toDate())
                   .local()
                   .format("MM-DD-YYYY hh:mm:ss a")
@@ -512,7 +512,10 @@ function ViewData() {
           },
           {
             Header: 'Archival Status',
-            accessor: 'isArchived',
+            accessor: d => {
+              // console.log(d.isArchived)
+              return d.isArchived ? "True" : "False"
+            },
             Filter: SelectColumnFilter,
             filter: 'includes',
           }
@@ -540,7 +543,7 @@ function ViewData() {
     const [isLastPage, setIsLastPage] = React.useState(null);
 
     const isFirstPageFunc = async (pageZero) => {
-        var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), endBefore(pageZero), limit(1));
+        var data = query(collection(db, "sign-ins"), orderBy("sortKey"), endBefore(pageZero), limit(1));
         const documentSnapshots = await getDocs(data);
 
         // Returns false if page exists, otherwise true
@@ -548,7 +551,7 @@ function ViewData() {
     }
 
     const isLastPageFunc = async (pageLast) => {
-        var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), startAfter(pageLast), limit(1));
+        var data = query(collection(db, "sign-ins"), orderBy("sortKey"), startAfter(pageLast), limit(1));
         const documentSnapshots = await getDocs(data);
 
         // Returns false if page exists, otherwise true
@@ -561,23 +564,27 @@ function ViewData() {
 
         // Collect docs based on type of get
         if (getSigninDataType === "refresh") {
-            var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), startAt(firstVisibleDoc), limit(10));
+            var data = query(collection(db, "sign-ins"), orderBy("sortKey"), startAt(firstVisibleDoc), limit(10));
         }
-        else if (getSigninDataType === "previous") {
+        else if (getSigninDataType === "previous" && !isFirstPage) {
             // Do nothing if first page
             if (isFirstPage) {
                 console.log(isFirstPage)
                 console.log("Already first page");
                 return}
-            var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), endBefore(firstVisibleDoc), limitToLast(11));
+            var data = query(collection(db, "sign-ins"), orderBy("sortKey"), endBefore(firstVisibleDoc), limitToLast(11));
         }
-        else if (getSigninDataType === "next") {
+        else if (getSigninDataType === "next" && !isLastPage) {
             // Use the value to check if last page
             if (isLastPage) {
                 console.log(isLastPage)
                 console.log("Already last page");
                 return}
-            var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), startAfter(lastVisibleDoc), limit(10));
+            var data = query(collection(db, "sign-ins"), orderBy("sortKey"), startAfter(lastVisibleDoc), limit(10));
+        }
+        else {
+          console.log("No query made")
+          return
         }
         // Update page
         const documentSnapshots = await getDocs(data);

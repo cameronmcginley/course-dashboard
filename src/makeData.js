@@ -41,16 +41,17 @@ const dates = eachDayOfInterval({
 const makeData = async () => {
     const signinCollectionRef = collection(db, "sign-ins");
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 45; i++) {
         await addDoc(signinCollectionRef, 
             { userID: namor.generate({ words: 1, numbers: 0 }),
             courseName: namor.generate({ words: 1, numbers: 0 }),
             courseID: Math.floor(Math.random() * 30),
             timestampLogged: dates[i],
             isArchived: false,
-            lastMofidified: dates[i]
+            lastModified: dates[i],
+            sortKey: 9999999999999 - dates[i].getTime()
         });
     }
 }
 
-// // makeData()
+// makeData()
