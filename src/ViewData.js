@@ -11,6 +11,8 @@ import {
 } from 'react-table'
 import { matchSorter } from 'match-sorter'
 import moment from 'moment'
+import { collection, getDocs , setDoc, query } from "firebase/firestore"; 
+import { db } from "./firebase-config";
 
 import makeData from './makeData'
 import DateRangeColumnFilter from './DateRangeColumnFilter'
@@ -56,38 +58,6 @@ const Styles = styled.div`
     padding: 0.5rem;
   }
 `
-
-// // Create an editable cell renderer
-// const EditableCell = ({
-//   value: initialValue,
-//   row: { index },
-//   column: { id },
-//   updateMyData, // This is a custom function that we supplied to our table instance
-//   editable,
-// }) => {
-//   // We need to keep and update the state of the cell normally
-//   const [value, setValue] = React.useState(initialValue)
-
-//   const onChange = e => {
-//     setValue(e.target.value)
-//   }
-
-//   // We'll only update the external data when the input is blurred
-//   const onBlur = () => {
-//     updateMyData(index, id, value)
-//   }
-
-//   // If the initialValue is changed externall, sync it up with our state
-//   React.useEffect(() => {
-//     setValue(initialValue)
-//   }, [initialValue])
-
-//   if (!editable) {
-//     return `${initialValue}`
-//   }
-
-//   return <input value={value} onChange={onChange} onBlur={onBlur} />
-// }
 
 // Define a default UI for filtering
 function DefaultColumnFilter({
@@ -139,93 +109,6 @@ function SelectColumnFilter({
   )
 }
 
-// This is a custom filter UI that uses a
-// slider to set the filter value between a column's
-// min and max values
-function SliderColumnFilter({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) {
-  // Calculate the min and max
-  // using the preFilteredRows
-
-  const [min, max] = React.useMemo(() => {
-    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    preFilteredRows.forEach(row => {
-      min = Math.min(row.values[id], min)
-      max = Math.max(row.values[id], max)
-    })
-    return [min, max]
-  }, [id, preFilteredRows])
-
-  return (
-    <>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={filterValue || min}
-        onChange={e => {
-          setFilter(parseInt(e.target.value, 10))
-        }}
-      />
-      <button onClick={() => setFilter(undefined)}>Off</button>
-    </>
-  )
-}
-
-// This is a custom UI for our 'between' or number range
-// filter. It uses two number boxes and filters rows to
-// ones that have values between the two
-function NumberRangeColumnFilter({
-  column: { filterValue = [], preFilteredRows, setFilter, id },
-}) {
-  const [min, max] = React.useMemo(() => {
-    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    preFilteredRows.forEach(row => {
-      min = Math.min(row.values[id], min)
-      max = Math.max(row.values[id], max)
-    })
-    return [min, max]
-  }, [id, preFilteredRows])
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-      }}
-    >
-      <input
-        value={filterValue[0] || ''}
-        type="number"
-        onChange={e => {
-          const val = e.target.value
-          setFilter((old = []) => [val ? parseInt(val, 10) : undefined, old[1]])
-        }}
-        placeholder={`Min (${min})`}
-        style={{
-          width: '70px',
-          marginRight: '0.5rem',
-        }}
-      />
-      to
-      <input
-        value={filterValue[1] || ''}
-        type="number"
-        onChange={e => {
-          const val = e.target.value
-          setFilter((old = []) => [old[0], val ? parseInt(val, 10) : undefined])
-        }}
-        placeholder={`Max (${max})`}
-        style={{
-          width: '70px',
-          marginLeft: '0.5rem',
-        }}
-      />
-    </div>
-  )
-}
 
 function fuzzyTextFilterFn(rows, id, filterValue) {
   return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
@@ -621,7 +504,106 @@ function ViewData() {
     []
   )
 
-  const [data, setData] = React.useState(() => makeData(10000))
+//   const [data, setData] = React.useState(() => makeData(10000))
+//   const [data, setData] = React.useState(() => makeData(10))
+    const [data, setData] = React.useState([]);
+
+    const getSigninData = async () => {
+        var data = query(collection(db, "sign-ins"));
+        const documentSnapshots = await getDocs(data);
+        setData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    }
+
+    // called for rendering
+    React.useEffect(() => {
+        getSigninData();
+    }, []);
+
+
+
+
+
+//   const getSigninData = async () => {
+    // const querySnapshot = getDocs(collection(db, "sign-ins"))
+
+    // let dataArr = new Array();
+    
+    // querySnapshot.forEach((doc) => {
+    //     // doc.data() is never undefined for query doc snapshots
+    //     console.log(doc.id, " => ", doc.data());
+    //     dataArr.push(doc.data())
+    // });
+
+    // console.log(dataArr)
+    // return dataArr
+    // setData(dataArr)
+    // setData(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    // console.log(data)
+    // return querySnapshot.docs.map(function(doc) {
+
+    // })
+//   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   let data = await getSigninData()
+//   console.log(data)
+
+//   const [data, setData] = React.useState(null)
+
+//     setData(React.useMemo(
+//     () => [
+//         {
+//         col1: 'Hello',
+//         col2: 'World',
+//         },
+//         {
+//         col1: 'react-table',
+//         col2: 'rocks',
+//         },
+//         {
+//         col1: 'whatever',
+//         col2: 'you want',
+//         },
+//     ],
+//     []
+//     ))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const [originalData] = React.useState(data)
 
   // We need to keep the table from resetting the pageIndex when we
@@ -631,21 +613,21 @@ function ViewData() {
   // When our cell renderer calls updateMyData, we'll use
   // the rowIndex, columnId and new value to update the
   // original data
-  const updateMyData = (rowIndex, columnId, value) => {
-    // We also turn on the flag to not reset the page
-    skipResetRef.current = true
-    setData(old =>
-      old.map((row, index) => {
-        if (index === rowIndex) {
-          return {
-            ...row,
-            [columnId]: value,
-          }
-        }
-        return row
-      })
-    )
-  }
+//   const updateMyData = (rowIndex, columnId, value) => {
+//     // We also turn on the flag to not reset the page
+//     skipResetRef.current = true
+//     setData(old =>
+//       old.map((row, index) => {
+//         if (index === rowIndex) {
+//           return {
+//             ...row,
+//             [columnId]: value,
+//           }
+//         }
+//         return row
+//       })
+//     )
+//   }
 
   // After data changes, we turn the flag back off
   // so that if data actually changes when we're not
@@ -656,19 +638,19 @@ function ViewData() {
 
   // Let's add a data resetter/randomizer to help
   // illustrate that flow...
-  const resetData = () => {
-    // Don't reset the page when we do this
-    skipResetRef.current = true
-    setData(originalData)
-  }
+//   const resetData = () => {
+//     // Don't reset the page when we do this
+//     skipResetRef.current = true
+//     setData(originalData)
+//   }
 
   return (
     <Styles>
-      <button onClick={resetData}>Reset Data</button>
+      {/* <button onClick={resetData}>Reset Data</button> */}
       <Table
         columns={columns}
         data={data}
-        updateMyData={updateMyData}
+        // updateMyData={updateMyData}
         skipReset={skipResetRef.current}
       />
     </Styles>

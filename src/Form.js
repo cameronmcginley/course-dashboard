@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 
 const Form = () => {
-  const [newUserName, setNewUserName] = useState("");
+  const [newUserID, setNewUserID] = useState("");
   const [newCourseID, setNewCourseID] = useState("");
 
   const signinCollectionRef = collection(db, "sign-ins");
@@ -22,20 +22,22 @@ const Form = () => {
     e.preventDefault();
 
     await addDoc(signinCollectionRef, 
-      { userFirstName: newUserName, 
+      { userID: newUserID, 
+        courseName: 'temp',
         courseID: Number(newCourseID),
-        currentTime: new Date()
+        timestampLogged: new Date(),
+        isArchived: false
        });
 
     // Empty the inputs
-    setNewUserName("")
+    setNewUserID("")
     setNewCourseID("")
   };
 
   return (
     <div className="App">
       <form onSubmit={saveData} className="userSignin">
-        <input value={newUserName} onChange={(e) => setNewUserName(e.target.value)} placeholder="Enter First Name.." />
+        <input value={newUserID} onChange={(e) => setNewUserID(e.target.value)} placeholder="Enter User ID..." />
         <input value={newCourseID} onChange={(e) => setNewCourseID(e.target.value)} placeholder="Enter Course ID..." />
         <button type="submit">Submit</button>
       </form>

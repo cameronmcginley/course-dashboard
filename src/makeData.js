@@ -1,6 +1,9 @@
 import namor from 'namor'
 import moment from 'moment'
 import eachDayOfInterval from 'date-fns/eachDayOfInterval'
+import { collection, getDocs , setDoc } from "firebase/firestore"; 
+import { db } from "./firebase-config";
+import React, { useMemo } from 'react';
 
 const range = len => {
   const arr = []
@@ -34,7 +37,6 @@ const newPerson = (i) => {
 //         ? 'complicated'
 //         : 'single',
 //   }
-    console.log(i)
     return {
         userID: namor.generate({ words: 1, numbers: 0 }),
         courseName: namor.generate({ words: 1, numbers: 0 }),
@@ -49,7 +51,98 @@ const newPerson = (i) => {
     }
 }
 
-export default function makeData(...lens) {
+// async function testQuery(){
+//     // Collects firebase docs
+//     const querySnapshot = await getDocs(collection(db, "sign-ins"));
+//         querySnapshot.forEach((doc) => {
+//             // doc.data() is never undefined for query doc snapshots
+//             console.log(doc.id, " => ", doc.data());
+//     });
+
+//     console.log("")
+//     console.log(querySnapshot.docs)
+
+//     // const data = React.useMemo(
+//     //     () => [ {}
+//     //     ]
+//     // )
+
+//     // console.log(data)
+// }
+
+// export default async function makeData() {
+//     const querySnapshot = await getDocs(collection(db, "sign-ins"));
+
+//     let depth = 0
+
+//     querySnapshot.forEach((doc) => {
+//         console.log(doc.id, " => ", doc.data());
+
+//         const len = lens[depth]
+//         return range(len).map(d => {
+//             return {
+//             ...newPerson(i += 1),
+//             subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+//             }
+//         })
+//     });
+
+//     const makeDataLevel = (depth = 0) => {
+//         const len = lens[depth]
+//         return range(len).map(d => {
+//             return {
+//             ...newPerson(i += 1),
+//             subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+//             }
+//         })
+//     }
+
+//     testQuery()
+
+//   return makeDataLevel()
+// }
+
+// async function testQuery(...lens){
+//     // const makeDataLevel = (depth = 0) => {
+//     //     const len = lens[depth]
+//     //     return range(len).map(d => {
+//     //       return {
+//     //         ...newPerson(i += 1),
+//     //         subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+//     //       }
+//     //     })
+//     // }
+
+
+//     // Collects firebase docs
+//     const querySnapshot = await getDocs(collection(db, "sign-ins"));
+
+
+//     querySnapshot.forEach((doc) => {
+//         // doc.data() is never undefined for query doc snapshots
+//         console.log(doc.id, " => ", doc.data());
+
+//         const makeDataLevel = (depth = 0) => {
+//           const len = lens[depth]
+//           return range(len).map(d => {
+//             return {
+//               ...doc.data(),
+//               subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+//             }
+//           })
+//         }
+
+//     });
+
+//     console.log("")
+//     console.log(querySnapshot.docs)
+// }
+
+export default async function makeData(...lens) {
+    // const querySnapshot = await getDocs(collection(db, "sign-ins"));
+    // console.log(querySnapshot.docs[0])
+    // console.log(querySnapshot.docs[0].data())
+
     let i = 0;
   const makeDataLevel = (depth = 0) => {
     const len = lens[depth]
@@ -61,5 +154,40 @@ export default function makeData(...lens) {
     })
   }
 
+    // testQuery()
+
   return makeDataLevel()
 }
+
+// export default async function makeData(...lens) {
+//     const querySnapshot = await getDocs(collection(db, "sign-ins"));
+//     console.log(querySnapshot.docs[0])
+//     console.log(querySnapshot.docs[0].data())
+
+//     // var dataArr = new Array();
+
+//     // const makeDataLevel = (depth = 0) => {
+//     //     let dataRow = lens[depth]
+
+//     //     dataRow = {
+//     //         ...querySnapshot.docs[depth].data(),
+//     //         subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+//     //     }
+
+//     //     console.log(dataRow)
+
+//     // }
+
+//     let i = 0
+//     const makeDataLevel = (depth = 0) => {
+//         const len = lens[depth]
+//         return range(len).map(d => {
+//             return {
+//                 ...newPerson(i += 1),
+//                 subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+//             }
+//         })
+//     }
+
+//     return makeDataLevel()
+// }
