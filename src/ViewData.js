@@ -33,6 +33,7 @@ import makeData from './makeData'
 import DateRangeColumnFilter from './DateRangeColumnFilter'
 
 import { CSVLink, CSVDownload } from "react-csv";
+import AsyncCSV from './AsyncCSV';
 
 const Styles = styled.div`
   padding: 1rem;
@@ -670,21 +671,41 @@ function ViewData() {
 
     // console.log((documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id }))))
 
-    setCsvData(documentSnapshots.docs.map((doc) => ({ ...doc.data()})))
+    setCsvData(documentSnapshots.docs.map((doc) => ({ 
+      // ...
+      ...doc.data()
+      // doc.data()
+    })))
     console.log(csvData)
-    return(csvData)
+
+
+    // setTimeout(function () {
+    //   console.log("testtt")
+    //   return(csvData)
+    // }, 2000)
+    // return(csvData)
     // return (documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
   }
 
   return (
     <Styles>
       {/* <button onClick={csvReport}>Generate CSV Report</button> */}
-      <CSVLink 
+      {/* <CSVLink 
         data={csvData}
-        asyncOnClick={true}
+        // asyncOnClick={true}
+        // onClick={async () => {
+        //   await csvReport()
+        //   // setTimeout(function () {
+        //   //   console.log("testtt")
+        //   // }, 2000)}}
+        // }}
         onClick={csvReport}
         >Generate CSV Report
-      </CSVLink>;
+      </CSVLink>; */}
+
+      <AsyncCSV />
+
+
       <Table
         columns={columns}
         data={data}
