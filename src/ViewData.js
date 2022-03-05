@@ -10,7 +10,23 @@ import {
 } from 'react-table'
 import { matchSorter } from 'match-sorter'
 import moment from 'moment'
-import { collection, getDocs , setDoc, query } from "firebase/firestore"; 
+import {
+    collection,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    FieldValue,
+    query,
+    limit,
+    orderBy,
+    startAfter,
+    startAt,
+    endBefore,
+    limitToLast,
+    setState
+} from "firebase/firestore";
 import { db } from "./firebase-config";
 
 import makeData from './makeData'
@@ -141,7 +157,7 @@ function dateBetweenFilterFn(rows, id, filterValues) {
 dateBetweenFilterFn.autoRemove = val => !val;
 
 // Be sure to pass our updateMyData and the skipReset option
-function Table({ columns, data, updateMyData, skipReset }) {
+function Table({ columns, data, updateMyData, skipReset, isFirstPage, isLastPage, getSigninData }) {
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -188,8 +204,8 @@ function Table({ columns, data, updateMyData, skipReset }) {
     pageOptions,
     pageCount,
     gotoPage,
-    nextPage,
-    previousPage,
+    // nextPage,
+    // previousPage,
     setPageSize,
     state: {
       pageIndex,
@@ -216,6 +232,8 @@ function Table({ columns, data, updateMyData, skipReset }) {
       autoResetPage: !skipReset,
       autoResetSelectedRows: !skipReset,
       disableMultiSort: true,
+      isFirstPage: true,
+      isLastPage: false,
     },
     useFilters,
     useSortBy,
@@ -314,17 +332,9 @@ function Table({ columns, data, updateMyData, skipReset }) {
         This is just a very basic UI implementation:
       */}
       <div className="pagination">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+        {/* <button onClick={() => previousPage()} disabled={isFirstPage}> */}
+        <button onClick={() => getSigninData("previous")} disabled={isFirstPage}>
           {'<'}
-        </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
         </button>{' '}
         <span>
           Page{' '}
@@ -332,7 +342,10 @@ function Table({ columns, data, updateMyData, skipReset }) {
             {pageIndex + 1} of {pageOptions.length}
           </strong>{' '}
         </span>
-        <span>
+        <button onClick={() => getSigninData("next")} disabled={isLastPage}>
+          {'>'}
+        </button>{' '}
+        {/* <span>
           | Go to page:{' '}
           <input
             type="number"
@@ -343,8 +356,8 @@ function Table({ columns, data, updateMyData, skipReset }) {
             }}
             style={{ width: '100px' }}
           />
-        </span>{' '}
-        <select
+        </span>{' '} */}
+        {/* <select
           value={pageSize}
           onChange={e => {
             setPageSize(Number(e.target.value))
@@ -355,7 +368,7 @@ function Table({ columns, data, updateMyData, skipReset }) {
               Show {pageSize}
             </option>
           ))}
-        </select>
+        </select> */}
       </div>
       <pre>
         <code>
@@ -370,6 +383,8 @@ function Table({ columns, data, updateMyData, skipReset }) {
               expanded: expanded,
               filters,
               selectedRowIds: selectedRowIds,
+              isFirstPage,
+              isLastPage,
             },
             null,
             2
@@ -394,20 +409,6 @@ function filterGreaterThan(rows, id, filterValue) {
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = val => typeof val !== 'number'
 
-// This is a custom aggregator that
-// takes in an array of leaf values and
-// returns the rounded median
-function roundedMedian(leafValues) {
-  let min = leafValues[0] || 0
-  let max = leafValues[0] || 0
-
-  leafValues.forEach(value => {
-    min = Math.min(min, value)
-    max = Math.max(max, value)
-  })
-
-  return Math.round((min + max) / 2)
-}
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -425,6 +426,9 @@ const IndeterminateCheckbox = React.forwardRef(
     )
   }
 )
+
+let lastVisibleDoc = null
+let firstVisibleDoc = null
 
 function ViewData() {
   const columns = React.useMemo(
@@ -491,20 +495,133 @@ function ViewData() {
     []
   )
 
+
+
+
     const [data, setData] = React.useState([]);
 
-    const getSigninData = async () => {
-        var data = query(collection(db, "sign-ins"));
+
+
+
+
+
+
+
+
+
+    const [isFirstPage, setIsFirstPage] = React.useState(null);
+    const [isLastPage, setIsLastPage] = React.useState(null);
+
+    const isFirstPageFunc = async (pageZero) => {
+        var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), endBefore(pageZero), limit(1));
         const documentSnapshots = await getDocs(data);
-        setData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+        // Returns false if page exists, otherwise true
+        setIsFirstPage(!documentSnapshots.docs[0])
     }
 
+    const isLastPageFunc = async (pageLast) => {
+        var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), startAfter(pageLast), limit(1));
+        const documentSnapshots = await getDocs(data);
+
+        // Returns false if page exists, otherwise true
+        setIsLastPage(!documentSnapshots.docs[0])
+    }
+
+    const getSigninData = async (getSigninDataType) => {
+        // Collect docs based on type of get
+        if (getSigninDataType === "refresh") {
+            var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), startAt(firstVisibleDoc), limit(10));
+        }
+        else if (getSigninDataType === "previous") {
+            // Do nothing if first page
+            if (isFirstPage) {
+                console.log(isFirstPage)
+                console.log("Already first page");
+                return}
+            var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), endBefore(firstVisibleDoc), limitToLast(26));
+        }
+        else if (getSigninDataType === "next") {
+            // Use the value to check if last page
+            if (isLastPage) {
+                console.log(isLastPage)
+                console.log("Already last page");
+                return}
+            var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), startAfter(lastVisibleDoc), limit(10));
+        }
+        // Update page
+        const documentSnapshots = await getDocs(data);
+        setData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+        // Update first and last documents after updating page
+        lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length-1];
+        firstVisibleDoc = documentSnapshots.docs[0];
+
+        // Set states
+        await isFirstPageFunc(firstVisibleDoc)
+        await isLastPageFunc(lastVisibleDoc)
+    }
+
+    // const getSigninData = async () => {
+    //     var data = query(collection(db, "sign-ins"));
+    //     const documentSnapshots = await getDocs(data);
+    //     setData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     React.useEffect(() => {
-        // skipResetRef.current = false
-        getSigninData();
-        console.log("hit")
+        getSigninData("refresh");
       }, [])
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const [originalData] = React.useState(data)
 
   // We need to keep the table from resetting the pageIndex when we
@@ -553,6 +670,9 @@ function ViewData() {
         data={data}
         // updateMyData={updateMyData}
         skipReset={skipResetRef.current}
+        isFirstPage={isFirstPage}
+        isLastPage={isLastPage}
+        getSigninData={getSigninData}
       />
     </Styles>
   )

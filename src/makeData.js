@@ -47,7 +47,8 @@ const makeData = async () => {
             courseName: namor.generate({ words: 1, numbers: 0 }),
             courseID: Math.floor(Math.random() * 30),
             timestampLogged: dates[i],
-            isArchived: false
+            isArchived: false,
+            lastMofidified: dates[i]
         });
     }
 }

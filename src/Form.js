@@ -25,7 +25,8 @@ const Form = () => {
       { userID: newUserID, 
         courseName: 'temp',
         courseID: Number(newCourseID),
-        timestampLogged: new Date(),
+        timestampLogged: FieldValue.serverTimestamp(),
+        lastModified: FieldValue.serverTimestamp(),
         isArchived: false
        });
 
