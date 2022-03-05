@@ -5,7 +5,6 @@ import {
   usePagination,
   useSortBy,
   useFilters,
-  useGroupBy,
   useExpanded,
   useRowSelect,
 } from 'react-table'
@@ -196,7 +195,6 @@ function Table({ columns, data, updateMyData, skipReset }) {
       pageIndex,
       pageSize,
       sortBy,
-      groupBy,
       expanded,
       filters,
       selectedRowIds,
@@ -220,7 +218,6 @@ function Table({ columns, data, updateMyData, skipReset }) {
       disableMultiSort: true,
     },
     useFilters,
-    useGroupBy,
     useSortBy,
     useExpanded,
     usePagination,
@@ -231,9 +228,6 @@ function Table({ columns, data, updateMyData, skipReset }) {
         return [
           {
             id: 'selection',
-            // Make this column a groupByBoundary. This ensures that groupBy columns
-            // are placed after it
-            groupByBoundary: true,
             // The header can use the table's getToggleAllRowsSelectedProps method
             // to render a checkbox
             Header: ({ getToggleAllRowsSelectedProps }) => (
@@ -265,12 +259,6 @@ function Table({ columns, data, updateMyData, skipReset }) {
               {headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps()}>
                   <div>
-                    {column.canGroupBy ? (
-                      // If the column can be grouped, let's add a toggle
-                      <span {...column.getGroupByToggleProps()}>
-                        {column.isGrouped ? '🛑 ' : '👊 '}
-                      </span>
-                    ) : null}
                     <span {...column.getSortByToggleProps()}>
                       {column.render('Header')}
                       {/* Add a sort direction indicator */}
@@ -379,7 +367,6 @@ function Table({ columns, data, updateMyData, skipReset }) {
               canNextPage,
               canPreviousPage,
               sortBy,
-              groupBy,
               expanded: expanded,
               filters,
               selectedRowIds: selectedRowIds,
