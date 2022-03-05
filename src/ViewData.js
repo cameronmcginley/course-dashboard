@@ -472,8 +472,15 @@ function ViewData() {
           },
           {
             Header: 'Date',
+            // accessor: d => {
+            //     console.log(d.timestampLogged)
+            //     return moment(d.timestampLogged)
+            //       .local()
+            //       .format("MM-DD-YYYY hh:mm:ss a")
+            //   },
             accessor: d => {
-                return moment(d.timestampLogged)
+                console.log(d.timestampLogged)
+                return moment(d.timestampLogged.toDate())
                   .local()
                   .format("MM-DD-YYYY hh:mm:ss a")
               },
@@ -529,6 +536,9 @@ function ViewData() {
     }
 
     const getSigninData = async (getSigninDataType) => {
+        console.log("Getting sign in data with type:")
+        console.log(getSigninDataType)
+
         // Collect docs based on type of get
         if (getSigninDataType === "refresh") {
             var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), startAt(firstVisibleDoc), limit(10));
@@ -539,7 +549,7 @@ function ViewData() {
                 console.log(isFirstPage)
                 console.log("Already first page");
                 return}
-            var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), endBefore(firstVisibleDoc), limitToLast(26));
+            var data = query(collection(db, "sign-ins"), orderBy("timestampLogged"), endBefore(firstVisibleDoc), limitToLast(11));
         }
         else if (getSigninDataType === "next") {
             // Use the value to check if last page
@@ -567,49 +577,6 @@ function ViewData() {
     //     const documentSnapshots = await getDocs(data);
     //     setData(documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    React.useEffect(() => {
-        getSigninData("refresh");
-      }, [])
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -651,7 +618,8 @@ function ViewData() {
   // so that if data actually changes when we're not
   // editing it, the page is reset
   React.useEffect(() => {
-    skipResetRef.current = false
+    skipResetRef.current = false;
+    getSigninData("refresh");
   }, [])
 
   // Let's add a data resetter/randomizer to help

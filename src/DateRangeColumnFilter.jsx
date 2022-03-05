@@ -11,6 +11,8 @@ export function DateRangeColumnFilter({
     const [min, max] = React.useMemo(() => {
       let min = preFilteredRows.length ? new Date(preFilteredRows[0].values[id]) : new Date(0)
       let max = preFilteredRows.length ? new Date(preFilteredRows[0].values[id]) : new Date(0)
+
+      console.log(min)
   
       preFilteredRows.forEach(row => {
         const rowDate = new Date(row.values[id])
@@ -18,6 +20,8 @@ export function DateRangeColumnFilter({
         min = rowDate <= min ? rowDate : min
         max = rowDate >= max ? rowDate : max
       })
+
+      console.log(min)
   
       return [min, max]
     }, [id, preFilteredRows])
