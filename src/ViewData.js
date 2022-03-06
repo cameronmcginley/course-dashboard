@@ -34,6 +34,7 @@ import DateRangeColumnFilter from './DateRangeColumnFilter'
 
 import { CSVLink, CSVDownload } from "react-csv";
 import AsyncCSV from './AsyncCSV';
+import AlertDialog from './AlertDialog';
 
 const Styles = styled.div`
   padding: 1rem;
@@ -703,7 +704,8 @@ function ViewData() {
         >Generate CSV Report
       </CSVLink>; */}
 
-      <AsyncCSV />
+      <AlertDialog />
+      {/* <AsyncCSV /> */}
 
 
       <Table

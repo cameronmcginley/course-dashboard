@@ -16,7 +16,8 @@ import {
     startAt,
     endBefore,
     limitToLast,
-    setState
+    setState,
+    where
 } from "firebase/firestore";
 import { db } from "./firebase-config";
 import moment from 'moment';
@@ -40,9 +41,37 @@ class AsyncCSV extends Component {
 
   getData = async () => {
     console.log("Generating CSV report with all data")
+    console.log(this.props)
+    console.log(this.props.queries.userID)
 
-    var data = query(collection(db, "sign-ins"), orderBy("sortKey"), limit(10));
-    const documentSnapshots = await getDocs(data);
+    // Makes unique query for earch search field
+    // Can only have one "in" per query, must make new query for each field
+    // https://firebase.google.com/docs/firestore/query-data/queries#compound_queries
+    if (this.props.queries.userID) {
+      console.log("Querying User ID")
+      var data = query(collection(db, "sign-ins"), 
+        where("userID", "in", [this.props.queries.userID]),
+        // orderBy("sortKey"), 
+        limit(10));
+
+      // Get new list of docs for each query
+      // Get overlapping set if using multiple queries
+      var documentSnapshots = await getDocs(data);
+    }
+    // if (this.props.queries.courseName) {
+
+    // }
+    // if (this.props.queries.courseID) {
+
+    // }
+    // // No props
+    if (!this.props.queries.userID && !this.props.queries.courseName && !this.props.queries.courseID){
+      var data = query(collection(db, "sign-ins"), 
+      // where("userID", "in", [this.props.queries.userID]),
+      orderBy("sortKey"), 
+      limit(10));
+      var documentSnapshots = await getDocs(data);
+    }
 
     // Only maps specific data, and reformats timestamps
     let signinData = []
@@ -56,6 +85,7 @@ class AsyncCSV extends Component {
         })
       });
 
+    console.log(signinData)
     return signinData
   }
 
