@@ -50,7 +50,7 @@ class AsyncCSV extends Component {
     if (this.props.queries.userID) {
       console.log("Querying User ID")
       var data = query(collection(db, "sign-ins"), 
-        where("userID", "in", [this.props.queries.userID]),
+        where("substrArrUserID", "array-contains", this.props.queries.userID),
         // orderBy("sortKey"), 
         limit(10));
 
@@ -67,9 +67,8 @@ class AsyncCSV extends Component {
     // // No props
     if (!this.props.queries.userID && !this.props.queries.courseName && !this.props.queries.courseID){
       var data = query(collection(db, "sign-ins"), 
-      // where("userID", "in", [this.props.queries.userID]),
-      orderBy("sortKey"), 
-      limit(10));
+        orderBy("sortKey"), 
+        limit(10));
       var documentSnapshots = await getDocs(data);
     }
 

@@ -38,18 +38,52 @@ const dates = eachDayOfInterval({
 //     }
 // }
 
+const createSubstringArray = (text) => {
+    var substringArray = []
+    var characterCounter = 1
+    let textLowercased = text.toLowerCase()
+    let characterCount = text.length
+    // console.log(characterCount)
+  
+    // Create array of all substrings
+    for (let _ = 0; _ < characterCount; _++) {
+      for (let x = 0; x < characterCount; x++) {
+          let lastCharacter = x + characterCounter
+          if (lastCharacter <= characterCount) {
+              let substring = textLowercased.substring(x, lastCharacter)//textLowercased[x..<lastCharacter]
+              substringArray.push(substring)
+          }
+        }
+        characterCounter += 1
+  
+        // let max = maximumStringSize
+        let max = text.length
+        if (characterCounter > max) {
+            break
+        }
+    }
+    
+    // Remove duplicates from array
+    substringArray =[...new Set(substringArray)];
+  
+    console.log(substringArray)
+    return substringArray
+  }
+
 const makeData = async () => {
     const signinCollectionRef = collection(db, "sign-ins");
 
     for (let i = 0; i < 45; i++) {
+        let userID = namor.generate({ words: 1, numbers: 0 })
         await addDoc(signinCollectionRef, 
-            { userID: namor.generate({ words: 1, numbers: 0 }),
+            { userID: userID,
             courseName: namor.generate({ words: 1, numbers: 0 }),
             courseID: Math.floor(Math.random() * 30),
             timestampLogged: dates[i],
             isArchived: false,
             lastModified: dates[i],
-            sortKey: 9999999999999 - dates[i].getTime()
+            sortKey: 9999999999999 - dates[i].getTime(),
+            substrArrUserID: createSubstringArray(userID)
         });
     }
 }
