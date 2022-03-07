@@ -4,6 +4,9 @@ import Home from './Home';
 import Courses from './Courses';
 import Form from './Form';
 import ViewData from './ViewData';
+import Login from "./login";
+import Register from "./register";
+import Reset from "./reset";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -13,11 +16,29 @@ import {
   Redirect
 } from "react-router-dom";
 import Attendance from "./Attendance";
+import { auth } from "./firebase-config";
+import { 
+	signOut,
+	onAuthStateChanged
+} from "firebase/auth";
 
 function App() {
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  const logout = async () => {
+    await signOut(auth);
+  };
+  
   return (
     <Router>
       <div className="App">
+    		<h4> User Logged In: </h4>
+			  {user?.email}
+			  <button onClick={logout}>Sign Out</button>
         <Navbar />
         <div className="content">
           <Routes>
