@@ -27,7 +27,7 @@ import {
     limitToLast,
     setState
 } from "firebase/firestore";
-import { db } from "./firebase-config";
+import { db, auth } from "./firebase-config";
 
 import makeData from './makeData'
 import DateRangeColumnFilter from './DateRangeColumnFilter'
@@ -35,6 +35,10 @@ import DateRangeColumnFilter from './DateRangeColumnFilter'
 import { CSVLink, CSVDownload } from "react-csv";
 import AsyncCSV from './AsyncCSV';
 import AlertDialog from './AlertDialog';
+
+import { useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Styles = styled.div`
   padding: 1rem;
@@ -455,6 +459,17 @@ let lastVisibleDoc = null
 let firstVisibleDoc = null
 
 function ViewData() {
+  const navigate = useNavigate()
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+  
+  if (!user) {
+	  navigate('/login')
+  }
+
   const columns = React.useMemo(
     () => [
       {
