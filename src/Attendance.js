@@ -1,6 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import "./Attendance.css";
-import { db } from "./firebase-config";
+import { db, auth } from "./firebase-config";
 import {
   collection,
   getDocs,
@@ -13,6 +15,17 @@ import {
 import { useParams } from "react-router-dom";
 
 const Attendance = () => {
+  const navigate = useNavigate()
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+  
+  if (!user) {
+	  navigate('/login')
+  }
+  
   // Get course id from url
   const { pageCourseID } = useParams()
 
