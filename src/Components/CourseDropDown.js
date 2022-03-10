@@ -20,7 +20,7 @@ import {
     setState,
     where
 } from "firebase/firestore";
-import { db } from "./firebase-config";
+import { db } from "../firebase-config";
 
 function sleep(delay = 0) {
   return new Promise((resolve) => {

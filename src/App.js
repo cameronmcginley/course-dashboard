@@ -1,12 +1,13 @@
 import React, { Component, useState, useEffect } from "react";
-import Navbar from './Navbar';
-import Home from './Home';
-import Courses from './Courses';
-import Form from './Form';
-import ViewData from './ViewData';
-import Login from "./login";
-import Register from "./register";
-import Reset from "./reset";
+import Navbar from './Pages/Navbar';
+import Home from './Pages/Home';
+import Courses from './Pages/Courses';
+import Form from './Pages/Form';
+import ViewData from './Pages/ViewData';
+import Login from "./Pages/login";
+import Register from "./Pages/register";
+import Reset from "./Pages/reset";
+import Attendance from "./Pages/Attendance";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -15,7 +16,6 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
-import Attendance from "./Attendance";
 import { auth } from "./firebase-config";
 import { 
 	signOut,

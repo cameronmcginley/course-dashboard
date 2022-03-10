@@ -27,14 +27,14 @@ import {
     limitToLast,
     setState
 } from "firebase/firestore";
-import { db, auth } from "./firebase-config";
+import { db, auth } from "../firebase-config";
 
-import makeData from './makeData'
-import DateRangeColumnFilter from './DateRangeColumnFilter'
+import makeData from '../Functions/makeData'
+import DateRangeColumnFilter from '../Functions/DateRangeColumnFilter'
 
 import { CSVLink, CSVDownload } from "react-csv";
-import AsyncCSV from './AsyncCSV';
-import AlertDialog from './AlertDialog';
+import AsyncCSV from '../Components/AsyncCSV';
+import AlertDialog from '../Components/AlertDialog';
 
 import { useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";

@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect, useRef } from "react";
-import "./App.css";
+import "../App.css";
 import "./Courses.css";
 import { db, auth } from "../firebase-config";
 import {
@@ -16,7 +16,7 @@ import QRCode from "../Components/QRCode"
 import ReactToPrint from "react-to-print";
 
 
-import { QrPrint } from '../QrPrint';
+import { QrPrint } from '../Components/QrPrint';
 
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
