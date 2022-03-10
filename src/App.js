@@ -23,28 +23,19 @@ import {
 } from "firebase/auth";
 
 function App() {
-  const [user, setUser] = useState({});
-
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
-  const logout = async () => {
-    await signOut(auth);
-  };
   
   return (
     <Router>
       <div className="App">
-    		<h4> User Logged In: </h4>
-			  {user?.email}
-			  <button onClick={logout}>Sign Out</button>
+        
         <Navbar />
+
+        {/* Pages exist in the content div */}
         <div className="content">
           <Routes>
-	    <Route path="/login" element={<Login/>} />
-	    <Route path="/register" element={<Register/>} />
-	    <Route path="/reset" element={<Reset/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/register" element={<Register/>} />
+            <Route path="/reset" element={<Reset/>} />
             <Route path="/home" element={<Home/>} />
             <Route path="/courses" element={<Courses/>} />
             <Route path="/form" element={<Form/>} />
