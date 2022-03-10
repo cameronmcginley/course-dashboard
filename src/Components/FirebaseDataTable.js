@@ -36,7 +36,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 import AsyncCSV from "../Components/AsyncCSV";
 import AlertDialog from "../Components/AlertDialog";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -48,7 +48,7 @@ import SelectColumnFilter from "../Functions/FirebaseDataTable/SelectColumnFilte
 import DateRangeColumnFilter from "../Functions/FirebaseDataTable/DateRangeColumnFilter";
 
 // FirebaseDataTable Table Data
-import tableData from "../Functions/FirebaseDataTable/TableHeaders"
+import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
 
 const Styles = styled.div`
   padding: 1rem;
@@ -368,6 +368,7 @@ let firstVisibleDoc = null;
 function FirebaseDataTable(props) {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
+  const componentRef = useRef();
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -377,9 +378,10 @@ function FirebaseDataTable(props) {
     navigate("/login");
   }
 
+  console.log(TableHeaders)
   const columns = React.useMemo(
     () => [
-        tableData[props.collection]
+        TableHeaders()[props.collection]
     ],
     []
   );

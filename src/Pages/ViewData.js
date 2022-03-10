@@ -27,8 +27,7 @@ const Home = () => {
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}
       {/* Collection = name of firebase collection */}
       {/* sortKey = field (from firebase) to sort by */}
-      {/* <FirebaseDataTable collection={"sign-ins"} sortKey={"sortKey"}/> */}
-      <FirebaseDataTable collection={"courses"} sortKey={"courseName"}/> 
+      <FirebaseDataTable collection={"sign-ins"} sortKey={"sortKey"}/>
     </div>
   );
 };
