@@ -1,7 +1,7 @@
 {
   "name": "sd-prototype",
   "version": "0.1.0",
-  "homepage":"/login",
+  "homepage": "/login",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.1",
@@ -17,6 +17,7 @@
     "moment": "^2.29.1",
     "mui": "^0.0.1",
     "namor": "^2.0.3",
+    "prettier": "^2.5.1",
     "qrcode.react": "^1.0.1",
     "react": "^17.0.2",
     "react-csv": "^2.2.2",
@@ -35,7 +36,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "eslintConfig": {
     "extends": [

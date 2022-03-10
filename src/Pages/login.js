@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,38 +29,46 @@ function Login() {
         loginEmail,
         loginPassword
       );
-	  if (user)
-	  {
-		navigate('/Home');
-	  }
+      if (user) {
+        navigate("/Home");
+      }
       console.log(user);
     } catch (error) {
       console.log(error.message);
     }
   };
-  
-  return (
-	<div className="App">
 
-		<div>
-			<h3>User Login</h3>
-			<input placeholder="E-Mail" onChange={ (event) => { setLoginEmail(event.target.value); } } />
-			<p></p>
-			<input type={passwordShown ? "text" : "password"} placeholder="Password" onChange={ (event) => { setLoginPassword(event.target.value); } } />
-			<p></p>
-			<button onClick={togglePassword}>Show Password</button>
-			<p></p>
-			<button onClick={login}>Login</button>
-			<p></p>
-			<div>
-				Forgot Password? <Link to="/reset">Send Reset Email</Link> now.
-			</div>
-			<div>
-				Don't have an account? <Link to="/register">Register</Link> now.
-			</div>
-		</div>
-      
-	</div>
+  return (
+    <div className="App">
+      <div>
+        <h3>User Login</h3>
+        <input
+          placeholder="E-Mail"
+          onChange={(event) => {
+            setLoginEmail(event.target.value);
+          }}
+        />
+        <p></p>
+        <input
+          type={passwordShown ? "text" : "password"}
+          placeholder="Password"
+          onChange={(event) => {
+            setLoginPassword(event.target.value);
+          }}
+        />
+        <p></p>
+        <button onClick={togglePassword}>Show Password</button>
+        <p></p>
+        <button onClick={login}>Login</button>
+        <p></p>
+        <div>
+          Forgot Password? <Link to="/reset">Send Reset Email</Link> now.
+        </div>
+        <div>
+          Don't have an account? <Link to="/register">Register</Link> now.
+        </div>
+      </div>
+    </div>
   );
 }
 

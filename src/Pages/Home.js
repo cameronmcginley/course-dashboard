@@ -5,22 +5,22 @@ import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
-  
+
   if (!user) {
-	  navigate('/login')
+    navigate("/login");
   }
-  
+
   return (
     <div className="home">
-        <h1>Hello</h1>
+      <h1>Hello</h1>
     </div>
   );
-}
- 
+};
+
 export default Home;

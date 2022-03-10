@@ -15,19 +15,19 @@ import {
 import { useParams } from "react-router-dom";
 
 const Attendance = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
-  
+
   if (!user) {
-	  navigate('/login')
+    navigate("/login");
   }
-  
+
   // Get course id from url
-  const { pageCourseID } = useParams()
+  const { pageCourseID } = useParams();
 
   // Input form functions
   // --------------------------
@@ -40,14 +40,14 @@ const Attendance = () => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    await addDoc(signinCollectionRef, 
-      { userFirstName: newUserName, 
-        courseID: pageCourseID, 
-        currentTime: new Date()
-       });
+    await addDoc(signinCollectionRef, {
+      userFirstName: newUserName,
+      courseID: pageCourseID,
+      currentTime: new Date(),
+    });
 
     // Empty the inputs
-    setNewUserName("")
+    setNewUserName("");
 
     // Refresh list
     getSigninData();
@@ -59,29 +59,33 @@ const Attendance = () => {
   const signinDataCollectionRef = collection(db, "sign-ins");
 
   const getSigninData = async () => {
-      const data = await getDocs(signinDataCollectionRef);
-      setSigninData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const data = await getDocs(signinDataCollectionRef);
+    setSigninData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
   const deleteSignin = async (id) => {
-      const signinDoc = doc(db, "sign-ins", id);
-      await deleteDoc(signinDoc);
-      getSigninData();
+    const signinDoc = doc(db, "sign-ins", id);
+    await deleteDoc(signinDoc);
+    getSigninData();
   };
 
   // called for rendering
   useEffect(() => {
-      getSigninData();
+    getSigninData();
   }, []);
-  
+
   return (
     <div>
-      <div>{pageCourseID}</div>  
+      <div>{pageCourseID}</div>
 
       {/* Input Form */}
       <div className="App">
         <form onSubmit={saveData} className="userSignin">
-          <input value={newUserName} onChange={(e) => setNewUserName(e.target.value)} placeholder="Enter First Name.." />
+          <input
+            value={newUserName}
+            onChange={(e) => setNewUserName(e.target.value)}
+            placeholder="Enter First Name.."
+          />
           <button type="submit">Submit</button>
         </form>
       </div>
@@ -89,42 +93,43 @@ const Attendance = () => {
       {/* Data viewer */}
       <div className="App">
         <table>
-            <tr>
-                <th>People Signed In Today</th>
-            </tr>
+          <tr>
+            <th>People Signed In Today</th>
+          </tr>
 
-            {/* Adds each course as a row in the table */}
-            {signinData.map((signin) => {
-              // Verify date exists first
-              if (Boolean(signin.currentTime)) {
-                // Only show data if they signed in today
-                // and are in the correct course id
-                const dataDay = signin.currentTime.toDate().setHours(0,0,0,0);
-                const currDay = new Date().setHours(0,0,0,0);
+          {/* Adds each course as a row in the table */}
+          {signinData.map((signin) => {
+            // Verify date exists first
+            if (Boolean(signin.currentTime)) {
+              // Only show data if they signed in today
+              // and are in the correct course id
+              const dataDay = signin.currentTime.toDate().setHours(0, 0, 0, 0);
+              const currDay = new Date().setHours(0, 0, 0, 0);
 
-                if(dataDay == currDay && signin.courseID == pageCourseID) {
+              if (dataDay == currDay && signin.courseID == pageCourseID) {
                 // if (datesAreOnSameDay(signin.currentTime.toDate(), Date())) {
-                  return (
-                    <tr>
-                      <th>{signin.userFirstName}</th>
+                return (
+                  <tr>
+                    <th>{signin.userFirstName}</th>
 
-                      <button
-                        class="deletebtn"
-                        onClick={() => {
-                            deleteSignin(signin.id);
-                        }}
-                      > Delete </button>
-                    </tr>
-                  );
-                }
+                    <button
+                      class="deletebtn"
+                      onClick={() => {
+                        deleteSignin(signin.id);
+                      }}
+                    >
+                      {" "}
+                      Delete{" "}
+                    </button>
+                  </tr>
+                );
               }
-            })}
+            }
+          })}
         </table>
       </div>
     </div>
   );
-}
-
-
+};
 
 export default Attendance;
