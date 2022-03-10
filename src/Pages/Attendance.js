@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, Fragment } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./Attendance.css";
@@ -15,6 +15,8 @@ import {
 } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
+import { FormControl, FormLabel, FormHelperText, Input, InputLabel, TextField, OutlinedInput } from '@mui/material';
+import FirebaseSignInForm from "../Components/FirebaseSignInForm";
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -63,12 +65,27 @@ const Attendance = () => {
   // console.log(9999999999999 - logTime)
 
   return (
+    <Fragment>
+
+      <FirebaseSignInForm courseID={pageCourseID}/>
+      {/* <FormControl>
+        <InputLabel htmlFor="component-outlined">User ID</InputLabel>
+        <OutlinedInput
+          id="component-outlined"
+          // value={}
+          // onChange={}
+          label="User ID"
+        />
+      </FormControl> */}
+
     <FirebaseDataTable 
     type={"attendance"} 
     accessor={"sign-ins"} 
     sortKey={"sortKey"}
     pageCourseID={pageCourseID}
     daySortKeyLargest={daySortKeyLargest}/> 
+
+    </Fragment>
   );
 
   // // ---------------------
