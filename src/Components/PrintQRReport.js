@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import ReactToPrint from 'react-to-print';
 
-import { QrPrint } from './QrPrint';
+import { QRReport } from './QRReport';
 
 const PrintQRReport = (props) => {
   const componentRef = useRef();
@@ -10,10 +10,10 @@ const PrintQRReport = (props) => {
   return (
     <div>
       <ReactToPrint
-        trigger={() => <button>Print this out!</button>}
+        trigger={() => <button>Print</button>}
         content={() => componentRef.current}
       />
-      <QrPrint 
+      <QRReport 
       ref={componentRef} 
       value={props.value}
       coursename={props.coursename}/>

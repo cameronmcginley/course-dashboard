@@ -62,3 +62,25 @@ td, th {
 .courseEntryForm {
   margin-top: 10%;
 }
+
+@media screen {
+  /* Hidden only on screen, not on print */
+	.printComponent {
+		display: none;
+	}
+}
+
+.qrReport.title {
+  text-align: center;
+  margin-top: 20%;
+}
+
+.qrReport.id {
+  text-align: center;
+  margin-bottom: 20%;
+}
+
+.qrReport.qrCode {
+  display: block;
+  margin: auto;
+}
