@@ -150,7 +150,7 @@ const FirebaseInputForm = (props) => {
         <br />
         
         {missingInfoError &&
-          <Alert severity="error">
+          <Alert severity="error" sx={{ mx: "auto", minWidth: '2rem', maxWidth: '20rem' }}>
             <AlertTitle>Error</AlertTitle>
             Missing required information</Alert>
         }

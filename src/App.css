@@ -85,7 +85,20 @@ td, th {
   margin: auto;
 }
 
-/* .firebase-signin-form {
-  width: 50%;
+.content {
+  max-width: 1080px;
+  /* width: 90%; */
+  margin: 0 auto;
   outline: auto;
-} */
+}
+
+.firebase-signin-form {
+  outline:auto;
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 100%;
+    margin: 0 auto;
+  }
+}

@@ -59,6 +59,11 @@ import {StandardPrevious} from "../Functions/FirebaseDataTable/TableQueries"
 const Styles = styled.div`
   padding: 1rem;
 
+  outline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   table {
     border-spacing: 0;
     border: 1px solid black;
