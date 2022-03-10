@@ -14,10 +14,34 @@ import ReactToPrint from "react-to-print";
 import PrintQRReport from "../../Components/PrintQRReport";
 
 // Must create header data for each type of table used
-// Currently has headers for "sign-ins" and "courses" tables
-const TableHeaders = () => {
+const TableHeaders = (props) => {
     return {
+        "attendance": {
+            collection: "sign-ins",
+            Header: "Signed In Today",
+            columns: [
+            {
+                Header: "User ID",
+                accessor: (d) => {
+                    const dataDay = d.timestampLogged.toDate().setHours(0, 0, 0, 0);
+                    const currDay = new Date().setHours(0, 0, 0, 0);
+
+                    if (dataDay == currDay && d.courseID == props.pageCourseID) {
+                        return d.userID
+                    }
+                    else {
+                        console.log("Return null")
+                        return null
+                    }
+                    },
+                aggregate: "count",
+                Aggregated: ({ value }) => `${value} Names`,
+            },
+            ],
+        },
+
         "sign-ins": {
+            collection: "sign-ins",
             Header: "Sign In Data",
             columns: [
             {
@@ -64,6 +88,7 @@ const TableHeaders = () => {
         },
     
         "courses": {
+            collection: "courses",
             Header: "Course Data",
             columns: [
             {
@@ -102,7 +127,7 @@ const TableHeaders = () => {
                             <QRCode value={d.courseID.toString()} />
 
                             {/* Pass props to this component, which handles
-                            the ReactToPrint and QrPrint references */}
+                            the ReactToPrint and QRReport references */}
                             <PrintQRReport 
                             value={d.courseID.toString()}
                             coursename={d.courseName}

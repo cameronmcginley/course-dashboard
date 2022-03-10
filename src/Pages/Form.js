@@ -67,7 +67,7 @@ const Form = () => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    const logTime = serverTimestamp();
+    const logTime = new Date();
     await addDoc(signinCollectionRef, {
       userID: newUserID,
       courseName: "temp",

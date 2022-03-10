@@ -26,6 +26,7 @@ import {
   endBefore,
   limitToLast,
   setState,
+  where,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
 
@@ -49,6 +50,11 @@ import DateRangeColumnFilter from "../Functions/FirebaseDataTable/DateRangeColum
 
 // FirebaseDataTable Table Data
 import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
+
+// DB Queries
+import {FirebaseQuery} from "../Functions/FirebaseDataTable/TableQueries"
+import {StandardNext} from "../Functions/FirebaseDataTable/TableQueries"
+import {StandardPrevious} from "../Functions/FirebaseDataTable/TableQueries"
 
 const Styles = styled.div`
   padding: 1rem;
@@ -378,10 +384,9 @@ function FirebaseDataTable(props) {
     navigate("/login");
   }
 
-  console.log(TableHeaders)
   const columns = React.useMemo(
     () => [
-        TableHeaders()[props.collection]
+        TableHeaders(props)[props.type]
     ],
     []
   );
@@ -393,7 +398,7 @@ function FirebaseDataTable(props) {
 
   const isFirstPageFunc = async (pageZero) => {
     var data = query(
-      collection(db, props.collection),
+      collection(db, props.accessor),
       orderBy(props.sortKey),
       endBefore(pageZero),
       limit(1)
@@ -406,7 +411,7 @@ function FirebaseDataTable(props) {
 
   const isLastPageFunc = async (pageLast) => {
     var data = query(
-      collection(db, props.collection),
+      collection(db, props.accessor),
       orderBy(props.sortKey),
       startAfter(pageLast),
       limit(1)
@@ -417,48 +422,29 @@ function FirebaseDataTable(props) {
     setIsLastPage(!documentSnapshots.docs[0]);
   };
 
+  // Handles getting data from firebase
+  // Queries contained in TableQueries.js
   const getSigninData = async (getSigninDataType) => {
     console.log("Getting sign in data with type:");
     console.log(getSigninDataType);
 
-    // Collect docs based on type of get
-    if (getSigninDataType === "refresh") {
-      var data = query(
-        collection(db, props.collection),
-        orderBy(props.sortKey),
-        startAt(firstVisibleDoc),
-        limit(10)
-      );
-    } else if (getSigninDataType === "previous" && !isFirstPage) {
-      // Do nothing if first page
-      if (isFirstPage) {
-        console.log(isFirstPage);
-        console.log("Already first page");
-        return;
-      }
-      var data = query(
-        collection(db, props.collection),
-        orderBy(props.sortKey),
-        endBefore(firstVisibleDoc),
-        limitToLast(11)
-      );
-    } else if (getSigninDataType === "next" && !isLastPage) {
-      // Use the value to check if last page
-      if (isLastPage) {
-        console.log(isLastPage);
-        console.log("Already last page");
-        return;
-      }
-      var data = query(
-        collection(db, props.collection),
-        orderBy(props.sortKey),
-        startAfter(lastVisibleDoc),
-        limit(10)
-      );
-    } else {
-      console.log("No query made");
-      return;
-    }
+    // Queries firebase
+    // Params = (type, isDaily, accessor, sortKey, db, firstVisibleDoc, lastVisibleDoc, daySortKeyLargest)
+    var data = FirebaseQuery(
+      getSigninDataType, //type of request, e.g. next page, previous page, or refresh
+      props.daySortKeyLargest, //if defined, then only request past day's data
+      props.accessor, //firebase collection to query
+      props.sortKey, //field to sort by
+      db, //firebase database
+      firstVisibleDoc, //first doc currently shown in table
+      lastVisibleDoc, //last doc currently shown in table
+      //sortKey field in sign-ins collection is based off timestamp, essentially a way
+      //to sort by latest data, rather than firebase default of oldest data
+      //daySortKeyLargest is passed by Attendance.js, and is the sortKey given by 12am,
+      //so any sortKey smaller than this value is within the past day
+      props.daySortKeyLargest
+    )
+
     // Update page
     const documentSnapshots = await getDocs(data);
     setData(
@@ -517,6 +503,7 @@ function FirebaseDataTable(props) {
         isFirstPage={isFirstPage}
         isLastPage={isLastPage}
         getSigninData={getSigninData}
+        minRows={0}
       />
     </Styles>
   );

@@ -11,8 +11,10 @@ import {
   deleteDoc,
   doc,
   FieldValue,
+  serverTimestamp,
 } from "firebase/firestore";
 import { useParams } from "react-router-dom";
+import FirebaseDataTable from "../Components/FirebaseDataTable";
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -50,86 +52,102 @@ const Attendance = () => {
     setNewUserName("");
 
     // Refresh list
-    getSigninData();
+    // getSigninData();
   };
 
-  // ---------------------
-  // Data viewer
-  const [signinData, setSigninData] = useState([]);
-  const signinDataCollectionRef = collection(db, "sign-ins");
+  // Get the sort key given at start of day
+  const daySortKeyLargest = 9999999999999 - (new Date().setHours(0, 0, 0, 0))
+  console.log(daySortKeyLargest)
 
-  const getSigninData = async () => {
-    const data = await getDocs(signinDataCollectionRef);
-    setSigninData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  };
-
-  const deleteSignin = async (id) => {
-    const signinDoc = doc(db, "sign-ins", id);
-    await deleteDoc(signinDoc);
-    getSigninData();
-  };
-
-  // called for rendering
-  useEffect(() => {
-    getSigninData();
-  }, []);
+  // const logTime = serverTimestamp().toDate()
+  // console.log(9999999999999 - logTime)
 
   return (
-    <div>
-      <div>{pageCourseID}</div>
-
-      {/* Input Form */}
-      <div className="App">
-        <form onSubmit={saveData} className="userSignin">
-          <input
-            value={newUserName}
-            onChange={(e) => setNewUserName(e.target.value)}
-            placeholder="Enter First Name.."
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-
-      {/* Data viewer */}
-      <div className="App">
-        <table>
-          <tr>
-            <th>People Signed In Today</th>
-          </tr>
-
-          {/* Adds each course as a row in the table */}
-          {signinData.map((signin) => {
-            // Verify date exists first
-            if (Boolean(signin.currentTime)) {
-              // Only show data if they signed in today
-              // and are in the correct course id
-              const dataDay = signin.currentTime.toDate().setHours(0, 0, 0, 0);
-              const currDay = new Date().setHours(0, 0, 0, 0);
-
-              if (dataDay == currDay && signin.courseID == pageCourseID) {
-                // if (datesAreOnSameDay(signin.currentTime.toDate(), Date())) {
-                return (
-                  <tr>
-                    <th>{signin.userFirstName}</th>
-
-                    <button
-                      class="deletebtn"
-                      onClick={() => {
-                        deleteSignin(signin.id);
-                      }}
-                    >
-                      {" "}
-                      Delete{" "}
-                    </button>
-                  </tr>
-                );
-              }
-            }
-          })}
-        </table>
-      </div>
-    </div>
+    <FirebaseDataTable 
+    type={"attendance"} 
+    accessor={"sign-ins"} 
+    sortKey={"sortKey"}
+    pageCourseID={pageCourseID}
+    daySortKeyLargest={daySortKeyLargest}/> 
   );
+
+  // // ---------------------
+  // // Data viewer
+  // const [signinData, setSigninData] = useState([]);
+  // const signinDataCollectionRef = collection(db, "sign-ins");
+
+  // const getSigninData = async () => {
+  //   const data = await getDocs(signinDataCollectionRef);
+  //   setSigninData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  // };
+
+  // const deleteSignin = async (id) => {
+  //   const signinDoc = doc(db, "sign-ins", id);
+  //   await deleteDoc(signinDoc);
+  //   getSigninData();
+  // };
+
+  // // called for rendering
+  // useEffect(() => {
+  //   getSigninData();
+  // }, []);
+
+  // return (
+  //   <div>
+  //     <div>{pageCourseID}</div>
+
+  //     {/* Input Form */}
+  //     <div className="App">
+  //       <form onSubmit={saveData} className="userSignin">
+  //         <input
+  //           value={newUserName}
+  //           onChange={(e) => setNewUserName(e.target.value)}
+  //           placeholder="Enter First Name.."
+  //         />
+  //         <button type="submit">Submit</button>
+  //       </form>
+  //     </div>
+
+  //     {/* Data viewer */}
+  //     <div className="App">
+  //       <table>
+  //         <tr>
+  //           <th>People Signed In Today</th>
+  //         </tr>
+
+  //         {/* Adds each course as a row in the table */}
+  //         {signinData.map((signin) => {
+  //           // Verify date exists first
+  //           if (Boolean(signin.currentTime)) {
+  //             // Only show data if they signed in today
+  //             // and are in the correct course id
+  //             const dataDay = signin.currentTime.toDate().setHours(0, 0, 0, 0);
+  //             const currDay = new Date().setHours(0, 0, 0, 0);
+
+  //             if (dataDay == currDay && signin.courseID == pageCourseID) {
+  //               // if (datesAreOnSameDay(signin.currentTime.toDate(), Date())) {
+  //               return (
+  //                 <tr>
+  //                   <th>{signin.userFirstName}</th>
+
+  //                   <button
+  //                     class="deletebtn"
+  //                     onClick={() => {
+  //                       deleteSignin(signin.id);
+  //                     }}
+  //                   >
+  //                     {" "}
+  //                     Delete{" "}
+  //                   </button>
+  //                 </tr>
+  //               );
+  //             }
+  //           }
+  //         })}
+  //       </table>
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default Attendance;
