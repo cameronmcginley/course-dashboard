@@ -26,6 +26,9 @@ const TableHeaders = (props) => {
                     const dataDay = d.timestampLogged.toDate().setHours(0, 0, 0, 0);
                     const currDay = new Date().setHours(0, 0, 0, 0);
 
+                    console.log(d.courseID)
+                    console.log(dataDay)
+                    console.log(currDay)
                     if (dataDay == currDay && d.courseID == props.pageCourseID) {
                         return d.userID
                     }

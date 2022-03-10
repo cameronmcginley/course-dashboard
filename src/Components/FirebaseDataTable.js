@@ -397,29 +397,39 @@ function FirebaseDataTable(props) {
   const [isLastPage, setIsLastPage] = React.useState(null);
 
   const isFirstPageFunc = async (pageZero) => {
-    var data = query(
-      collection(db, props.accessor),
-      orderBy(props.sortKey),
-      endBefore(pageZero),
-      limit(1)
-    );
-    const documentSnapshots = await getDocs(data);
+    if (!pageZero) {
+      setIsFirstPage(true);
+    }
+    else {
+      var data = query(
+        collection(db, props.accessor),
+        orderBy(props.sortKey),
+        endBefore(pageZero),
+        limit(1)
+      );
+      const documentSnapshots = await getDocs(data);
 
-    // Returns false if page exists, otherwise true
-    setIsFirstPage(!documentSnapshots.docs[0]);
+      // Returns false if page exists, otherwise true
+      setIsFirstPage(!documentSnapshots.docs[0]);
+    }
   };
 
   const isLastPageFunc = async (pageLast) => {
-    var data = query(
-      collection(db, props.accessor),
-      orderBy(props.sortKey),
-      startAfter(pageLast),
-      limit(1)
-    );
-    const documentSnapshots = await getDocs(data);
+    if (!pageLast) {
+      setIsLastPage(true);
+    }
+    else {
+      var data = query(
+        collection(db, props.accessor),
+        orderBy(props.sortKey),
+        startAfter(pageLast),
+        limit(1)
+      );
+      const documentSnapshots = await getDocs(data);
 
-    // Returns false if page exists, otherwise true
-    setIsLastPage(!documentSnapshots.docs[0]);
+      // Returns false if page exists, otherwise true
+      setIsLastPage(!documentSnapshots.docs[0]);
+    }
   };
 
   // Handles getting data from firebase
@@ -429,8 +439,8 @@ function FirebaseDataTable(props) {
     console.log(getSigninDataType);
 
     // Queries firebase
-    // Params = (type, isDaily, accessor, sortKey, db, firstVisibleDoc, lastVisibleDoc, daySortKeyLargest)
-    var data = FirebaseQuery(
+    // Params = (type, isDaily, accessor, sortKey, db, firstVisibleDoc, lastVisibleDoc, daySortKeyLargest, courseID)
+    const data = FirebaseQuery(
       getSigninDataType, //type of request, e.g. next page, previous page, or refresh
       props.daySortKeyLargest, //if defined, then only request past day's data
       props.accessor, //firebase collection to query
@@ -442,7 +452,8 @@ function FirebaseDataTable(props) {
       //to sort by latest data, rather than firebase default of oldest data
       //daySortKeyLargest is passed by Attendance.js, and is the sortKey given by 12am,
       //so any sortKey smaller than this value is within the past day
-      props.daySortKeyLargest
+      props.daySortKeyLargest,
+      props.pageCourseID
     )
 
     // Update page

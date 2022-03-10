@@ -19,13 +19,16 @@ import {
       } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 
-export const FirebaseQuery = (type, isDaily, accessor, sortKey, db, firstVisibleDoc, lastVisibleDoc, daySortKeyLargest) => {
+export const FirebaseQuery = (type, isDaily, accessor, sortKey, db, firstVisibleDoc, lastVisibleDoc, daySortKeyLargest, courseID) => {
         console.log("FirebaseQuery")
+        // console.log(type, isDaily, accessor, sortKey, db, firstVisibleDoc, lastVisibleDoc, daySortKeyLargest, courseID)
         if (isDaily) {
                 if (type === "refresh") {
                         return (query(
                                 collection(db, accessor),
                                 where(sortKey, '<', daySortKeyLargest),
+                                // Requires index on firebase for multi query
+                                where("courseID", "==", Number(courseID)),
                                 orderBy(sortKey),
                                 startAt(firstVisibleDoc),
                                 limit(10)
@@ -35,6 +38,7 @@ export const FirebaseQuery = (type, isDaily, accessor, sortKey, db, firstVisible
                         return (query(
                                 collection(db, accessor),
                                 where(sortKey, '<', daySortKeyLargest),
+                                where("courseID", "==", Number(courseID)),
                                 orderBy(sortKey),
                                 startAfter(lastVisibleDoc),
                                 limit(10)
@@ -44,6 +48,7 @@ export const FirebaseQuery = (type, isDaily, accessor, sortKey, db, firstVisible
                         return (query(
                                 collection(db, accessor),
                                 where(sortKey, '<', daySortKeyLargest),
+                                where("courseID", "==", Number(courseID)),
                                 orderBy(sortKey),
                                 endBefore(firstVisibleDoc),
                                 limitToLast(11)
@@ -78,40 +83,3 @@ export const FirebaseQuery = (type, isDaily, accessor, sortKey, db, firstVisible
         }
 
 }
-
-export const StandardRefresh = (accessor, sortKey, db, firstVisibleDoc) => { 
-        return (query(
-                collection(db, accessor),
-                orderBy(sortKey),
-                startAt(firstVisibleDoc),
-                limit(10)
-        ))
-}
-
-export const StandardPrevious = (accessor, sortKey, db, firstVisibleDoc) => { 
-        return (query(
-                collection(db, accessor),
-                orderBy(sortKey),
-                endBefore(firstVisibleDoc),
-                limitToLast(11)
-        ))
-}
-
-export const StandardNext = (accessor, sortKey, db, lastVisibleDoc) => { 
-        return (query(
-                collection(db, accessor),
-                orderBy(sortKey),
-                startAfter(lastVisibleDoc),
-                limit(10)
-        ))
-}
-
-// const OneDayGet = (props) => { 
-//         return (query(
-//                 collection(db, props.accessor),
-//                 where(props.sortKey, '<', props.daySortKeyLargest),
-//                 orderBy(props.sortKey),
-//                 startAt(firstVisibleDoc),
-//                 limit(10)
-//         ))
-// }
