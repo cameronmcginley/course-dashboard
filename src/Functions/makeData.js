@@ -2,7 +2,7 @@ import namor from 'namor'
 import moment from 'moment'
 import eachDayOfInterval from 'date-fns/eachDayOfInterval'
 import { collection, getDocs , setDoc, addDoc } from "firebase/firestore"; 
-import { db } from "./firebase-config";
+import { db } from "../firebase-config";
 import React, { useMemo } from 'react';
 
 // const range = len => {

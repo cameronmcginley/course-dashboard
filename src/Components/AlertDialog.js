@@ -24,7 +24,7 @@ import {
     setState,
     where
 } from "firebase/firestore";
-import { db } from "./firebase-config";
+import { db } from "../firebase-config";
 import CircularProgress from '@mui/material/CircularProgress';
 
 const getCourseList = async () => {

@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import "./Navbar.css";
-import { auth } from "./firebase-config";
+import { auth } from "../firebase-config";
 import { 
 	signOut,
 	onAuthStateChanged
