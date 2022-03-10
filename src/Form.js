@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import "./Form.css";
-import { db } from "./firebase-config";
+import { db, auth } from "./firebase-config";
 import {
   collection,
   getDocs,
@@ -11,6 +11,8 @@ import {
   FieldValue,
   serverTimestamp 
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 
 const createSubstringArray = (text) => {
   var substringArray = []
@@ -45,6 +47,17 @@ const createSubstringArray = (text) => {
 }
 
 const Form = () => {
+  const navigate = useNavigate()
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+  
+  if (!user) {
+	  navigate('/login')
+  }
+  
   const [newUserID, setNewUserID] = useState("");
   const [newCourseID, setNewCourseID] = useState("");
 

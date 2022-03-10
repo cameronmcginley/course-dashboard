@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect, useRef } from "react";
 import "./App.css";
 import "./Courses.css";
-import { db } from "./firebase-config";
+import { db, auth } from "./firebase-config";
 import {
   collection,
   getDocs,
@@ -18,9 +18,22 @@ import ReactToPrint from "react-to-print";
 
 import { QrPrint } from './QrPrint';
 
+import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 
 
 const Courses = () => {
+  const navigate = useNavigate()
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+  
+  if (!user) {
+	  navigate('/login')
+  }	
+	
   const [newCourseName, setNewCourseName] = useState("");
   const [newCourseID, setNewCourseID] = useState("");
   const [newFormURL, setNewFormURL] = useState("");
