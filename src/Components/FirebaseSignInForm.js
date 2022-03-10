@@ -141,7 +141,7 @@ const FirebaseInputForm = (props) => {
                     required
                     id="firebase-form-courseid"
                     value={newCourseID}
-                    onChange={(e) => setNewUserID(e.target.value)}
+                    onChange={(e) => setNewCourseID(e.target.value)}
                     label="User ID"
                 />
             </FormControl>
