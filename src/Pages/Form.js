@@ -18,7 +18,7 @@ const Form = () => {
   }
 
   return (
-    <FirebaseSignInForm />
+    <FirebaseSignInForm formType="userSignIn" collectionName="sign-ins" />
   );
 };
 

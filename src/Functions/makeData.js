@@ -83,7 +83,7 @@ const makeData = async () => {
       isArchived: false,
       lastModified: dates[i],
       sortKey: 9999999999999 - dates[i].getTime(),
-      substrArrUserID: createSubstringArray(userID),
+      substrUserID: createSubstringArray(userID),
     });
   }
 };

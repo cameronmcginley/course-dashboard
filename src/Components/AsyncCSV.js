@@ -51,7 +51,7 @@ class AsyncCSV extends Component {
       console.log("Querying User ID");
       var data = query(
         collection(db, "sign-ins"),
-        where("substrArrUserID", "array-contains", this.props.queries.userID),
+        where("substrUserID", "array-contains", this.props.queries.userID),
         // orderBy("sortKey"),
         limit(10)
       );

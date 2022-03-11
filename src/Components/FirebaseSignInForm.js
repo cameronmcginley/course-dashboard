@@ -12,41 +12,10 @@ import {
 } from "firebase/firestore";
 import { FormControl, FormLabel, FormHelperText, Input, InputLabel, AlertTitle, TextField, Alert, OutlinedInput, Button } from '@mui/material';
 import "../App.css"
+import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries"
 
-// Convert text to array of all possible substrings
-// Necessary for filtering, as firebase doesn't allow to search for substrings
-const createSubstringArray = (text) => {
-  var substringArray = [];
-  var characterCounter = 1;
-  let textLowercased = text.toLowerCase();
-  let characterCount = text.length;
-  // console.log(characterCount)
 
-  // Create array of all substrings
-  for (let _ = 0; _ < characterCount; _++) {
-    for (let x = 0; x < characterCount; x++) {
-      let lastCharacter = x + characterCounter;
-      if (lastCharacter <= characterCount) {
-        let substring = textLowercased.substring(x, lastCharacter); //textLowercased[x..<lastCharacter]
-        substringArray.push(substring);
-      }
-    }
-    characterCounter += 1;
-
-    // let max = maximumStringSize
-    let max = text.length;
-    if (characterCounter > max) {
-      break;
-    }
-  }
-
-  // Remove duplicates from array
-  substringArray = [...new Set(substringArray)];
-
-  console.log(substringArray);
-  return substringArray;
-};
-
+// Can pass props in to exclude certain buttons, e.g. "userCourseID=123" in props
 const FirebaseInputForm = (props) => {
   // Styling
   const [submitBtnColor, setSubmitBtnColor] = useState("primary")
@@ -54,117 +23,191 @@ const FirebaseInputForm = (props) => {
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false)
   const [missingInfoError, setMissingInfoError] = useState(false)
 
-  // Data
+  //userSignIn
   const [newUserID, setNewUserID] = useState(props.userID);
+  const [newUserCourseID, setNewUserCourseID] = useState(props.userCourseID);
+
+  //courseEntry
+  const [newCourseName, setNewCourseName] = useState(props.courseName);
   const [newCourseID, setNewCourseID] = useState(props.courseID);
-  const signinCollectionRef = collection(db, "sign-ins");
+
+  const buttonClickSuccess = () => {
+    setSubmitBtnColor("success")
+    setSubmitBtnText("Success")
+    setSubmitBtnDisabled(true)
+    setTimeout(function(){
+        setSubmitBtnColor("primary")
+        setSubmitBtnText("Submit")
+        setSubmitBtnDisabled(false)
+    }, 2000);
+  }
+
+  const buttonClickFail = (errMsg) => {
+    setSubmitBtnColor("error")
+    setSubmitBtnText(errMsg)
+    setSubmitBtnDisabled(true)
+    setTimeout(function(){
+        setSubmitBtnColor("primary")
+        setSubmitBtnText("Submit")
+        setSubmitBtnDisabled(false)
+    }, 2000);
+  }
 
   const handleSubmit = async (e) => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    console.log(newUserID)
-    console.log(newCourseID)
+    let hasRequiredData = false
+
+    // Check whether necessary data has been input to form
+    if (props.formType === "userSignIn") {
+      newUserID && newUserCourseID ? hasRequiredData=true : hasRequiredData=false
+    } else if (props.formType === "courseEntry") {
+      newCourseName && newCourseID ? hasRequiredData=true : hasRequiredData=false
+    }
 
     // On success
-    if (newUserID && newCourseID) {
-        // Update button
-        setSubmitBtnColor("success")
-        setSubmitBtnText("Success")
-        setSubmitBtnDisabled(true)
-        setTimeout(function(){
-            setSubmitBtnColor("primary")
-            setSubmitBtnText("Submit")
-            setSubmitBtnDisabled(false)
-        }, 2000);
+    if (hasRequiredData) {
+      buttonClickSuccess()
+      setMissingInfoError(false) //Clear error if it's there
 
-        // Add document to firebase
-        const logTime = new Date();
-        await addDoc(signinCollectionRef, {
-            userID: newUserID,
-            courseName: "temp",
-            courseID: Number(newCourseID),
-            timestampLogged: logTime,
-            lastModified: logTime,
-            sortKey: 9999999999999 - logTime,
-            isArchived: false,
-            // Firebase doesn't allow querying "string contains"
-            // Add an array of all char combinations so we can search them later
-            substrArrUserID: createSubstringArray(newUserID),
-        });
+      
+      FirebaseWriteQueries({
+        collectionName: props.collectionName,
+        newCourseName: newCourseName,
+        newCourseID: newCourseID,
+        newUserID: newUserID,
+        newUserCourseID: newUserCourseID,
+      })
 
-        // Empty the inputs
-        setNewUserID("");
-        setNewCourseID("");
+      // Add document to firebase
+      // const logTime = new Date();
+      // await addDoc(signinCollectionRef, {
+      //     userID: newUserID,
+      //     courseName: "temp",
+      //     courseID: Number(newUserCourseID),
+      //     timestampLogged: logTime,
+      //     lastModified: logTime,
+      //     sortKey: 9999999999999 - logTime,
+      //     isArchived: false,
+      //     // Firebase doesn't allow querying "string contains"
+      //     // Add an array of all char combinations so we can search them later
+      //     substrArrUserID: createSubstringArray(newUserID),
+      // });
+
+      // Empty the inputs
+      setNewUserID("");
+      setNewUserCourseID("");
+      setNewCourseName("");
+      setNewCourseID("");
     }
     // Not success (missing required fields)
     else {
-        console.log("Missing required information")
-
-        // Call error alert
-        setMissingInfoError(true)
-
-        // Update button
-        setSubmitBtnColor("error")
-        setSubmitBtnText("Error")
-        setSubmitBtnDisabled(true)
-        setTimeout(function(){
-            setSubmitBtnColor("primary")
-            setSubmitBtnText("Submit")
-            setSubmitBtnDisabled(false)
-        }, 2000);
+      setMissingInfoError(true)
+      buttonClickFail("Error")
     }
   }
 
   return (
     <div class="firebase-signin-form">
-        {/* Only render if not passed in through props already */}
-        {!props.userID && 
+
+
+        {/* User Sign In Form */}
+        {props.formType === "userSignIn" &&
+          <Fragment>
+            {!props.userID && 
+                <FormControl>
+                    <InputLabel htmlFor="firebase-form-userid">User ID</InputLabel>
+                    <OutlinedInput
+                        required
+                        id="firebase-form-userid"
+                        value={newUserID}
+                        onChange={(e) => setNewUserID(e.target.value)}
+                        label="User ID"
+                    />
+                </FormControl>
+            }
+            <br />
+            {!props.courseID && 
+                <FormControl>
+                    <InputLabel htmlFor="firebase-form-courseid">Course ID</InputLabel>
+                    <OutlinedInput
+                        required
+                        id="firebase-form-courseid"
+                        value={newUserCourseID}
+                        onChange={(e) => setNewUserCourseID(e.target.value)}
+                        label="User ID"
+                    />
+                </FormControl>
+            }
+            <br />
+            {missingInfoError &&
+              <Alert severity="error" sx={{ mx: "auto", minWidth: '2rem', maxWidth: '20rem' }}>
+                <AlertTitle>Error</AlertTitle>
+                Missing required information</Alert>
+            }
             <FormControl>
-                <InputLabel htmlFor="firebase-form-userid">User ID</InputLabel>
-                <OutlinedInput
-                    required
-                    id="firebase-form-userid"
-                    value={newUserID}
-                    onChange={(e) => setNewUserID(e.target.value)}
-                    label="User ID"
-                />
+                <Button 
+                    // Disables pointer when disabled
+                    style={submitBtnDisabled ? { pointerEvents: 'none' } : {}}
+                    id="submit-form-button"
+                    variant="contained"
+                    color={submitBtnColor}
+                    onClick={handleSubmit}
+                >{submitBtnText}</Button>
             </FormControl>
+          </Fragment>
         }
 
-        <br />
 
-        {!props.courseID && 
+        {/* Course Entry Form */}
+        {props.formType === "courseEntry" &&
+          <Fragment>
+            {!props.userID && 
+                <FormControl>
+                    <InputLabel htmlFor="firebase-form-userid">Course Name</InputLabel>
+                    <OutlinedInput
+                        required
+                        id="firebase-form-userid"
+                        value={newCourseName}
+                        onChange={(e) => setNewCourseName(e.target.value)}
+                        label="Course Name"
+                    />
+                </FormControl>
+            }
+            <br />
+            {!props.courseID && 
+                <FormControl>
+                    <InputLabel htmlFor="firebase-form-courseid">Course ID</InputLabel>
+                    <OutlinedInput
+                        required
+                        id="firebase-form-courseid"
+                        value={newCourseID}
+                        onChange={(e) => setNewCourseID(e.target.value)}
+                        label="Course ID"
+                    />
+                </FormControl>
+            }
+            <br />
+            {missingInfoError &&
+              <Alert severity="error" sx={{ mx: "auto", minWidth: '2rem', maxWidth: '20rem' }}>
+                <AlertTitle>Error</AlertTitle>
+                Missing required information</Alert>
+            }
             <FormControl>
-                <InputLabel htmlFor="firebase-form-courseid">Course ID</InputLabel>
-                <OutlinedInput
-                    required
-                    id="firebase-form-courseid"
-                    value={newCourseID}
-                    onChange={(e) => setNewCourseID(e.target.value)}
-                    label="User ID"
-                />
+                <Button 
+                    // Disables pointer when disabled
+                    style={submitBtnDisabled ? { pointerEvents: 'none' } : {}}
+                    id="submit-form-button"
+                    variant="contained"
+                    color={submitBtnColor}
+                    onClick={handleSubmit}
+                >{submitBtnText}</Button>
             </FormControl>
+          </Fragment>
         }
 
-        <br />
-        
-        {missingInfoError &&
-          <Alert severity="error" sx={{ mx: "auto", minWidth: '2rem', maxWidth: '20rem' }}>
-            <AlertTitle>Error</AlertTitle>
-            Missing required information</Alert>
-        }
 
-        <FormControl>
-            <Button 
-                // Disables pointer when disabled
-                style={submitBtnDisabled ? { pointerEvents: 'none' } : {}}
-                id="submit-form-button"
-                variant="contained"
-                color={submitBtnColor}
-                onClick={handleSubmit}
-            >{submitBtnText}</Button>
-        </FormControl>
     </div>
   );
 };

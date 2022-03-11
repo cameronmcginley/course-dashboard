@@ -29,7 +29,7 @@ const Attendance = () => {
   return (
     <Fragment>
 
-      <FirebaseSignInForm courseID={pageCourseID}/>
+      <FirebaseSignInForm formType="userSignIn" collectionName="sign-ins" userCourseID={pageCourseID}/>
 
       <FirebaseDataTable 
         type={"attendance"} 
