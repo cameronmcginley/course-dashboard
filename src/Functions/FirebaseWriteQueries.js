@@ -65,6 +65,7 @@ export const FirebaseWriteQueries = (data) => {
                 courseName: data.newCourseName,
                 timeCreated: logTime,
                 lastModified: logTime,
+
                 substrCourseID: createSubstringArray(data.newCourseID),
                 substrCourseName: createSubstringArray(data.newCourseName),
         })
@@ -81,6 +82,7 @@ export const FirebaseWriteQueries = (data) => {
                 lastModified: logTime,
                 sortKey: 9999999999999 - logTime,
                 isArchived: false,
+
                 // Firebase doesn't allow querying "string contains"
                 // Add an array of all char combinations so we can search them later
                 substrUserID: createSubstringArray(data.newUserID),

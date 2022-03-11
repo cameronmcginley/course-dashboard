@@ -13,6 +13,7 @@ import {
 import { FormControl, FormLabel, FormHelperText, Input, InputLabel, AlertTitle, TextField, Alert, OutlinedInput, Button } from '@mui/material';
 import "../App.css"
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries"
+import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries"
 
 
 // Can pass props in to exclude certain buttons, e.g. "userCourseID=123" in props
@@ -21,7 +22,8 @@ const FirebaseInputForm = (props) => {
   const [submitBtnColor, setSubmitBtnColor] = useState("primary")
   const [submitBtnText, setSubmitBtnText] = useState("Submit")
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false)
-  const [missingInfoError, setMissingInfoError] = useState(false)
+  // const [missingInfoError, setMissingInfoError] = useState(false)
+  const [blockingError, setBlockingError] = useState([false, "Default Error Message"])
 
   //userSignIn
   const [newUserID, setNewUserID] = useState(props.userID);
@@ -58,20 +60,36 @@ const FirebaseInputForm = (props) => {
     e.preventDefault();
 
     let hasRequiredData = false
+    let hasUniqueID = null
 
     // Check whether necessary data has been input to form
     if (props.formType === "userSignIn") {
       newUserID && newUserCourseID ? hasRequiredData=true : hasRequiredData=false
-    } else if (props.formType === "courseEntry") {
+    } 
+    else if (props.formType === "courseEntry") {
       newCourseName && newCourseID ? hasRequiredData=true : hasRequiredData=false
     }
 
-    // On success
+    // Check whether course ID is unique
     if (hasRequiredData) {
-      buttonClickSuccess()
-      setMissingInfoError(false) //Clear error if it's there
+      // Returns bool for if course id exists in database
+      const data = await FirebaseReadQueries({
+        type: "checkCourseID",
+        collectionName: "courses",
+        courseID: newCourseID,
+      })
+      const documentSnapshots = await getDocs(data);
 
-      
+      documentSnapshots.docs[0] ? hasUniqueID = false : hasUniqueID = true
+    }
+
+    // On success
+    if (hasRequiredData && hasUniqueID) {
+      buttonClickSuccess()
+      setBlockingError([false, ""]) //Clear error if it's there
+
+      // Write to database, just passes all possible params
+      // Only uses what it needs for the desired collection
       FirebaseWriteQueries({
         collectionName: props.collectionName,
         newCourseName: newCourseName,
@@ -80,21 +98,6 @@ const FirebaseInputForm = (props) => {
         newUserCourseID: newUserCourseID,
       })
 
-      // Add document to firebase
-      // const logTime = new Date();
-      // await addDoc(signinCollectionRef, {
-      //     userID: newUserID,
-      //     courseName: "temp",
-      //     courseID: Number(newUserCourseID),
-      //     timestampLogged: logTime,
-      //     lastModified: logTime,
-      //     sortKey: 9999999999999 - logTime,
-      //     isArchived: false,
-      //     // Firebase doesn't allow querying "string contains"
-      //     // Add an array of all char combinations so we can search them later
-      //     substrArrUserID: createSubstringArray(newUserID),
-      // });
-
       // Empty the inputs
       setNewUserID("");
       setNewUserCourseID("");
@@ -102,8 +105,12 @@ const FirebaseInputForm = (props) => {
       setNewCourseID("");
     }
     // Not success (missing required fields)
-    else {
-      setMissingInfoError(true)
+    else if (!hasRequiredData) {
+      setBlockingError([true, "Missing Required Field(s)"])
+      buttonClickFail("Error")
+    }
+    else if (!hasUniqueID) {
+      setBlockingError([true, "Must Enter Unique Course ID"])
       buttonClickFail("Error")
     }
   }
@@ -141,10 +148,10 @@ const FirebaseInputForm = (props) => {
                 </FormControl>
             }
             <br />
-            {missingInfoError &&
+            {blockingError[0] &&
               <Alert severity="error" sx={{ mx: "auto", minWidth: '2rem', maxWidth: '20rem' }}>
                 <AlertTitle>Error</AlertTitle>
-                Missing required information</Alert>
+                {blockingError[1]}</Alert>
             }
             <FormControl>
                 <Button 
@@ -189,10 +196,10 @@ const FirebaseInputForm = (props) => {
                 </FormControl>
             }
             <br />
-            {missingInfoError &&
+            {blockingError[0] &&
               <Alert severity="error" sx={{ mx: "auto", minWidth: '2rem', maxWidth: '20rem' }}>
                 <AlertTitle>Error</AlertTitle>
-                Missing required information</Alert>
+                {blockingError[1]}</Alert>
             }
             <FormControl>
                 <Button 
