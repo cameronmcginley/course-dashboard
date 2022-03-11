@@ -36,7 +36,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 const getCourseList = async () => {
   // Get all courses for the dropdown
-  var data = query(collection(db, "sign-ins"), orderBy("sortKey"), limit(10));
+  var data = query(collection(db, "courses"), orderBy("courseName"), limit(10));
   var documentSnapshots = await getDocs(data);
 
   // Only get course, give it a display name with name + id
