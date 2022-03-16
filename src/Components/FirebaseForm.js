@@ -58,7 +58,7 @@ const FirebaseInputForm = (props) => {
   const handleSubmit = async (e) => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
-
+    
     let hasRequiredData = false
     let hasUniqueID = null
 
@@ -70,8 +70,8 @@ const FirebaseInputForm = (props) => {
       newCourseName && newCourseID ? hasRequiredData=true : hasRequiredData=false
     }
 
-    // Check whether course ID is unique
-    if (hasRequiredData) {
+    // Check whether course ID is unique when entering new course
+    if (hasRequiredData && props.formType === "courseEntry") {
       // Returns bool for if course id exists in database
       const data = await FirebaseReadQueries({
         type: "checkCourseID",
@@ -82,11 +82,16 @@ const FirebaseInputForm = (props) => {
 
       documentSnapshots.docs[0] ? hasUniqueID = false : hasUniqueID = true
     }
+    else {
+      hasUniqueID = true
+    }
 
     // On success
     if (hasRequiredData && hasUniqueID) {
       buttonClickSuccess()
       setBlockingError([false, ""]) //Clear error if it's there
+
+      console.log(newUserID, newUserCourseID)
 
       // Write to database, just passes all possible params
       // Only uses what it needs for the desired collection
