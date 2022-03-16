@@ -5,7 +5,7 @@ import "./Attendance.css";
 import { auth } from "../firebase-config";
 import { useParams } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
-import FirebaseSignInForm from "../Components/FirebaseSignInForm";
+import FirebaseForm from "../Components/FirebaseForm";
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const Attendance = () => {
   return (
     <Fragment>
 
-      <FirebaseSignInForm formType="userSignIn" collectionName="sign-ins" userCourseID={pageCourseID}/>
+      <FirebaseForm formType="userSignIn" collectionName="sign-ins" userCourseID={pageCourseID}/>
 
       <FirebaseDataTable 
         type={"attendance"} 

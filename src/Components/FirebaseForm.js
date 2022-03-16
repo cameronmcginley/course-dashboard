@@ -104,7 +104,6 @@ const FirebaseInputForm = (props) => {
       setNewCourseName("");
       setNewCourseID("");
     }
-    // Not success (missing required fields)
     else if (!hasRequiredData) {
       setBlockingError([true, "Missing Required Field(s)"])
       buttonClickFail("Error")

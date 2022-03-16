@@ -4,7 +4,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
-import FirebaseSignInForm from "../Components/FirebaseSignInForm";
+import FirebaseForm from "../Components/FirebaseForm";
+import AlertDialog from "../Components/AlertDialog";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,8 +23,8 @@ const Home = () => {
     <div className="home">
       <h1>Hello</h1>
 
-      {/* Course entry form */}
-      <FirebaseSignInForm formType="courseEntry" collectionName="courses"/>
+      {/* Course entry form, contained in popout box */}
+      <AlertDialog type="courseEntry"/>
 
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}

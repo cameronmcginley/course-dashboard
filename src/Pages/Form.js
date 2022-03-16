@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import FirebaseSignInForm from "../Components/FirebaseSignInForm";
+import FirebaseForm from "../Components/FirebaseForm";
 
 
 const Form = () => {
@@ -18,7 +18,7 @@ const Form = () => {
   }
 
   return (
-    <FirebaseSignInForm formType="userSignIn" collectionName="sign-ins" />
+    <FirebaseForm formType="userSignIn" collectionName="sign-ins" />
   );
 };
 
