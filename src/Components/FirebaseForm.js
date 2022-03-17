@@ -139,7 +139,7 @@ const FirebaseInputForm = (props) => {
                 </FormControl>
             }
             <br />
-            {!props.courseID && 
+            {!props.userCourseID && 
                 <FormControl>
                     <InputLabel htmlFor="firebase-form-courseid">Course ID</InputLabel>
                     <OutlinedInput

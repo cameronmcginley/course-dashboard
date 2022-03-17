@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect, Fragment } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import "./Attendance.css";
 import { auth } from "../firebase-config";
 import { useParams } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
