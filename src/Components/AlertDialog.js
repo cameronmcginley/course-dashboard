@@ -77,7 +77,7 @@ export default function AlertDialog(props) {
   // Contains multiple types depending on passed in prop
   return (
     <div>
-      {props.type === "csvExport" && 
+      {props.type === "csvExport" && (
         <Fragment>
           <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Export to CSV
@@ -89,7 +89,9 @@ export default function AlertDialog(props) {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">{"Optional Queries"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">
+              {"Optional Queries"}
+            </DialogTitle>
 
             <DialogActions>
               <TextField
@@ -115,9 +117,9 @@ export default function AlertDialog(props) {
             </DialogActions>
           </Dialog>
         </Fragment>
-      }
+      )}
 
-      {props.type === "courseEntry" && 
+      {props.type === "courseEntry" && (
         <Fragment>
           <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Add Course
@@ -132,16 +134,15 @@ export default function AlertDialog(props) {
             <DialogTitle id="alert-dialog-title">{"Add Course"}</DialogTitle>
 
             <DialogActions>
-              <FirebaseForm formType="courseEntry" collectionName="courses"/>
+              <FirebaseForm formType="courseEntry" collectionName="courses" />
 
               <Button onClick={handleClose} color="primary" autoFocus>
                 Close
               </Button>
-
             </DialogActions>
           </Dialog>
         </Fragment>
-      }
+      )}
     </div>
   );
 }

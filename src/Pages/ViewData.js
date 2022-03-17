@@ -23,13 +23,17 @@ const Home = () => {
       <h1>Hello</h1>
 
       {/* CSV Export */}
-      <AlertDialog type="csvExport"/>
+      <AlertDialog type="csvExport" />
 
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}
       {/* Collection = name of firebase collection */}
       {/* sortKey = field (from firebase) to sort by */}
-      <FirebaseDataTable type={"sign-ins"} accessor={"sign-ins"} sortKey={"sortKey"}/>
+      <FirebaseDataTable
+        type={"sign-ins"}
+        accessor={"sign-ins"}
+        sortKey={"sortKey"}
+      />
     </div>
   );
 };

@@ -33,4 +33,4 @@ export function SelectColumnFilter({
   );
 }
 
-export default SelectColumnFilter
+export default SelectColumnFilter;

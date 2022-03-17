@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import FirebaseForm from "../Components/FirebaseForm";
 
-
 const Form = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
@@ -17,9 +16,7 @@ const Form = () => {
     navigate("/login");
   }
 
-  return (
-    <FirebaseForm formType="userSignIn" collectionName="sign-ins" />
-  );
+  return <FirebaseForm formType="userSignIn" collectionName="sign-ins" />;
 };
 
 export default Form;

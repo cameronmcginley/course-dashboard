@@ -32,7 +32,6 @@ import { db, auth } from "../firebase-config";
 
 import makeData from "../Functions/makeData";
 
-
 import { CSVLink, CSVDownload } from "react-csv";
 import AsyncCSV from "../Components/AsyncCSV";
 import AlertDialog from "../Components/AlertDialog";
@@ -42,19 +41,17 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 // FirebaseDataTable Functions
-import DateBetweenFilter from "../Functions/FirebaseDataTable/DateBetweenFilter"
-import DefaultColumnFilter from "../Functions/FirebaseDataTable/DefaultColumnFilter"
-import FilterGreaterThan from "../Functions/FirebaseDataTable/FilterGreaterThan"
-import SelectColumnFilter from "../Functions/FirebaseDataTable/SelectColumnFilter"
+import DateBetweenFilter from "../Functions/FirebaseDataTable/DateBetweenFilter";
+import DefaultColumnFilter from "../Functions/FirebaseDataTable/DefaultColumnFilter";
+import FilterGreaterThan from "../Functions/FirebaseDataTable/FilterGreaterThan";
+import SelectColumnFilter from "../Functions/FirebaseDataTable/SelectColumnFilter";
 import DateRangeColumnFilter from "../Functions/FirebaseDataTable/DateRangeColumnFilter";
 
 // FirebaseDataTable Table Data
-import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
+import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders";
 
 // DB Queries
-import {FirebaseQuery} from "../Functions/FirebaseDataTable/TableQueries"
-import {StandardNext} from "../Functions/FirebaseDataTable/TableQueries"
-import {StandardPrevious} from "../Functions/FirebaseDataTable/TableQueries"
+import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 const Styles = styled.div`
   padding: 1rem;
@@ -389,12 +386,7 @@ function FirebaseDataTable(props) {
     navigate("/login");
   }
 
-  const columns = React.useMemo(
-    () => [
-        TableHeaders(props)[props.type]
-    ],
-    []
-  );
+  const columns = React.useMemo(() => [TableHeaders(props)[props.type]], []);
 
   const [data, setData] = React.useState([]);
 
@@ -404,8 +396,7 @@ function FirebaseDataTable(props) {
   const isFirstPageFunc = async (pageZero) => {
     if (!pageZero) {
       setIsFirstPage(true);
-    }
-    else {
+    } else {
       var data = query(
         collection(db, props.accessor),
         orderBy(props.sortKey),
@@ -422,8 +413,7 @@ function FirebaseDataTable(props) {
   const isLastPageFunc = async (pageLast) => {
     if (!pageLast) {
       setIsLastPage(true);
-    }
-    else {
+    } else {
       var data = query(
         collection(db, props.accessor),
         orderBy(props.sortKey),
@@ -443,23 +433,20 @@ function FirebaseDataTable(props) {
     console.log("Getting sign in data with type:");
     console.log(getSigninDataType);
 
-    // Queries firebase
-    // Params = (type, isDaily, accessor, sortKey, db, firstVisibleDoc, lastVisibleDoc, daySortKeyLargest, courseID)
-    const data = FirebaseQuery(
-      getSigninDataType, //type of request, e.g. next page, previous page, or refresh
-      props.daySortKeyLargest, //if defined, then only request past day's data
-      props.accessor, //firebase collection to query
-      props.sortKey, //field to sort by
-      db, //firebase database
-      firstVisibleDoc, //first doc currently shown in table
-      lastVisibleDoc, //last doc currently shown in table
+    const data = await FirebaseReadQueries({
+      type: "signInTableRead", // Which queries to use from FirebaseReadQueries
+      collectionName: props.accessor,
+      getSigninDataType: getSigninDataType, //type of request, e.g. next page, previous page, or refresh
+      daySortKeyLargest: props.daySortKeyLargest, //if defined, then only request past day's data
+      sortKey: props.sortKey, //field to sort by
+      firstVisibleDoc: firstVisibleDoc, //first doc currently shown in table
+      lastVisibleDoc: lastVisibleDoc, //last doc currently shown in table
+      courseID: props.pageCourseID,
       //sortKey field in sign-ins collection is based off timestamp, essentially a way
       //to sort by latest data, rather than firebase default of oldest data
       //daySortKeyLargest is passed by Attendance.js, and is the sortKey given by 12am,
       //so any sortKey smaller than this value is within the past day
-      props.daySortKeyLargest,
-      props.pageCourseID
-    )
+    });
 
     // Update page
     const documentSnapshots = await getDocs(data);

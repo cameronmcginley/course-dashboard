@@ -22,23 +22,26 @@ const Attendance = () => {
   const { pageCourseID } = useParams();
 
   // Get the sort key given at start of day
-  const daySortKeyLargest = 9999999999999 - (new Date().setHours(0, 0, 0, 0))
-  console.log(daySortKeyLargest)
+  const daySortKeyLargest = 9999999999999 - new Date().setHours(0, 0, 0, 0);
+  console.log(daySortKeyLargest);
 
   return (
     <Fragment>
+      <FirebaseForm
+        formType="userSignIn"
+        collectionName="sign-ins"
+        userCourseID={pageCourseID}
+      />
 
-      <FirebaseForm formType="userSignIn" collectionName="sign-ins" userCourseID={pageCourseID}/>
-
-      <FirebaseDataTable 
-        type={"attendance"} 
-        accessor={"sign-ins"} 
+      <FirebaseDataTable
+        type={"attendance"}
+        accessor={"sign-ins"}
         sortKey={"sortKey"}
         pageCourseID={pageCourseID}
-        daySortKeyLargest={daySortKeyLargest}/> 
-
+        daySortKeyLargest={daySortKeyLargest}
+      />
     </Fragment>
   );
-}
+};
 
 export default Attendance;
