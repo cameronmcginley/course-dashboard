@@ -62,3 +62,43 @@ td, th {
 .courseEntryForm {
   margin-top: 10%;
 }
+
+@media screen {
+  /* Hidden only on screen, not on print */
+	.printComponent {
+		display: none;
+	}
+}
+
+.qrReport.title {
+  text-align: center;
+  margin-top: 20%;
+}
+
+.qrReport.id {
+  text-align: center;
+  margin-bottom: 20%;
+}
+
+.qrReport.qrCode {
+  display: block;
+  margin: auto;
+}
+
+.content {
+  max-width: 1080px;
+  /* width: 90%; */
+  margin: 0 auto;
+  outline: auto;
+}
+
+.firebase-signin-form {
+  outline:auto;
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 100%;
+    margin: 0 auto;
+  }
+}

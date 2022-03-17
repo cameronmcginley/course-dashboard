@@ -9,7 +9,7 @@ const firebaseConfig = {
   ***REMOVED***
   ***REMOVED***
   ***REMOVED***
-  measurementId: "G-NTYPZXT9MV"
+  ***REMOVED***
 };
 
 const app = initializeApp(firebaseConfig);

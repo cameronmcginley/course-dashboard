@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect, useRef } from "react";
-import "./App.css";
+import "../App.css";
 import "./Courses.css";
-import { db, auth } from "./firebase-config";
+import { db, auth } from "../firebase-config";
 import {
   collection,
   getDocs,
@@ -12,28 +12,26 @@ import {
   FieldValue,
 } from "firebase/firestore";
 
-import QRCode from "./QRCode"
+import QRCode from "../Components/QRCode";
 import ReactToPrint from "react-to-print";
 
-
-import { QrPrint } from './QrPrint';
+import { QrPrint } from "../Components/QrPrint";
 
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 
-
 const Courses = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
-  
+
   if (!user) {
-	  navigate('/login')
-  }	
-	
+    navigate("/login");
+  }
+
   const [newCourseName, setNewCourseName] = useState("");
   const [newCourseID, setNewCourseID] = useState("");
   const [newFormURL, setNewFormURL] = useState("");
@@ -46,15 +44,15 @@ const Courses = () => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    await addDoc(coursesCollectionRef, 
-      { courseName: newCourseName, 
-        courseID: Number(newCourseID),
-        timeCreated: new Date()
-       });
+    await addDoc(coursesCollectionRef, {
+      courseName: newCourseName,
+      courseID: Number(newCourseID),
+      timeCreated: new Date(),
+    });
 
     // Empty the inputs
-    setNewCourseName("")
-    setNewCourseID("")
+    setNewCourseName("");
+    setNewCourseID("");
 
     // Refresh users list for render
     getCourses();
@@ -70,13 +68,13 @@ const Courses = () => {
     const data = await getDocs(coursesCollectionRef);
     setCourses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
-  
+
   // Unique qr reference for each course, so not overwritten by the map func
   // https://github.com/gregnb/react-to-print/issues/323#issuecomment-986947323
   const qrPrintRefs = useRef([]);
-	useEffect(() => {
-		qrPrintRefs.current = qrPrintRefs.current.slice(0, courses.length);
-	}, [courses]);
+  useEffect(() => {
+    qrPrintRefs.current = qrPrintRefs.current.slice(0, courses.length);
+  }, [courses]);
 
   // called for rendering
   useEffect(() => {
@@ -86,8 +84,16 @@ const Courses = () => {
   return (
     <div className="App">
       <form onSubmit={createCourse} className="courseEntryForm">
-        <input value={newCourseName} onChange={(e) => setNewCourseName(e.target.value)} placeholder="Course Name..." />
-        <input value={newCourseID} onChange={(e) => setNewCourseID(e.target.value)} placeholder="Course ID..." />
+        <input
+          value={newCourseName}
+          onChange={(e) => setNewCourseName(e.target.value)}
+          placeholder="Course Name..."
+        />
+        <input
+          value={newCourseID}
+          onChange={(e) => setNewCourseID(e.target.value)}
+          placeholder="Course ID..."
+        />
         <button type="submit">Add Course</button>
       </form>
 
@@ -103,7 +109,7 @@ const Courses = () => {
         {courses.map((course, i) => {
           // toDate() errors if there is no time saved
           // const hasTime = Boolean(course.timeCreated)
-          let key={i}
+          let key = { i };
 
           return (
             <tr>
@@ -113,42 +119,49 @@ const Courses = () => {
 
               <th>
                 {/* Displayed QR Code */}
-                <QRCode value={course.courseID.toString()}/>
-                
+                <QRCode value={course.courseID.toString()} />
+
                 {/* Print Button */}
                 {/* https://github.com/gregnb/react-to-print/issues/83 */}
                 {/* https://github.com/gregnb/react-to-print/issues/323#issuecomment-986947323 */}
                 <ReactToPrint
                   trigger={() => <button>Print</button>}
-                  content={() => { return qrPrintRefs.current[i]; }}
+                  content={() => {
+                    return qrPrintRefs.current[i];
+                  }}
                 />
 
                 {/* Content to print, hidden with display: none */}
-                <QrPrint 
-                  value={course.courseID.toString()} 
-                  coursename={course.courseName} 
-                  ref={(el) => (qrPrintRefs.current[i] = el)} />
+                <QrPrint
+                  value={course.courseID.toString()}
+                  coursename={course.courseName}
+                  ref={(el) => (qrPrintRefs.current[i] = el)}
+                />
               </th>
 
-              <th><a href={"/courses/" + course.courseID + "/attendance"} rel="noreferrer">Link</a></th>
-              
-              <button class="deletebtn"
+              <th>
+                <a
+                  href={"/courses/" + course.courseID + "/attendance"}
+                  rel="noreferrer"
+                >
+                  Link
+                </a>
+              </th>
+
+              <button
+                class="deletebtn"
                 onClick={() => {
                   deleteCourse(course.id);
                 }}
               >
                 Delete Course
               </button>
-
             </tr>
           );
         })}
       </table>
-
-    </div>  
+    </div>
   );
-}
-
-
+};
 
 export default Courses;
