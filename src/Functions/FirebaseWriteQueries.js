@@ -47,6 +47,9 @@ const createSubstringArray = (text) => {
     }
   }
 
+  // Add empty string for defautl firebase query
+  substringArray.push("");
+
   // Remove duplicates from array
   substringArray = [...new Set(substringArray)];
 

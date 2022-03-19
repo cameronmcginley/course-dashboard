@@ -28,32 +28,56 @@ function sleep(delay = 0) {
   });
 }
 
+
+const getCourseList = async () => {
+  // Get all courses for the dropdown
+  var data = query(collection(db, "courses"), orderBy("courseName"), limit(10));
+  var documentSnapshots = await getDocs(data);
+
+  // Only get course, give it a display name with name + id
+  let courseList = [];
+  documentSnapshots.forEach((doc) => {
+    courseList.push({
+      course: doc.data().courseName + " " + "(ID " + doc.data().courseID + ")",
+    });
+  });
+
+  console.log(courseList);
+  return courseList;
+};
+
 export default function CourseDropDown(props) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
-  const courseList = props.courseList;
+  // const courseList = props.courseList;
+  let [courseList, setCourseList] = React.useState([]);
 
   React.useEffect(() => {
     let active = true;
-
+    
     if (!loading) {
       return undefined;
     }
 
     (async () => {
-      await sleep(1e3); // For demo purposes.
+      setCourseList(await getCourseList());
 
-      if (active) {
-        // const courseList = await getCourseList()
-        console.log(courseList);
-        setOptions([...courseList]);
-      }
+
+      setTimeout(function () {
+        if (active) {
+          // const courseList = await getCourseList()
+          console.log(courseList);
+          setOptions([...courseList]);
+        }
+      }, 100);
+
     })();
 
     return () => {
       active = false;
     };
+
   }, [loading]);
 
   React.useEffect(() => {
@@ -62,8 +86,12 @@ export default function CourseDropDown(props) {
     }
   }, [open]);
 
+  // On course select
+  // selectedCourse
+
   return (
     <Autocomplete
+      onChange={(e, newVal) => props.selectedCourse(newVal)} //Sends selected value to parent
       id="asynchronous-demo"
       sx={{ width: 300 }}
       open={open}
@@ -97,54 +125,3 @@ export default function CourseDropDown(props) {
     />
   );
 }
-
-// Top films as rated by IMDb users. http://www.imdb.com/chart/top
-const topFilms = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-  { title: "The Godfather: Part II", year: 1974 },
-  { title: "The Dark Knight", year: 2008 },
-  { title: "12 Angry Men", year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: "Pulp Fiction", year: 1994 },
-  {
-    title: "The Lord of the Rings: The Return of the King",
-    year: 2003,
-  },
-  { title: "The Good, the Bad and the Ugly", year: 1966 },
-  { title: "Fight Club", year: 1999 },
-  {
-    title: "The Lord of the Rings: The Fellowship of the Ring",
-    year: 2001,
-  },
-  {
-    title: "Star Wars: Episode V - The Empire Strikes Back",
-    year: 1980,
-  },
-  { title: "Forrest Gump", year: 1994 },
-  { title: "Inception", year: 2010 },
-  {
-    title: "The Lord of the Rings: The Two Towers",
-    year: 2002,
-  },
-  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { title: "Goodfellas", year: 1990 },
-  { title: "The Matrix", year: 1999 },
-  { title: "Seven Samurai", year: 1954 },
-  {
-    title: "Star Wars: Episode IV - A New Hope",
-    year: 1977,
-  },
-  { title: "City of God", year: 2002 },
-  { title: "Se7en", year: 1995 },
-  { title: "The Silence of the Lambs", year: 1991 },
-  { title: "It's a Wonderful Life", year: 1946 },
-  { title: "Life Is Beautiful", year: 1997 },
-  { title: "The Usual Suspects", year: 1995 },
-  { title: "Léon: The Professional", year: 1994 },
-  { title: "Spirited Away", year: 2001 },
-  { title: "Saving Private Ryan", year: 1998 },
-  { title: "Once Upon a Time in the West", year: 1968 },
-  { title: "American History X", year: 1998 },
-  { title: "Interstellar", year: 2014 },
-];

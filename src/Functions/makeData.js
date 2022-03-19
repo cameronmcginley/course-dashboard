@@ -4,6 +4,7 @@ import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import { collection, getDocs, setDoc, addDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import React, { useMemo } from "react";
+import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 
 // const range = len => {
 //   const arr = []
@@ -74,17 +75,25 @@ const makeData = async () => {
   const signinCollectionRef = collection(db, "sign-ins");
 
   for (let i = 0; i < 45; i++) {
-    let userID = namor.generate({ words: 1, numbers: 0 });
-    await addDoc(signinCollectionRef, {
-      userID: userID,
-      courseName: namor.generate({ words: 1, numbers: 0 }),
-      courseID: Math.floor(Math.random() * 30),
-      timestampLogged: dates[i],
-      isArchived: false,
-      lastModified: dates[i],
-      sortKey: 9999999999999 - dates[i].getTime(),
-      substrUserID: createSubstringArray(userID),
+  //   let userID = namor.generate({ words: 1, numbers: 0 });
+  //   await addDoc(signinCollectionRef, {
+  //     userID: userID,
+  //     courseName: namor.generate({ words: 1, numbers: 0 }),
+  //     courseID: Math.floor(Math.random() * 30),
+  //     timestampLogged: dates[i],
+  //     isArchived: false,
+  //     lastModified: dates[i],
+  //     sortKey: 9999999999999 - dates[i].getTime(),
+  //     substrUserID: createSubstringArray(userID),
+  //   });
+  // }
+
+    FirebaseWriteQueries({
+      collectionName: "sign-ins",
+      newUserID: namor.generate({ words: 1, numbers: 0 }),
+      newUserCourseID: String(Math.floor(Math.random() * 30)),
     });
+
   }
 };
 

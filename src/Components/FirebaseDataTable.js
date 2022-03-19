@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import {
   useTable,
@@ -52,6 +52,8 @@ import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders";
 
 // DB Queries
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
+
+import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
 const Styles = styled.div`
   padding: 1rem;
@@ -427,6 +429,13 @@ function FirebaseDataTable(props) {
     }
   };
 
+  // const [searchCriteria, setSearchCritera] = React.useState({})
+  // Default searchCriteria is empty strings
+  let searchCriteria = {
+    searchUserID: "",
+    searchCourseID: "",
+  }
+
   // Handles getting data from firebase
   // Queries contained in TableQueries.js
   const getSigninData = async (getSigninDataType) => {
@@ -434,7 +443,7 @@ function FirebaseDataTable(props) {
     console.log(getSigninDataType);
 
     const data = await FirebaseReadQueries({
-      type: "signInTableRead", // Which queries to use from FirebaseReadQueries
+      type: null, // Specific id for queries
       collectionName: props.accessor,
       getSigninDataType: getSigninDataType, //type of request, e.g. next page, previous page, or refresh
       daySortKeyLargest: props.daySortKeyLargest, //if defined, then only request past day's data
@@ -446,6 +455,9 @@ function FirebaseDataTable(props) {
       //to sort by latest data, rather than firebase default of oldest data
       //daySortKeyLargest is passed by Attendance.js, and is the sortKey given by 12am,
       //so any sortKey smaller than this value is within the past day
+
+      // Given by the search component
+      searchCriteria: searchCriteria,
     });
 
     // Update page
@@ -496,19 +508,41 @@ function FirebaseDataTable(props) {
     getSigninData("refresh");
   }, []);
 
+  // This function is called when user makes a search
+  const makeSearch = (data) => {
+    // Update searchCritiera var before querying
+    searchCriteria = data
+    console.log(searchCriteria)
+
+    // Call table refresh with specific search query
+    // Same query as before, but with an added "searchCritiera" obj
+    getSigninData("refresh");
+
+    // Future next,prev button presses will pass this searchCriteria still
+    // Reset on refresh
+  
+  };
+
   return (
-    <Styles>
-      <Table
-        columns={columns}
-        data={data}
-        // updateMyData={updateMyData}
-        skipReset={skipResetRef.current}
-        isFirstPage={isFirstPage}
-        isLastPage={isLastPage}
-        getSigninData={getSigninData}
-        minRows={0}
+    <Fragment>
+      <Styles>
+        <Table
+          columns={columns}
+          data={data}
+          // updateMyData={updateMyData}
+          skipReset={skipResetRef.current}
+          isFirstPage={isFirstPage}
+          isLastPage={isLastPage}
+          getSigninData={getSigninData}
+          minRows={0}
+        />
+      </Styles>
+
+      <FirebaseDataTableSearch 
+        searchType="userSignIn"
+        searchCriteria={makeSearch}
       />
-    </Styles>
+    </Fragment>
   );
 }
 
