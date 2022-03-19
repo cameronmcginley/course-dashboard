@@ -71,6 +71,12 @@ export const FirebaseReadQueries = async (data) => {
   } 
 
   else {
+    // Can only have one array-contains per query
+    // But can have many "=="
+    // This finds a way to only use userID for searching by string,
+    // everything else can be done exact through dropdowns of specific options
+    // when searching
+
     // Search includes course ID
     if (data.searchCriteria.searchCourseID) {
       if (data.getSigninDataType === "refresh") {
@@ -102,6 +108,7 @@ export const FirebaseReadQueries = async (data) => {
         );
       }
     }
+    // Search does not include course ID
     else {
       if (data.getSigninDataType === "refresh") {
         return query(

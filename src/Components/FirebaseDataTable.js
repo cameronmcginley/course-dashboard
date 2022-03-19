@@ -375,6 +375,13 @@ const IndeterminateCheckbox = React.forwardRef(
 let lastVisibleDoc = null;
 let firstVisibleDoc = null;
 
+// const [searchCriteria, setSearchCritera] = React.useState({})
+// Default searchCriteria is empty strings
+let searchCriteria = {
+  searchUserID: "",
+  searchCourseID: "",
+}
+
 function FirebaseDataTable(props) {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
@@ -429,18 +436,13 @@ function FirebaseDataTable(props) {
     }
   };
 
-  // const [searchCriteria, setSearchCritera] = React.useState({})
-  // Default searchCriteria is empty strings
-  let searchCriteria = {
-    searchUserID: "",
-    searchCourseID: "",
-  }
 
   // Handles getting data from firebase
   // Queries contained in TableQueries.js
   const getSigninData = async (getSigninDataType) => {
     console.log("Getting sign in data with type:");
     console.log(getSigninDataType);
+    console.log(searchCriteria)
 
     const data = await FirebaseReadQueries({
       type: null, // Specific id for queries

@@ -108,7 +108,7 @@ export default function CourseDropDown(props) {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Asynchronous"
+          label="Course"
           InputProps={{
             ...params.InputProps,
             endAdornment: (

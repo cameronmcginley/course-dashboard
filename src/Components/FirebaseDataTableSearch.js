@@ -56,13 +56,13 @@ const FirebaseDataTableSearch = (props) => {
     // const [newCourseID, setNewCourseID] = useState(props.courseID);
 
     // All possible searches
-    const [searchUserID, setSearchUserID] = useState(null);
-    const [searchCourseName, setSearchCourseName] = useState(null);
-    const [searchCourseID, setSearchCourseID] = useState(null);
-    const [searchDateStart, setSearchDateStart] = useState(null);
-    const [searchDateEnd, setSearchDateEnd] = useState(null);
-    const [searchDateDay, setSearchDateDay] = useState(null);
-    const [searchArchived, setSearchArchived] = useState(null);
+    const [searchUserID, setSearchUserID] = useState("");
+    const [searchCourseName, setSearchCourseName] = useState("");
+    const [searchCourseID, setSearchCourseID] = useState("");
+    const [searchDateStart, setSearchDateStart] = useState("");
+    const [searchDateEnd, setSearchDateEnd] = useState("");
+    const [searchDateDay, setSearchDateDay] = useState("");
+    const [searchArchived, setSearchArchived] = useState("");
   
     const buttonClickSuccess = () => {
       setSubmitBtnColor("success");
@@ -99,50 +99,16 @@ const FirebaseDataTableSearch = (props) => {
         setBlockingError([false, ""]); //Clear error if it's there
 
         props.searchCriteria({
-          searchUserID: "a",
+          searchUserID: searchUserID,
           searchCourseID: searchCourseID,
         })
-  
-        // Write to database, just passes all possible params
-        // Only uses what it needs for the desired collection
-        // FirebaseWriteQueries({
-        //   collectionName: props.collectionName,
-        //   newCourseName: newCourseName,
-        //   newCourseID: newCourseID,
-        //   newUserID: newUserID,
-        //   newUserCourseID: newUserCourseID,
-        // });
-  
-        // Empty the inputs
-        // setSearchUserID("");
-        // setSearchCourseName("");
-        // setSearchCourseID("");
-        // setSearchArchived("");
       } 
-      // else if (!hasRequiredData) {
-      //   setBlockingError([true, "Missing Required Field(s)"]);
-      //   buttonClickFail("Error");
-      // } else if (!hasUniqueID) {
-      //   setBlockingError([true, "Must Enter Unique Course ID"]);
-      //   buttonClickFail("Error");
-      // }
     };
-  
-  
   
   // This function is called when user selects course from dropdown
   const getDropdownData = (data) => {
-    console.log(data)
-    // Update searchCritiera var before querying
-    // searchCriteria = data
-    // console.log(props.searchCriteria)
-    // props.searchCriteria({
-    //   searchCourseID: "26",
-    // })
+    console.log("Dropdown select", data)
     setSearchCourseID("26")
-    console.log("Dropdown select")
-
-  
   };
 
   return (
@@ -165,29 +131,6 @@ const FirebaseDataTableSearch = (props) => {
 
           <br />
 
-          <FormControl>
-            <InputLabel htmlFor="firebase-form-userid">Course Name</InputLabel>
-            <OutlinedInput
-              required
-              id="firebase-form-userid"
-              // value={newUserID}
-              onChange={(e) => setSearchCourseName(e.target.value)}
-              label="User ID"
-            />
-          </FormControl>
-
-          <br />
-
-          {/* <FormControl>
-            <InputLabel htmlFor="firebase-form-userid">Course ID</InputLabel>
-            <OutlinedInput
-              required
-              id="firebase-form-userid"
-              // value={newUserID}
-              onChange={(e) => setSearchCourseID(e.target.value)}
-              label="User ID"
-            />
-          </FormControl> */}
           <CourseDropDown selectedCourse={getDropdownData}/>
 
           {/* <br />
@@ -204,7 +147,7 @@ const FirebaseDataTableSearch = (props) => {
           </FormControl> */}
 
           <br />
-
+{/* 
           <FormControl>
             <InputLabel htmlFor="firebase-form-userid">Archival Status</InputLabel>
             <OutlinedInput
@@ -214,7 +157,7 @@ const FirebaseDataTableSearch = (props) => {
               onChange={(e) => setSearchArchived(e.target.value)}
               label="User ID"
             />
-          </FormControl>
+          </FormControl> */}
 
           <br />
 
