@@ -41,6 +41,7 @@ const FirebaseInputForm = (props) => {
   //userSignIn
   const [newUserID, setNewUserID] = useState(props.userID);
   const [newUserCourseID, setNewUserCourseID] = useState(props.userCourseID);
+  const [newUserCourseFullStr, setNewUserCourseFullStr] = useState(props.userCourseFullStr)
 
   //courseEntry
   const [newCourseName, setNewCourseName] = useState(props.courseName);
@@ -77,7 +78,7 @@ const FirebaseInputForm = (props) => {
 
     // Check whether necessary data has been input to form
     if (props.formType === "userSignIn") {
-      newUserID && newUserCourseID
+      newUserID && newUserCourseFullStr
         ? (hasRequiredData = true)
         : (hasRequiredData = false);
     } else if (props.formType === "courseEntry") {
@@ -106,7 +107,7 @@ const FirebaseInputForm = (props) => {
       buttonClickSuccess();
       setBlockingError([false, ""]); //Clear error if it's there
 
-      console.log(newUserID, newUserCourseID);
+      console.log(newUserID, newUserCourseFullStr);
 
       // Write to database, just passes all possible params
       // Only uses what it needs for the desired collection
@@ -116,7 +117,7 @@ const FirebaseInputForm = (props) => {
         newCourseID: newCourseID,
         newUserID: newUserID,
         newUserCourseID: newUserCourseID,
-        // newCourseFullStr: newCourseFullStr, //ADD THIS
+        newCourseFullStr: newUserCourseFullStr, 
       });
 
       // Empty the inputs
@@ -151,7 +152,8 @@ const FirebaseInputForm = (props) => {
             </FormControl>
           )}
           <br />
-          {!props.userCourseID && (
+          {/* Make this a course drop down */}
+          {!props.userCourseFullStr && (
             <FormControl>
               <InputLabel htmlFor="firebase-form-courseid">
                 Course ID
@@ -159,8 +161,8 @@ const FirebaseInputForm = (props) => {
               <OutlinedInput
                 required
                 id="firebase-form-courseid"
-                value={newUserCourseID}
-                onChange={(e) => setNewUserCourseID(e.target.value)}
+                value={newUserCourseFullStr}
+                onChange={(e) => setNewUserCourseFullStr(e.target.value)}
                 label="User ID"
               />
             </FormControl>

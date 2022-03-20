@@ -61,16 +61,14 @@ const createSubstringArray = (text) => {
 
 export const FirebaseWriteQueries = (data) => {
   console.log("Firebase Write");
-  console.log(data.timestamp)
 
   let logTime = null
-  console.log(data.timestamp)
   if (data.timestamp) {
     logTime = Timestamp.fromDate(data.timestamp)
   } else {
     logTime = new Date();
   }
-  console.log(logTime)
+  console.log("Write Time: ", logTime)
 
   if (data.collectionName === "courses") {
     const newCourseFullStr = data.newCourseName + " " + "(ID " + data.newCourseID + ")"
@@ -89,6 +87,7 @@ export const FirebaseWriteQueries = (data) => {
 
   if (data.collectionName === "sign-ins") {
     let courseArray = SplitCourseFullStr(data.newCourseFullStr)
+    console.log("Write course data: ", courseArray)
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,
       courseName: courseArray[0],

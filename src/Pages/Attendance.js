@@ -44,15 +44,20 @@ const Attendance = () => {
   return (
     <Fragment>
       <div>
-        {pageCourseID}
+        Course ID: {pageCourseID}
         <br/>
-        {courseName}
+        Course Name: {courseName}
       </div>
-      <FirebaseForm
-        formType="userSignIn"
-        collectionName="sign-ins"
-        userCourseID={pageCourseID}
-      />
+
+      {/* Wait for courseName before loading the form, else
+      an empty prop will be passed */}
+      {!courseName ? <>Loading...</> :
+          <FirebaseForm
+            formType="userSignIn"
+            collectionName="sign-ins"
+            userCourseFullStr={courseName + " (ID " + pageCourseID + ")"}
+        />
+      }
 
       <FirebaseDataTable
         type={"attendance"}
