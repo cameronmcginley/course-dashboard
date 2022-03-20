@@ -1,10 +1,28 @@
 import namor from "namor";
 import moment from "moment";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
-import { collection, getDocs, setDoc, addDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import React, { useMemo } from "react";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  FieldValue,
+  query,
+  limit,
+  orderBy,
+  startAfter,
+  startAt,
+  endBefore,
+  limitToLast,
+  setState,
+  where,
+  Timestamp,
+} from "firebase/firestore";
 
 // const range = len => {
 //   const arr = []
@@ -71,27 +89,37 @@ const createSubstringArray = (text) => {
   return substringArray;
 };
 
+const getCourseList = async () => {
+  // Get all courses for the dropdown
+  var data = query(collection(db, "courses"), orderBy("courseName"), limit(10));
+  var documentSnapshots = await getDocs(data);
+
+  // Only get course, give it a display name with name + id
+  let courseList = [];
+  documentSnapshots.forEach((doc) => {
+    courseList.push(doc.data().courseID)
+  });
+
+  console.log(courseList);
+  return courseList;
+};
+
+function randomDate(start, end, startHour, endHour) {
+  var date = new Date(+start + Math.random() * (end - start));
+  var hour = startHour + Math.random() * (endHour - startHour) | 0;
+  date.setHours(hour);
+  return date;
+}
+
 const makeData = async () => {
-  const signinCollectionRef = collection(db, "sign-ins");
+  let courseList = await getCourseList()
 
   for (let i = 0; i < 45; i++) {
-  //   let userID = namor.generate({ words: 1, numbers: 0 });
-  //   await addDoc(signinCollectionRef, {
-  //     userID: userID,
-  //     courseName: namor.generate({ words: 1, numbers: 0 }),
-  //     courseID: Math.floor(Math.random() * 30),
-  //     timestampLogged: dates[i],
-  //     isArchived: false,
-  //     lastModified: dates[i],
-  //     sortKey: 9999999999999 - dates[i].getTime(),
-  //     substrUserID: createSubstringArray(userID),
-  //   });
-  // }
-
     FirebaseWriteQueries({
       collectionName: "sign-ins",
       newUserID: namor.generate({ words: 1, numbers: 0 }),
-      newUserCourseID: String(Math.floor(Math.random() * 30)),
+      newUserCourseID: String(courseList[Math.floor(Math.random()*courseList.length)]), //Random from courselist IDs
+      timestamp: randomDate(new Date(2020, 0, 1), new Date(), 0, 24),
     });
 
   }

@@ -17,6 +17,7 @@ import {
   setState,
   where,
   serverTimestamp,
+  Timestamp,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
 
@@ -59,9 +60,18 @@ const createSubstringArray = (text) => {
 
 export const FirebaseWriteQueries = (data) => {
   console.log("Firebase Write");
+  console.log(data.timestamp)
+
+  let logTime = null
+  console.log(data.timestamp)
+  if (data.timestamp) {
+    logTime = Timestamp.fromDate(data.timestamp)
+  } else {
+    logTime = new Date();
+  }
+  console.log(logTime)
 
   if (data.collectionName === "courses") {
-    const logTime = new Date();
     addDoc(collection(db, data.collectionName), {
       courseID: data.newCourseID,
       courseName: data.newCourseName,
@@ -74,7 +84,6 @@ export const FirebaseWriteQueries = (data) => {
   }
 
   if (data.collectionName === "sign-ins") {
-    const logTime = new Date();
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,
       courseName: "temp",
