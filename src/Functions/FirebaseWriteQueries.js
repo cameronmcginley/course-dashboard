@@ -72,9 +72,12 @@ export const FirebaseWriteQueries = (data) => {
   console.log(logTime)
 
   if (data.collectionName === "courses") {
+    const newCourseFullStr = data.newCourseName + " " + "(ID " + data.newCourseID + ")"
+    
     addDoc(collection(db, data.collectionName), {
       courseID: data.newCourseID,
       courseName: data.newCourseName,
+      courseFullStr: newCourseFullStr,
       timeCreated: logTime,
       lastModified: logTime,
 
@@ -84,10 +87,14 @@ export const FirebaseWriteQueries = (data) => {
   }
 
   if (data.collectionName === "sign-ins") {
+    // Split full course string into name and ID
+    // data.newCourseFull
+
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,
       courseName: "temp",
       courseID: data.newUserCourseID,
+      courseFullStr: "temp",
       timestampLogged: logTime,
       lastModified: logTime,
       sortKey: 9999999999999 - logTime,

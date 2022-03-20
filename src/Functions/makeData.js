@@ -125,4 +125,17 @@ const makeData = async () => {
   }
 };
 
+const makeCourseData = async () => {
+  for (let i = 0; i < 23; i++) {
+    FirebaseWriteQueries({
+      collectionName: "courses",
+      newCourseName: namor.generate({ words: 1, numbers: 0 }),
+      newCourseID: String(Math.floor(Math.random() * 100)),
+      timestamp: randomDate(new Date(2020, 0, 1), new Date(), 0, 24),
+    });
+
+  }
+};
+
 // makeData()
+// makeCourseData()
