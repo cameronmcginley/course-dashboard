@@ -56,7 +56,7 @@ export const FirebaseReadQueries = async (data) => {
       limit(1)
     ]
     if (data.searchCriteria.searchCourseID) {
-      isFirstPageParams.push(data.searchCriteria.searchCourseID)
+      isFirstPageParams.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
 
     return query(
@@ -75,7 +75,7 @@ export const FirebaseReadQueries = async (data) => {
       where("substrUserID", "array-contains", data.searchCriteria.searchUserID)
     ]
     if (data.searchCriteria.searchCourseID) {
-      isLastPageParams.push(data.searchCriteria.searchCourseID)
+      isLastPageParams.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
 
     return query(
