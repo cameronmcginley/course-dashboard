@@ -45,52 +45,42 @@ export const FirebaseReadQueries = async (data) => {
     );
   }
 
-  
+
   // Is first page
   if (data.type === "isFirstPage") {
+    const isFirstPageParams = [
+      collection(db, data.collectionName),
+      orderBy(data.sortKey),
+      endBefore(data.firstVisibleDoc),
+      where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
+      limit(1)
+    ]
     if (data.searchCriteria.searchCourseID) {
-      return query(
-        collection(db, data.collectionName),
-        orderBy(data.sortKey),
-        endBefore(data.firstVisibleDoc),
-        where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-        where("courseID", "==", data.searchCriteria.searchCourseID),
-        limit(1)
-      );
+      isFirstPageParams.push(data.searchCriteria.searchCourseID)
     }
-    else {
-      return query(
-        collection(db, data.collectionName),
-        orderBy(data.sortKey),
-        endBefore(data.firstVisibleDoc),
-        where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-        limit(1)
-      );
-    }
+
+    return query(
+      ...isFirstPageParams
+    );
   }
 
 
   // Is last page
   if (data.type === "isLastPage") {
+    const isLastPageParams = [
+      collection(db, data.collectionName),
+      orderBy(data.sortKey),
+      startAfter(data.lastVisibleDoc),
+      limit(1),
+      where("substrUserID", "array-contains", data.searchCriteria.searchUserID)
+    ]
     if (data.searchCriteria.searchCourseID) {
-      return query(
-        collection(db, data.collectionName),
-        orderBy(data.sortKey),
-        startAfter(data.lastVisibleDoc),
-        where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-        where("courseID", "==", data.searchCriteria.searchCourseID),
-        limit(1)
-      );
+      isLastPageParams.push(data.searchCriteria.searchCourseID)
     }
-    else {
-      return query(
-        collection(db, data.collectionName),
-        orderBy(data.sortKey),
-        startAfter(data.lastVisibleDoc),
-        where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-        limit(1)
-      );
-    }
+
+    return query(
+      ...isLastPageParams
+    );
   }
 
 
