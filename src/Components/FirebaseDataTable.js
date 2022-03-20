@@ -552,6 +552,7 @@ function FirebaseDataTable(props) {
       <FirebaseDataTableSearch 
         searchType="userSignIn"
         searchCriteria={makeSearch}
+        hasSubmit={true}
       />
     </Fragment>
   );

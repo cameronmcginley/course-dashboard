@@ -36,6 +36,7 @@ import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
 import CourseDropDown from "./CourseDropDown";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr"
+import AsyncCSV from "./AsyncCSV";
 
 
 const FirebaseDataTableSearch = (props) => {
@@ -117,6 +118,11 @@ const FirebaseDataTableSearch = (props) => {
     setSearchCourseID(courseSelection[1])
   };
 
+  let queries = {
+    searchUserID: searchUserID,
+    searchCourseID: searchCourseID,
+  }
+
   return (
     <Fragment>
       {console.log(TableHeaders(props)["sign-ins"])}
@@ -151,6 +157,9 @@ const FirebaseDataTableSearch = (props) => {
             </Alert>
           )}
 
+
+          {props.hasSubmit
+          ?
           <FormControl>
             <Button
               // Disables pointer when disabled
@@ -163,6 +172,12 @@ const FirebaseDataTableSearch = (props) => {
               {submitBtnText}
             </Button>
           </FormControl>
+          :
+          // Only doesn't have submit if its for CSV
+          // Uses seperate queries obj, since searchCriteria only made 
+          // by submit button
+          <AsyncCSV queries={queries} />
+          }
 
         </Fragment>
       )}

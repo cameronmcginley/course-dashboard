@@ -45,11 +45,11 @@ class AsyncCSV extends Component {
     console.log(this.props);
     console.log(this.props.queries.userID);
 
-
-
+    // Repackages "props.queries" into searchCriteria
     const searchCriteria = {
       courseFullStr: this.props.queries.courseFullStr,
-      userID: this.props.queries.userID
+      courseID: this.props.queries.searchCourseID,
+      userID: this.props.queries.searchUserID
     }
 
     const data = await FirebaseReadQueries({

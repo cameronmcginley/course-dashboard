@@ -55,6 +55,9 @@ export const FirebaseReadQueries = async (data) => {
     if (data.searchCriteria.courseFullStr) {
       params.push(where("courseFullStr", "==", data.searchCriteria.courseFullStr))
     }
+    if (data.searchCriteria.courseID) {
+      params.push(where("courseID", "==", data.searchCriteria.courseID))
+    }
     if (data.searchCriteria.userID) {
       params.push(where("substrUserID", "array-contains", data.searchCriteria.userID))
     }
