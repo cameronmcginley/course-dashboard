@@ -45,6 +45,56 @@ export const FirebaseReadQueries = async (data) => {
     );
   }
 
+  
+  // Is first page
+  if (data.type === "isFirstPage") {
+    if (data.searchCriteria.searchCourseID) {
+      return query(
+        collection(db, data.collectionName),
+        orderBy(data.sortKey),
+        endBefore(data.firstVisibleDoc),
+        where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
+        where("courseID", "==", data.searchCriteria.searchCourseID),
+        limit(1)
+      );
+    }
+    else {
+      return query(
+        collection(db, data.collectionName),
+        orderBy(data.sortKey),
+        endBefore(data.firstVisibleDoc),
+        where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
+        limit(1)
+      );
+    }
+  }
+
+
+  // Is last page
+  if (data.type === "isLastPage") {
+    if (data.searchCriteria.searchCourseID) {
+      return query(
+        collection(db, data.collectionName),
+        orderBy(data.sortKey),
+        startAfter(data.lastVisibleDoc),
+        where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
+        where("courseID", "==", data.searchCriteria.searchCourseID),
+        limit(1)
+      );
+    }
+    else {
+      return query(
+        collection(db, data.collectionName),
+        orderBy(data.sortKey),
+        startAfter(data.lastVisibleDoc),
+        where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
+        limit(1)
+      );
+    }
+  }
+
+
+
   // If daySortKeyLargest exists, only search for one day's data
   if (data.collectionName === "sign-ins") {
     if (data.daySortKeyLargest) {

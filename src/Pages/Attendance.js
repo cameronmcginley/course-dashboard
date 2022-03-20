@@ -47,7 +47,7 @@ const Attendance = () => {
       {courseName 
       ? 
         <>
-        {/* If courseName exists, check if it matches error message */}
+          {/* If courseName exists, check if it matches error message */}
           {courseName != "error" 
           ?
             // If not, do...
@@ -60,11 +60,11 @@ const Attendance = () => {
 
               {/* Wait for courseName before loading the form, else
               // // an empty prop will be passed */}
-                  <FirebaseForm
-                    formType="userSignIn"
-                    collectionName="sign-ins"
-                    userCourseFullStr={courseName + " (ID " + pageCourseID + ")"}
-                />
+              <FirebaseForm
+                formType="userSignIn"
+                collectionName="sign-ins"
+                userCourseFullStr={courseName + " (ID " + pageCourseID + ")"}
+              />
 
               <FirebaseDataTable
                 type={"attendance"}

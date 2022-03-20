@@ -410,12 +410,14 @@ function FirebaseDataTable(props) {
     if (!pageZero) {
       setIsFirstPage(true);
     } else {
-      var data = query(
-        collection(db, props.accessor),
-        orderBy(props.sortKey),
-        endBefore(pageZero),
-        limit(1)
-      );
+      var data = await FirebaseReadQueries({
+        type: "isFirstPage",
+        collectionName: props.accessor,
+        sortKey: props.sortKey, 
+        firstVisibleDoc: pageZero,
+        searchCriteria: searchCriteria,
+      });
+
       const documentSnapshots = await getDocs(data);
 
       // Returns false if page exists, otherwise true
@@ -427,12 +429,14 @@ function FirebaseDataTable(props) {
     if (!pageLast) {
       setIsLastPage(true);
     } else {
-      var data = query(
-        collection(db, props.accessor),
-        orderBy(props.sortKey),
-        startAfter(pageLast),
-        limit(1)
-      );
+      var data = await FirebaseReadQueries({
+        type: "isLastPage",
+        collectionName: props.accessor,
+        sortKey: props.sortKey, 
+        lastVisibleDoc: pageLast,
+        searchCriteria: searchCriteria,
+      });
+
       const documentSnapshots = await getDocs(data);
 
       // Returns false if page exists, otherwise true
