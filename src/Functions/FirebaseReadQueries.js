@@ -27,6 +27,14 @@ export const FirebaseReadQueries = async (data) => {
 
   }
 
+  if (data.type === "getCourseName") {
+    return query(
+      collection(db, "courses"),
+      where("courseID", "==", data.courseID),
+      limit(1)
+    );
+  }
+
   // Return true/false if course id already exists in database
   if (data.type === "checkCourseID") {
     console.log("Here3");

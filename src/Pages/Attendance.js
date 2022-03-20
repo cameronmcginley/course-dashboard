@@ -5,10 +5,12 @@ import { auth } from "../firebase-config";
 import { useParams } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
+import {GetCourseName} from "../Functions/GetCourseName";
 
 const Attendance = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
+  const [courseName, setCourseName] = useState("")
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -25,8 +27,27 @@ const Attendance = () => {
   const daySortKeyLargest = 9999999999999 - new Date().setHours(0, 0, 0, 0);
   console.log(daySortKeyLargest);
 
+  // Was having issues with the async return, kind of a werid
+  // fix to have this function just call a function, but it works
+  // since i can't make this entire component async
+  const asyncGetCourseName = async () => {
+    setCourseName(await GetCourseName(pageCourseID))
+  }
+  
+  // Update the courseName based on the page's course ID
+  useEffect(() => {
+    if (!courseName) {
+      asyncGetCourseName()
+    }
+  }, []);
+
   return (
     <Fragment>
+      <div>
+        {pageCourseID}
+        <br/>
+        {courseName}
+      </div>
       <FirebaseForm
         formType="userSignIn"
         collectionName="sign-ins"
