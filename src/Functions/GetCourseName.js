@@ -31,6 +31,13 @@ export const GetCourseName = async (courseID) => {
 
     // Get course name from the data
     const documentSnapshots = await getDocs(data);
+
+    // If course name doesn't exist, return an error message
+    if (!documentSnapshots.docs[0]) {
+      return "error"
+    }
+
     console.log("Course Name: ", documentSnapshots.docs[0].data().courseName)
+
     return documentSnapshots.docs[0].data().courseName
 }

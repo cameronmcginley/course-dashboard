@@ -43,29 +43,46 @@ const Attendance = () => {
 
   return (
     <Fragment>
-      <div>
-        Course ID: {pageCourseID}
-        <br/>
-        Course Name: {courseName}
-      </div>
 
-      {/* Wait for courseName before loading the form, else
-      an empty prop will be passed */}
-      {!courseName ? <>Loading...</> :
-          <FirebaseForm
-            formType="userSignIn"
-            collectionName="sign-ins"
-            userCourseFullStr={courseName + " (ID " + pageCourseID + ")"}
-        />
+      {courseName 
+      ? 
+        <>
+        {/* If courseName exists, check if it matches error message */}
+          {courseName != "error" 
+          ?
+            // If not, do...
+            <>
+              <div>
+                Course ID: {pageCourseID}
+                <br/>
+                Course Name: {courseName}
+              </div>
+
+              {/* Wait for courseName before loading the form, else
+              // // an empty prop will be passed */}
+                  <FirebaseForm
+                    formType="userSignIn"
+                    collectionName="sign-ins"
+                    userCourseFullStr={courseName + " (ID " + pageCourseID + ")"}
+                />
+
+              <FirebaseDataTable
+                type={"attendance"}
+                accessor={"sign-ins"}
+                sortKey={"sortKey"}
+                pageCourseID={pageCourseID}
+                daySortKeyLargest={daySortKeyLargest}
+              />
+            </>
+          :
+            <div>Error</div>
+          }
+        </>
+      :
+        // While courseName undefined....
+        <div>Loading</div>
       }
 
-      <FirebaseDataTable
-        type={"attendance"}
-        accessor={"sign-ins"}
-        sortKey={"sortKey"}
-        pageCourseID={pageCourseID}
-        daySortKeyLargest={daySortKeyLargest}
-      />
     </Fragment>
   );
 };
