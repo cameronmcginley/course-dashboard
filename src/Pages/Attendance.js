@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
 import {GetCourseName} from "../Functions/GetCourseName";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const Attendance = () => {
         </>
       :
         // While courseName undefined....
-        <div>Loading</div>
+        <CircularProgress />
       }
 
     </Fragment>
