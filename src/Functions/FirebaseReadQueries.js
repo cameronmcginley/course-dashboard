@@ -45,6 +45,25 @@ export const FirebaseReadQueries = async (data) => {
     );
   }
 
+  //CSV Queries
+  if (data.type === "CSV") {
+    const params = [
+      collection(db, "sign-ins"),
+      orderBy("sortKey"),
+      limit(10)
+    ]
+    if (data.searchCriteria.courseFullStr) {
+      params.push(where("courseFullStr", "==", data.searchCriteria.courseFullStr))
+    }
+    if (data.searchCriteria.userID) {
+      params.push(where("substrUserID", "array-contains", data.searchCriteria.userID))
+    }
+
+    return query(
+      ...params
+    );
+  }
+
 
   // Is first page
   if (data.type === "isFirstPage") {
@@ -82,7 +101,8 @@ export const FirebaseReadQueries = async (data) => {
       ...isLastPageParams
     );
   }
-
+  // DO THIS WITH ALL OTHER QUERIES, DON'T USE THE IF STATEMENTS
+  // CONVERT DAYSORTKEYLARGEST TO THE DATE QUERY METHOD WHEN THAT'S ADDED
 
 
   // If daySortKeyLargest exists, only search for one day's data

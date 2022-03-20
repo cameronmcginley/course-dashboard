@@ -21,6 +21,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import moment from "moment";
+import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 const headers = [
   { label: "User ID", key: "userID" },
@@ -44,41 +45,20 @@ class AsyncCSV extends Component {
     console.log(this.props);
     console.log(this.props.queries.userID);
 
-    // Makes unique query for earch search field
-    // Can only have one "in" per query, must make new query for each field
-    // https://firebase.google.com/docs/firestore/query-data/queries#compound_queries
-    if (this.props.queries.userID) {
-      console.log("Querying User ID");
-      var data = query(
-        collection(db, "sign-ins"),
-        where("substrUserID", "array-contains", this.props.queries.userID),
-        // orderBy("sortKey"),
-        limit(10)
-      );
 
-      // Get new list of docs for each query
-      // Get overlapping set if using multiple queries
-      var documentSnapshots = await getDocs(data);
+
+    const searchCriteria = {
+      courseFullStr: this.props.queries.courseFullStr,
+      userID: this.props.queries.userID
     }
-    // if (this.props.queries.courseName) {
 
-    // }
-    // if (this.props.queries.courseID) {
+    const data = await FirebaseReadQueries({
+      type: "CSV",
+      searchCriteria: searchCriteria,
+    });
 
-    // }
-    // // No props
-    if (
-      !this.props.queries.userID &&
-      !this.props.queries.courseName &&
-      !this.props.queries.courseID
-    ) {
-      var data = query(
-        collection(db, "sign-ins"),
-        orderBy("sortKey"),
-        limit(10)
-      );
-      var documentSnapshots = await getDocs(data);
-    }
+    var documentSnapshots = await getDocs(data);
+
 
     // Only maps specific data, and reformats timestamps
     let signinData = [];
