@@ -108,7 +108,17 @@ const FirebaseDataTableSearch = (props) => {
   // This function is called when user selects course from dropdown
   const getDropdownData = (data) => {
     console.log("Dropdown select", data)
-    setSearchCourseID("26")
+
+    // Get ID from the course string
+    // Format: "<course name> (ID <id>)"
+    let regExp = /\(([^)]+)\)/;
+    let idStr = regExp.exec(data.course); // idStr[1] == ID <id>
+    let id = idStr[1].split(' ')
+
+    console.log("Course ID: ", id[1]);
+    setSearchCourseID(
+      id[1]
+    )
   };
 
   return (
