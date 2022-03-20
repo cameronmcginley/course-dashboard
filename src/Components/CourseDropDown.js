@@ -38,7 +38,7 @@ const getCourseList = async () => {
   let courseList = [];
   documentSnapshots.forEach((doc) => {
     courseList.push({
-      course: doc.data().courseName + " " + "(ID " + doc.data().courseID + ")",
+      course: doc.data().courseFullStr,
     });
   });
 

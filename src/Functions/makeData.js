@@ -97,7 +97,7 @@ const getCourseList = async () => {
   // Only get course, give it a display name with name + id
   let courseList = [];
   documentSnapshots.forEach((doc) => {
-    courseList.push(doc.data().courseID)
+    courseList.push(doc.data().courseFullStr)
   });
 
   console.log(courseList);
@@ -113,12 +113,14 @@ function randomDate(start, end, startHour, endHour) {
 
 const makeData = async () => {
   let courseList = await getCourseList()
-
+  //let newUserCourseID = String(courseList[Math.floor(Math.random()*courseList.length)]), //Random from courselist IDs
+  
   for (let i = 0; i < 45; i++) {
+    console.log(courseList[Math.floor(Math.random()*courseList.length)])
     FirebaseWriteQueries({
       collectionName: "sign-ins",
       newUserID: namor.generate({ words: 1, numbers: 0 }),
-      newUserCourseID: String(courseList[Math.floor(Math.random()*courseList.length)]), //Random from courselist IDs
+      newCourseFullStr: courseList[Math.floor(Math.random()*courseList.length)],
       timestamp: randomDate(new Date(2020, 0, 1), new Date(), 0, 24),
     });
 

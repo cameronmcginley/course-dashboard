@@ -116,6 +116,7 @@ const FirebaseInputForm = (props) => {
         newCourseID: newCourseID,
         newUserID: newUserID,
         newUserCourseID: newUserCourseID,
+        // newCourseFullStr: newCourseFullStr, //ADD THIS
       });
 
       // Empty the inputs

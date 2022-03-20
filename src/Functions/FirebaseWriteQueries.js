@@ -20,6 +20,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
+import SplitCourseFullStr from "../Functions/SplitCourseFullStr"
 
 // Convert text to array of all possible substrings
 // Necessary for filtering, as firebase doesn't allow to search for substrings
@@ -73,7 +74,7 @@ export const FirebaseWriteQueries = (data) => {
 
   if (data.collectionName === "courses") {
     const newCourseFullStr = data.newCourseName + " " + "(ID " + data.newCourseID + ")"
-    
+
     addDoc(collection(db, data.collectionName), {
       courseID: data.newCourseID,
       courseName: data.newCourseName,
@@ -87,14 +88,12 @@ export const FirebaseWriteQueries = (data) => {
   }
 
   if (data.collectionName === "sign-ins") {
-    // Split full course string into name and ID
-    // data.newCourseFull
-
+    let courseArray = SplitCourseFullStr(data.newCourseFullStr)
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,
-      courseName: "temp",
-      courseID: data.newUserCourseID,
-      courseFullStr: "temp",
+      courseName: courseArray[0],
+      courseID: courseArray[1],
+      courseFullStr: data.newCourseFullStr,
       timestampLogged: logTime,
       lastModified: logTime,
       sortKey: 9999999999999 - logTime,
@@ -103,8 +102,8 @@ export const FirebaseWriteQueries = (data) => {
       // Firebase doesn't allow querying "string contains"
       // Add an array of all char combinations so we can search them later
       substrUserID: createSubstringArray(data.newUserID),
-      substrCourseName: createSubstringArray("temp"),
-      substrCourseID: createSubstringArray(data.newUserCourseID),
+      substrCourseName: createSubstringArray(courseArray[0]),
+      substrCourseID: createSubstringArray(courseArray[1]),
     });
   }
 };

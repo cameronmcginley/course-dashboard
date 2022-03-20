@@ -35,6 +35,7 @@ import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
 import CourseDropDown from "./CourseDropDown";
+import SplitCourseFullStr from "../Functions/SplitCourseFullStr"
 
 
 const FirebaseDataTableSearch = (props) => {
@@ -109,16 +110,11 @@ const FirebaseDataTableSearch = (props) => {
   const getDropdownData = (data) => {
     console.log("Dropdown select", data)
 
-    // Get ID from the course string
-    // Format: "<course name> (ID <id>)"
-    let regExp = /\(([^)]+)\)/;
-    let idStr = regExp.exec(data.course); // idStr[1] == ID <id>
-    let id = idStr[1].split(' ')
-
-    console.log("Course ID: ", id[1]);
-    setSearchCourseID(
-      id[1]
-    )
+    // Func returns ["courseName", "id"]
+    console.log(data.course)
+    let courseSelection = SplitCourseFullStr(data.course)
+ 
+    setSearchCourseID(courseSelection[1])
   };
 
   return (
