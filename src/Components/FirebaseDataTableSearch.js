@@ -139,32 +139,6 @@ const FirebaseDataTableSearch = (props) => {
 
           <CourseDropDown selectedCourse={getDropdownData}/>
 
-          {/* <br />
-
-          <FormControl>
-            <InputLabel htmlFor="firebase-form-userid">Date</InputLabel>
-            <OutlinedInput
-              required
-              id="firebase-form-userid"
-              value={newUserID}
-              onChange={(e) => setNewUserID(e.target.value)}
-              label="User ID"
-            />
-          </FormControl> */}
-
-          <br />
-{/* 
-          <FormControl>
-            <InputLabel htmlFor="firebase-form-userid">Archival Status</InputLabel>
-            <OutlinedInput
-              required
-              id="firebase-form-userid"
-              // value={newUserID}
-              onChange={(e) => setSearchArchived(e.target.value)}
-              label="User ID"
-            />
-          </FormControl> */}
-
           <br />
 
           {blockingError[0] && (

@@ -53,7 +53,7 @@ export const FirebaseReadQueries = async (data) => {
           collection(db, data.collectionName),
           where(data.sortKey, "<", data.daySortKeyLargest),
           // Requires index on firebase for multi query
-          where("courseID", "==", Number(data.courseID)),
+          where("courseID", "==", data.courseID),
           orderBy(data.sortKey),
           startAt(data.firstVisibleDoc),
           limit(10)
@@ -62,7 +62,7 @@ export const FirebaseReadQueries = async (data) => {
         return query(
           collection(db, data.collectionName),
           where(data.sortKey, "<", data.daySortKeyLargest),
-          where("courseID", "==", Number(data.courseID)),
+          where("courseID", "==", data.courseID),
           orderBy(data.sortKey),
           startAfter(data.lastVisibleDoc),
           limit(10)
@@ -71,7 +71,7 @@ export const FirebaseReadQueries = async (data) => {
         return query(
           collection(db, data.collectionName),
           where(data.sortKey, "<", data.daySortKeyLargest),
-          where("courseID", "==", Number(data.courseID)),
+          where("courseID", "==", data.courseID),
           orderBy(data.sortKey),
           endBefore(data.firstVisibleDoc),
           limitToLast(11)

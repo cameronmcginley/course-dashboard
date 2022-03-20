@@ -465,9 +465,10 @@ function FirebaseDataTable(props) {
       // Given by the search component
       searchCriteria: searchCriteria,
     });
-
+    
     // Update page
     const documentSnapshots = await getDocs(data);
+
     setData(
       documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
