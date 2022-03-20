@@ -118,7 +118,7 @@ const FirebaseDataTableSearch = (props) => {
     setSearchCourseID(courseSelection[1])
   };
 
-  let queries = {
+  let csvQueries = {
     searchUserID: searchUserID,
     searchCourseID: searchCourseID,
   }
@@ -176,7 +176,7 @@ const FirebaseDataTableSearch = (props) => {
           // Only doesn't have submit if its for CSV
           // Uses seperate queries obj, since searchCriteria only made 
           // by submit button
-          <AsyncCSV queries={queries} />
+          <AsyncCSV queries={csvQueries} />
           }
 
         </Fragment>
