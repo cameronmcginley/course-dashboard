@@ -128,13 +128,12 @@ const TableHeaders = (props) => {
           accessor: (d) => {
             return (
               <Fragment>
-                <QRCode value={d.courseID.toString()} />
+                <QRCode value={d.courseFullStr.toString()} />
 
                 {/* Pass props to this component, which handles
                             the ReactToPrint and QRReport references */}
                 <PrintQRReport
-                  value={d.courseID.toString()}
-                  coursename={d.courseName}
+                  value={d.courseFullStr.toString()}
                 />
               </Fragment>
             );

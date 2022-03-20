@@ -9,9 +9,7 @@ const SplitCourseFullStr = (courseFullStr) => {
     let id = idStr[1].split(' ')
 
     // Replaces everything between and including the parans
-    console.log(courseFullStr)
     let name = courseFullStr.replace(/ *\([^)]*\) */g, "")
-    console.log(name)
     name = name.trim()
 
     return [name, id[1]]

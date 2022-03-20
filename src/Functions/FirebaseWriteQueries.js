@@ -88,6 +88,7 @@ export const FirebaseWriteQueries = (data) => {
   if (data.collectionName === "sign-ins") {
     let courseArray = SplitCourseFullStr(data.newCourseFullStr)
     console.log("Write course data: ", courseArray)
+    
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,
       courseName: courseArray[0],
@@ -100,9 +101,10 @@ export const FirebaseWriteQueries = (data) => {
 
       // Firebase doesn't allow querying "string contains"
       // Add an array of all char combinations so we can search them later
+      // Other fields, like course name and ID, we will search by exact match
       substrUserID: createSubstringArray(data.newUserID),
-      substrCourseName: createSubstringArray(courseArray[0]),
-      substrCourseID: createSubstringArray(courseArray[1]),
+      // substrCourseName: createSubstringArray(courseArray[0]),
+      // substrCourseID: createSubstringArray(courseArray[1]),
     });
   }
 };
