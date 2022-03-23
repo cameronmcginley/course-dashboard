@@ -36,12 +36,8 @@ const FirebaseDataTableSearch = (props) => {
     const [searchUserID, setSearchUserID] = useState("");
     const [searchCourseName, setSearchCourseName] = useState("");
     const [searchCourseID, setSearchCourseID] = useState("");
-    const [searchDateStart, setSearchDateStart] = useState("");
-    const [searchDateEnd, setSearchDateEnd] = useState("");
-    // const [searchDateDay, setSearchDateDay] = useState("");
     const [searchArchived, setSearchArchived] = useState("");
-
-
+    const [showDateSelect, setShowDateSelect] = useState(false);
     const [dateRange, setDateRange] = useState([
       {
         startDate: subDays(new Date(), 6),
@@ -133,46 +129,55 @@ const FirebaseDataTableSearch = (props) => {
 
           <br />
 
-
-          <DateRangePicker
-            onChange={item => setDateRange([item.selection])}
-            showSelectionPreview={true}
-            moveRangeOnFirstSelection={false}
-            months={1}
-            ranges={dateRange}
-            direction="horizontal"
-            staticRanges={[
-              ...defaultStaticRanges,
-              {
-                label: "This Year",
-                range: () => ({
-                  startDate: startOfYear(new Date()),
-                  endDate: endOfDay(new Date())
-                }),
-                isSelected(range) {
-                  const definedRange = this.range();
-                  return (
-                    isSameDay(range.startDate, definedRange.startDate) &&
-                    isSameDay(range.endDate, definedRange.endDate)
-                  );
+          {/* Show the calendar when user selects */}
+          {!showDateSelect 
+          ? 
+            <Button 
+              variant="outlined"
+              onClick={() => setShowDateSelect(true)}>
+            Text
+            </Button>
+          :
+            <DateRangePicker
+              onChange={item => setDateRange([item.selection])}
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
+              months={1}
+              ranges={dateRange}
+              direction="horizontal"
+              staticRanges={[
+                ...defaultStaticRanges,
+                {
+                  label: "This Year",
+                  range: () => ({
+                    startDate: startOfYear(new Date()),
+                    endDate: endOfDay(new Date())
+                  }),
+                  isSelected(range) {
+                    const definedRange = this.range();
+                    return (
+                      isSameDay(range.startDate, definedRange.startDate) &&
+                      isSameDay(range.endDate, definedRange.endDate)
+                    );
+                  }
+                },
+                {
+                  label: "Last Year",
+                  range: () => ({
+                    startDate: startOfYear(addYears(new Date(), -1)),
+                    endDate: endOfYear(addYears(new Date(), -1))
+                  }),
+                  isSelected(range) {
+                    const definedRange = this.range();
+                    return (
+                      isSameDay(range.startDate, definedRange.startDate) &&
+                      isSameDay(range.endDate, definedRange.endDate)
+                    );
+                  }
                 }
-              },
-              {
-                label: "Last Year",
-                range: () => ({
-                  startDate: startOfYear(addYears(new Date(), -1)),
-                  endDate: endOfYear(addYears(new Date(), -1))
-                }),
-                isSelected(range) {
-                  const definedRange = this.range();
-                  return (
-                    isSameDay(range.startDate, definedRange.startDate) &&
-                    isSameDay(range.endDate, definedRange.endDate)
-                  );
-                }
-              }
-            ]}
-          />;
+              ]}
+            />
+          }
 
           <br />
 
