@@ -141,7 +141,37 @@ const FirebaseDataTableSearch = (props) => {
             months={1}
             ranges={dateRange}
             direction="horizontal"
-
+            staticRanges={[
+              ...defaultStaticRanges,
+              {
+                label: "This Year",
+                range: () => ({
+                  startDate: startOfYear(new Date()),
+                  endDate: endOfDay(new Date())
+                }),
+                isSelected(range) {
+                  const definedRange = this.range();
+                  return (
+                    isSameDay(range.startDate, definedRange.startDate) &&
+                    isSameDay(range.endDate, definedRange.endDate)
+                  );
+                }
+              },
+              {
+                label: "Last Year",
+                range: () => ({
+                  startDate: startOfYear(addYears(new Date(), -1)),
+                  endDate: endOfYear(addYears(new Date(), -1))
+                }),
+                isSelected(range) {
+                  const definedRange = this.range();
+                  return (
+                    isSameDay(range.startDate, definedRange.startDate) &&
+                    isSameDay(range.endDate, definedRange.endDate)
+                  );
+                }
+              }
+            ]}
           />;
 
           <br />
