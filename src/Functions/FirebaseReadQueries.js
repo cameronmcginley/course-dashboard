@@ -52,9 +52,9 @@ export const FirebaseReadQueries = async (data) => {
       orderBy("sortKey"),
       limit(10)
     ]
-    if (data.searchCriteria.courseFullStr) {
-      params.push(where("courseFullStr", "==", data.searchCriteria.courseFullStr))
-    }
+    // if (data.searchCriteria.courseFullStr) {
+    //   params.push(where("courseFullStr", "==", data.searchCriteria.courseFullStr))
+    // }
     if (data.searchCriteria.courseID) {
       params.push(where("courseID", "==", data.searchCriteria.courseID))
     }
@@ -70,7 +70,7 @@ export const FirebaseReadQueries = async (data) => {
 
   // Is first page
   if (data.type === "isFirstPage") {
-    const isFirstPageParams = [
+    const params = [
       collection(db, data.collectionName),
       orderBy(data.sortKey),
       endBefore(data.firstVisibleDoc),
@@ -78,18 +78,18 @@ export const FirebaseReadQueries = async (data) => {
       limit(1)
     ]
     if (data.searchCriteria.searchCourseID) {
-      isFirstPageParams.push(where("courseID", "==", data.searchCriteria.searchCourseID))
+      params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
 
     return query(
-      ...isFirstPageParams
+      ...params
     );
   }
 
 
   // Is last page
   if (data.type === "isLastPage") {
-    const isLastPageParams = [
+    const params = [
       collection(db, data.collectionName),
       orderBy(data.sortKey),
       startAfter(data.lastVisibleDoc),
@@ -97,11 +97,11 @@ export const FirebaseReadQueries = async (data) => {
       where("substrUserID", "array-contains", data.searchCriteria.searchUserID)
     ]
     if (data.searchCriteria.searchCourseID) {
-      isLastPageParams.push(where("courseID", "==", data.searchCriteria.searchCourseID))
+      params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
 
     return query(
-      ...isLastPageParams
+      ...params
     );
   }
   // DO THIS WITH ALL OTHER QUERIES, DON'T USE THE IF STATEMENTS

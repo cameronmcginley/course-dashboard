@@ -1,23 +1,4 @@
 import React, { Component, useState, useEffect, Fragment } from "react";
-import { db, auth } from "../firebase-config";
-import {
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-  getDocs,
-} from "firebase/firestore";
 import {
   FormControl,
   FormLabel,
@@ -31,13 +12,15 @@ import {
   Button,
 } from "@mui/material";
 import "../App.css";
-import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
-import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
 import CourseDropDown from "./CourseDropDown";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr"
 import AsyncCSV from "./AsyncCSV";
 
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import { DateRangePicker, defaultStaticRanges  } from 'react-date-range';
+import { subDays, startOfYear, addYears, endOfYear, isSameDay, endOfDay } from 'date-fns';
 
 const FirebaseDataTableSearch = (props) => {
     // Styling
@@ -48,14 +31,6 @@ const FirebaseDataTableSearch = (props) => {
       false,
       "Default Error Message",
     ]);
-  
-    // //userSignIn
-    // const [newUserID, setNewUserID] = useState(props.userID);
-    // const [newUserCourseID, setNewUserCourseID] = useState(props.userCourseID);
-  
-    // //courseEntry
-    // const [newCourseName, setNewCourseName] = useState(props.courseName);
-    // const [newCourseID, setNewCourseID] = useState(props.courseID);
 
     // All possible searches
     const [searchUserID, setSearchUserID] = useState("");
@@ -63,8 +38,18 @@ const FirebaseDataTableSearch = (props) => {
     const [searchCourseID, setSearchCourseID] = useState("");
     const [searchDateStart, setSearchDateStart] = useState("");
     const [searchDateEnd, setSearchDateEnd] = useState("");
-    const [searchDateDay, setSearchDateDay] = useState("");
+    // const [searchDateDay, setSearchDateDay] = useState("");
     const [searchArchived, setSearchArchived] = useState("");
+
+
+    const [dateRange, setDateRange] = useState([
+      {
+        startDate: subDays(new Date(), 6),
+        endDate: new Date(),
+        key: 'selection'
+      }
+    ]);
+    
   
     const buttonClickSuccess = () => {
       setSubmitBtnColor("success");
@@ -93,7 +78,8 @@ const FirebaseDataTableSearch = (props) => {
       e.preventDefault();
 
       console.log("Search by", searchUserID, searchCourseName, searchCourseID, searchArchived)
-      console.log(Boolean(searchArchived))
+      // console.log(Boolean(searchArchived))
+      console.log("Date range picked: ", dateRange)
 
       // On success
       if (true) {
@@ -144,6 +130,19 @@ const FirebaseDataTableSearch = (props) => {
           <br />
 
           <CourseDropDown selectedCourse={getDropdownData}/>
+
+          <br />
+
+
+          <DateRangePicker
+            onChange={item => setDateRange([item.selection])}
+            showSelectionPreview={true}
+            moveRangeOnFirstSelection={false}
+            months={1}
+            ranges={dateRange}
+            direction="horizontal"
+
+          />;
 
           <br />
 
