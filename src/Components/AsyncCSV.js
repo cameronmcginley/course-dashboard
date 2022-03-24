@@ -71,7 +71,9 @@ export default function AsyncCSV(props) {
     const searchCriteria = {
       // courseFullStr: this.props.queries.courseFullStr,
       courseID: props.queries.searchCourseID,
-      userID: props.queries.searchUserID
+      userID: props.queries.searchUserID,
+      startDate: props.queries.startDate,
+      endDate: props.queries.endDate
     }
 
     const data = await FirebaseReadQueries({

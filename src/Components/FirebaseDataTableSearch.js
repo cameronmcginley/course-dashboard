@@ -69,6 +69,7 @@ const FirebaseDataTableSearch = (props) => {
       }, 2000);
     };
   
+    // Doesn't include the csv form
     const handleSubmit = async (e) => {
       // Prevent auto refresh when recieving event
       e.preventDefault();
@@ -81,10 +82,11 @@ const FirebaseDataTableSearch = (props) => {
       if (true) {
         buttonClickSuccess();
         setBlockingError([false, ""]); //Clear error if it's there
-
         props.searchCriteria({
           searchUserID: searchUserID,
           searchCourseID: searchCourseID,
+          startDate: dateRange[0].startDate,
+          endDate: dateRange[0].endDate
         })
       } 
     };
@@ -103,6 +105,8 @@ const FirebaseDataTableSearch = (props) => {
   let csvQueries = {
     searchUserID: searchUserID,
     searchCourseID: searchCourseID,
+    startDate: dateRange[0].startDate,
+    endDate: dateRange[0].endDate
   }
 
   return (
@@ -135,7 +139,7 @@ const FirebaseDataTableSearch = (props) => {
             <Button 
               variant="outlined"
               onClick={() => setShowDateSelect(true)}>
-            Text
+            Select Date Range
             </Button>
           :
             <DateRangePicker

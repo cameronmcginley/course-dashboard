@@ -21,6 +21,7 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr"
+import getSortKey from "./getSortKey";
 
 // Convert text to array of all possible substrings
 // Necessary for filtering, as firebase doesn't allow to search for substrings
@@ -96,7 +97,7 @@ export const FirebaseWriteQueries = (data) => {
       courseFullStr: data.newCourseFullStr,
       timestampLogged: logTime,
       lastModified: logTime,
-      sortKey: 9999999999999 - logTime,
+      sortKey: getSortKey(logTime),
       isArchived: false,
 
       // Firebase doesn't allow querying "string contains"

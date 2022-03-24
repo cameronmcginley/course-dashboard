@@ -18,6 +18,8 @@ import {
   where,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
+import { endOfDay } from 'date-fns';
+import getSortKey from "./getSortKey";
 
 export const FirebaseReadQueries = async (data) => {
   console.log("Firebase Read");
@@ -52,14 +54,20 @@ export const FirebaseReadQueries = async (data) => {
       orderBy("sortKey"),
       limit(10)
     ]
-    // if (data.searchCriteria.courseFullStr) {
-    //   params.push(where("courseFullStr", "==", data.searchCriteria.courseFullStr))
-    // }
     if (data.searchCriteria.courseID) {
       params.push(where("courseID", "==", data.searchCriteria.courseID))
     }
     if (data.searchCriteria.userID) {
       params.push(where("substrUserID", "array-contains", data.searchCriteria.userID))
+    }
+    if (data.searchCriteria.startDate) {
+      // Convert the start and end dates to sortKey format
+      // endDate must be set to last second of the day
+      const startDateKey = getSortKey(data.searchCriteria.startDate)
+      const endDateKey = getSortKey(endOfDay(data.searchCriteria.endDate))
+
+      params.push(where("sortKey", "<=", startDateKey))
+      params.push(where("sortKey", ">=", endDateKey))
     }
 
     return query(
