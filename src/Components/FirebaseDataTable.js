@@ -253,7 +253,7 @@ function Table({
                     </span>
                   </div>
                   {/* Render the columns filter UI */}
-                  <div>{column.canFilter ? column.render("Filter") : null}</div>
+                  {/* <div>{column.canFilter ? column.render("Filter") : null}</div> */}
                 </th>
               ))}
             </tr>
@@ -402,10 +402,6 @@ function FirebaseDataTable(props) {
   const [isFirstPage, setIsFirstPage] = React.useState(null);
   const [isLastPage, setIsLastPage] = React.useState(null);
 
-  // MUST MAKE THESE GO TO FirebaseReadQueries SO IT CAN USE THE
-  // SEARCHCRITERIA
-  // Maybe add var for storing how many to query? Can be 11 if prev, 10
-  // if next/refresh, 1 if page check?
   const isFirstPageFunc = async (pageZero) => {
     if (!pageZero) {
       setIsFirstPage(true);
@@ -422,10 +418,12 @@ function FirebaseDataTable(props) {
 
       // Returns false if page exists, otherwise true
       setIsFirstPage(!documentSnapshots.docs[0]);
+      console.log(documentSnapshots.docs[0])
     }
   };
 
   const isLastPageFunc = async (pageLast) => {
+    console.log(pageLast)
     if (!pageLast) {
       setIsLastPage(true);
     } else {
@@ -441,6 +439,7 @@ function FirebaseDataTable(props) {
 
       // Returns false if page exists, otherwise true
       setIsLastPage(!documentSnapshots.docs[0]);
+      console.log(documentSnapshots.docs[0])
     }
   };
 

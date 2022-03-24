@@ -81,9 +81,13 @@ export const FirebaseReadQueries = async (data) => {
       collection(db, data.collectionName),
       orderBy(data.sortKey),
       endBefore(data.firstVisibleDoc),
-      where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
       limit(1)
     ]
+
+    // Optional Queries
+    if (data.searchCriteria.searchUserID) {
+      params.push(where("substrUserID", "array-contains", data.searchCriteria.searchUserID))
+    }
     if (data.searchCriteria.searchCourseID) {
       params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
@@ -107,8 +111,12 @@ export const FirebaseReadQueries = async (data) => {
       orderBy(data.sortKey),
       startAfter(data.lastVisibleDoc),
       limit(1),
-      where("substrUserID", "array-contains", data.searchCriteria.searchUserID)
     ]
+
+    // Optional Queries
+    if (data.searchCriteria.searchUserID) {
+      params.push(where("substrUserID", "array-contains", data.searchCriteria.searchUserID))
+    }
     if (data.searchCriteria.searchCourseID) {
       params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
@@ -128,8 +136,6 @@ export const FirebaseReadQueries = async (data) => {
   // CONVERT DAYSORTKEYLARGEST TO THE DATE QUERY METHOD WHEN THAT'S ADDED
 
   if (data.collectionName === "sign-ins") {
-    console.log(data.firstVisibleDoc)
-    console.log(data.lastVisibleDoc)
     const params = [
       collection(db, data.collectionName),
       where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
@@ -175,6 +181,7 @@ export const FirebaseReadQueries = async (data) => {
   }
 
   if (data.collectionName === "courses") {
+    console.log("Courses read")
     const params = [
       collection(db, data.collectionName),
       orderBy(data.sortKey),
