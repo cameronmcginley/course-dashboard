@@ -453,10 +453,10 @@ function FirebaseDataTable(props) {
     console.log(searchCriteria)
 
     const data = await FirebaseReadQueries({
-      type: null, // Specific id for queries
+      type: props.type, // Specific id for queries
       collectionName: props.accessor,
       getSigninDataType: getSigninDataType, //type of request, e.g. next page, previous page, or refresh
-      daySortKeyLargest: props.daySortKeyLargest, //if defined, then only request past day's data
+      // daySortKeyLargest: props.daySortKeyLargest, //if defined, then only request past day's data
       sortKey: props.sortKey, //field to sort by
       firstVisibleDoc: firstVisibleDoc, //first doc currently shown in table
       lastVisibleDoc: lastVisibleDoc, //last doc currently shown in table

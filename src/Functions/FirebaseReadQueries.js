@@ -18,7 +18,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
-import { endOfDay } from 'date-fns';
+import { endOfDay, startOfDay } from 'date-fns';
 import getSortKey from "./getSortKey";
 
 export const FirebaseReadQueries = async (data) => {
@@ -64,7 +64,7 @@ export const FirebaseReadQueries = async (data) => {
       // Convert the start and end dates to sortKey format
       // endDate must be set to last second of the day
       const startDateKey = getSortKey(data.searchCriteria.startDate)
-      const endDateKey = getSortKey(endOfDay(data.searchCriteria.endDate))
+      const endDateKey = getSortKey(data.searchCriteria.endDate)
 
       params.push(where("sortKey", "<=", startDateKey))
       params.push(where("sortKey", ">=", endDateKey))
@@ -74,7 +74,6 @@ export const FirebaseReadQueries = async (data) => {
       ...params
     );
   }
-
 
   // Is first page
   if (data.type === "isFirstPage") {
@@ -88,12 +87,18 @@ export const FirebaseReadQueries = async (data) => {
     if (data.searchCriteria.searchCourseID) {
       params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
+    if (data.searchCriteria.startDate) {
+      const startDateKey = getSortKey(data.searchCriteria.startDate)
+      const endDateKey = getSortKey(data.searchCriteria.endDate)
+
+      params.push(where("sortKey", "<=", startDateKey))
+      params.push(where("sortKey", ">=", endDateKey))
+    }
 
     return query(
       ...params
     );
   }
-
 
   // Is last page
   if (data.type === "isLastPage") {
@@ -107,6 +112,13 @@ export const FirebaseReadQueries = async (data) => {
     if (data.searchCriteria.searchCourseID) {
       params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
+    if (data.searchCriteria.startDate) {
+      const startDateKey = getSortKey(data.searchCriteria.startDate)
+      const endDateKey = getSortKey(data.searchCriteria.endDate)
+
+      params.push(where("sortKey", "<=", startDateKey))
+      params.push(where("sortKey", ">=", endDateKey))
+    }
 
     return query(
       ...params
@@ -115,131 +127,74 @@ export const FirebaseReadQueries = async (data) => {
   // DO THIS WITH ALL OTHER QUERIES, DON'T USE THE IF STATEMENTS
   // CONVERT DAYSORTKEYLARGEST TO THE DATE QUERY METHOD WHEN THAT'S ADDED
 
-
-  // If daySortKeyLargest exists, only search for one day's data
   if (data.collectionName === "sign-ins") {
-    if (data.daySortKeyLargest) {
-      if (data.getSigninDataType === "refresh") {
-        return query(
-          collection(db, data.collectionName),
-          where(data.sortKey, "<", data.daySortKeyLargest),
-          // Requires index on firebase for multi query
-          where("courseID", "==", data.courseID),
-          orderBy(data.sortKey),
-          startAt(data.firstVisibleDoc),
-          limit(10)
-        );
-      } else if (data.getSigninDataType === "next") {
-        return query(
-          collection(db, data.collectionName),
-          where(data.sortKey, "<", data.daySortKeyLargest),
-          where("courseID", "==", data.courseID),
-          orderBy(data.sortKey),
-          startAfter(data.lastVisibleDoc),
-          limit(10)
-        );
-      } else if (data.getSigninDataType === "previous") {
-        return query(
-          collection(db, data.collectionName),
-          where(data.sortKey, "<", data.daySortKeyLargest),
-          where("courseID", "==", data.courseID),
-          orderBy(data.sortKey),
-          endBefore(data.firstVisibleDoc),
-          limitToLast(11)
-        );
-      }
-    } 
-    else {
-      // Can only have one array-contains per query
-      // But can have many "=="
-      // This finds a way to only use userID for searching by string,
-      // everything else can be done exact through dropdowns of specific options
-      // when searching
+    const params = [
+      collection(db, data.collectionName),
+      where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
+      orderBy(data.sortKey),
+    ]
 
-      // Search includes course ID
-      if (data.searchCriteria.searchCourseID) {
-        if (data.getSigninDataType === "refresh") {
-          return query(
-            collection(db, data.collectionName),
-            where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-            where("courseID", "==", data.searchCriteria.searchCourseID),
-            orderBy(data.sortKey),
-            startAt(data.firstVisibleDoc),
-            limit(10)
-          );
-        } else if (data.getSigninDataType === "next") {
-          return query(
-            collection(db, data.collectionName),
-            where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-            where("courseID", "==", data.searchCriteria.searchCourseID),
-            orderBy(data.sortKey),
-            startAfter(data.lastVisibleDoc),
-            limit(10)
-          );
-        } else if (data.getSigninDataType === "previous") {
-          return query(
-            collection(db, data.collectionName),
-            where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-            where("courseID", "==", data.searchCriteria.searchCourseID),
-            orderBy(data.sortKey),
-            endBefore(data.firstVisibleDoc),
-            limitToLast(11)
-          );
-        }
-      }
-      // Search does not include course ID
-      else {
-        if (data.getSigninDataType === "refresh") {
-          return query(
-            collection(db, data.collectionName),
-            where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-            orderBy(data.sortKey),
-            startAt(data.firstVisibleDoc),
-            limit(10)
-          );
-        } else if (data.getSigninDataType === "next") {
-          return query(
-            collection(db, data.collectionName),
-            where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-            orderBy(data.sortKey),
-            startAfter(data.lastVisibleDoc),
-            limit(10)
-          );
-        } else if (data.getSigninDataType === "previous") {
-          return query(
-            collection(db, data.collectionName),
-            where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
-            orderBy(data.sortKey),
-            endBefore(data.firstVisibleDoc),
-            limitToLast(11)
-          );
-        }
-      }
-    }
-  }
-  else if (data.collectionName === "courses"){
+    // Type
     if (data.getSigninDataType === "refresh") {
-      return query(
-        collection(db, data.collectionName),
-        orderBy(data.sortKey),
-        startAt(data.firstVisibleDoc),
-        limit(10)
-      );
-    } else if (data.getSigninDataType === "next") {
-      return query(
-        collection(db, data.collectionName),
-        orderBy(data.sortKey),
-        startAfter(data.lastVisibleDoc),
-        limit(10)
-      );
-    } else if (data.getSigninDataType === "previous") {
-      return query(
-        collection(db, data.collectionName),
-        orderBy(data.sortKey),
-        endBefore(data.firstVisibleDoc),
-        limitToLast(11)
-      );
+      params.push(startAt(data.firstVisibleDoc))
+      params.push(limit(10))
     }
+    if (data.getSigninDataType === "next") {
+      params.push(startAfter(data.lastVisibleDoc))
+      params.push(limit(10))
+    }
+    if (data.getSigninDataType === "previous") {
+      params.push(endBefore(data.firstVisibleDoc))
+      params.push(limit(11))
+    }
+
+    // Optional Queries
+    if (data.searchCriteria.searchCourseID) {
+      params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
+    }
+    if (data.searchCriteria.startDate) {
+      const startDateKey = getSortKey(data.searchCriteria.startDate)
+      const endDateKey = getSortKey(data.searchCriteria.endDate)
+
+      params.push(where("sortKey", "<=", startDateKey))
+      params.push(where("sortKey", ">=", endDateKey))
+    }
+    if (data.type === "attendance") {
+      const startDateKey = getSortKey(startOfDay(new Date()))
+      const endDateKey = getSortKey(endOfDay(new Date()))
+
+      params.push(where("sortKey", "<=", startDateKey))
+      params.push(where("sortKey", ">=", endDateKey))
+    }
+
+    return query(
+      ...params
+    );
+  }
+
+  if (data.collectionName === "courses") {
+    const params = [
+      collection(db, data.collectionName),
+      orderBy(data.sortKey),
+    ]
+
+    // Type
+    if (data.getSigninDataType === "refresh") {
+      params.push(startAt(data.firstVisibleDoc))
+      params.push(limit(10))
+    }
+    if (data.getSigninDataType === "next") {
+      params.push(startAfter(data.lastVisibleDoc))
+      params.push(limit(10))
+    }
+    if (data.getSigninDataType === "previous") {
+      params.push(endBefore(data.firstVisibleDoc))
+      params.push(limit(11))
+    }
+
+    return query(
+      ...params
+    );
   }
 
 };

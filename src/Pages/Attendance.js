@@ -25,8 +25,8 @@ const Attendance = () => {
   const { pageCourseID } = useParams();
 
   // Get the sort key given at start of day
-  const daySortKeyLargest = 9999999999999 - new Date().setHours(0, 0, 0, 0);
-  console.log(daySortKeyLargest);
+  // const daySortKeyLargest = 9999999999999 - new Date().setHours(0, 0, 0, 0);
+  // console.log(daySortKeyLargest);
 
   // Was having issues with the async return, kind of a werid
   // fix to have this function just call a function, but it works
@@ -34,7 +34,7 @@ const Attendance = () => {
   const asyncGetCourseName = async () => {
     setCourseName(await GetCourseName(pageCourseID))
   }
-  
+
   // Update the courseName based on the page's course ID
   useEffect(() => {
     if (!courseName) {
@@ -72,7 +72,7 @@ const Attendance = () => {
                 accessor={"sign-ins"}
                 sortKey={"sortKey"}
                 pageCourseID={pageCourseID}
-                daySortKeyLargest={daySortKeyLargest}
+                // daySortKeyLargest={daySortKeyLargest}
               />
             </>
           :

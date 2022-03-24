@@ -86,7 +86,7 @@ const FirebaseDataTableSearch = (props) => {
           searchUserID: searchUserID,
           searchCourseID: searchCourseID,
           startDate: dateRange[0].startDate,
-          endDate: dateRange[0].endDate
+          endDate: endOfDay(dateRange[0].endDate)
         })
       } 
     };
@@ -106,7 +106,7 @@ const FirebaseDataTableSearch = (props) => {
     searchUserID: searchUserID,
     searchCourseID: searchCourseID,
     startDate: dateRange[0].startDate,
-    endDate: dateRange[0].endDate
+    endDate: endOfDay(dateRange[0].endDate)
   }
 
   return (
