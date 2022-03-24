@@ -128,6 +128,8 @@ export const FirebaseReadQueries = async (data) => {
   // CONVERT DAYSORTKEYLARGEST TO THE DATE QUERY METHOD WHEN THAT'S ADDED
 
   if (data.collectionName === "sign-ins") {
+    console.log(data.firstVisibleDoc)
+    console.log(data.lastVisibleDoc)
     const params = [
       collection(db, data.collectionName),
       where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
@@ -145,7 +147,7 @@ export const FirebaseReadQueries = async (data) => {
     }
     if (data.getSigninDataType === "previous") {
       params.push(endBefore(data.firstVisibleDoc))
-      params.push(limit(11))
+      params.push(limitToLast(11))
     }
 
     // Optional Queries
@@ -189,7 +191,7 @@ export const FirebaseReadQueries = async (data) => {
     }
     if (data.getSigninDataType === "previous") {
       params.push(endBefore(data.firstVisibleDoc))
-      params.push(limit(11))
+      params.push(limitToLast(11))
     }
 
     return query(
