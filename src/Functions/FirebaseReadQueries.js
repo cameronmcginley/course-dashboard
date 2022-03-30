@@ -22,12 +22,11 @@ import { endOfDay, startOfDay } from 'date-fns';
 import getSortKey from "./getSortKey";
 
 export const FirebaseReadQueries = async (data) => {
-  console.log("Firebase Read");
-
-  if (data.searchCriteria) {
-    console.log("Search Criteria: ", data.searchCriteria)
-
-  }
+  console.log(
+    "Firebase Read", 
+    "\nSearch Critera: ", data.searchCriteria,
+    "\nType: ", data.type,
+  );
 
   if (data.type === "getCourseName") {
     return query(

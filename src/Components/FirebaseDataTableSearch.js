@@ -10,6 +10,7 @@ import {
   Alert,
   OutlinedInput,
   Button,
+  Checkbox,
 } from "@mui/material";
 import "../App.css";
 import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
@@ -36,12 +37,12 @@ const FirebaseDataTableSearch = (props) => {
     const [searchUserID, setSearchUserID] = useState("");
     const [searchCourseName, setSearchCourseName] = useState("");
     const [searchCourseID, setSearchCourseID] = useState("");
-    const [searchArchived, setSearchArchived] = useState("");
+    const [searchArchived, setSearchArchived] = useState(false);
     const [showDateSelect, setShowDateSelect] = useState(false);
     const [dateRange, setDateRange] = useState([
       {
-        startDate: subDays(new Date(), 6),
-        endDate: new Date(),
+        startDate: null,
+        endDate: null,
         key: 'selection'
       }
     ]);
@@ -86,7 +87,8 @@ const FirebaseDataTableSearch = (props) => {
           searchUserID: searchUserID,
           searchCourseID: searchCourseID,
           startDate: dateRange[0].startDate,
-          endDate: endOfDay(dateRange[0].endDate)
+          endDate: endOfDay(dateRange[0].endDate),
+          searchArchived: searchArchived
         })
       } 
     };
@@ -106,16 +108,18 @@ const FirebaseDataTableSearch = (props) => {
     searchUserID: searchUserID,
     searchCourseID: searchCourseID,
     startDate: dateRange[0].startDate,
-    endDate: endOfDay(dateRange[0].endDate)
+    endDate: endOfDay(dateRange[0].endDate),
+    searchArchived: searchArchived
   }
 
   return (
     <Fragment>
       {console.log(TableHeaders(props)["sign-ins"])}
+      <h1>Search Data</h1>
 
       {/* Sign in table search */}
       {props.searchType === "userSignIn" && (
-        <Fragment>
+        <div className="searchQueries userSignIn">
           <FormControl>
             <InputLabel htmlFor="firebase-form-userid">User ID</InputLabel>
             <OutlinedInput
@@ -127,13 +131,13 @@ const FirebaseDataTableSearch = (props) => {
             />
           </FormControl>
 
-          <br />
+          <div class="break"></div>
 
           <CourseDropDown selectedCourse={getDropdownData}/>
 
-          <br />
+          <div class="break"></div>
 
-          {/* Show the calendar when user selects */}
+          {/* Show the calendar when user selects btn */}
           {!showDateSelect 
           ? 
             <Button 
@@ -183,18 +187,16 @@ const FirebaseDataTableSearch = (props) => {
             />
           }
 
-          <br />
+          <div class="break"></div>
 
-          {blockingError[0] && (
-            <Alert
-              severity="error"
-              sx={{ mx: "auto", minWidth: "2rem", maxWidth: "20rem" }}
-            >
-              <AlertTitle>Error</AlertTitle>
-              {blockingError[1]}
-            </Alert>
-          )}
+          {/* Checkbox for searching for archived */}
+          {/* <Checkbox
+            checked={searchArchived}
+            onChange={(e) => setSearchArchived(!searchArchived)}
+            inputProps={{ 'aria-label': 'controlled' }}
+          /> */}
 
+          <div class="break"></div>
 
           {props.hasSubmit
           ?
@@ -217,7 +219,7 @@ const FirebaseDataTableSearch = (props) => {
           <AsyncCSV queries={csvQueries} />
           }
 
-        </Fragment>
+        </div>
       )}
     </Fragment>
   );

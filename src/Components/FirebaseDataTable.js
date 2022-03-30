@@ -330,7 +330,8 @@ function Table({
           {">"}
         </button>{" "}
       </div>
-      <pre>
+      {/* Shows states below table */}
+      {/* <pre>
         <code>
           {JSON.stringify(
             {
@@ -350,7 +351,7 @@ function Table({
             2
           )}
         </code>
-      </pre>
+      </pre> */}
     </>
   );
 }

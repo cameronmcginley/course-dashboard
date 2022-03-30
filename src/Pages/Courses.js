@@ -21,8 +21,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      <h1>Hello</h1>
-
       {/* Course entry form, contained in popout box */}
       <AlertDialog type="courseEntry" />
 

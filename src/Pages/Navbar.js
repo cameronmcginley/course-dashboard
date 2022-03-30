@@ -27,9 +27,9 @@ const Navbar = () => {
         <li>
           <a href="/courses">Courses</a>
         </li>
-        <li>
+        {/* <li>
           <a href="/form">Form</a>
-        </li>
+        </li> */}
         <li>
           <a href="/viewdata">View Data</a>
         </li>
