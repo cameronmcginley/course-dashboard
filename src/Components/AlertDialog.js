@@ -93,7 +93,7 @@ export default function AlertDialog(props) {
             <DialogActions>
               {/* Takes same searches from the sign-ins table */}
               <FirebaseDataTableSearch 
-                searchType="userSignIn"
+                searchType="sign-ins"
                 hasSubmit={false}
               />
 

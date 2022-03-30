@@ -234,31 +234,6 @@ const FirebaseDataTableSearch = (props) => {
           <CourseDropDown selectedCourse={getDropdownData} />
 
           <div class="break" />
-          {/* <FormControl>
-            <InputLabel htmlFor="firebase-form-coursename">Course Name</InputLabel>
-            <OutlinedInput
-              required
-              id="firebase-form-userid"
-              // value={newUserID}
-              onChange={(e) => setSearchCourseName(e.target.value)}
-              label="User ID"
-            />
-          </FormControl>
-
-          <div class="break"></div>
-
-          <FormControl>
-            <InputLabel htmlFor="firebase-form-courseid">Course ID</InputLabel>
-            <OutlinedInput
-              required
-              id="firebase-form-userid"
-              // value={newUserID}
-              onChange={(e) => setSearchCourseID(e.target.value)}
-              label="User ID"
-            />
-          </FormControl>
-
-          <div class="break"></div> */}
 
           <FormControl>
             <Button

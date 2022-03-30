@@ -68,6 +68,9 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("sortKey", "<=", startDateKey))
       params.push(where("sortKey", ">=", endDateKey))
     }
+    if (data.searchCriteria.searchArchived) {
+      params.push(where("isArchived", "==", true))
+    }
 
     return query(
       ...params

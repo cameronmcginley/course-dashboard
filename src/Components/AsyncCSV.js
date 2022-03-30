@@ -63,8 +63,6 @@ export default function AsyncCSV(props) {
   // Called by downloadReport, called after button submit
   // Collects data from firebase based on given queries
   const getData = async () => {
-    buttonClickSuccess()
-    
     console.log("Generating CSV report with all data");
 
     // Repackages "props.queries" into searchCriteria
@@ -73,7 +71,8 @@ export default function AsyncCSV(props) {
       courseID: props.queries.searchCourseID,
       userID: props.queries.searchUserID,
       startDate: props.queries.startDate,
-      endDate: props.queries.endDate
+      endDate: props.queries.endDate,
+      searchArchived: props.queries.searchArchived
     }
 
     const data = await FirebaseReadQueries({
@@ -99,14 +98,36 @@ export default function AsyncCSV(props) {
 
     console.log(signinData);
     
-    setData(signinData)
-    csvLink.current.link.click();
+    // Only download if data found
+    if (signinData.length) {
+      setData(signinData)
+      csvLink.current.link.click();
+      buttonClickSuccess()
+    }
+    else {
+      // console.log("No data found")
+      setBlockingError([true, "No Data Found"])
+      buttonClickFail()
+    }
+
   };
 
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
     setSubmitBtnText("Success");
     setSubmitBtnDisabled(true);
+  };
+
+  const buttonClickFail = (errMsg) => {
+    setSubmitBtnColor("error");
+    setSubmitBtnText("Error");
+    setSubmitBtnDisabled(true);
+    setTimeout(function () {
+      setSubmitBtnColor("primary");
+      setSubmitBtnText("Export All To CSV");
+      setSubmitBtnDisabled(false);
+      setBlockingError([false, ""])
+    }, 2000);
   };
 
   return (
@@ -121,6 +142,18 @@ export default function AsyncCSV(props) {
       >
         {submitBtnText}
       </Button>
+
+      {blockingError[0] && (
+        <Alert
+          severity="error"
+          sx={{ mx: "auto", minWidth: "2rem", maxWidth: "20rem" }}
+        >
+          <AlertTitle>Error</AlertTitle>
+          {blockingError[1]}
+        </Alert>
+      )}
+      
+      <div class="break"></div>
 
       {data && <CSVLink
         headers={headers}
