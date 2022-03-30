@@ -103,7 +103,7 @@ td, th {
   }
 }
 
-.searchQueries.userSignIn {
+.searchQueries {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

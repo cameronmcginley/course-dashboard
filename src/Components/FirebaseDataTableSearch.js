@@ -86,6 +86,7 @@ const FirebaseDataTableSearch = (props) => {
         props.searchCriteria({
           searchUserID: searchUserID,
           searchCourseID: searchCourseID,
+          searchCourseName: searchCourseName,
           startDate: dateRange[0].startDate,
           endDate: endOfDay(dateRange[0].endDate),
           searchArchived: searchArchived
@@ -117,9 +118,10 @@ const FirebaseDataTableSearch = (props) => {
       {console.log(TableHeaders(props)["sign-ins"])}
       <h1>Search Data</h1>
 
+
       {/* Sign in table search */}
-      {props.searchType === "userSignIn" && (
-        <div className="searchQueries userSignIn">
+      {props.searchType === "sign-ins" && (
+        <div className="searchQueries sign-ins">
           <FormControl>
             <InputLabel htmlFor="firebase-form-userid">User ID</InputLabel>
             <OutlinedInput
@@ -220,6 +222,56 @@ const FirebaseDataTableSearch = (props) => {
           // by submit button
           <AsyncCSV queries={csvQueries} />
           }
+
+        </div>
+      )}
+
+
+
+      {/* Course table search */}
+      {props.searchType === "courses" && (
+        <div className="searchQueries courses">
+          <CourseDropDown selectedCourse={getDropdownData} />
+
+          <div class="break" />
+          {/* <FormControl>
+            <InputLabel htmlFor="firebase-form-coursename">Course Name</InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              // value={newUserID}
+              onChange={(e) => setSearchCourseName(e.target.value)}
+              label="User ID"
+            />
+          </FormControl>
+
+          <div class="break"></div>
+
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-courseid">Course ID</InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              // value={newUserID}
+              onChange={(e) => setSearchCourseID(e.target.value)}
+              label="User ID"
+            />
+          </FormControl>
+
+          <div class="break"></div> */}
+
+          <FormControl>
+            <Button
+              // Disables pointer when disabled
+              style={submitBtnDisabled ? { pointerEvents: "none" } : {}}
+              id="submit-form-button"
+              variant="contained"
+              color={submitBtnColor}
+              onClick={handleSubmit}
+            >
+              {submitBtnText}
+            </Button>
+          </FormControl>
 
         </div>
       )}

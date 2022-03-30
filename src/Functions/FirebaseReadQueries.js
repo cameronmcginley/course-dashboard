@@ -210,8 +210,8 @@ export const FirebaseReadQueries = async (data) => {
     }
 
     // Optional queries
-    if (data.searchCriteria.searchArchived) {
-      params.push(where("isArchived", "==", true))
+    if (data.searchCriteria.searchCourseID) {
+      params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
 
     return query(

@@ -550,7 +550,7 @@ function FirebaseDataTable(props) {
       </Styles>
 
       <FirebaseDataTableSearch 
-        searchType="userSignIn"
+        searchType={props.type}
         searchCriteria={makeSearch}
         hasSubmit={true}
       />
