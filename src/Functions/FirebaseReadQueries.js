@@ -97,6 +97,9 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("sortKey", "<=", startDateKey))
       params.push(where("sortKey", ">=", endDateKey))
     }
+    if (data.searchCriteria.searchArchived) {
+      params.push(where("isArchived", "==", true))
+    }
 
     return query(
       ...params
@@ -125,6 +128,9 @@ export const FirebaseReadQueries = async (data) => {
 
       params.push(where("sortKey", "<=", startDateKey))
       params.push(where("sortKey", ">=", endDateKey))
+    }
+    if (data.searchCriteria.searchArchived) {
+      params.push(where("isArchived", "==", true))
     }
 
     return query(
@@ -173,6 +179,9 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("sortKey", "<=", startDateKey))
       params.push(where("sortKey", ">=", endDateKey))
     }
+    if (data.searchCriteria.searchArchived) {
+      params.push(where("isArchived", "==", true))
+    }
 
     return query(
       ...params
@@ -198,6 +207,11 @@ export const FirebaseReadQueries = async (data) => {
     if (data.getSigninDataType === "previous") {
       params.push(endBefore(data.firstVisibleDoc))
       params.push(limitToLast(11))
+    }
+
+    // Optional queries
+    if (data.searchCriteria.searchArchived) {
+      params.push(where("isArchived", "==", true))
     }
 
     return query(

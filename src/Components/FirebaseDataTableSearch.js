@@ -190,11 +190,13 @@ const FirebaseDataTableSearch = (props) => {
           <div class="break"></div>
 
           {/* Checkbox for searching for archived */}
-          {/* <Checkbox
+          <h3>Archived: </h3>
+          <Checkbox
             checked={searchArchived}
             onChange={(e) => setSearchArchived(!searchArchived)}
             inputProps={{ 'aria-label': 'controlled' }}
-          /> */}
+          />
+          <h3>{searchArchived ? "True" : "False"}</h3>
 
           <div class="break"></div>
 
