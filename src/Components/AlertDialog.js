@@ -106,6 +106,7 @@ export default function AlertDialog(props) {
         </Fragment>
       )}
 
+
       {props.type === "courseEntry" && (
         <Fragment>
           <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -130,6 +131,7 @@ export default function AlertDialog(props) {
           </Dialog>
         </Fragment>
       )}
+
     </div>
   );
 }

@@ -109,6 +109,12 @@ td, th {
   justify-content: center;
 }
 
+.flexForm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .break {
   width: 100%;
   height: 10px;

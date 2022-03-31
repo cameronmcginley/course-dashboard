@@ -331,7 +331,7 @@ function Table({
         </button>{" "}
       </div>
       {/* Shows states below table */}
-      {/* <pre>
+      <pre>
         <code>
           {JSON.stringify(
             {
@@ -351,7 +351,7 @@ function Table({
             2
           )}
         </code>
-      </pre> */}
+      </pre>
     </>
   );
 }
