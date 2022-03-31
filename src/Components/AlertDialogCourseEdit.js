@@ -44,6 +44,8 @@ import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 export default function AlertDialog(props) {
   const [open, setOpen] = useState(false);
 
+  const [successPage, setSuccessPage] = useState(false);
+
   const [submitBtnColor, setSubmitBtnColor] = useState("primary");
   const [submitBtnText, setSubmitBtnText] = useState("Submit Changes");
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false);
@@ -128,22 +130,16 @@ export default function AlertDialog(props) {
         newCourseID: newCourseID,
       });
 
-      // // Write to database, just passes all possible params
-      // // Only uses what it needs for the desired collection
-      // FirebaseWriteQueries({
-      //   collectionName: props.collectionName,
-      //   newCourseName: newCourseName,
-      //   newCourseID: newCourseID,
-      //   newUserID: newUserID,
-      //   newUserCourseID: newUserCourseID,
-      //   newCourseFullStr: newUserCourseFullStr, 
-      // });
-
-      // // Empty the inputs
-      // setNewUserID("");
-      // setNewUserCourseID("");
-      // setNewCourseName("");
-      // setNewCourseID("");
+      // Loading bar on success, waits for data to save then reloads
+      // or redirects to new url
+      setSuccessPage(true);
+      setTimeout(function(){
+        newCourseID ? document.location = "/courses/" + newCourseID + "/attendance"
+        : document.location = "/courses/" + props.currCourseID + "/attendance"
+        setSuccessPage(false);
+        handleClose()
+      }, 3000);
+      
     } 
     // Create more error messages later
     else if (hasRequiredData && !hasUniqueID) {
@@ -215,23 +211,37 @@ export default function AlertDialog(props) {
 
                     <div className="break" />
                     
-                    {/* Submit Button */}
-                    <Button
-                      // Disables pointer when disabled
-                      style={submitBtnDisabled ? { pointerEvents: "none" } : {}}
-                      id="submit-form-button"
-                      variant="contained"
-                      color={submitBtnColor}
-                      onClick={handleSubmit}
-                    >
-                      {submitBtnText}
-                    </Button>
+                    {/* Dont show submit/close after success, show loading bar */}
+                    {!successPage ? (
+                      <>
+                      {/* Submit Button */}
+                      <Button
+                        // Disables pointer when disabled
+                        style={submitBtnDisabled ? { pointerEvents: "none" } : {}}
+                        id="submit-form-button"
+                        variant="contained"
+                        color={submitBtnColor}
+                        onClick={handleSubmit}
+                      >
+                        {submitBtnText}
+                      </Button>
 
+                      <div className="break" />
+              
+                      <Button onClick={handleClose} color="primary" autoFocus>
+                          Close
+                      </Button>
+                      </>
+                    )
+                  :
+                  (
+                    <>
+                    <h1>Success!</h1>
                     <div className="break" />
-            
-                    <Button onClick={handleClose} color="primary" autoFocus>
-                        Close
-                    </Button>
+                    <CircularProgress />
+                    </>
+                  )}
+
                 </div>
             </DialogActions>
         </Dialog>
