@@ -16,6 +16,7 @@ import {
   limitToLast,
   setState,
   where,
+  Timestamp,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
 import { endOfDay, startOfDay } from "date-fns";
@@ -187,7 +188,6 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("sortKey", ">=", endDateKey));
     }
     if (data.type === "attendance") {
-      // Check if this works without Timestamp
       const startDateKey = getSortKey(startOfDay(new Date()));
       const endDateKey = getSortKey(endOfDay(new Date()));
 

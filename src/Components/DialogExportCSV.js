@@ -61,12 +61,12 @@ export default function DialogExportCSV(props) {
 
   // Called by downloadReport, called after button submit
   // Collects data from firebase based on given queries
-  const getData = async (searchCritera) => {
+  const getData = async (searchCriteria) => {
     console.log("Generating CSV report with all data");
 
     const data = await FirebaseReadQueries({
       type: "CSV",
-      searchCriteria: searchCritera,
+      searchCriteria: searchCriteria,
     });
 
     var documentSnapshots = await getDocs(data);

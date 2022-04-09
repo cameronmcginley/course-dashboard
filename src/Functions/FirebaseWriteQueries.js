@@ -60,6 +60,8 @@ const createSubstringArray = (text) => {
   return substringArray;
 };
 
+// data.timestamp = JS Date obj, not Firebase Timestamp
+// Blank by default
 export const FirebaseWriteQueries = async (data) => {
   console.log("Firebase Write");
 
