@@ -108,13 +108,13 @@ const FirebaseDataTableSearch = (props) => {
     setSearchCourseID(courseSelection[1])
   };
 
-  let csvQueries = {
-    searchUserID: searchUserID,
-    searchCourseID: searchCourseID,
-    startDate: dateRange[0].startDate,
-    endDate: endOfDay(dateRange[0].endDate),
-    searchArchived: searchArchived
-  }
+  // let csvQueries = {
+  //   searchUserID: searchUserID,
+  //   searchCourseID: searchCourseID,
+  //   startDate: dateRange[0].startDate,
+  //   endDate: endOfDay(dateRange[0].endDate),
+  //   searchArchived: searchArchived
+  // }
 
   return (
     <Fragment>

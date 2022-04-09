@@ -48,16 +48,17 @@ export const FirebaseReadQueries = async (data) => {
 
   //CSV Queries
   if (data.type === "CSV") {
+    console.log("CSV read with data: ", data)
     const params = [
       collection(db, "sign-ins"),
       orderBy("sortKey"),
       limit(10)
     ]
-    if (data.searchCriteria.courseID) {
-      params.push(where("courseID", "==", data.searchCriteria.courseID))
+    if (data.searchCriteria.searchCourseID) {
+      params.push(where("courseID", "==", data.searchCriteria.searchCourseID))
     }
-    if (data.searchCriteria.userID) {
-      params.push(where("substrUserID", "array-contains", data.searchCriteria.userID))
+    if (data.searchCriteria.searchUserID) {
+      params.push(where("substrUserID", "array-contains", data.searchCriteria.searchUserID))
     }
     if (data.searchCriteria.startDate) {
       // Convert the start and end dates to sortKey format
