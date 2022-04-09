@@ -205,8 +205,8 @@ const FirebaseDataTableSearch = (props) => {
 
           <div class="break"></div>
 
-          {props.hasSubmit
-          ?
+          {/* {props.hasSubmit
+          ? */}
           <FormControl>
             <Button
               // Disables pointer when disabled
@@ -219,12 +219,12 @@ const FirebaseDataTableSearch = (props) => {
               {submitBtnText}
             </Button>
           </FormControl>
-          :
+          {/* :
           // Only doesn't have submit if its for CSV
           // Uses seperate queries obj, since searchCriteria only made 
           // by submit button
           <AsyncCSV queries={csvQueries} />
-          }
+          } */}
 
         </div>
       )}

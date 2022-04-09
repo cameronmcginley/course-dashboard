@@ -62,22 +62,22 @@ export default function AsyncCSV(props) {
 
   // Called by downloadReport, called after button submit
   // Collects data from firebase based on given queries
-  const getData = async () => {
+  const getData = async (searchData) => {
     console.log("Generating CSV report with all data");
 
     // Repackages "props.queries" into searchCriteria
-    const searchCriteria = {
-      // courseFullStr: this.props.queries.courseFullStr,
-      courseID: props.queries.searchCourseID,
-      userID: props.queries.searchUserID,
-      startDate: props.queries.startDate,
-      endDate: props.queries.endDate,
-      searchArchived: props.queries.searchArchived
-    }
-
+    // const searchCriteria = {
+    //   // courseFullStr: this.props.queries.courseFullStr,
+    //   courseID: props.queries.searchCourseID,
+    //   userID: props.queries.searchUserID,
+    //   startDate: props.queries.startDate,
+    //   endDate: props.queries.endDate,
+    //   searchArchived: props.queries.searchArchived
+    // }
+    
     const data = await FirebaseReadQueries({
       type: "CSV",
-      searchCriteria: searchCriteria,
+      searchCriteria: searchData,
     });
 
     var documentSnapshots = await getDocs(data);
@@ -132,7 +132,7 @@ export default function AsyncCSV(props) {
 
   return (
     <div>
-      <Button
+      {/* <Button
         // Disables pointer when disabled
         style={submitBtnDisabled ? { pointerEvents: "none" } : {}}
         id="submit-csv-button"
@@ -153,7 +153,7 @@ export default function AsyncCSV(props) {
         </Alert>
       )}
       
-      <div class="break"></div>
+      <div class="break"></div> */}
 
       {data && <CSVLink
         headers={headers}
