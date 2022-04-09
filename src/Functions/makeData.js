@@ -111,18 +111,27 @@ function randomDate(start, end, startHour, endHour) {
   return date;
 }
 
-const makeData = async () => {
+const makeSigninData = async () => {
   let courseList = await getCourseList();
-  //let newUserCourseID = String(courseList[Math.floor(Math.random()*courseList.length)]), //Random from courselist IDs
+  const IDList = await makeIDList()
+  const useIDList = true
 
-  for (let i = 0; i < 45; i++) {
-    console.log(courseList[Math.floor(Math.random() * courseList.length)]);
+  for (let i = 0; i < 6454; i++) {
+    // Random id unless ISList exists
+    let userID = null
+    if (!useIDList) {
+      userID = namor.generate({ words: 1, numbers: 0 })
+    }
+    else {
+      userID = IDList[Math.floor(Math.random()*IDList.length)];
+    }
+
     FirebaseWriteQueries({
       collectionName: "sign-ins",
-      newUserID: namor.generate({ words: 1, numbers: 0 }),
+      newUserID: userID,
       newCourseFullStr:
         courseList[Math.floor(Math.random() * courseList.length)],
-      timestamp: randomDate(new Date(2020, 0, 1), new Date(), 0, 24),
+      timestamp: randomDate(new Date(2015, 0, 1), new Date(), 0, 24),
     });
   }
 };
@@ -133,10 +142,29 @@ const makeCourseData = async () => {
       collectionName: "courses",
       newCourseName: namor.generate({ words: 1, numbers: 0 }),
       newCourseID: String(Math.floor(Math.random() * 100)),
-      timestamp: randomDate(new Date(2020, 0, 1), new Date(), 0, 24),
+      timestamp: randomDate(new Date(2015, 0, 1), new Date(), 0, 24),
     });
   }
 };
 
-// makeData()
+const makeIDList = async () => {
+  let chars = '1234567890'
+  let IDList = []
+
+  for (let i = 0; i < 50; i++) {
+    let result = ''
+
+    // Generate string
+    for (let j = 0; j < 5; j++){
+      result += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+
+    IDList.push(result)
+  }
+
+  console.log(IDList)
+  return IDList
+}
+
+// makeSigninData()
 // makeCourseData()

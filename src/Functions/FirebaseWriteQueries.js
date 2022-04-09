@@ -28,7 +28,7 @@ import getSortKey from "./getSortKey";
 const createSubstringArray = (text) => {
   var substringArray = [];
   var characterCounter = 1;
-  let textLowercased = text.toLowerCase();
+  let textLowercased = text.toString().toLowerCase();
   let characterCount = text.length;
   // console.log(characterCount)
 

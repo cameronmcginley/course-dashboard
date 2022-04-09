@@ -52,7 +52,9 @@ export const FirebaseReadQueries = async (data) => {
   //CSV Queries
   if (data.type === "CSV") {
     console.log("CSV read with data: ", data);
+
     const params = [collection(db, "sign-ins"), orderBy("sortKey"), limit(10)];
+
     if (data.searchCriteria.searchCourseID) {
       params.push(where("courseID", "==", data.searchCriteria.searchCourseID));
     }
