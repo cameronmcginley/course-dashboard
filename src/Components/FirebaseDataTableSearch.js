@@ -12,6 +12,9 @@ import {
   Button,
   Checkbox,
 } from "@mui/material";
+import {
+  Timestamp,
+} from "firebase/firestore";
 import "../App.css";
 import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
 import CourseDropDown from "./CourseDropDown";
@@ -87,8 +90,8 @@ const FirebaseDataTableSearch = (props) => {
           searchUserID: searchUserID,
           searchCourseID: searchCourseID,
           searchCourseName: searchCourseName,
-          startDate: dateRange[0].startDate,
-          endDate: endOfDay(dateRange[0].endDate),
+          startDate: Timestamp.fromDate(dateRange[0].startDate),
+          endDate: Timestamp.fromDate(endOfDay(dateRange[0].endDate)),
           searchArchived: searchArchived
         })
       } 

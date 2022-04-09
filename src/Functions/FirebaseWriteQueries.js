@@ -67,7 +67,7 @@ export const FirebaseWriteQueries = async (data) => {
   if (data.timestamp) {
     logTime = Timestamp.fromDate(data.timestamp)
   } else {
-    logTime = Timestamp.fromDate(new Date());
+    logTime = Timestamp.now();
   }
   console.log("Write Time: ", logTime)
 
