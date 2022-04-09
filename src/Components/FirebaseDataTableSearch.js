@@ -19,7 +19,6 @@ import "../App.css";
 import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders"
 import CourseDropDown from "./CourseDropDown";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr"
-import AsyncCSV from "./AsyncCSV";
 
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -205,8 +204,6 @@ const FirebaseDataTableSearch = (props) => {
 
           <div class="break"></div>
 
-          {/* {props.hasSubmit
-          ? */}
           <FormControl>
             <Button
               // Disables pointer when disabled
@@ -219,12 +216,7 @@ const FirebaseDataTableSearch = (props) => {
               {submitBtnText}
             </Button>
           </FormControl>
-          {/* :
-          // Only doesn't have submit if its for CSV
-          // Uses seperate queries obj, since searchCriteria only made 
-          // by submit button
-          <AsyncCSV queries={csvQueries} />
-          } */}
+
 
         </div>
       )}

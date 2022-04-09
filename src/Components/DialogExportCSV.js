@@ -34,6 +34,7 @@ import {
   OutlinedInput,
   Button,
 } from "@mui/material";
+import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
 // Which data to export to csv
 const headers = [
@@ -46,7 +47,7 @@ const headers = [
 
 
 
-export default function AsyncCSV(props) {
+export default function DialogExportCSV(props) {
   // Styling
   const [submitBtnColor, setSubmitBtnColor] = useState("primary");
   const [submitBtnText, setSubmitBtnText] = useState("Export All To CSV");
@@ -62,22 +63,12 @@ export default function AsyncCSV(props) {
 
   // Called by downloadReport, called after button submit
   // Collects data from firebase based on given queries
-  const getData = async (searchData) => {
+  const getData = async (searchCritera) => {
     console.log("Generating CSV report with all data");
 
-    // Repackages "props.queries" into searchCriteria
-    // const searchCriteria = {
-    //   // courseFullStr: this.props.queries.courseFullStr,
-    //   courseID: props.queries.searchCourseID,
-    //   userID: props.queries.searchUserID,
-    //   startDate: props.queries.startDate,
-    //   endDate: props.queries.endDate,
-    //   searchArchived: props.queries.searchArchived
-    // }
-    
     const data = await FirebaseReadQueries({
       type: "CSV",
-      searchCriteria: searchData,
+      searchCriteria: searchCritera,
     });
 
     var documentSnapshots = await getDocs(data);
@@ -132,35 +123,20 @@ export default function AsyncCSV(props) {
 
   return (
     <div>
-      {/* <Button
-        // Disables pointer when disabled
-        style={submitBtnDisabled ? { pointerEvents: "none" } : {}}
-        id="submit-csv-button"
-        variant="contained"
-        color={submitBtnColor}
-        onClick={getData}
-      >
-        {submitBtnText}
-      </Button>
+        {data && 
+        <CSVLink
+            headers={headers}
+            filename={"SignInDataReport-" + moment().format("MMDDYYYY_HHmmss")}
+            data={data}
+            ref={csvLink}
+        />}
 
-      {blockingError[0] && (
-        <Alert
-          severity="error"
-          sx={{ mx: "auto", minWidth: "2rem", maxWidth: "20rem" }}
-        >
-          <AlertTitle>Error</AlertTitle>
-          {blockingError[1]}
-        </Alert>
-      )}
-      
-      <div class="break"></div> */}
-
-      {data && <CSVLink
-        headers={headers}
-        filename={"SignInDataReport-" + moment().format("MMDDYYYY_HHmmss")}
-        data={data}
-        ref={csvLink}
-      />}
+        {/* Takes same searches from the sign-ins table */}
+        <FirebaseDataTableSearch 
+            searchType="sign-ins"
+            hasSubmit={false}
+            searchCriteria={getData}
+        />
     </div>
   );
 }

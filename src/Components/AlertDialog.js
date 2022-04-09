@@ -11,7 +11,6 @@ import {
   MenuItem,
   Autocomplete,
 } from "@mui/material";
-import AsyncCSV from "./AsyncCSV";
 import CourseDropDown from "./CourseDropDown";
 import {
   collection,
@@ -38,6 +37,7 @@ import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 import { CSVLink } from "react-csv";
 import moment from "moment";
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
+import DialogExportCSV from "./DialogExportCSV";
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(false);
@@ -74,94 +74,13 @@ export default function AlertDialog(props) {
     queries.courseFullStr = data.course
   };
 
-
-
-  // Which data to export to csv
-  const headers = [
-    { label: "User ID", key: "userID" },
-    { label: "Course Name", key: "courseName" },
-    { label: "Course ID", key: "courseID" },
-    { label: "Timestamp Logged", key: "timestampLogged" },
-    // { label: "Last Modified", key: "lastModified" },
-  ];
-  const [data, setData] = useState(null);
-  const csvLink = React.useRef();
-  const getData = async (searchCriteria) => {
-    console.log("CSV Export Query Data: ", searchCriteria)
-    console.log("Generating CSV report with all data");
-
-    // Repackages "props.queries" into searchCriteria
-    // const searchCriteria = {
-    //   // courseFullStr: this.props.queries.courseFullStr,
-    //   courseID: props.queries.searchCourseID,
-    //   userID: props.queries.searchUserID,
-    //   startDate: props.queries.startDate,
-    //   endDate: props.queries.endDate,
-    //   searchArchived: props.queries.searchArchived
-    // }
-    
-    const data = await FirebaseReadQueries({
-      type: "CSV",
-      searchCriteria: searchCriteria,
-    });
-
-    var documentSnapshots = await getDocs(data);
-
-    // Push all data to array
-    // Only maps specific data, and reformats timestamps
-    let signinData = [];
-    documentSnapshots.forEach((doc) => {
-      signinData.push({
-        userID: doc.data().userID,
-        courseName: doc.data().courseName,
-        courseID: doc.data().courseID,
-        timestampLogged: moment(doc.data().timestampLogged.toDate())
-          .local()
-          .format("MM-DD-yyyy HH:mm:ss"),
-      });
-    });
-
-    console.log(signinData);
-    
-    // Only download if data found
-    if (signinData.length) {
-      setData(signinData)
-      csvLink.current.link.click();
-      // buttonClickSuccess()
-    }
-    else {
-      // console.log("No data found")
-      // setBlockingError([true, "No Data Found"])
-      // buttonClickFail()
-    }
-
-  };
-
-
-  // const handleSearch = (searchCriteria) => {
-  //   console.log("CSV Export Query Data: ", searchCriteria)
-
-  //   // Call the CSV export
-  //   // childRef.current.getData(searchCriteria)
-  // };
-
-  // const childRef = useRef();
-
   // Contains multiple types depending on passed in prop
   return (
     <div>
       {props.type === "csvExport" && (
         <Fragment>
-          {/* <AsyncCSV /> */}
-          {data && <CSVLink
-            headers={headers}
-            filename={"SignInDataReport-" + moment().format("MMDDYYYY_HHmmss")}
-            data={data}
-            ref={csvLink}
-          />}
-
           <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            Export to CSV
+            Temp Name
           </Button>
 
           <Dialog
@@ -175,12 +94,9 @@ export default function AlertDialog(props) {
             </DialogTitle>
 
             <DialogActions>
-              {/* Takes same searches from the sign-ins table */}
-              <FirebaseDataTableSearch 
-                searchType="sign-ins"
-                hasSubmit={false}
-                searchCriteria={getData}
-              />
+              {/* Handles things scpecific to type of dialog box */}
+              {props.type === "csvExport" && <DialogExportCSV />}
+              {/* {props.type === "courseEntry" && <DialogCourseEntry />} */}
 
               <Button onClick={handleClose} color="primary" autoFocus>
                 Close

@@ -33,7 +33,6 @@ import { db, auth } from "../firebase-config";
 import makeData from "../Functions/makeData";
 
 import { CSVLink, CSVDownload } from "react-csv";
-import AsyncCSV from "../Components/AsyncCSV";
 import AlertDialog from "../Components/AlertDialog";
 
 import { useState, useRef } from "react";
