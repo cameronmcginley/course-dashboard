@@ -45,8 +45,6 @@ const headers = [
   // { label: "Last Modified", key: "lastModified" },
 ];
 
-
-
 export default function DialogExportCSV(props) {
   // Styling
   const [submitBtnColor, setSubmitBtnColor] = useState("primary");
@@ -88,19 +86,17 @@ export default function DialogExportCSV(props) {
     });
 
     console.log(signinData);
-    
+
     // Only download if data found
     if (signinData.length) {
-      setData(signinData)
+      setData(signinData);
       csvLink.current.link.click();
-      buttonClickSuccess()
-    }
-    else {
+      buttonClickSuccess();
+    } else {
       // console.log("No data found")
-      setBlockingError([true, "No Data Found"])
-      buttonClickFail()
+      setBlockingError([true, "No Data Found"]);
+      buttonClickFail();
     }
-
   };
 
   const buttonClickSuccess = () => {
@@ -117,26 +113,27 @@ export default function DialogExportCSV(props) {
       setSubmitBtnColor("primary");
       setSubmitBtnText("Export All To CSV");
       setSubmitBtnDisabled(false);
-      setBlockingError([false, ""])
+      setBlockingError([false, ""]);
     }, 2000);
   };
 
   return (
     <div>
-        {data && 
+      {data && (
         <CSVLink
-            headers={headers}
-            filename={"SignInDataReport-" + moment().format("MMDDYYYY_HHmmss")}
-            data={data}
-            ref={csvLink}
-        />}
-
-        {/* Takes same searches from the sign-ins table */}
-        <FirebaseDataTableSearch 
-            searchType="sign-ins"
-            hasSubmit={false}
-            searchCriteria={getData}
+          headers={headers}
+          filename={"SignInDataReport-" + moment().format("MMDDYYYY_HHmmss")}
+          data={data}
+          ref={csvLink}
         />
+      )}
+
+      {/* Takes same searches from the sign-ins table */}
+      <FirebaseDataTableSearch
+        searchType="sign-ins"
+        hasSubmit={false}
+        searchCriteria={getData}
+      />
     </div>
   );
 }

@@ -6,14 +6,16 @@ import SplitCourseFullStr from "../Functions/SplitCourseFullStr";
 // Using a class component, everything works without issue
 export class QRReport extends React.PureComponent {
   constructor(props) {
-    super(props)
-    this.courseTitleData = SplitCourseFullStr(props.value)
+    super(props);
+    this.courseTitleData = SplitCourseFullStr(props.value);
   }
 
   render() {
     return (
       <div className="qrReport printComponent">
-        <h1 className="qrReport title">{"Course: " + this.courseTitleData[0]}</h1>
+        <h1 className="qrReport title">
+          {"Course: " + this.courseTitleData[0]}
+        </h1>
         <h2 className="qrReport id">{"ID: " + this.courseTitleData[1]}</h2>
         <QRCodeReact
           renderAs="svg"

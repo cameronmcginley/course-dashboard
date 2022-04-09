@@ -28,7 +28,6 @@ function sleep(delay = 0) {
   });
 }
 
-
 const getCourseList = async () => {
   // Get all courses for the dropdown
   var data = query(collection(db, "courses"), orderBy("courseName"), limit(10));
@@ -55,14 +54,13 @@ export default function CourseDropDown(props) {
 
   React.useEffect(() => {
     let active = true;
-    
+
     if (!loading) {
       return undefined;
     }
 
     (async () => {
       setCourseList(await getCourseList());
-
 
       setTimeout(function () {
         if (active) {
@@ -71,13 +69,11 @@ export default function CourseDropDown(props) {
           setOptions([...courseList]);
         }
       }, 100);
-
     })();
 
     return () => {
       active = false;
     };
-
   }, [loading]);
 
   React.useEffect(() => {

@@ -71,20 +71,22 @@ export default function AlertDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Optional Queries"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Optional Queries"}</DialogTitle>
 
         <DialogActions>
           {/* Handles things scpecific to type of dialog box */}
           {props.type === "csvExport" && <DialogExportCSV />}
           {props.type === "courseEntry" && <DialogCourseEntry />}
-          {props.type === "courseEdit" && <DialogCourseEdit currCourseName={props.currCourseName} currCourseID={props.currCourseID} />}
+          {props.type === "courseEdit" && (
+            <DialogCourseEdit
+              currCourseName={props.currCourseName}
+              currCourseID={props.currCourseID}
+            />
+          )}
 
           <Button onClick={handleClose} color="primary" autoFocus>
             Close
           </Button>
-          
         </DialogActions>
       </Dialog>
     </Fragment>

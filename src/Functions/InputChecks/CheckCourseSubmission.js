@@ -1,4 +1,4 @@
-import react from 'react';
+import react from "react";
 import { getDocs } from "firebase/firestore";
 import { FirebaseReadQueries } from "../FirebaseReadQueries";
 
@@ -11,10 +11,8 @@ export const CheckCourseSubmission = async (isEdit, courseName, courseID) => {
   }
   // Don't need both if editing
   else if (isEdit) {
-
-  }
-  else {
-    return [false, "Invalid Input(s)"]
+  } else {
+    return [false, "Invalid Input(s)"];
   }
 
   // Check if course ID already exists
@@ -26,9 +24,9 @@ export const CheckCourseSubmission = async (isEdit, courseName, courseID) => {
   const documentSnapshots = await getDocs(data);
 
   if (documentSnapshots.docs[0]) {
-    return [false, "ID Already In Use"]
+    return [false, "ID Already In Use"];
   }
-  
+
   // No errors found
-  return [true, ""]
-}
+  return [true, ""];
+};

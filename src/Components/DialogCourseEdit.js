@@ -42,8 +42,6 @@ import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 import { CheckCourseSubmission } from "../Functions/InputChecks/CheckCourseSubmission";
 
 export default function DialogCourseEdit(props) {
-  const [open, setOpen] = useState(false);
-
   const [successPage, setSuccessPage] = useState(false);
 
   const [submitBtnColor, setSubmitBtnColor] = useState("primary");
@@ -59,14 +57,6 @@ export default function DialogCourseEdit(props) {
 
   const [newCourseID, setNewCourseID] = useState("");
   const [editingCourseID, setEditingCourseID] = useState(false);
-
-  let handleClickOpen = async () => {
-    setOpen(true);
-  };
-
-  function handleClose() {
-    setOpen(false);
-  }
 
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
@@ -89,118 +79,114 @@ export default function DialogCourseEdit(props) {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    console.log(newCourseName, newCourseID)
-    const isCourseValid = await CheckCourseSubmission(true, newCourseName, newCourseID)
-    console.log(isCourseValid)
+    console.log(newCourseName, newCourseID);
+    const isCourseValid = await CheckCourseSubmission(
+      true,
+      newCourseName,
+      newCourseID
+    );
+    console.log(isCourseValid);
 
     if (isCourseValid[0]) {
-        buttonClickSuccess();
-        setBlockingError([false, ""]); //Clear error if it's there
-  
-        console.log(newCourseName, newCourseID);
-  
-        // Set the changed data in firebase
-        FirebaseWriteQueries({
-          type: "courseEdit",
-          currCourseName: props.currCourseName,
-          currCourseID: props.currCourseID,
-          newCourseName: newCourseName,
-          newCourseID: newCourseID,
-        });
-  
-        // Loading bar on success, waits for data to save then reloads
-        // or redirects to new url
-        setSuccessPage(true);
-        setTimeout(function(){
-          newCourseID ? document.location = "/courses/" + newCourseID + "/attendance"
-          : document.location = "/courses/" + props.currCourseID + "/attendance"
-          setSuccessPage(false);
-          handleClose()
-        }, 3000);
-        
-    }
-    else {
-        setBlockingError([true, isCourseValid[1]]);
-        buttonClickFail("Error");
+      buttonClickSuccess();
+      setBlockingError([false, ""]); //Clear error if it's there
+
+      console.log(newCourseName, newCourseID);
+
+      // Set the changed data in firebase
+      FirebaseWriteQueries({
+        type: "courseEdit",
+        currCourseName: props.currCourseName,
+        currCourseID: props.currCourseID,
+        newCourseName: newCourseName,
+        newCourseID: newCourseID,
+      });
+
+      // Loading bar on success, waits for data to save then reloads
+      // or redirects to new url
+      setSuccessPage(true);
+      setTimeout(function () {
+        newCourseID
+          ? (document.location = "/courses/" + newCourseID + "/attendance")
+          : (document.location =
+              "/courses/" + props.currCourseID + "/attendance");
+        setSuccessPage(false);
+      }, 3000);
+    } else {
+      setBlockingError([true, isCourseValid[1]]);
+      buttonClickFail("Error");
     }
   };
 
   // Contains multiple types depending on passed in prop
   return (
     <div className="flexForm">
-        {/* Course Name */}
-        <TextField
-            disabled={!editingCourseName}
-            id="outlined-disabled"
-            label="Course Name"
-            defaultValue={props.currCourseName}
-            onChange={(e) => setNewCourseName(e.target.value)}
-        />
-        <Checkbox
-            checked={editingCourseName}
-            onChange={(e) => setEditingCourseName(!editingCourseName)}
-            inputProps={{ 'aria-label': 'controlled' }}
-        />
-        <div className="break" />
+      {/* Course Name */}
+      <TextField
+        disabled={!editingCourseName}
+        id="outlined-disabled"
+        label="Course Name"
+        defaultValue={props.currCourseName}
+        onChange={(e) => setNewCourseName(e.target.value)}
+      />
+      <Checkbox
+        checked={editingCourseName}
+        onChange={(e) => setEditingCourseName(!editingCourseName)}
+        inputProps={{ "aria-label": "controlled" }}
+      />
+      <div className="break" />
 
-        {/* Course ID */}
-        <TextField
-            disabled={!editingCourseID}
-            id="outlined-disabled"
-            label="Course ID"
-            defaultValue={props.currCourseID}
-            onChange={(e) => setNewCourseID(e.target.value)}
-        />
-        <Checkbox
-            checked={editingCourseID}
-            onChange={(e) => setEditingCourseID(!editingCourseID)}
-            inputProps={{ 'aria-label': 'controlled' }}
-        />
-        <div className="break" />
+      {/* Course ID */}
+      <TextField
+        disabled={!editingCourseID}
+        id="outlined-disabled"
+        label="Course ID"
+        defaultValue={props.currCourseID}
+        onChange={(e) => setNewCourseID(e.target.value)}
+      />
+      <Checkbox
+        checked={editingCourseID}
+        onChange={(e) => setEditingCourseID(!editingCourseID)}
+        inputProps={{ "aria-label": "controlled" }}
+      />
+      <div className="break" />
 
-        {blockingError[0] && (
-            <Alert
-                severity="error"
-                sx={{ mx: "auto", minWidth: "2rem", maxWidth: "20rem" }}
-            >
-                <AlertTitle>Error</AlertTitle>
-                {blockingError[1]}
-            </Alert>
-        )}
+      {blockingError[0] && (
+        <Alert
+          severity="error"
+          sx={{ mx: "auto", minWidth: "2rem", maxWidth: "20rem" }}
+        >
+          <AlertTitle>Error</AlertTitle>
+          {blockingError[1]}
+        </Alert>
+      )}
 
-        <div className="break" />
-        
-        {/* Dont show submit/close after success, show loading bar */}
-        {!successPage ? (
-            <>
-            {/* Submit Button */}
-            <Button
+      <div className="break" />
+
+      {/* Dont show submit/close after success, show loading bar */}
+      {!successPage ? (
+        <>
+          {/* Submit Button */}
+          <Button
             // Disables pointer when disabled
             style={submitBtnDisabled ? { pointerEvents: "none" } : {}}
             id="submit-form-button"
             variant="contained"
             color={submitBtnColor}
             onClick={handleSubmit}
-            >
+          >
             {submitBtnText}
-            </Button>
+          </Button>
 
-            <div className="break" />
-    
-            <Button onClick={handleClose} color="primary" autoFocus>
-                Close
-            </Button>
-            </>
-        )
-        :
-        (
-            <>
-            <h1>Success!</h1>
-            <div className="break" />
-            <CircularProgress />
-            </>
-        )}
-
+          <div className="break" />
+        </>
+      ) : (
+        <>
+          <h1>Success!</h1>
+          <div className="break" />
+          <CircularProgress />
+        </>
+      )}
     </div>
   );
 }

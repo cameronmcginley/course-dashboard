@@ -97,7 +97,7 @@ const getCourseList = async () => {
   // Only get course, give it a display name with name + id
   let courseList = [];
   documentSnapshots.forEach((doc) => {
-    courseList.push(doc.data().courseFullStr)
+    courseList.push(doc.data().courseFullStr);
   });
 
   console.log(courseList);
@@ -106,24 +106,24 @@ const getCourseList = async () => {
 
 function randomDate(start, end, startHour, endHour) {
   var date = new Date(+start + Math.random() * (end - start));
-  var hour = startHour + Math.random() * (endHour - startHour) | 0;
+  var hour = (startHour + Math.random() * (endHour - startHour)) | 0;
   date.setHours(hour);
   return date;
 }
 
 const makeData = async () => {
-  let courseList = await getCourseList()
+  let courseList = await getCourseList();
   //let newUserCourseID = String(courseList[Math.floor(Math.random()*courseList.length)]), //Random from courselist IDs
-  
+
   for (let i = 0; i < 45; i++) {
-    console.log(courseList[Math.floor(Math.random()*courseList.length)])
+    console.log(courseList[Math.floor(Math.random() * courseList.length)]);
     FirebaseWriteQueries({
       collectionName: "sign-ins",
       newUserID: namor.generate({ words: 1, numbers: 0 }),
-      newCourseFullStr: courseList[Math.floor(Math.random()*courseList.length)],
+      newCourseFullStr:
+        courseList[Math.floor(Math.random() * courseList.length)],
       timestamp: randomDate(new Date(2020, 0, 1), new Date(), 0, 24),
     });
-
   }
 };
 
@@ -135,7 +135,6 @@ const makeCourseData = async () => {
       newCourseID: String(Math.floor(Math.random() * 100)),
       timestamp: randomDate(new Date(2020, 0, 1), new Date(), 0, 24),
     });
-
   }
 };
 

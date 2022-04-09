@@ -20,7 +20,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
-import SplitCourseFullStr from "../Functions/SplitCourseFullStr"
+import SplitCourseFullStr from "../Functions/SplitCourseFullStr";
 import getSortKey from "./getSortKey";
 
 // Convert text to array of all possible substrings
@@ -63,48 +63,53 @@ const createSubstringArray = (text) => {
 export const FirebaseWriteQueries = async (data) => {
   console.log("Firebase Write");
 
-  let logTime = null
+  let logTime = null;
   if (data.timestamp) {
-    logTime = Timestamp.fromDate(data.timestamp)
+    logTime = Timestamp.fromDate(data.timestamp);
   } else {
     logTime = Timestamp.now();
   }
-  console.log("Write Time: ", logTime)
+  console.log("Write Time: ", logTime);
 
-  if (data.type === "courseEdit"){
+  if (data.type === "courseEdit") {
     // Assign the values to be set, if no change just set to current value
-    let setCourseName
-    let setCourseID
-    data.newCourseName ? setCourseName = data.newCourseName : setCourseName = data.currCourseName
-    data.newCourseID ? setCourseID = data.newCourseID : setCourseID = data.currCourseID
+    let setCourseName;
+    let setCourseID;
+    data.newCourseName
+      ? (setCourseName = data.newCourseName)
+      : (setCourseName = data.currCourseName);
+    data.newCourseID
+      ? (setCourseID = data.newCourseID)
+      : (setCourseID = data.currCourseID);
 
-    const newCourseFullStr = setCourseName + " " + "(ID " + setCourseID + ")"
+    const newCourseFullStr = setCourseName + " " + "(ID " + setCourseID + ")";
 
     // Find doc id by reading old course id
     var data = query(
       collection(db, "courses"),
       limit(1),
       where("courseID", "==", data.currCourseID)
-    )
+    );
     const documentSnapshots = await getDocs(data);
-    const docID = documentSnapshots.docs[0].id
-    console.log("Editing DocID: ", docID)
+    const docID = documentSnapshots.docs[0].id;
+    console.log("Editing DocID: ", docID);
 
     await updateDoc(doc(db, "courses", docID), {
       courseFullStr: newCourseFullStr,
       courseID: setCourseID,
       courseName: setCourseName,
-      lastModified: logTime
+      lastModified: logTime,
     });
 
     // Set substr coursename or id?
     // May not need to, when do we ever search by this?
 
-    return
+    return;
   }
 
   if (data.collectionName === "courses") {
-    const newCourseFullStr = data.newCourseName + " " + "(ID " + data.newCourseID + ")"
+    const newCourseFullStr =
+      data.newCourseName + " " + "(ID " + data.newCourseID + ")";
 
     addDoc(collection(db, data.collectionName), {
       courseID: data.newCourseID,
@@ -117,13 +122,13 @@ export const FirebaseWriteQueries = async (data) => {
       substrCourseName: createSubstringArray(data.newCourseName),
     });
 
-    return
+    return;
   }
 
   if (data.collectionName === "sign-ins") {
-    let courseArray = SplitCourseFullStr(data.newCourseFullStr)
-    console.log("Write course data: ", courseArray)
-    
+    let courseArray = SplitCourseFullStr(data.newCourseFullStr);
+    console.log("Write course data: ", courseArray);
+
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,
       courseName: courseArray[0],
@@ -142,6 +147,6 @@ export const FirebaseWriteQueries = async (data) => {
       // substrCourseID: createSubstringArray(courseArray[1]),
     });
 
-    return
+    return;
   }
 };

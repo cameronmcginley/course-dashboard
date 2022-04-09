@@ -5,14 +5,14 @@ import { auth } from "../firebase-config";
 import { useParams } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
-import {GetCourseName} from "../Functions/GetCourseName";
-import CircularProgress from '@mui/material/CircularProgress';
+import { GetCourseName } from "../Functions/GetCourseName";
+import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "../Components/AlertDialog";
 
 const Attendance = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
-  const [courseName, setCourseName] = useState("")
+  const [courseName, setCourseName] = useState("");
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -33,33 +33,34 @@ const Attendance = () => {
   // fix to have this function just call a function, but it works
   // since i can't make this entire component async
   const asyncGetCourseName = async () => {
-    setCourseName(await GetCourseName(pageCourseID))
-  }
+    setCourseName(await GetCourseName(pageCourseID));
+  };
 
   // Update the courseName based on the page's course ID
   useEffect(() => {
     if (!courseName) {
-      asyncGetCourseName()
+      asyncGetCourseName();
     }
   }, []);
 
   return (
     <Fragment>
-
-      {courseName 
-      ? 
+      {courseName ? (
         <>
           {/* If courseName exists, check if it matches error message */}
-          {courseName != "error" 
-          ?
+          {courseName != "error" ? (
             // If not, do...
             <>
               <div>
                 Course ID: {pageCourseID}
-                <br/>
+                <br />
                 Course Name: {courseName}
-                <br/>
-                <AlertDialog type="courseEdit" currCourseName={courseName} currCourseID={pageCourseID} />
+                <br />
+                <AlertDialog
+                  type="courseEdit"
+                  currCourseName={courseName}
+                  currCourseID={pageCourseID}
+                />
               </div>
 
               {/* Wait for courseName before loading the form, else
@@ -78,15 +79,14 @@ const Attendance = () => {
                 // daySortKeyLargest={daySortKeyLargest}
               />
             </>
-          :
+          ) : (
             <div>Error</div>
-          }
+          )}
         </>
-      :
+      ) : (
         // While courseName undefined....
         <CircularProgress />
-      }
-
+      )}
     </Fragment>
   );
 };

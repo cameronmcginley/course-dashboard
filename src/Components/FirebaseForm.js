@@ -41,7 +41,9 @@ const FirebaseInputForm = (props) => {
   //userSignIn
   const [newUserID, setNewUserID] = useState(props.userID);
   const [newUserCourseID, setNewUserCourseID] = useState(props.userCourseID);
-  const [newUserCourseFullStr, setNewUserCourseFullStr] = useState(props.userCourseFullStr)
+  const [newUserCourseFullStr, setNewUserCourseFullStr] = useState(
+    props.userCourseFullStr
+  );
 
   //courseEntry
   const [newCourseName, setNewCourseName] = useState(props.courseName);
@@ -117,7 +119,7 @@ const FirebaseInputForm = (props) => {
         newCourseID: newCourseID,
         newUserID: newUserID,
         newUserCourseID: newUserCourseID,
-        newCourseFullStr: newUserCourseFullStr, 
+        newCourseFullStr: newUserCourseFullStr,
       });
 
       // Empty the inputs

@@ -132,9 +132,7 @@ const TableHeaders = (props) => {
 
                 {/* Pass props to this component, which handles
                             the ReactToPrint and QRReport references */}
-                <PrintQRReport
-                  value={d.courseFullStr.toString()}
-                />
+                <PrintQRReport value={d.courseFullStr.toString()} />
               </Fragment>
             );
           },

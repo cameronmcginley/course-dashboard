@@ -380,7 +380,7 @@ let firstVisibleDoc = null;
 let searchCriteria = {
   searchUserID: "",
   searchCourseID: "",
-}
+};
 
 function FirebaseDataTable(props) {
   const navigate = useNavigate();
@@ -409,7 +409,7 @@ function FirebaseDataTable(props) {
       var data = await FirebaseReadQueries({
         type: "isFirstPage",
         collectionName: props.accessor,
-        sortKey: props.sortKey, 
+        sortKey: props.sortKey,
         firstVisibleDoc: pageZero,
         searchCriteria: searchCriteria,
       });
@@ -418,19 +418,19 @@ function FirebaseDataTable(props) {
 
       // Returns false if page exists, otherwise true
       setIsFirstPage(!documentSnapshots.docs[0]);
-      console.log(documentSnapshots.docs[0])
+      console.log(documentSnapshots.docs[0]);
     }
   };
 
   const isLastPageFunc = async (pageLast) => {
-    console.log(pageLast)
+    console.log(pageLast);
     if (!pageLast) {
       setIsLastPage(true);
     } else {
       var data = await FirebaseReadQueries({
         type: "isLastPage",
         collectionName: props.accessor,
-        sortKey: props.sortKey, 
+        sortKey: props.sortKey,
         lastVisibleDoc: pageLast,
         searchCriteria: searchCriteria,
       });
@@ -439,17 +439,16 @@ function FirebaseDataTable(props) {
 
       // Returns false if page exists, otherwise true
       setIsLastPage(!documentSnapshots.docs[0]);
-      console.log(documentSnapshots.docs[0])
+      console.log(documentSnapshots.docs[0]);
     }
   };
-
 
   // Handles getting data from firebase
   // Queries contained in TableQueries.js
   const getSigninData = async (getSigninDataType) => {
     console.log("Getting sign in data with type:");
     console.log(getSigninDataType);
-    console.log(searchCriteria)
+    console.log(searchCriteria);
 
     const data = await FirebaseReadQueries({
       type: props.type, // Specific id for queries
@@ -468,7 +467,7 @@ function FirebaseDataTable(props) {
       // Given by the search component
       searchCriteria: searchCriteria,
     });
-    
+
     // Update page
     const documentSnapshots = await getDocs(data);
 
@@ -521,8 +520,8 @@ function FirebaseDataTable(props) {
   // This function is called when user makes a search
   const makeSearch = (data) => {
     // Update searchCritiera var before querying
-    searchCriteria = data
-    console.log(searchCriteria)
+    searchCriteria = data;
+    console.log(searchCriteria);
 
     // Call table refresh with specific search query
     // Same query as before, but with an added "searchCritiera" obj
@@ -530,7 +529,6 @@ function FirebaseDataTable(props) {
 
     // Future next,prev button presses will pass this searchCriteria still
     // Reset on refresh
-  
   };
 
   return (
@@ -548,7 +546,7 @@ function FirebaseDataTable(props) {
         />
       </Styles>
 
-      <FirebaseDataTableSearch 
+      <FirebaseDataTableSearch
         searchType={props.type}
         searchCriteria={makeSearch}
         hasSubmit={true}
