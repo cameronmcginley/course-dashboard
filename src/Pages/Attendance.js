@@ -7,7 +7,7 @@ import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
 import {GetCourseName} from "../Functions/GetCourseName";
 import CircularProgress from '@mui/material/CircularProgress';
-import AlertDialogCourseEdit from "../Components/AlertDialogCourseEdit"
+import AlertDialog from "../Components/AlertDialog";
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ const Attendance = () => {
                 <br/>
                 Course Name: {courseName}
                 <br/>
-                <AlertDialogCourseEdit currCourseName={courseName} currCourseID={pageCourseID} />
+                <AlertDialog type="courseEdit" currCourseName={courseName} currCourseID={pageCourseID} />
               </div>
 
               {/* Wait for courseName before loading the form, else

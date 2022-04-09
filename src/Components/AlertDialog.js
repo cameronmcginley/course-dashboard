@@ -38,6 +38,8 @@ import { CSVLink } from "react-csv";
 import moment from "moment";
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 import DialogExportCSV from "./DialogExportCSV";
+import DialogCourseEntry from "./DialogCourseEntry";
+import DialogCourseEdit from "./DialogCourseEdit";
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(false);
@@ -54,85 +56,37 @@ export default function AlertDialog(props) {
     setOpen(false);
   }
 
-  let queries = {
-    userID: null,
-    // courseName: null,
-    // courseID: null,
-    courseFullStr: null
-  };
-
-  const getDropdownData = (data) => {
-    console.log("Dropdown select", data)
-
-    // Func returns ["courseName", "id"]
-    console.log(data.course)
-    // let courseSelection = SplitCourseFullStr(data.course)
- 
-    // setSearchCourseID(courseSelection[1])
-    console.log(data, "YOOO")
-
-    queries.courseFullStr = data.course
-  };
-
   // Contains multiple types depending on passed in prop
   return (
-    <div>
-      {props.type === "csvExport" && (
-        <Fragment>
-          <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            Temp Name
+    <Fragment>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        {props.type === "csvExport" && "Export to CSV"}
+        {props.type === "courseEntry" && "Add New Course"}
+        {props.type === "courseEdit" && "Edit Course"}
+      </Button>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Optional Queries"}
+        </DialogTitle>
+
+        <DialogActions>
+          {/* Handles things scpecific to type of dialog box */}
+          {props.type === "csvExport" && <DialogExportCSV />}
+          {props.type === "courseEntry" && <DialogCourseEntry />}
+          {props.type === "courseEdit" && <DialogCourseEdit currCourseName={props.currCourseName} currCourseID={props.currCourseID} />}
+
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Close
           </Button>
-
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Optional Queries"}
-            </DialogTitle>
-
-            <DialogActions>
-              {/* Handles things scpecific to type of dialog box */}
-              {props.type === "csvExport" && <DialogExportCSV />}
-              {/* {props.type === "courseEntry" && <DialogCourseEntry />} */}
-
-              <Button onClick={handleClose} color="primary" autoFocus>
-                Close
-              </Button>
-              
-            </DialogActions>
-          </Dialog>
-        </Fragment>
-      )}
-
-
-      {props.type === "courseEntry" && (
-        <Fragment>
-          <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            Add Course
-          </Button>
-
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{"Add Course"}</DialogTitle>
-
-            <DialogActions>
-              <FirebaseForm formType="courseEntry" collectionName="courses" />
-
-              <Button onClick={handleClose} color="primary" autoFocus>
-                Close
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </Fragment>
-      )}
-
-    </div>
+          
+        </DialogActions>
+      </Dialog>
+    </Fragment>
   );
 }

@@ -40,7 +40,7 @@ import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
-export default function AlertDialog(props) {
+export default function DialogCourseEdit(props) {
   const [open, setOpen] = useState(false);
 
   const [successPage, setSuccessPage] = useState(false);
@@ -153,97 +153,80 @@ export default function AlertDialog(props) {
 
   // Contains multiple types depending on passed in prop
   return (
-    <Fragment>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          Edit Course
-        </Button>
+    <div className="flexForm">
+        {/* Course Name */}
+        <TextField
+            disabled={!editingCourseName}
+            id="outlined-disabled"
+            label="Course Name"
+            defaultValue={props.currCourseName}
+            onChange={(e) => setNewCourseName(e.target.value)}
+        />
+        <Checkbox
+            checked={editingCourseName}
+            onChange={(e) => setEditingCourseName(!editingCourseName)}
+            inputProps={{ 'aria-label': 'controlled' }}
+        />
+        <div className="break" />
 
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">{"Add Course"}</DialogTitle>
+        {/* Course ID */}
+        <TextField
+            disabled={!editingCourseID}
+            id="outlined-disabled"
+            label="Course ID"
+            defaultValue={props.currCourseID}
+            onChange={(e) => setNewCourseID(e.target.value)}
+        />
+        <Checkbox
+            checked={editingCourseID}
+            onChange={(e) => setEditingCourseID(!editingCourseID)}
+            inputProps={{ 'aria-label': 'controlled' }}
+        />
+        <div className="break" />
 
-            <DialogActions>
-                <div className="flexForm">
-                    {/* Course Name */}
-                    <TextField
-                        disabled={!editingCourseName}
-                        id="outlined-disabled"
-                        label="Course Name"
-                        defaultValue={props.currCourseName}
-                        onChange={(e) => setNewCourseName(e.target.value)}
-                    />
-                    <Checkbox
-                        checked={editingCourseName}
-                        onChange={(e) => setEditingCourseName(!editingCourseName)}
-                        inputProps={{ 'aria-label': 'controlled' }}
-                    />
-                    <div className="break" />
+        {blockingError[0] && (
+            <Alert
+                severity="error"
+                sx={{ mx: "auto", minWidth: "2rem", maxWidth: "20rem" }}
+            >
+                <AlertTitle>Error</AlertTitle>
+                {blockingError[1]}
+            </Alert>
+        )}
 
-                    {/* Course ID */}
-                    <TextField
-                        disabled={!editingCourseID}
-                        id="outlined-disabled"
-                        label="Course ID"
-                        defaultValue={props.currCourseID}
-                        onChange={(e) => setNewCourseID(e.target.value)}
-                    />
-                    <Checkbox
-                        checked={editingCourseID}
-                        onChange={(e) => setEditingCourseID(!editingCourseID)}
-                        inputProps={{ 'aria-label': 'controlled' }}
-                    />
-                    <div className="break" />
+        <div className="break" />
+        
+        {/* Dont show submit/close after success, show loading bar */}
+        {!successPage ? (
+            <>
+            {/* Submit Button */}
+            <Button
+            // Disables pointer when disabled
+            style={submitBtnDisabled ? { pointerEvents: "none" } : {}}
+            id="submit-form-button"
+            variant="contained"
+            color={submitBtnColor}
+            onClick={handleSubmit}
+            >
+            {submitBtnText}
+            </Button>
 
-                    {blockingError[0] && (
-                      <Alert
-                        severity="error"
-                        sx={{ mx: "auto", minWidth: "2rem", maxWidth: "20rem" }}
-                      >
-                        <AlertTitle>Error</AlertTitle>
-                        {blockingError[1]}
-                      </Alert>
-                    )}
+            <div className="break" />
+    
+            <Button onClick={handleClose} color="primary" autoFocus>
+                Close
+            </Button>
+            </>
+        )
+        :
+        (
+            <>
+            <h1>Success!</h1>
+            <div className="break" />
+            <CircularProgress />
+            </>
+        )}
 
-                    <div className="break" />
-                    
-                    {/* Dont show submit/close after success, show loading bar */}
-                    {!successPage ? (
-                      <>
-                      {/* Submit Button */}
-                      <Button
-                        // Disables pointer when disabled
-                        style={submitBtnDisabled ? { pointerEvents: "none" } : {}}
-                        id="submit-form-button"
-                        variant="contained"
-                        color={submitBtnColor}
-                        onClick={handleSubmit}
-                      >
-                        {submitBtnText}
-                      </Button>
-
-                      <div className="break" />
-              
-                      <Button onClick={handleClose} color="primary" autoFocus>
-                          Close
-                      </Button>
-                      </>
-                    )
-                  :
-                  (
-                    <>
-                    <h1>Success!</h1>
-                    <div className="break" />
-                    <CircularProgress />
-                    </>
-                  )}
-
-                </div>
-            </DialogActions>
-        </Dialog>
-    </Fragment>
+    </div>
   );
 }
