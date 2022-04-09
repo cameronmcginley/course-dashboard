@@ -39,6 +39,7 @@ import FirebaseForm from "./FirebaseForm";
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
+import { CheckCourseSubmission } from "../Functions/InputChecks/CheckCourseSubmission";
 
 export default function DialogCourseEdit(props) {
   const [open, setOpen] = useState(false);
@@ -88,66 +89,39 @@ export default function DialogCourseEdit(props) {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    let hasRequiredData = false;
-    let hasUniqueID = null;
-    
-    if (editingCourseName) {
-      // Implement checks later, seperate func file
-      hasRequiredData = newCourseName
-    }
-    if (editingCourseID) {
-      hasRequiredData = newCourseID
-    }
+    console.log(newCourseName, newCourseID)
+    const isCourseValid = await CheckCourseSubmission(true, newCourseName, newCourseID)
+    console.log(isCourseValid)
 
-
-    if (hasRequiredData) {
-      // Returns bool for if course id exists in database
-      const data = await FirebaseReadQueries({
-        type: "checkCourseID",
-        collectionName: "courses",
-        courseID: newCourseID,
-      });
-
-      const documentSnapshots = await getDocs(data);
-
-      documentSnapshots.docs[0] ? (hasUniqueID = false) : (hasUniqueID = true);
-    }
-
-    // On success
-    if (hasUniqueID) {
-      buttonClickSuccess();
-      setBlockingError([false, ""]); //Clear error if it's there
-
-      console.log(newCourseName, newCourseID);
-
-      // Set the changed data in firebase
-      FirebaseWriteQueries({
-        type: "courseEdit",
-        currCourseName: props.currCourseName,
-        currCourseID: props.currCourseID,
-        newCourseName: newCourseName,
-        newCourseID: newCourseID,
-      });
-
-      // Loading bar on success, waits for data to save then reloads
-      // or redirects to new url
-      setSuccessPage(true);
-      setTimeout(function(){
-        newCourseID ? document.location = "/courses/" + newCourseID + "/attendance"
-        : document.location = "/courses/" + props.currCourseID + "/attendance"
-        setSuccessPage(false);
-        handleClose()
-      }, 3000);
-      
-    } 
-    // Create more error messages later
-    else if (hasRequiredData && !hasUniqueID) {
-      setBlockingError([true, "Must Enter Unique Course ID"]);
-      buttonClickFail("Error");
+    if (isCourseValid[0]) {
+        buttonClickSuccess();
+        setBlockingError([false, ""]); //Clear error if it's there
+  
+        console.log(newCourseName, newCourseID);
+  
+        // Set the changed data in firebase
+        FirebaseWriteQueries({
+          type: "courseEdit",
+          currCourseName: props.currCourseName,
+          currCourseID: props.currCourseID,
+          newCourseName: newCourseName,
+          newCourseID: newCourseID,
+        });
+  
+        // Loading bar on success, waits for data to save then reloads
+        // or redirects to new url
+        setSuccessPage(true);
+        setTimeout(function(){
+          newCourseID ? document.location = "/courses/" + newCourseID + "/attendance"
+          : document.location = "/courses/" + props.currCourseID + "/attendance"
+          setSuccessPage(false);
+          handleClose()
+        }, 3000);
+        
     }
     else {
-      setBlockingError([true, "No Changes"]);
-      buttonClickFail("Error");
+        setBlockingError([true, isCourseValid[1]]);
+        buttonClickFail("Error");
     }
   };
 
