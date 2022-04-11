@@ -116,6 +116,8 @@ const makeSigninData = async () => {
   const IDList = await makeIDList()
   const useIDList = true
 
+  console.log("Generating data...")
+
   for (let i = 0; i < 6454; i++) {
     // Random id unless ISList exists
     let userID = null
@@ -134,6 +136,8 @@ const makeSigninData = async () => {
       timestamp: randomDate(new Date(2015, 0, 1), new Date(), 0, 24),
     });
   }
+
+  console.log("Finished generating data")
 };
 
 const makeCourseData = async () => {

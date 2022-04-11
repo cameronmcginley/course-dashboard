@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import Navbar from "./Pages/Navbar";
+import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import Courses from "./Pages/Courses";
 import Form from "./Pages/Form";
