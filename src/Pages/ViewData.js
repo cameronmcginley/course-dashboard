@@ -5,6 +5,7 @@ import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import AlertDialog from "../Components/AlertDialog";
+import '../App.css'
 
 const Home = () => {
   const navigate = useNavigate();

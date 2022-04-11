@@ -8,6 +8,7 @@ import FirebaseForm from "../Components/FirebaseForm";
 import { GetCourseName } from "../Functions/GetCourseName";
 import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "../Components/AlertDialog";
+import '../App.css'
 
 const Attendance = () => {
   const navigate = useNavigate();

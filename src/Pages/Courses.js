@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
 import AlertDialog from "../Components/AlertDialog";
+import '../App.css'
 
 const Home = () => {
   const navigate = useNavigate();
