@@ -13,6 +13,8 @@ function Login() {
   const [loginPassword, setLoginPassword] = useState("");
   const [user, setUser] = useState({});
   const [passwordShown, setPasswordShown] = useState(false);
+	
+  const errMessage = document.getElementById("errorMessage");
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
