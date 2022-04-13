@@ -73,7 +73,7 @@ h3 {
   font-size: 1rem;
 }
 
-.searchTableCheckbox {
+.csvArchiveCheckbox {
   display: flex;
   flex-direction: row;
   align-items: center;

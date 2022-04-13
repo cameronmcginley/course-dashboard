@@ -49,8 +49,10 @@ const FirebaseDataTableSearch = (props) => {
   const [searchUserID, setSearchUserID] = useState("");
   const [searchCourseName, setSearchCourseName] = useState("");
 
-  const [searchCourseID, setSearchCourseID] = useState("");
+  // const [searchCourseID, setSearchCourseID] = useState("");
   const [searchCourseIDList, setSearchCourseIDList] = useState([]);
+
+  const [doArchiveAfter, setDoArchiveAfter] = useState(false);
 
   const [searchArchived, setSearchArchived] = useState("unarchived");
   const [showDateSelect, setShowDateSelect] = useState(false);
@@ -110,7 +112,14 @@ const FirebaseDataTableSearch = (props) => {
         startDate: dateRange[0].startDate,
         endDate: endOfDay(dateRange[0].endDate),
         searchArchived: searchArchived,
+        doArchiveAfter: doArchiveAfter,
       });
+    }
+
+    if (doArchiveAfter) {
+      console.log("F\nF\nF\nF\nF\nF\nF\nF\nF\nArchiving Data")
+      // Give everything an archive date
+      // Page to delete archived date older than certain period?
     }
   };
 
@@ -124,17 +133,6 @@ const FirebaseDataTableSearch = (props) => {
     console.log("X\nX\nX\nX\nX\nX\nX\nX\nX\nX\nX\n")
     console.log(data.map(x => SplitCourseFullStr(x.course)[1]))
     setSearchCourseIDList(data.map(x => SplitCourseFullStr(x.course)[1]))
-
-
-
-
-
-    // Func returns ["courseName", "id"]
-    // console.log(data.course);
-    // console.log(data[0].course);
-    // let courseSelection = SplitCourseFullStr(data[0].course);
-
-    // setSearchCourseIDList(courseSelection[1]);
   };
 
   return (
@@ -223,6 +221,20 @@ const FirebaseDataTableSearch = (props) => {
             <MenuItem value={"either"}>Either</MenuItem>
           </TextField>
 
+          <div class="break"></div>
+
+          {props.isCSV && (
+            <Card variant="outlined" className="csvArchiveCheckbox">
+              <h3>Archive after export: </h3>
+              <Checkbox
+                sx={{ height: '50%' }} // Remove margin
+                checked={doArchiveAfter}
+                onChange={(e) => setDoArchiveAfter(!doArchiveAfter)}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+              <h3>{doArchiveAfter ? "True" : "False"}</h3>
+            </Card >
+          )}
 
           <div class="break"></div>
 

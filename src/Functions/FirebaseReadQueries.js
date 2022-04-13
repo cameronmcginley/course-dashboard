@@ -226,7 +226,6 @@ export const FirebaseReadQueries = async (data) => {
     const params = [
       collection(db, data.collectionName),
       orderBy(data.sortKey),
-      where("isArchived", "==", false) //Default searches only search for unarchived data
     ];
 
     // Type

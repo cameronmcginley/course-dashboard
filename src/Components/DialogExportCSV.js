@@ -96,6 +96,18 @@ export default function DialogExportCSV(props) {
       // console.log("No data found")
       setBlockingError([true, "No Data Found"]);
       buttonClickFail();
+      return
+    }
+
+    // Passed by searchCriteria from FirebaseDataTableSearch
+    // From an option in csv export
+    if (searchCriteria.doArchiveAfter) {
+      console.log("T\nT\nT\nT\nT\nT\nT\nArchiving...")
+
+      await documentSnapshots.forEach((docSnapshot) => {
+        let docRef = doc(db, 'sign-ins', docSnapshot.id);
+        updateDoc(docRef, { isArchived: true })
+      });
     }
   };
 
@@ -131,6 +143,7 @@ export default function DialogExportCSV(props) {
       {/* Takes same searches from the sign-ins table */}
       <FirebaseDataTableSearch
         searchType="sign-ins"
+        isCSV={true}
         hasSubmit={false}
         searchCriteria={getData}
       />
