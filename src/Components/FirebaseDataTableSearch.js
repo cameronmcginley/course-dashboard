@@ -48,7 +48,10 @@ const FirebaseDataTableSearch = (props) => {
   // All possible searches
   const [searchUserID, setSearchUserID] = useState("");
   const [searchCourseName, setSearchCourseName] = useState("");
+
   const [searchCourseID, setSearchCourseID] = useState("");
+  const [searchCourseIDList, setSearchCourseIDList] = useState([]);
+
   const [searchArchived, setSearchArchived] = useState("unarchived");
   const [showDateSelect, setShowDateSelect] = useState(false);
   const [dateRange, setDateRange] = useState([
@@ -90,7 +93,7 @@ const FirebaseDataTableSearch = (props) => {
       "Search by",
       searchUserID,
       searchCourseName,
-      searchCourseID,
+      searchCourseIDList,
       searchArchived
     );
     // console.log(Boolean(searchArchived))
@@ -102,7 +105,7 @@ const FirebaseDataTableSearch = (props) => {
       setBlockingError([false, ""]); //Clear error if it's there
       props.searchCriteria({
         searchUserID: searchUserID,
-        searchCourseID: searchCourseID,
+        searchCourseIDList: searchCourseIDList,
         searchCourseName: searchCourseName,
         startDate: dateRange[0].startDate,
         endDate: endOfDay(dateRange[0].endDate),
@@ -113,13 +116,25 @@ const FirebaseDataTableSearch = (props) => {
 
   // This function is called when user selects course from dropdown
   const getDropdownData = (data) => {
+    // if (data.length === 0) { return }
+
     console.log("Dropdown select", data);
 
-    // Func returns ["courseName", "id"]
-    console.log(data.course);
-    let courseSelection = SplitCourseFullStr(data.course);
+    // Map list of courseFullStrs to just their ID
+    console.log("X\nX\nX\nX\nX\nX\nX\nX\nX\nX\nX\n")
+    console.log(data.map(x => SplitCourseFullStr(x.course)[1]))
+    setSearchCourseIDList(data.map(x => SplitCourseFullStr(x.course)[1]))
 
-    setSearchCourseID(courseSelection[1]);
+
+
+
+
+    // Func returns ["courseName", "id"]
+    // console.log(data.course);
+    // console.log(data[0].course);
+    // let courseSelection = SplitCourseFullStr(data[0].course);
+
+    // setSearchCourseIDList(courseSelection[1]);
   };
 
   return (

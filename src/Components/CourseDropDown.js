@@ -52,6 +52,8 @@ export default function CourseDropDown(props) {
   // const courseList = props.courseList;
   let [courseList, setCourseList] = React.useState([]);
 
+  let [selectedCourses, setSelectedCourses] = React.useState([]);
+
   React.useEffect(() => {
     let active = true;
 
@@ -87,16 +89,22 @@ export default function CourseDropDown(props) {
 
   return (
     <Autocomplete
-      onChange={(e, newVal) => props.selectedCourse(newVal)} //Sends selected value to parent
-      id="asynchronous-demo"
-      sx={{ width: 300 }}
+    multiple
+      // onChange={(e, newVal) => props.selectedCourse(newVal)} //Sends selected value to parent
+      // newVal is list of all selected elements
+      onChange={(e, newVal) => props.selectedCourse(newVal)}
+      // id="asynchronous-demo"
+      // sx={{ width: 300 }}
+
       open={open}
       onOpen={() => {
         setOpen(true);
       }}
       onClose={() => {
         setOpen(false);
+        // props.selectedCourse(selectedCourses)
       }}
+
       isOptionEqualToValue={(option, value) => option.course === value.course}
       getOptionLabel={(option) => option.course}
       options={options}

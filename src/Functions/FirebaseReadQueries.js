@@ -55,8 +55,9 @@ export const FirebaseReadQueries = async (data) => {
 
     const params = [collection(db, "sign-ins"), orderBy("sortKey"), limit(10)];
 
-    if (data.searchCriteria.searchCourseID) {
-      params.push(where("courseID", "==", data.searchCriteria.searchCourseID));
+    // If there are courseIDs to search by, push a firebase query for each
+    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
+      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
     }
     if (data.searchCriteria.searchUserID) {
       params.push(
@@ -105,8 +106,8 @@ export const FirebaseReadQueries = async (data) => {
         )
       );
     }
-    if (data.searchCriteria.searchCourseID) {
-      params.push(where("courseID", "==", data.searchCriteria.searchCourseID));
+    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
+      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
     }
     if (data.searchCriteria.startDate) {
       const startDateKey = getSortKey(data.searchCriteria.startDate);
@@ -144,8 +145,8 @@ export const FirebaseReadQueries = async (data) => {
         )
       );
     }
-    if (data.searchCriteria.searchCourseID) {
-      params.push(where("courseID", "==", data.searchCriteria.searchCourseID));
+    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
+      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
     }
     if (data.searchCriteria.startDate) {
       const startDateKey = getSortKey(data.searchCriteria.startDate);
@@ -188,8 +189,8 @@ export const FirebaseReadQueries = async (data) => {
     }
 
     // Optional Queries
-    if (data.searchCriteria.searchCourseID) {
-      params.push(where("courseID", "==", data.searchCriteria.searchCourseID));
+    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
+      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
     }
     if (data.searchCriteria.startDate) {
       const startDateKey = getSortKey(data.searchCriteria.startDate);
@@ -243,8 +244,8 @@ export const FirebaseReadQueries = async (data) => {
     }
 
     // Optional queries
-    if (data.searchCriteria.searchCourseID) {
-      params.push(where("courseID", "==", data.searchCriteria.searchCourseID));
+    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
+      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
     }
 
     return query(...params);
