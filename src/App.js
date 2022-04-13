@@ -18,6 +18,21 @@ import {
 } from "react-router-dom";
 import { auth } from "./firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  InputLabel,
+  AlertTitle,
+  TextField,
+  Alert,
+  OutlinedInput,
+  Button,
+  Checkbox,
+  Box,
+  Paper,
+} from "@mui/material";
 
 function App() {
   return (
@@ -26,7 +41,7 @@ function App() {
         <Navbar />
 
         {/* Pages exist in the content div */}
-        <div className="content">
+        <Paper className="content">
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -40,7 +55,7 @@ function App() {
               element={<Attendance />}
             />
           </Routes>
-        </div>
+        </Paper>
       </div>
     </Router>
   );

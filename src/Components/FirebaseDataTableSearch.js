@@ -13,6 +13,7 @@ import {
   Checkbox,
   Box,
   Paper,
+  Card,
 } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "../App.css";
@@ -194,7 +195,7 @@ const FirebaseDataTableSearch = (props) => {
           <div class="break"></div>
 
           {/* Checkbox for searching for archived */}
-          <Paper  className="searchTableCheckbox">
+          <Card variant="outlined" className="searchTableCheckbox">
             <h3>Archived: </h3>
             <Checkbox
               sx={{ height: '50%' }} // Remove margin
@@ -203,7 +204,7 @@ const FirebaseDataTableSearch = (props) => {
               inputProps={{ "aria-label": "controlled" }}
             />
             <h3>{searchArchived ? "True" : "False"}</h3>
-          </Paper >
+          </Card >
 
           <div class="break"></div>
 

@@ -1,8 +1,22 @@
 import React, { Component, useState, useEffect } from "react";
 import { auth } from "../firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import Button from '@mui/material/Button';
 import '../App.css'
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  InputLabel,
+  AlertTitle,
+  TextField,
+  Alert,
+  OutlinedInput,
+  Button,
+  Checkbox,
+  Box,
+  Paper,
+} from "@mui/material";
 
 const Navbar = () => {
   const [user, setUser] = useState({});
@@ -16,7 +30,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar">
+    <Paper className="navbar" square={true}>
 
       {/* <h1>Demo Application</h1> */}
 
@@ -31,7 +45,7 @@ const Navbar = () => {
         <Button color="primary" sx={{ ml: 2 }} variant="contained" onClick={logout}>Sign Out</Button>
       </div>
 
-    </div>
+    </Paper>
   );
 };
 

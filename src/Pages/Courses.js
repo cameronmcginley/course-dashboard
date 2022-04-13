@@ -21,7 +21,7 @@ const Home = () => {
   }
 
   return (
-    <div className="home">
+    <div className="tableSplit">
       {/* Course entry form, contained in popout box */}
       <AlertDialog type="courseEntry" />
 

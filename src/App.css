@@ -37,9 +37,9 @@ body, html{
   max-width: 1080px;
   /* width: 90%; */
   margin: 0 auto;
-  outline: .1rem solid #eee;
-  background-color: white;
-  border-radius: .5rem;
+  /* outline: .1rem solid #eee;
+  background-color: white; */
+  /* border-radius: .5rem; */
 }
 
 /* Grid that splits div to 2 cols
@@ -67,14 +67,9 @@ h1 {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  /* border: 1px solid lightgray */
 }
 
-.searchTableCheckbox > * {
-  /* margin: 0;
-  padding: 0; */
-  /* align-items: center;
-  justify-content: center; */
-}
 
 
 
@@ -141,9 +136,9 @@ h1 {
   /* align-items: center; */
   justify-content: space-between;
   /* justify-content: stretch;   */
-  border-bottom: .1rem solid black;
+  /* border-bottom: .1rem solid black; */
   padding-top: 1rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-  background-color: white;
+  /* background-color: white; */
 }
