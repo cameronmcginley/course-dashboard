@@ -176,7 +176,7 @@ export const FirebaseReadQueries = async (data) => {
 
     // Type
     if (data.getSigninDataType === "refresh") {
-      params.push(startAt(data.firstVisibleDoc));
+      // params.push(startAt(data.firstVisibleDoc));
       params.push(limit(10));
     }
     if (data.getSigninDataType === "next") {
