@@ -136,8 +136,9 @@ const FirebaseDataTableSearch = (props) => {
     setSearchCourseIDList(data.map(x => SplitCourseFullStr(x.course)[1]))
   };
 
-  const tempFunc = (data) => {
-    console.log("YOOOOOOOOOO")
+  const handleDateRange = (data) => {
+    console.log("Handling date range...", data)
+    setDateRange(data)
   };
 
   return (
@@ -165,8 +166,9 @@ const FirebaseDataTableSearch = (props) => {
 
           <div class="break"></div>
 
-          {/* Show the calendar when user selects btn */}
-          <AlertDialog type="dateRangePicker" sendDateRangeUp={tempFunc} />
+          {/* Calendar in dialog box, selectedDateRange passed up after select
+          button is pressed */}
+          <AlertDialog type="dateRangePicker" sendDateRangeUp={handleDateRange} />
 
           <div class="break"></div>
 
