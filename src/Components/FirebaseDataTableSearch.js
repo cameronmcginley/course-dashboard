@@ -11,6 +11,8 @@ import {
   OutlinedInput,
   Button,
   Checkbox,
+  Box,
+  Paper,
 } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "../App.css";
@@ -192,7 +194,7 @@ const FirebaseDataTableSearch = (props) => {
           <div class="break"></div>
 
           {/* Checkbox for searching for archived */}
-          <div className="searchTableCheckbox">
+          <Paper  className="searchTableCheckbox">
             <h3>Archived: </h3>
             <Checkbox
               sx={{ height: '50%' }} // Remove margin
@@ -201,9 +203,9 @@ const FirebaseDataTableSearch = (props) => {
               inputProps={{ "aria-label": "controlled" }}
             />
             <h3>{searchArchived ? "True" : "False"}</h3>
-          </div>
+          </Paper >
 
-          {/* <div class="break"></div> */}
+          <div class="break"></div>
 
           <FormControl>
             <Button
@@ -222,7 +224,7 @@ const FirebaseDataTableSearch = (props) => {
 
       {/* Course table search */}
       {props.searchType === "courses" && (
-        <div className="searchQueries courses">
+        <Box className="searchQueries courses">
           <CourseDropDown selectedCourse={getDropdownData} />
 
           {/* <div class="break" /> */}
@@ -239,7 +241,7 @@ const FirebaseDataTableSearch = (props) => {
               {submitBtnText}
             </Button>
           </FormControl>
-        </div>
+        </Box>
       )}
     </div>
   );
