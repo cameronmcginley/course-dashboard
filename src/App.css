@@ -24,6 +24,15 @@
   margin: auto;
 }
 
+
+
+
+body, html{
+  margin: 0;
+  padding: 0;
+  background-color: #f6f6f6
+}
+
 .content {
   max-width: 1080px;
   /* width: 90%; */
@@ -31,6 +40,36 @@
   outline: .1rem solid #eee;
   background-color: white;
   border-radius: .5rem;
+}
+
+/* Grid that splits div to 2 cols
+For table and search feature */
+.tableSplit {
+  display: grid;
+  grid-template-columns: [first] 60% [second] 40%;
+  justify-items: center;
+  align-items: center;
+  row-gap: 3rem;
+}
+
+.col2 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+h1 {
+  margin: 0;
+  margin-top: 2rem;
+}
+
+.searchTableCheckbox {
+  display: flex;
+  flex-direction: row;
+}
+
+.searchTableCheckbox > * {
+  margin: 0;
+  padding: 0;
 }
 
 /* .firebase-signin-form {
@@ -48,6 +87,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  flex-direction: column;
 }
 
 .flexForm {
@@ -98,10 +138,4 @@
   padding-bottom: 1rem;
   margin-bottom: 1rem;
   background-color: white;
-}
-
-body, html{
-  margin: 0;
-  padding: 0;
-  background-color: #f6f6f6
 }

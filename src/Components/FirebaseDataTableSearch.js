@@ -118,7 +118,7 @@ const FirebaseDataTableSearch = (props) => {
   };
 
   return (
-    <Fragment>
+    <div className="tableSearch">
       {console.log(TableHeaders(props)["sign-ins"])}
       <h1>Search Data</h1>
 
@@ -192,15 +192,18 @@ const FirebaseDataTableSearch = (props) => {
           <div class="break"></div>
 
           {/* Checkbox for searching for archived */}
-          <h3>Archived: </h3>
-          <Checkbox
-            checked={searchArchived}
-            onChange={(e) => setSearchArchived(!searchArchived)}
-            inputProps={{ "aria-label": "controlled" }}
-          />
-          <h3>{searchArchived ? "True" : "False"}</h3>
+          <div className="searchTableCheckbox">
+            <h3>Archived: </h3>
+            <Checkbox
+              sx={{ height: '50%' }} // Remove margin
+              checked={searchArchived}
+              onChange={(e) => setSearchArchived(!searchArchived)}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+            <h3>{searchArchived ? "True" : "False"}</h3>
+          </div>
 
-          <div class="break"></div>
+          {/* <div class="break"></div> */}
 
           <FormControl>
             <Button
@@ -222,7 +225,7 @@ const FirebaseDataTableSearch = (props) => {
         <div className="searchQueries courses">
           <CourseDropDown selectedCourse={getDropdownData} />
 
-          <div class="break" />
+          {/* <div class="break" /> */}
 
           <FormControl>
             <Button
@@ -238,7 +241,7 @@ const FirebaseDataTableSearch = (props) => {
           </FormControl>
         </div>
       )}
-    </Fragment>
+    </div>
   );
 };
 

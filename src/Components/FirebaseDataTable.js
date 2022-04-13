@@ -56,7 +56,7 @@ import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
 const Styles = styled.div`
   padding: 1rem;
-
+  grid-row: 1 / 4;
   // outline: auto;
   display: flex;
   flex-direction: column;
@@ -330,7 +330,7 @@ function Table({
         </button>{" "}
       </div>
       {/* Shows states below table */}
-      <pre>
+      {/* <pre>
         <code>
           {JSON.stringify(
             {
@@ -350,7 +350,7 @@ function Table({
             2
           )}
         </code>
-      </pre>
+      </pre> */}
     </>
   );
 }

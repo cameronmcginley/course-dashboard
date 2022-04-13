@@ -20,9 +20,7 @@ const Home = () => {
   }
 
   return (
-    <div className="home">
-      {/* CSV Export */}
-      <AlertDialog type="csvExport" />
+    <div className="tableSplit">
 
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}
@@ -33,6 +31,9 @@ const Home = () => {
         accessor={"sign-ins"}
         sortKey={"sortKey"}
       />
+
+      {/* CSV Export */}
+      <AlertDialog type="csvExport"/>
     </div>
   );
 };
