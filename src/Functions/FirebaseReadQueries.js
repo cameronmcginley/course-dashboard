@@ -209,11 +209,8 @@ export const FirebaseReadQueries = async (data) => {
     if (data.searchCriteria.searchArchived === "archived") {
       params.push(where("isArchived", "==", true));
     }
-    if (data.searchCriteria.searchArchived === "unarchived") {
-      params.push(where("isArchived", "==", false));
-    }
     // searchCriteria empty on default loads without queries, only search for unarchived data
-    if (!data.searchCriteria) {
+    if (!data.searchCriteria.searchArchived || data.searchCriteria.searchArchived === "unarchived") {
       params.push(where("isArchived", "==", false));
     }
 
