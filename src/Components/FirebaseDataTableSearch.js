@@ -14,6 +14,8 @@ import {
   Box,
   Paper,
   Card,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "../App.css";
@@ -47,7 +49,7 @@ const FirebaseDataTableSearch = (props) => {
   const [searchUserID, setSearchUserID] = useState("");
   const [searchCourseName, setSearchCourseName] = useState("");
   const [searchCourseID, setSearchCourseID] = useState("");
-  const [searchArchived, setSearchArchived] = useState(false);
+  const [searchArchived, setSearchArchived] = useState("unarchived");
   const [showDateSelect, setShowDateSelect] = useState(false);
   const [dateRange, setDateRange] = useState([
     {
@@ -194,17 +196,18 @@ const FirebaseDataTableSearch = (props) => {
 
           <div class="break"></div>
 
-          {/* Checkbox for searching for archived */}
-          <Card variant="outlined" className="searchTableCheckbox">
-            <h3>Archived: </h3>
-            <Checkbox
-              sx={{ height: '50%' }} // Remove margin
-              checked={searchArchived}
-              onChange={(e) => setSearchArchived(!searchArchived)}
-              inputProps={{ "aria-label": "controlled" }}
-            />
-            <h3>{searchArchived ? "True" : "False"}</h3>
-          </Card >
+          {/* Input for searching for archived */}
+          <TextField
+            value={searchArchived}
+            label="Archival Status"
+            onChange={(e) => setSearchArchived(e.target.value)}
+            select
+          >
+            <MenuItem value={"unarchived"}>Unarchived</MenuItem>
+            <MenuItem value={"archived"}>Archived</MenuItem>
+            <MenuItem value={"either"}>Either</MenuItem>
+          </TextField>
+
 
           <div class="break"></div>
 

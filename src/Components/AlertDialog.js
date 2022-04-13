@@ -59,7 +59,7 @@ export default function AlertDialog(props) {
 
   // Contains multiple types depending on passed in prop
   return (
-    <div>
+    <div className="col2row1">
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         {props.type === "csvExport" && "Export to CSV"}
         {props.type === "courseEntry" && "Add New Course"}

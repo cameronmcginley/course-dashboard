@@ -76,8 +76,11 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("sortKey", "<=", startDateKey));
       params.push(where("sortKey", ">=", endDateKey));
     }
-    if (data.searchCriteria.searchArchived) {
+    if (data.searchCriteria.searchArchived === "archived") {
       params.push(where("isArchived", "==", true));
+    }
+    if (data.searchCriteria.searchArchived === "unarchived") {
+      params.push(where("isArchived", "==", false));
     }
 
     return query(...params);
@@ -112,8 +115,11 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("sortKey", "<=", startDateKey));
       params.push(where("sortKey", ">=", endDateKey));
     }
-    if (data.searchCriteria.searchArchived) {
+    if (data.searchCriteria.searchArchived === "archived") {
       params.push(where("isArchived", "==", true));
+    }
+    if (data.searchCriteria.searchArchived === "unarchived") {
+      params.push(where("isArchived", "==", false));
     }
 
     return query(...params);
@@ -148,8 +154,11 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("sortKey", "<=", startDateKey));
       params.push(where("sortKey", ">=", endDateKey));
     }
-    if (data.searchCriteria.searchArchived) {
+    if (data.searchCriteria.searchArchived === "archived") {
       params.push(where("isArchived", "==", true));
+    }
+    if (data.searchCriteria.searchArchived === "unarchived") {
+      params.push(where("isArchived", "==", false));
     }
 
     return query(...params);
@@ -196,16 +205,28 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("sortKey", "<=", startDateKey));
       params.push(where("sortKey", ">=", endDateKey));
     }
-    if (data.searchCriteria.searchArchived) {
+    if (data.searchCriteria.searchArchived === "archived") {
       params.push(where("isArchived", "==", true));
     }
+    if (data.searchCriteria.searchArchived === "unarchived") {
+      params.push(where("isArchived", "==", false));
+    }
+    // searchCriteria empty on default loads without queries, only search for unarchived data
+    if (!data.searchCriteria) {
+      params.push(where("isArchived", "==", false));
+    }
 
+    console.log(params)
     return query(...params);
   }
 
   if (data.collectionName === "courses") {
     console.log("Courses read");
-    const params = [collection(db, data.collectionName), orderBy(data.sortKey)];
+    const params = [
+      collection(db, data.collectionName),
+      orderBy(data.sortKey),
+      where("isArchived", "==", false) //Default searches only search for unarchived data
+    ];
 
     // Type
     if (data.getSigninDataType === "refresh") {
