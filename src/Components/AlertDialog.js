@@ -41,6 +41,8 @@ import DialogExportCSV from "./DialogExportCSV";
 import DialogCourseEntry from "./DialogCourseEntry";
 import DialogCourseEdit from "./DialogCourseEdit";
 import '../App.css'
+import DialogDeleteData from "./DialogDeleteData";
+import DialogDateRangePicker from "./DialogDateRangePicker";
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(false);
@@ -57,6 +59,10 @@ export default function AlertDialog(props) {
     setOpen(false);
   }
 
+  // let testFunc = (data) => {
+  //   props.dateRange = data;
+  // }
+
   // Contains multiple types depending on passed in prop
   return (
     <div className="col2row1">
@@ -64,6 +70,8 @@ export default function AlertDialog(props) {
         {props.type === "csvExport" && "Export to CSV"}
         {props.type === "courseEntry" && "Add New Course"}
         {props.type === "courseEdit" && "Edit Course"}
+        {props.type === "deleteData" && "Delete Archived Data"}
+        {props.type === "dateRangePicker" && "Select Date"}
       </Button>
 
       <Dialog
@@ -84,6 +92,10 @@ export default function AlertDialog(props) {
               currCourseID={props.currCourseID}
             />
           )}
+          {props.type === "deleteData" && <DialogDeleteData />}
+
+          {/* Passes dateRange from DialogDateRangePicker to its caller */}
+          {props.type === "dateRangePicker" && <DialogDateRangePicker sendDateRangeUp={props.sendDateRangeUp}/>}
 
           <Button onClick={handleClose} color="primary" autoFocus>
             Close

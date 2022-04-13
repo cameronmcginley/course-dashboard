@@ -34,6 +34,7 @@ import {
   isSameDay,
   endOfDay,
 } from "date-fns";
+import AlertDialog from './AlertDialog'
 
 const FirebaseDataTableSearch = (props) => {
   // Styling
@@ -135,6 +136,10 @@ const FirebaseDataTableSearch = (props) => {
     setSearchCourseIDList(data.map(x => SplitCourseFullStr(x.course)[1]))
   };
 
+  const tempFunc = (data) => {
+    console.log("YOOOOOOOOOO")
+  };
+
   return (
     <div className="tableSearch">
       {console.log(TableHeaders(props)["sign-ins"])}
@@ -161,51 +166,7 @@ const FirebaseDataTableSearch = (props) => {
           <div class="break"></div>
 
           {/* Show the calendar when user selects btn */}
-          {!showDateSelect ? (
-            <Button variant="outlined" onClick={() => setShowDateSelect(true)}>
-              Select Date Range
-            </Button>
-          ) : (
-            <DateRangePicker
-              onChange={(item) => setDateRange([item.selection])}
-              showSelectionPreview={true}
-              moveRangeOnFirstSelection={false}
-              months={1}
-              ranges={dateRange}
-              direction="horizontal"
-              staticRanges={[
-                ...defaultStaticRanges,
-                {
-                  label: "This Year",
-                  range: () => ({
-                    startDate: startOfYear(new Date()),
-                    endDate: endOfDay(new Date()),
-                  }),
-                  isSelected(range) {
-                    const definedRange = this.range();
-                    return (
-                      isSameDay(range.startDate, definedRange.startDate) &&
-                      isSameDay(range.endDate, definedRange.endDate)
-                    );
-                  },
-                },
-                {
-                  label: "Last Year",
-                  range: () => ({
-                    startDate: startOfYear(addYears(new Date(), -1)),
-                    endDate: endOfYear(addYears(new Date(), -1)),
-                  }),
-                  isSelected(range) {
-                    const definedRange = this.range();
-                    return (
-                      isSameDay(range.startDate, definedRange.startDate) &&
-                      isSameDay(range.endDate, definedRange.endDate)
-                    );
-                  },
-                },
-              ]}
-            />
-          )}
+          <AlertDialog type="dateRangePicker" sendDateRangeUp={tempFunc} />
 
           <div class="break"></div>
 

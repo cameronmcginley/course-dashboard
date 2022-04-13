@@ -23,6 +23,8 @@ const Home = () => {
     <div className="tableSplit">
       {/* CSV Export */}
       <AlertDialog type="csvExport"/>
+
+      <AlertDialog type="deleteData"/>
       
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}
