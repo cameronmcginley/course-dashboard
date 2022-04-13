@@ -91,4 +91,13 @@
   /* align-items: center; */
   justify-content: space-between;
   /* justify-content: stretch;   */
+  border-bottom: .1rem solid black;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+body, html{
+  margin: 0;
+  padding: 0;
 }
