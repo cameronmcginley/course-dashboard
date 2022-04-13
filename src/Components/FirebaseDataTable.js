@@ -57,7 +57,7 @@ import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 const Styles = styled.div`
   padding: 1rem;
 
-  outline: auto;
+  // outline: auto;
   display: flex;
   flex-direction: column;
   align-items: center;

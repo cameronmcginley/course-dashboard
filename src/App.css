@@ -28,12 +28,14 @@
   max-width: 1080px;
   /* width: 90%; */
   margin: 0 auto;
-  outline: auto;
+  outline: .1rem solid #eee;
+  background-color: white;
+  border-radius: .5rem;
 }
 
-.firebase-signin-form {
+/* .firebase-signin-form {
   outline:auto;
-}
+} */
 
 @media screen and (max-width: 768px) {
   .content {
@@ -95,9 +97,11 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
+  background-color: white;
 }
 
 body, html{
   margin: 0;
   padding: 0;
+  background-color: #f6f6f6
 }
