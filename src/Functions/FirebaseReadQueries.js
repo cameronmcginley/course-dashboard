@@ -87,6 +87,26 @@ export const FirebaseReadQueries = async (data) => {
     return query(...params);
   }
 
+
+  if (data.type === "DeleteArchivedBeforeDate") {
+    console.log("Data to delete with: ", data);
+
+    const params = [
+      collection(db, "sign-ins"),
+      orderBy("sortKey"),
+      limit(10),
+      where("isArchived", "==", true)
+    ];
+
+    if (data.searchCriteria.deleteDate) {
+      // deleteDate already provided in sortKey format
+      params.push(where("sortKey", ">=", data.searchCriteria.deleteDate));
+    }
+
+    return query(...params);
+  }
+
+
   // Is first page
   if (data.type === "isFirstPage") {
     const params = [

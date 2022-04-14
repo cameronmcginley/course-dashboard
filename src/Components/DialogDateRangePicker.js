@@ -47,8 +47,10 @@ import {
   endOfDay,
 } from "date-fns";
 import AlertDialog from './AlertDialog';
+import { Calendar } from 'react-date-range';
 
 export default function DialogDateRangePicker(props) {
+  // For date range picker
   const [dateRange, setDateRange] = useState([
     {
       startDate: null,
@@ -57,11 +59,33 @@ export default function DialogDateRangePicker(props) {
     },
   ]);
 
+  // For single date picker
+  const [date, setDate] = useState(null)
+
   return (
     <div>
+      {true
+      ?
+      <>
+      <p>
+        All previously archived data on and before the selected day will be permanently deleted.
+      </p>
+      <Calendar onChange={item => setDate(item)} date={date} />
+
+      <Button
+        className="dateRangeSelect"
+        onClick={() => {
+          // Pass the dateRange to parent (DialogDeleteData component)
+          props.sendDateRangeUp(date);
+        }}
+      >
+        Select
+      </Button>
+      </>
+      :
+      <>
       <DateRangePicker
         onChange={(item) => setDateRange([item.selection])}
-        // onChange={(item) => props.dateRange2([item.selection])}
         showSelectionPreview={true}
         moveRangeOnFirstSelection={false}
         months={1}
@@ -103,13 +127,14 @@ export default function DialogDateRangePicker(props) {
       <Button
         className="dateRangeSelect"
         onClick={() => {
-          // console.log(dateRange)
           // Pass the dateRange to parent (DialogDeleteData component)
           props.sendDateRangeUp(dateRange);
         }}
       >
         Select
       </Button>
+      </>
+      }
     </div>
   );
 }

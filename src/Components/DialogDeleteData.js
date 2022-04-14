@@ -18,6 +18,7 @@ import {
   limitToLast,
   setState,
   where,
+  Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import moment from "moment";
@@ -47,6 +48,7 @@ import {
   endOfDay,
 } from "date-fns";
 import AlertDialog from './AlertDialog';
+import getSortKey from '../Functions/getSortKey';
 
 export default function DialogDeleteData(props) {
   // Styling
@@ -113,7 +115,7 @@ export default function DialogDeleteData(props) {
     // Passed by searchCriteria from FirebaseDataTableSearch
     // From an option in csv export
     if (searchCriteria.doArchiveAfter) {
-      console.log("T\nT\nT\nT\nT\nT\nT\nArchiving...")
+      console.log("Archiving...")
 
       await documentSnapshots.forEach((docSnapshot) => {
         let docRef = doc(db, 'sign-ins', docSnapshot.id);
@@ -140,13 +142,28 @@ export default function DialogDeleteData(props) {
     }, 2000);
   };
 
-  const handleDelete = (dates) => {
-    console.log("H\nH\nH\nH\nH\nH\nH\nH\nH\nH\nH\nH\n")
+  const handleDelete = async (date) => {
+    console.log("Deleting data on and before: ", endOfDay(date));
+    console.log(getSortKey(endOfDay(date)))
+
+    const data = await FirebaseReadQueries({
+      type: "DeleteArchivedBeforeDate",
+      searchCriteria: {deleteDate: getSortKey(endOfDay(date))},
+    });
+
+    var documentSnapshots = await getDocs(data);
+
+    await documentSnapshots.forEach((docSnapshot) => {
+      let docRef = doc(db, 'sign-ins', docSnapshot.id);
+      deleteDoc(docRef)
+      
+      // console.log((new Date(docSnapshot.data().timestampLogged.seconds*1000)).toDateString())
+    });
   }
 
   return (
     <div>
-      <AlertDialog type="dateRangePicker" caller="DialogDeleteData" sendDateRangeUp={handleDelete}/>
+      <AlertDialog type="dateRangePicker" sendDateRangeUp={handleDelete}/>
     </div>
   );
 }
