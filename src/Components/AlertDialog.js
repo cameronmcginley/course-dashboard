@@ -64,8 +64,19 @@ export default function AlertDialog(props) {
   //   props.dateRange = data;
   // }
 
+  // Response from DialogDateRangePicker
+  // Closes the dialog, then redirects to function
+  // provided by the caller of the date picker
   const onDateSelect = (data) => {
     props.sendDateRangeUp(data)
+    handleClose()
+  }
+
+  // Response from DialogConfirmation
+  // Closes the dialog, then redirects to function
+  // provided by the caller of the confirmation box
+  const onConfirm = (data) => {
+    props.sendConfirm()
     handleClose()
   }
 
@@ -105,7 +116,7 @@ export default function AlertDialog(props) {
           {props.type === "confirmation" && 
             <DialogConfirmation 
               message={props.message}
-              sendConfirm={props.sendConfirm}
+              sendConfirm={onConfirm}
             />}
 
 

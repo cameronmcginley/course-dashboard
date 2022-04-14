@@ -34,6 +34,7 @@ import {
   Alert,
   OutlinedInput,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 import "react-date-range/dist/styles.css"; // main style file
@@ -63,6 +64,9 @@ export default function DialogDeleteData(props) {
   const [date, setDate] = useState(null);
   const [dateStr, setDateStr] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDoneLoading, setDoneLoading] = useState(false);
+
 
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
@@ -88,6 +92,13 @@ export default function DialogDeleteData(props) {
   }
 
   const deleteData = async () => {
+    setIsLoading(true)
+    // props.hasCloseBtn = false
+    setTimeout(function() {
+      setIsLoading(false)
+      setDoneLoading(true)
+    }, 5000)
+
     console.log("Deleting data on and before: ", endOfDay(date));
     console.log(getSortKey(endOfDay(date)))
 
@@ -104,6 +115,8 @@ export default function DialogDeleteData(props) {
       
       // console.log((new Date(docSnapshot.data().timestampLogged.seconds*1000)).toDateString())
     });
+
+
   }
 
   return (
@@ -113,14 +126,24 @@ export default function DialogDeleteData(props) {
       </p>
       <p>Date Selected: {dateStr}</p>
 
-      <AlertDialog type="dateRangePicker" sendDateRangeUp={handleDateSelect}/>
+      {isLoading && <CircularProgress />}
 
-      <AlertDialog 
-        type="confirmation" 
-        message="Are you sure you wish to delete all data archived before" 
-        noCloseBtn={true}
-        sendConfirm={deleteData}
-      />
+      {(!isLoading && !isDoneLoading) &&
+      <>
+        <AlertDialog type="dateRangePicker" sendDateRangeUp={handleDateSelect}/>
+
+        <AlertDialog 
+          type="confirmation" 
+          message="Are you sure you wish to delete all data archived before" 
+          noCloseBtn={true}
+          sendConfirm={deleteData}
+        />
+      </>
+      }
+
+      {isDoneLoading && 
+        <p>yo</p>
+      }
 
       {/* <Button variant="outlined">Delete</Button> */}
 
