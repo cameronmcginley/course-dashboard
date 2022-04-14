@@ -118,7 +118,7 @@ export default function AlertDialog(props) {
               )}
               {props.type === "deleteData" && <DialogDeleteData />}
               {/* Passes dateRange from DialogDateRangePicker to its caller */}
-              {props.type === "dateRangePicker" && <DialogDateRangePicker sendDateRangeUp={onDateSelect}/>}
+              {props.type === "dateRangePicker" && <DialogDateRangePicker isSingleDate={props.isSingleDate} sendDateRangeUp={onDateSelect}/>}
               {props.type === "confirmation" && 
                 <DialogConfirmation 
                   message={props.message}

@@ -135,6 +135,7 @@ export default function DialogDeleteData(props) {
           type="dateRangePicker"
           sendDateRangeUp={handleDateSelect}
           noCloseBtn={false}
+          isSingleDate={true}
         />
 
         <div className="break" />

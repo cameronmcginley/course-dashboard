@@ -168,7 +168,7 @@ const FirebaseDataTableSearch = (props) => {
 
           {/* Calendar in dialog box, selectedDateRange passed up after select
           button is pressed */}
-          <AlertDialog type="dateRangePicker" sendDateRangeUp={handleDateRange} />
+          <AlertDialog isSingleDate={false} type="dateRangePicker" sendDateRangeUp={handleDateRange} />
 
           <div class="break"></div>
 
