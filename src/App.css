@@ -86,12 +86,25 @@ h3 {
   flex-direction: column;
 }
 
+p {
+  margin: 0;
+}
+
 /* Attendance Page Styles */
 /* ---------------------- */
+.attendanceCourseInfo {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  /* row-gap: 0rem; */
+}
+
 .attendanceFormAndQR {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2rem;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .attendanceSignIn {

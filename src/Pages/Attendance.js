@@ -22,6 +22,7 @@ import {
   Button,
   Box,
   CircularProgress,
+  Paper,
 } from "@mui/material";
 
 const Attendance = () => {
@@ -66,11 +67,9 @@ const Attendance = () => {
           {courseName != "error" ? (
             // If not, do...
             <>
-              <div>
-                Course ID: {pageCourseID}
-                <br />
-                Course Name: {courseName}
-                <br />
+              <div className="attendanceCourseInfo">
+                <p>Course ID: {pageCourseID}</p>
+                <p>Course Name: {courseName}</p>
                 <AlertDialog
                   type="courseEdit"
                   currCourseName={courseName}
@@ -80,7 +79,7 @@ const Attendance = () => {
 
               <div className="attendanceSignIn">
                 <p>Course Sign In</p>
-                <div className="attendanceFormAndQR">
+                <Paper className="attendanceFormAndQR" elevation={3}>
                   {/* Wait for courseName before loading the form, else
                   // // an empty prop will be passed */}
                   <Box className="attendanceForm">
@@ -96,7 +95,7 @@ const Attendance = () => {
                   <Box className="attendanceQR">
                     <QRCode value={courseName + " (ID " + pageCourseID + ")"} />
                   </Box>
-                </div>
+                </Paper>
               </div>
 
               <FirebaseDataTable
