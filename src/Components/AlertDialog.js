@@ -43,6 +43,7 @@ import DialogCourseEdit from "./DialogCourseEdit";
 import '../App.css'
 import DialogDeleteData from "./DialogDeleteData";
 import DialogDateRangePicker from "./DialogDateRangePicker";
+import DialogConfirmation from "./DialogConfirmation";
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(false);
@@ -63,6 +64,11 @@ export default function AlertDialog(props) {
   //   props.dateRange = data;
   // }
 
+  const onDateSelect = (data) => {
+    props.sendDateRangeUp(data)
+    handleClose()
+  }
+
   // Contains multiple types depending on passed in prop
   return (
     <div className="col2row1">
@@ -72,6 +78,7 @@ export default function AlertDialog(props) {
         {props.type === "courseEdit" && "Edit Course"}
         {props.type === "deleteData" && "Delete Archived Data"}
         {props.type === "dateRangePicker" && "Select Date"}
+        {props.type === "confirmation" && "Delete"}
       </Button>
 
       <Dialog
@@ -93,13 +100,21 @@ export default function AlertDialog(props) {
             />
           )}
           {props.type === "deleteData" && <DialogDeleteData />}
-
           {/* Passes dateRange from DialogDateRangePicker to its caller */}
-          {props.type === "dateRangePicker" && <DialogDateRangePicker sendDateRangeUp={props.sendDateRangeUp}/>}
+          {props.type === "dateRangePicker" && <DialogDateRangePicker noCloseBtn={true} sendDateRangeUp={onDateSelect}/>}
+          {props.type === "confirmation" && 
+            <DialogConfirmation 
+              message={props.message}
+              sendConfirm={props.sendConfirm}
+            />}
 
+
+          {/* Hide close button date pickers, custom select button instead */}
+          {!props.noCloseBtn &&
           <Button onClick={handleClose} color="primary" autoFocus>
             Close
           </Button>
+          }
         </DialogActions>
       </Dialog>
     </div>

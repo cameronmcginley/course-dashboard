@@ -82,47 +82,18 @@ export default function DialogDeleteData(props) {
     }, 2000);
   };
 
-  const handleDateSelect = (dateSelected) => {
-    setDate(dateSelected)
-    setDateStr(dateSelected.toDateString())
-  }
-
-  const deleteData = async () => {
-    console.log("Deleting data on and before: ", endOfDay(date));
-    console.log(getSortKey(endOfDay(date)))
-
-    const data = await FirebaseReadQueries({
-      type: "DeleteArchivedBeforeDate",
-      searchCriteria: {deleteDate: getSortKey(endOfDay(date))},
-    });
-
-    var documentSnapshots = await getDocs(data);
-
-    await documentSnapshots.forEach((docSnapshot) => {
-      let docRef = doc(db, 'sign-ins', docSnapshot.id);
-      deleteDoc(docRef)
-      
-      // console.log((new Date(docSnapshot.data().timestampLogged.seconds*1000)).toDateString())
-    });
-  }
 
   return (
     <div>
       <p>
-        All previously archived data on and before the selected day will be permanently deleted.
+        {props.message}
       </p>
-      <p>Date Selected: {dateStr}</p>
 
-      <AlertDialog type="dateRangePicker" sendDateRangeUp={handleDateSelect}/>
-
-      <AlertDialog 
-        type="confirmation" 
-        message="Are you sure you wish to delete all data archived before" 
-        noCloseBtn={true}
-        sendConfirm={deleteData}
-      />
-
-      {/* <Button variant="outlined">Delete</Button> */}
+      <Button
+        variant="outlined"
+        onClick={props.sendConfirm}
+      >Confirm
+      </Button>
 
     </div>
   );

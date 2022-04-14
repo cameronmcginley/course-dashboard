@@ -67,9 +67,6 @@ export default function DialogDateRangePicker(props) {
       {true
       ?
       <>
-      <p>
-        All previously archived data on and before the selected day will be permanently deleted.
-      </p>
       <Calendar onChange={item => setDate(item)} date={date} />
 
       <Button
