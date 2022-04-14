@@ -86,8 +86,32 @@ h3 {
   flex-direction: column;
 }
 
+/* Attendance Page Styles */
+/* ---------------------- */
+.attendanceFormAndQR {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.attendanceSignIn {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
 
+.attendanceFormAndQR > .attendanceSigninOR {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.attendanceFormAndQR > .attendanceQR {
+  justify-self: start;
+}
+
+.attendanceFormAndQR > .attendanceForm {
+  justify-self: end;
+}
+/* ---------------------- */
 
 
 /* .firebase-signin-form {

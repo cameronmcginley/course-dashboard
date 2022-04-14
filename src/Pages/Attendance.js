@@ -6,9 +6,23 @@ import { useParams } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
 import { GetCourseName } from "../Functions/GetCourseName";
-import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "../Components/AlertDialog";
 import '../App.css'
+import QRCode from "../Components/QRCode";
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  InputLabel,
+  AlertTitle,
+  TextField,
+  Alert,
+  OutlinedInput,
+  Button,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -64,19 +78,33 @@ const Attendance = () => {
                 />
               </div>
 
-              {/* Wait for courseName before loading the form, else
-              // // an empty prop will be passed */}
-              <FirebaseForm
-                formType="userSignIn"
-                collectionName="sign-ins"
-                userCourseFullStr={courseName + " (ID " + pageCourseID + ")"}
-              />
+              <div className="attendanceSignIn">
+                <p>Course Sign In</p>
+                <div className="attendanceFormAndQR">
+                  {/* Wait for courseName before loading the form, else
+                  // // an empty prop will be passed */}
+                  <Box className="attendanceForm">
+                    <FirebaseForm
+                      formType="userSignIn"
+                      collectionName="sign-ins"
+                      userCourseFullStr={courseName + " (ID " + pageCourseID + ")"}
+                    />
+                  </Box>
+
+                  <Box className="attendanceSigninOR"><p>Or</p></Box>
+                  
+                  <Box className="attendanceQR">
+                    <QRCode value={courseName + " (ID " + pageCourseID + ")"} />
+                  </Box>
+                </div>
+              </div>
 
               <FirebaseDataTable
                 type={"attendance"}
                 accessor={"sign-ins"}
                 sortKey={"sortKey"}
                 pageCourseID={pageCourseID}
+                excludeSearch={true}
                 // daySortKeyLargest={daySortKeyLargest}
               />
             </>
