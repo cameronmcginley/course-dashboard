@@ -81,13 +81,10 @@ h3 {
   /* border: 1px solid lightgray */
 }
 
-
-
-
-/* .dateRangeSelect {
-  align-self: center;
-  justify-self: center;
-} */
+.dialogMain {
+  display: flex;
+  flex-direction: column;
+}
 
 
 

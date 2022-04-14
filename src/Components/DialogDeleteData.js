@@ -35,6 +35,7 @@ import {
   OutlinedInput,
   Button,
   CircularProgress,
+  Box,
 } from "@mui/material";
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 import "react-date-range/dist/styles.css"; // main style file
@@ -130,14 +131,26 @@ export default function DialogDeleteData(props) {
 
       {(!isLoading && !isDoneLoading) &&
       <>
-        <AlertDialog type="dateRangePicker" sendDateRangeUp={handleDateSelect}/>
-
-        <AlertDialog 
-          type="confirmation" 
-          message="Are you sure you wish to delete all data archived before" 
-          noCloseBtn={true}
-          sendConfirm={deleteData}
+        <AlertDialog
+          type="dateRangePicker"
+          sendDateRangeUp={handleDateSelect}
+          noCloseBtn={false}
         />
+
+        <div className="break" />
+
+        {/* Box to center just the delete button */}
+        <Box textAlign='center' sx={{ mt: 2, mb: 3 }}>
+          <AlertDialog 
+            type="confirmation" 
+            message="Are you sure you wish to delete all data archived before" 
+            noCloseBtn={false}
+            sendConfirm={deleteData}
+            dialogBtnColor="error"
+            confirmBtnColor="error"
+            buttonTxt="delete"
+          />
+        </Box>
       </>
       }
 

@@ -47,6 +47,7 @@ import DialogConfirmation from "./DialogConfirmation";
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(false);
+  // const [dialogBtnColor, setDialogBtnColor] = React.useState("primary")
   // const loading = open && courseList.length === 0;
 
   let handleClickOpen = async () => {
@@ -85,8 +86,9 @@ export default function AlertDialog(props) {
 
   // Contains multiple types depending on passed in prop
   return (
-    <div className="col2row1">
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+    <div> 
+      {/* If props.dialogBtnColor isn't set it defaults to "primary" */}
+      <Button variant="outlined" color={props.dialogBtnColor} onClick={handleClickOpen}>
         {props.type === "csvExport" && "Export to CSV"}
         {props.type === "courseEntry" && "Add New Course"}
         {props.type === "courseEdit" && "Edit Course"}
@@ -101,35 +103,39 @@ export default function AlertDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Optional Queries"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"Dialog Title"}</DialogTitle>
 
-        <DialogActions>
-          {/* Handles things scpecific to type of dialog box */}
-          {props.type === "csvExport" && <DialogExportCSV />}
-          {props.type === "courseEntry" && <DialogCourseEntry />}
-          {props.type === "courseEdit" && (
-            <DialogCourseEdit
-              currCourseName={props.currCourseName}
-              currCourseID={props.currCourseID}
-            />
-          )}
-          {props.type === "deleteData" && <DialogDeleteData />}
-          {/* Passes dateRange from DialogDateRangePicker to its caller */}
-          {props.type === "dateRangePicker" && <DialogDateRangePicker noCloseBtn={true} sendDateRangeUp={onDateSelect}/>}
-          {props.type === "confirmation" && 
-            <DialogConfirmation 
-              message={props.message}
-              sendConfirm={onConfirm}
-            />}
+          <DialogActions>
+            <div className="dialogMain">
+              {/* Handles things scpecific to type of dialog box */}
+              {props.type === "csvExport" && <DialogExportCSV />}
+              {props.type === "courseEntry" && <DialogCourseEntry />}
+              {props.type === "courseEdit" && (
+                <DialogCourseEdit
+                  currCourseName={props.currCourseName}
+                  currCourseID={props.currCourseID}
+                />
+              )}
+              {props.type === "deleteData" && <DialogDeleteData />}
+              {/* Passes dateRange from DialogDateRangePicker to its caller */}
+              {props.type === "dateRangePicker" && <DialogDateRangePicker sendDateRangeUp={onDateSelect}/>}
+              {props.type === "confirmation" && 
+                <DialogConfirmation 
+                  message={props.message}
+                  sendConfirm={onConfirm}
+                  confirmBtnColor="error"
+                  buttonTxt="delete"
+                />}
 
 
-          {/* Hide close button date pickers, custom select button instead */}
-          {!props.noCloseBtn &&
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Close
-          </Button>
-          }
-        </DialogActions>
+              {/* Hide close button date pickers, custom select button instead */}
+              {!props.noCloseBtn &&
+              <Button onClick={handleClose} color="primary" autoFocus>
+                Cancel
+              </Button>
+              }
+            </div>
+          </DialogActions>
       </Dialog>
     </div>
   );

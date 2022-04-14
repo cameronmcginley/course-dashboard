@@ -34,6 +34,7 @@ import {
   Alert,
   OutlinedInput,
   Button,
+  Box,
 } from "@mui/material";
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 import "react-date-range/dist/styles.css"; // main style file
@@ -89,11 +90,15 @@ export default function DialogDeleteData(props) {
         {props.message}
       </p>
 
-      <Button
-        variant="outlined"
-        onClick={props.sendConfirm}
-      >Confirm
-      </Button>
+      <Box textAlign='center' sx={{ mt: 2, mb: 3 }}>
+        <Button
+          variant="outlined"
+          onClick={props.sendConfirm}
+          color={props.confirmBtnColor}
+        >
+          {props.buttonTxt}
+        </Button>
+      </Box>
 
     </div>
   );
