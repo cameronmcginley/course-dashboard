@@ -56,7 +56,10 @@ export default function AlertDialog(props) {
     // console.log(courseList);
   };
 
-  function handleClose() {
+  function handleClose(event, reason) {
+    if (reason && reason == "backdropClick") {
+      return;
+    }
     setOpen(false);
   }
 
