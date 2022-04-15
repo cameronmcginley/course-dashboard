@@ -543,6 +543,7 @@ function FirebaseDataTable(props) {
     skipResetRef.current = false;
     getSigninData("refresh");
 
+    // If query result changes, call func to issue a refresh
     const q = query(collection(db, "sign-ins"), limit(1), orderBy("sortKey"));
     var unsubscribe = onSnapshot(q, (querySnapshot) => {
       onListenerHit()

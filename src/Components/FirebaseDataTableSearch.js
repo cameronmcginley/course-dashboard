@@ -160,17 +160,17 @@ const FirebaseDataTableSearch = (props) => {
             />
           </FormControl>
 
-          <div class="break"></div>
+          <div className="break"></div>
 
           <CourseDropDown selectedCourse={getDropdownData} />
 
-          <div class="break"></div>
+          <div className="break"></div>
 
           {/* Calendar in dialog box, selectedDateRange passed up after select
           button is pressed */}
           <AlertDialog isSingleDate={false} type="dateRangePicker" sendDateRangeUp={handleDateRange} />
 
-          <div class="break"></div>
+          <div className="break"></div>
 
           {/* Input for searching for archived */}
           <TextField
@@ -184,7 +184,7 @@ const FirebaseDataTableSearch = (props) => {
             <MenuItem value={"either"}>Either</MenuItem>
           </TextField>
 
-          <div class="break"></div>
+          <div className="break"></div>
 
           {props.isCSV && (
             <Card variant="outlined" className="csvArchiveCheckbox">
@@ -199,7 +199,7 @@ const FirebaseDataTableSearch = (props) => {
             </Card >
           )}
 
-          <div class="break"></div>
+          <div className="break"></div>
 
           <FormControl>
             <Button
@@ -221,7 +221,7 @@ const FirebaseDataTableSearch = (props) => {
         <Box className="searchQueries courses">
           <CourseDropDown selectedCourse={getDropdownData} />
 
-          {/* <div class="break" /> */}
+          {/* <div className="break" /> */}
 
           <FormControl>
             <Button

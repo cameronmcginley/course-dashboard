@@ -137,7 +137,7 @@ const FirebaseInputForm = (props) => {
   };
 
   return (
-    <div class="firebase-signin-form">
+    <div className="firebase-signin-form">
       {/* User Sign In Form */}
       {props.formType === "userSignIn" && (
         <Fragment>

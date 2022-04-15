@@ -9,6 +9,11 @@
 	}
 }
 
+.printComponent {
+  /* Have to reset bg color, adopts default otherwise */
+  background-color: white; 
+}
+
 .qrReport.title {
   text-align: center;
   margin-top: 20%;

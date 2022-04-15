@@ -16,7 +16,7 @@ export class QRReport extends React.PureComponent {
         <h1 className="qrReport title">
           {"Course: " + this.courseTitleData[0]}
         </h1>
-        <h2 className="qrReport id">{"ID: " + this.courseTitleData[1]}</h2>
+        <h1 className="qrReport id">{"ID: " + this.courseTitleData[1]}</h1>
         <QRCodeReact
           renderAs="svg"
           className="qrReport qrCode"
