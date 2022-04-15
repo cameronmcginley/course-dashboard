@@ -30,6 +30,9 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { IconButton } from '@mui/material';
 
 import makeData from "../Functions/makeData";
 
@@ -298,7 +301,7 @@ function Table({
       */}
       <div className="pagination">
         {/* <button onClick={() => previousPage()} disabled={isFirstPage}> */}
-        <button
+        <IconButton
           onClick={() => {
             setIsPreviousDisabled(true);
             setTimeout(() => {
@@ -309,15 +312,15 @@ function Table({
           // Disabled based on click delay, or if its first page (the timeout would re-enable even if first page)
           disabled={isPreviousDisabled || isFirstPage}
         >
-          {"<"}
-        </button>{" "}
+          <ArrowBackIcon />
+        </IconButton>{" "}
         <span>
           Page{" "}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>{" "}
         </span>
-        <button
+        <IconButton
           onClick={() => {
             setIsNextDisabled(true);
             setTimeout(() => {
@@ -327,8 +330,8 @@ function Table({
           }}
           disabled={isNextDisabled || isLastPage}
         >
-          {">"}
-        </button>{" "}
+          <ArrowForwardIcon />
+        </IconButton>{" "}
       </div>
       {/* Shows states below table */}
       {/* <pre>
