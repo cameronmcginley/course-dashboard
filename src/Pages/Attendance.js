@@ -24,6 +24,27 @@ import {
   CircularProgress,
   Paper,
 } from "@mui/material";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  FieldValue,
+  limit,
+  orderBy,
+  startAfter,
+  startAt,
+  endBefore,
+  limitToLast,
+  setState,
+  where,
+  Timestamp,
+  query,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../firebase-config";
 
 const Attendance = () => {
   const navigate = useNavigate();

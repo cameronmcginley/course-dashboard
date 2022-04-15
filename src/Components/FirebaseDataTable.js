@@ -27,6 +27,7 @@ import {
   limitToLast,
   setState,
   where,
+  onSnapshot,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
 
@@ -515,14 +516,6 @@ function FirebaseDataTable(props) {
     );
   };
 
-  // After data changes, we turn the flag back off
-  // so that if data actually changes when we're not
-  // editing it, the page is reset
-  React.useEffect(() => {
-    skipResetRef.current = false;
-    getSigninData("refresh");
-  }, []);
-
   // This function is called when user makes a search
   const makeSearch = (data) => {
     // Update searchCritiera var before querying
@@ -536,6 +529,27 @@ function FirebaseDataTable(props) {
     // Future next,prev button presses will pass this searchCriteria still
     // Reset on refresh
   };
+
+  // This func is called when collection listener hits new doc
+  const onListenerHit = async (data) => {
+    console.log("Collection listener hit new doc...")
+    getSigninData("refresh");
+  }
+
+  React.useEffect(() => {
+    // After data changes, we turn the flag back off
+    // so that if data actually changes when we're not
+    // editing it, the page is reset
+    skipResetRef.current = false;
+    getSigninData("refresh");
+
+    const q = query(collection(db, "sign-ins"), limit(1), orderBy("sortKey"));
+    var unsubscribe = onSnapshot(q, (querySnapshot) => {
+      onListenerHit()
+    });
+
+    return () => unsubscribe()
+  }, []);
 
   return (
     <Fragment>
