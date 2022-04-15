@@ -5,7 +5,7 @@ import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
-import AlertDialog from "../Components/AlertDialog";
+import DialogHandler from "../Components/DialogBox/DialogHandler";
 import '../App.css'
 import {
   FormControl,
@@ -39,7 +39,7 @@ const Home = () => {
     <div className="tableSplit">
       {/* Course entry form, contained in popout box */}
       <Box sx={{ mt: 5 }}>
-        <AlertDialog type="courseEntry" />
+        <DialogHandler type="courseEntry" />
       </Box>
 
       {/* Table with User Signin Data */}

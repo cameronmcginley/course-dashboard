@@ -20,9 +20,9 @@ import {
   where,
   Timestamp,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../../firebase-config";
 import moment from "moment";
-import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
+import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
 import {
   FormControl,
   FormLabel,
@@ -37,7 +37,7 @@ import {
   CircularProgress,
   Box,
 } from "@mui/material";
-import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
+import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker, defaultStaticRanges } from "react-date-range";
@@ -49,8 +49,8 @@ import {
   isSameDay,
   endOfDay,
 } from "date-fns";
-import AlertDialog from './AlertDialog';
-import getSortKey from '../Functions/getSortKey';
+import DialogHandler from './DialogHandler';
+import getSortKey from '../../Functions/getSortKey';
 
 export default function DialogDeleteData(props) {
   // Styling
@@ -131,7 +131,7 @@ export default function DialogDeleteData(props) {
 
       {(!isLoading && !isDoneLoading) &&
       <>
-        <AlertDialog
+        <DialogHandler
           type="dateRangePicker"
           sendDateRangeUp={handleDateSelect}
           noCloseBtn={false}
@@ -142,7 +142,7 @@ export default function DialogDeleteData(props) {
 
         {/* Box to center just the delete button */}
         <Box textAlign='center' sx={{ mt: 2, mb: 3 }}>
-          <AlertDialog 
+          <DialogHandler 
             type="confirmation" 
             message="Are you sure you wish to delete all data archived before" 
             noCloseBtn={false}

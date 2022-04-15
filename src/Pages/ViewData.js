@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
-import AlertDialog from "../Components/AlertDialog";
+import DialogHandler from "../Components/DialogBox/DialogHandler";
 import '../App.css'
 import {
   FormControl,
@@ -38,10 +38,10 @@ const Home = () => {
     <div className="tableSplit">
       {/* CSV Export */}
       <Box sx={{ mt: 5 }}>
-        <AlertDialog type="csvExport"/>
+        <DialogHandler type="csvExport"/>
       </Box>
 
-      <AlertDialog type="deleteData"/>
+      <DialogHandler type="deleteData"/>
       
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}

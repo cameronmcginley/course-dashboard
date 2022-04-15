@@ -19,9 +19,9 @@ import {
   setState,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../../firebase-config";
 import moment from "moment";
-import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
+import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
 import {
   FormControl,
   FormLabel,
@@ -34,7 +34,7 @@ import {
   OutlinedInput,
   Button,
 } from "@mui/material";
-import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
+import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
 
 // Which data to export to csv
 const headers = [

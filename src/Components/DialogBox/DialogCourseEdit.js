@@ -14,7 +14,7 @@ import {
   Alert,
   AlertTitle,
 } from "@mui/material";
-import CourseDropDown from "./CourseDropDown";
+import CourseDropDown from "../CourseDropDown";
 import {
   collection,
   getDocs,
@@ -33,13 +33,13 @@ import {
   setState,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../../firebase-config";
 import CircularProgress from "@mui/material/CircularProgress";
-import FirebaseForm from "./FirebaseForm";
-import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
-import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
-import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
-import { CheckCourseSubmission } from "../Functions/InputChecks/CheckCourseSubmission";
+import FirebaseForm from "../FirebaseForm";
+import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
+import { FirebaseWriteQueries } from "../../Functions/FirebaseWriteQueries";
+import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
+import { CheckCourseSubmission } from "../../Functions/InputChecks/CheckCourseSubmission";
 
 export default function DialogCourseEdit(props) {
   const [successPage, setSuccessPage] = useState(false);

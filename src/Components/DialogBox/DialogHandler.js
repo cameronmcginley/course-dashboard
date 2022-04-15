@@ -11,7 +11,7 @@ import {
   MenuItem,
   Autocomplete,
 } from "@mui/material";
-import CourseDropDown from "./CourseDropDown";
+import CourseDropDown from "../CourseDropDown";
 import {
   collection,
   getDocs,
@@ -30,22 +30,22 @@ import {
   setState,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../../firebase-config";
 import CircularProgress from "@mui/material/CircularProgress";
-import FirebaseForm from "./FirebaseForm";
-import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
+import FirebaseForm from "../FirebaseForm";
+import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
 import { CSVLink } from "react-csv";
 import moment from "moment";
-import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
+import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
 import DialogExportCSV from "./DialogExportCSV";
 import DialogCourseEntry from "./DialogCourseEntry";
 import DialogCourseEdit from "./DialogCourseEdit";
-import '../App.css'
+import '../../App.css'
 import DialogDeleteData from "./DialogDeleteData";
 import DialogDateRangePicker from "./DialogDateRangePicker";
 import DialogConfirmation from "./DialogConfirmation";
 
-export default function AlertDialog(props) {
+export default function DialogHandler(props) {
   const [open, setOpen] = React.useState(false);
   // const [dialogBtnColor, setDialogBtnColor] = React.useState("primary")
   // const loading = open && courseList.length === 0;

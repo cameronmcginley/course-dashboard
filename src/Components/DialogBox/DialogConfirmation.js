@@ -20,9 +20,9 @@ import {
   where,
   Timestamp,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../../firebase-config";
 import moment from "moment";
-import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
+import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
 import {
   FormControl,
   FormLabel,
@@ -36,7 +36,7 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
+import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker, defaultStaticRanges } from "react-date-range";
@@ -48,8 +48,8 @@ import {
   isSameDay,
   endOfDay,
 } from "date-fns";
-import AlertDialog from './AlertDialog';
-import getSortKey from '../Functions/getSortKey';
+import DialogHandler from './DialogHandler';
+import getSortKey from '../../Functions/getSortKey';
 
 export default function DialogDeleteData(props) {
   // Styling

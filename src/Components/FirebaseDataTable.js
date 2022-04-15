@@ -37,7 +37,7 @@ import { IconButton } from '@mui/material';
 import makeData from "../Functions/makeData";
 
 import { CSVLink, CSVDownload } from "react-csv";
-import AlertDialog from "../Components/AlertDialog";
+import DialogHandler from "./DialogBox/DialogHandler";
 
 import { useState, useRef } from "react";
 import { onAuthStateChanged } from "firebase/auth";

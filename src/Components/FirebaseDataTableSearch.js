@@ -34,7 +34,7 @@ import {
   isSameDay,
   endOfDay,
 } from "date-fns";
-import AlertDialog from './AlertDialog'
+import DialogHandler from './DialogBox/DialogHandler'
 
 const FirebaseDataTableSearch = (props) => {
   // Styling
@@ -168,7 +168,7 @@ const FirebaseDataTableSearch = (props) => {
 
           {/* Calendar in dialog box, selectedDateRange passed up after select
           button is pressed */}
-          <AlertDialog isSingleDate={false} type="dateRangePicker" sendDateRangeUp={handleDateRange} />
+          <DialogHandler isSingleDate={false} type="dateRangePicker" sendDateRangeUp={handleDateRange} />
 
           <div className="break"></div>
 

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
 import { GetCourseName } from "../Functions/GetCourseName";
-import AlertDialog from "../Components/AlertDialog";
+import DialogHandler from "../Components/DialogBox/DialogHandler";
 import '../App.css'
 import QRCode from "../Components/QRCode";
 import {
@@ -91,7 +91,7 @@ const Attendance = () => {
               <div className="attendanceCourseInfo">
                 <p>Course ID: {pageCourseID}</p>
                 <p>Course Name: {courseName}</p>
-                <AlertDialog
+                <DialogHandler
                   type="courseEdit"
                   currCourseName={courseName}
                   currCourseID={pageCourseID}
