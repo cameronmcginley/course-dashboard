@@ -302,7 +302,7 @@ function Table({
             setIsPreviousDisabled(true);
             setTimeout(() => {
               setIsPreviousDisabled(false);
-            }, 200);
+            }, 300);
             getSigninData("previous");
           }}
           // Disabled based on click delay, or if its first page (the timeout would re-enable even if first page)
@@ -321,7 +321,7 @@ function Table({
             setIsNextDisabled(true);
             setTimeout(() => {
               setIsNextDisabled(false);
-            }, 200);
+            }, 300);
             getSigninData("next");
           }}
           disabled={isNextDisabled || isLastPage}
