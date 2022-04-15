@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
-
+import { IconButton } from '@mui/material';
+import PrintIcon from '@mui/icons-material/Print';
 import { QRReport } from "./QRReport";
 
 const PrintQRReport = (props) => {
@@ -10,7 +11,11 @@ const PrintQRReport = (props) => {
   return (
     <div>
       <ReactToPrint
-        trigger={() => <button>Print</button>}
+        trigger={() => 
+        <IconButton>
+          <PrintIcon />
+        </IconButton>
+        }
         content={() => componentRef.current}
       />
       <QRReport
