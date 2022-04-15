@@ -234,6 +234,7 @@ function Table({
 
   const [isNextDisabled, setIsNextDisabled] = React.useState();
   const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
+  const [pageNum, setPageNum] = React.useState(1);
 
   // Render the UI for your table
   return (
@@ -303,6 +304,7 @@ function Table({
         {/* <button onClick={() => previousPage()} disabled={isFirstPage}> */}
         <IconButton
           onClick={() => {
+            setPageNum(pageNum - 1);
             setIsPreviousDisabled(true);
             setTimeout(() => {
               setIsPreviousDisabled(false);
@@ -317,11 +319,12 @@ function Table({
         <span>
           Page{" "}
           <strong>
-            {pageIndex + 1} of {pageOptions.length}
+            {pageNum}
           </strong>{" "}
         </span>
         <IconButton
           onClick={() => {
+            setPageNum(pageNum + 1);
             setIsNextDisabled(true);
             setTimeout(() => {
               setIsNextDisabled(false);
