@@ -6,6 +6,21 @@ import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import AlertDialog from "../Components/AlertDialog";
 import '../App.css'
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  InputLabel,
+  AlertTitle,
+  TextField,
+  Alert,
+  OutlinedInput,
+  Button,
+  Box,
+  CircularProgress,
+  Paper,
+} from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,7 +37,9 @@ const Home = () => {
   return (
     <div className="tableSplit">
       {/* CSV Export */}
-      <AlertDialog type="csvExport"/>
+      <Box sx={{ mt: 5 }}>
+        <AlertDialog type="csvExport"/>
+      </Box>
 
       <AlertDialog type="deleteData"/>
       

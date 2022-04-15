@@ -7,6 +7,21 @@ import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
 import AlertDialog from "../Components/AlertDialog";
 import '../App.css'
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Input,
+  InputLabel,
+  AlertTitle,
+  TextField,
+  Alert,
+  OutlinedInput,
+  Button,
+  Box,
+  CircularProgress,
+  Paper,
+} from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -23,7 +38,9 @@ const Home = () => {
   return (
     <div className="tableSplit">
       {/* Course entry form, contained in popout box */}
-      <AlertDialog type="courseEntry" />
+      <Box sx={{ mt: 5 }}>
+        <AlertDialog type="courseEntry" />
+      </Box>
 
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}

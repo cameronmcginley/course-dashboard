@@ -40,10 +40,10 @@ const Navbar = () => {
         <Button color="primary" variant="text" href="/viewdata">View Data</Button>
       </div>
 
-      <div className="nav-account">
+      {user && <div className="nav-account">
         {user?.email}
         <Button color="primary" sx={{ ml: 2 }} variant="contained" onClick={logout}>Sign Out</Button>
-      </div>
+      </div>}
 
     </Paper>
   );

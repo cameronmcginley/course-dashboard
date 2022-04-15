@@ -50,7 +50,7 @@ For table and search feature */
   grid-template-columns: [first] 60% [second] 40%;
   justify-items: center;
   align-items: center;
-  row-gap: 3rem;
+  row-gap: 2rem;
 }
 
 .col2row1 {
