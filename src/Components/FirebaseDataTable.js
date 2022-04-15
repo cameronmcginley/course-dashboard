@@ -412,6 +412,9 @@ function FirebaseDataTable(props) {
         sortKey: props.sortKey,
         firstVisibleDoc: pageZero,
         searchCriteria: searchCriteria,
+        // Include some extras if request is coming from attendance page
+        isAttendance: (props.type === "attendance"),
+        courseID: (props.type === "attendance") && props.pageCourseID,
       });
 
       const documentSnapshots = await getDocs(data);
@@ -433,6 +436,9 @@ function FirebaseDataTable(props) {
         sortKey: props.sortKey,
         lastVisibleDoc: pageLast,
         searchCriteria: searchCriteria,
+        // Include some extras if request is coming from attendance page
+        isAttendance: (props.type === "attendance"),
+        courseID: (props.type === "attendance") && props.pageCourseID,
       });
 
       const documentSnapshots = await getDocs(data);

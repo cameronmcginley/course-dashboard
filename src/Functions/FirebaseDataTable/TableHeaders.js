@@ -23,18 +23,7 @@ const TableHeaders = (props) => {
         {
           Header: "User ID",
           accessor: (d) => {
-            const dataDay = d.timestampLogged.toDate().setHours(0, 0, 0, 0);
-            const currDay = new Date().setHours(0, 0, 0, 0);
-
-            console.log(d.courseID);
-            console.log(dataDay);
-            console.log(currDay);
-            if (dataDay == currDay && d.courseID == props.pageCourseID) {
-              return d.userID;
-            } else {
-              console.log("Return null");
-              return null;
-            }
+            return d.userID;
           },
           aggregate: "count",
           Aggregated: ({ value }) => `${value} Names`,

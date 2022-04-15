@@ -41,7 +41,6 @@ export const FirebaseReadQueries = async (data) => {
 
   // Return true/false if course id already exists in database
   if (data.type === "checkCourseID") {
-    console.log("Here3");
     return query(
       collection(db, "courses"),
       where("courseID", "==", data.courseID),
@@ -117,6 +116,18 @@ export const FirebaseReadQueries = async (data) => {
     ];
 
     // Optional Queries
+    if (data.isAttendance) {
+      console.log(data)
+      params.push(where("courseID", "==", data.courseID));
+
+      // Gets data more recent than the startDate (midnight of current day)
+      let d = new Date();
+      d.setHours(0,0,0,0);
+      d = getSortKey(d);
+      console.log("h\nh\nh\nh\n", d)
+      params.push(where("sortKey", "<=", d));
+      console.log("h\nh\nh\nh\n", d)
+    }
     if (data.searchCriteria.searchUserID) {
       params.push(
         where(
@@ -155,6 +166,16 @@ export const FirebaseReadQueries = async (data) => {
       limit(1),
     ];
 
+
+    if (data.isAttendance) {
+      params.push(where("courseID", "==", data.courseID));
+
+      // Gets data more recent than the startDate (midnight of current day)
+      let d = new Date();
+      d.setHours(0,0,0,0);
+      d = getSortKey(d);
+      params.push(where("sortKey", "<=", d));
+    }
     // Optional Queries
     if (data.searchCriteria.searchUserID) {
       params.push(
@@ -184,8 +205,6 @@ export const FirebaseReadQueries = async (data) => {
 
     return query(...params);
   }
-  // DO THIS WITH ALL OTHER QUERIES, DON'T USE THE IF STATEMENTS
-  // CONVERT DAYSORTKEYLARGEST TO THE DATE QUERY METHOD WHEN THAT'S ADDED
 
   if (data.collectionName === "sign-ins") {
     const params = [
@@ -208,6 +227,16 @@ export const FirebaseReadQueries = async (data) => {
       params.push(limitToLast(11));
     }
 
+    // Attendance page sends courseID over props and not searchCriteria
+    if (data.type === "attendance") {
+      params.push(where("courseID", "==", data.courseID));
+
+      // Gets data more recent than the startDate (midnight of current day)
+      let d = new Date();
+      d.setHours(0,0,0,0);
+      d = getSortKey(d);
+      params.push(where("sortKey", "<=", d));
+    }
     // Optional Queries
     if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
       params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
