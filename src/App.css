@@ -161,6 +161,18 @@ p {
   height: 10px;
 }
 
+
+
+
+.nav-title {
+  display: flex;
+  flex-direction: row;
+  grid-column: 1;
+  justify-self: start;
+  align-items: center;
+  margin-left: 1rem;
+}
+
 .nav-links {
   grid-column: 2;
 
@@ -183,6 +195,7 @@ p {
   /* justify-content: space-between; */
   align-items: center;
   align-content: space-between;
+  margin-right: 1rem;
 
   /* margin-left: 1rem; */
 }

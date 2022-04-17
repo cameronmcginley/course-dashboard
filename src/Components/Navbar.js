@@ -16,6 +16,7 @@ import {
   Checkbox,
   Box,
   Paper,
+  Typography,
 } from "@mui/material";
 
 const Navbar = () => {
@@ -33,6 +34,11 @@ const Navbar = () => {
     <Paper className="navbar" square={true}>
 
       {/* <h1>Demo Application</h1> */}
+      <div className="nav-title">
+        <p><b>
+          WPD Course Sign In Dashboard
+        </b></p>
+      </div>
 
       <div className="nav-links">
         <Button color="primary" variant="text" href="/home">Home</Button>
