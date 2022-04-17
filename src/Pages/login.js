@@ -6,6 +6,24 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
+import {
+	FormControl,
+	FormLabel,
+	FormHelperText,
+	Input,
+	InputLabel,
+	AlertTitle,
+	TextField,
+	Alert,
+	OutlinedInput,
+	Button,
+	Box,
+	Container,
+	Checkbox,
+	Typography,
+	FormControlLabel,
+	Grid,
+  } from "@mui/material";
 
 function Login() {
   const navigate = useNavigate();
@@ -24,31 +42,34 @@ function Login() {
     setUser(currentUser);
   });
 
-  const login = async () => {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      ).then().catch(error => {
-	    switch (error.code) {
-	      case 'auth/user-not-found':
-                    errMessage.innerHTML = "User with given e-mail address not found.";
-		    errMessage.style.color = "red";
-                    break;
-		  case 'auth/user-disabled':
-                    errMessage.innerHTML = "The account with that email address has been disabled.";
-		    errMessage.style.color = "red";
-                    break;
-		  case 'auth/wrong-password':
-                    errMessage.innerHTML = "The password given is incorrect.";
-		    errMessage.style.color = "red";
-                    break;
-		  case 'auth/invalid-email':
-                    errMessage.innerHTML = "E-mail address invalid.";
-		    errMessage.style.color = "red";
-		    break;
-		  default:
-	  }
+  const login = async (event) => {
+	event.preventDefault();
+	console.log("test")
+
+	const user = await signInWithEmailAndPassword(
+	auth,
+	loginEmail,
+	loginPassword
+	).then().catch(error => {
+	switch (error.code) {
+		case 'auth/user-not-found':
+				errMessage.innerHTML = "User with given e-mail address not found.";
+		errMessage.style.color = "red";
+				break;
+		case 'auth/user-disabled':
+				errMessage.innerHTML = "The account with that email address has been disabled.";
+		errMessage.style.color = "red";
+				break;
+		case 'auth/wrong-password':
+				errMessage.innerHTML = "The password given is incorrect.";
+		errMessage.style.color = "red";
+				break;
+		case 'auth/invalid-email':
+				errMessage.innerHTML = "E-mail address invalid.";
+		errMessage.style.color = "red";
+		break;
+		default:
+	}
     });
 	
 	if (user)
@@ -58,29 +79,57 @@ function Login() {
   };
   
   return (
-	<div className="App">
-
-		<div>
-			<h3>User Login</h3>
-			<input placeholder="E-Mail" onChange={ (event) => { setLoginEmail(event.target.value); } } />
-			<p></p>
-			<input type={passwordShown ? "text" : "password"} placeholder="Password" onChange={ (event) => { setLoginPassword(event.target.value); } } />
-			<p></p>
-			<button onClick={togglePassword}>Show Password</button>
-			<p></p>
-			<button onClick={login}>Login</button>
-			<p></p>
-			<div id="errorMessage"></div>
-			<p></p>
-			<div>
-				Forgot Password? <Link to="/reset">Send Reset Email</Link> now.
-			</div>
-			<div>
-				Don't have an account? <Link to="/register">Register</Link> now.
-			</div>
-		</div>
-      
-	</div>
+	<Container className="App" maxWidth="xs">
+        <Box
+          sx={{
+            paddingTop: 4,
+			paddingBottom: 4,
+          }}
+        >
+          <h1>
+            Sign in
+          </h1>
+          <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Email Address"
+              autoFocus
+			  onInput={ e=> setLoginEmail(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Password"
+              type={passwordShown ? "text" : "password"}
+			  onInput={ e=> setLoginPassword(e.target.value)}
+            />
+			<Button onClick={togglePassword}>Show Password</Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link to="/reset" variant="body2">
+                  {"Forgot password"}
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/register" variant="body2">
+                  {"Register account"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
   );
 }
 
