@@ -47,6 +47,7 @@ import DialogConfirmation from "./DialogConfirmation";
 
 export default function DialogHandler(props) {
   const [open, setOpen] = React.useState(false);
+  const [dateButtonText, setDateButtonText] = React.useState("Select Date")
   // const [dialogBtnColor, setDialogBtnColor] = React.useState("primary")
   // const loading = open && courseList.length === 0;
 
@@ -72,7 +73,12 @@ export default function DialogHandler(props) {
   // Closes the dialog, then redirects to function
   // provided by the caller of the date picker
   const onDateSelect = (data) => {
+    // Send the selected date(s) to FirebaseDataTableSearch
     props.sendDateRangeUp(data)
+    
+    // Set the text
+    setDateButtonText("Selected: " + data[0].startDate.toLocaleDateString("en-US") + " to " + data[0].endDate.toLocaleDateString("en-US"))
+
     handleClose()
   }
 
@@ -88,12 +94,12 @@ export default function DialogHandler(props) {
   return (
     <div> 
       {/* If props.dialogBtnColor isn't set it defaults to "primary" */}
-      <Button variant="outlined" color={props.dialogBtnColor} onClick={handleClickOpen}>
+      <Button variant="outlined" color={props.dialogBtnColor} onClick={handleClickOpen} fullWidth>
         {props.type === "csvExport" && "Export to CSV"}
         {props.type === "courseEntry" && "Add New Course"}
         {props.type === "courseEdit" && "Edit Course"}
         {props.type === "deleteData" && "Delete Archived Data"}
-        {props.type === "dateRangePicker" && "Select Date"}
+        {props.type === "dateRangePicker" && dateButtonText}
         {props.type === "confirmation" && "Delete"}
       </Button>
 
