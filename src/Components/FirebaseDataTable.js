@@ -283,7 +283,7 @@ function FirebaseDataTable(props) {
     firstVisibleDoc = documentSnapshots.docs[0];
 
     // Set if not already set
-    if (!firstDocEverSortkey) {
+    if (!firstDocEverSortkey && firstVisibleDoc) {
       console.log(firstDocEverSortkey);
       setFirstDocEverSortkey(firstVisibleDoc.data().sortKey);
     }
