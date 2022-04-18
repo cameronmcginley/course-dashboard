@@ -521,8 +521,8 @@ function FirebaseDataTable(props) {
     }
 
     console.log("4")
-    console.log("First doc: ", firstVisibleDoc.data().userID)
-    console.log("Last doc: ", lastVisibleDoc.data().userID)
+    // console.log("First doc: ", firstVisibleDoc.data().userID)
+    // console.log("Last doc: ", lastVisibleDoc.data().userID)
 
     // Set states
     await isFirstPageFunc(firstVisibleDoc);
