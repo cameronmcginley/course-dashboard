@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
-import FirebaseDataTable2 from "../Components/FirebaseDataTable2";
+// import FirebaseDataTable2 from "../Components/FirebaseDataTable2";
 import FirebaseForm from "../Components/FirebaseForm";
 import DialogHandler from "../Components/DialogBox/DialogHandler";
 import '../App.css'
@@ -38,11 +38,11 @@ const Home = () => {
 
   return (
     <div className="tableSplit">
-      <FirebaseDataTable2
+      {/* <FirebaseDataTable2
         type={"courses"}
         accessor={"courses"}
         sortKey={"courseName"}
-      />
+      /> */}
 
       {/* Course entry form, contained in popout box */}
       <Box sx={{ mt: 5 }}>
@@ -53,11 +53,11 @@ const Home = () => {
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}
       {/* Collection = name of firebase collection */}
       {/* sortKey = field (from firebase) to sort by */}
-      {/* <FirebaseDataTable
+      <FirebaseDataTable
         type={"courses"}
         accessor={"courses"}
         sortKey={"courseName"}
-      /> */}
+      />
       
     </div>
   );

@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import "../App.css";
-import TableHeaders from "../Functions/FirebaseDataTable/TableHeaders";
+import TableHeaders from "../Functions/TableHeaders";
 import CourseDropDown from "./CourseDropDown";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr";
 
