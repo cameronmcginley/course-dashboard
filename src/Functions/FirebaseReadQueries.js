@@ -17,6 +17,7 @@ import {
   setState,
   where,
   Timestamp,
+  endAt,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
 import { endOfDay, startOfDay } from "date-fns";
@@ -25,8 +26,8 @@ import getSortKey from "./getSortKey";
 export const FirebaseReadQueries = async (data) => {
   console.log(
     "Firebase Read",
-    "\nSearch Critera: ",
-    data.searchCriteria,
+    // "\nSearch Critera: ",
+    // data.searchCriteria,
     "\nType: ",
     data.type
   );
@@ -117,16 +118,13 @@ export const FirebaseReadQueries = async (data) => {
 
     // Optional Queries
     if (data.isAttendance) {
-      console.log(data)
       params.push(where("courseID", "==", data.courseID));
 
       // Gets data more recent than the startDate (midnight of current day)
       let d = new Date();
       d.setHours(0,0,0,0);
       d = getSortKey(d);
-      console.log("h\nh\nh\nh\n", d)
       params.push(where("sortKey", "<=", d));
-      console.log("h\nh\nh\nh\n", d)
     }
     if (data.searchCriteria.searchUserID) {
       params.push(
@@ -207,6 +205,9 @@ export const FirebaseReadQueries = async (data) => {
   }
 
   if (data.collectionName === "sign-ins") {
+    console.log("11")
+    console.log(data)
+
     const params = [
       collection(db, data.collectionName),
       where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
@@ -223,9 +224,14 @@ export const FirebaseReadQueries = async (data) => {
       params.push(limit(10));
     }
     if (data.getSigninDataType === "previous") {
+      console.log(data.firstVisibleDoc.data())
       params.push(endBefore(data.firstVisibleDoc));
       params.push(limitToLast(11));
+      // params.push(startAfter(data.lastVisibleDoc));
+      // params.push(limit(10));
     }
+    console.log("12")
+    // console.log(data.firstVisibleDoc, data.lastVisibleDoc)
 
     // Attendance page sends courseID over props and not searchCriteria
     if (data.type === "attendance") {
@@ -268,7 +274,7 @@ export const FirebaseReadQueries = async (data) => {
   }
 
   if (data.collectionName === "courses") {
-    console.log("Courses read");
+    // console.log("Courses read");
     const params = [
       collection(db, data.collectionName),
       orderBy(data.sortKey),

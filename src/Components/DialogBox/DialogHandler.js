@@ -75,9 +75,9 @@ export default function DialogHandler(props) {
   const onDateSelect = (data) => {
     // Send the selected date(s) to FirebaseDataTableSearch
     props.sendDateRangeUp(data)
-    
+
     // Set the text
-    setDateButtonText("Selected: " + data[0].startDate.toLocaleDateString("en-US") + " to " + data[0].endDate.toLocaleDateString("en-US"))
+    setDateButtonText("Selected: " + data[0].startDate.toLocaleDateString("en-US") + " - " + data[0].endDate.toLocaleDateString("en-US"))
 
     handleClose()
   }

@@ -131,8 +131,8 @@ const FirebaseDataTableSearch = (props) => {
     console.log("Dropdown select", data);
 
     // Map list of courseFullStrs to just their ID
-    console.log("X\nX\nX\nX\nX\nX\nX\nX\nX\nX\nX\n")
-    console.log(data.map(x => SplitCourseFullStr(x.course)[1]))
+    // console.log("X\nX\nX\nX\nX\nX\nX\nX\nX\nX\nX\n")
+    // console.log(data.map(x => SplitCourseFullStr(x.course)[1]))
     setSearchCourseIDList(data.map(x => SplitCourseFullStr(x.course)[1]))
   };
 
@@ -143,7 +143,7 @@ const FirebaseDataTableSearch = (props) => {
 
   return (
     <div className="tableSearch">
-      {console.log(TableHeaders(props)["sign-ins"])}
+      {/* {console.log(TableHeaders(props)["sign-ins"])} */}
       <h1>Search Data</h1>
 
       {/* Sign in table search */}

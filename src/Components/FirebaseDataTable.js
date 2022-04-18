@@ -428,12 +428,13 @@ function FirebaseDataTable(props) {
 
       // Returns false if page exists, otherwise true
       setIsFirstPage(!documentSnapshots.docs[0]);
-      console.log(documentSnapshots.docs[0]);
+      // console.log(documentSnapshots.docs[0]);
+      console.log("First page: ", Boolean(!documentSnapshots.docs[0]))
     }
   };
 
   const isLastPageFunc = async (pageLast) => {
-    console.log(pageLast);
+    // console.log(pageLast);
     if (!pageLast) {
       setIsLastPage(true);
     } else {
@@ -452,16 +453,19 @@ function FirebaseDataTable(props) {
 
       // Returns false if page exists, otherwise true
       setIsLastPage(!documentSnapshots.docs[0]);
-      console.log(documentSnapshots.docs[0]);
+      // console.log(documentSnapshots.docs[0]);
+      console.log("Last page: ", Boolean(!documentSnapshots.docs[0]))
     }
   };
 
   // Handles getting data from firebase
   // Queries contained in TableQueries.js
   const getSigninData = async (getSigninDataType) => {
-    console.log("Getting sign in data with type:");
-    console.log(getSigninDataType);
-    console.log(searchCriteria);
+    // Add check for first/last pages. if "refresh" then use these instead of starting from 0
+
+    console.log("Getting sign in data with type: ", getSigninDataType);
+    // console.log(getSigninDataType);
+    // console.log(searchCriteria);
 
     const data = await FirebaseReadQueries({
       type: props.type, // Specific id for queries
@@ -481,20 +485,37 @@ function FirebaseDataTable(props) {
       searchCriteria: searchCriteria,
     });
 
+    // console.log("TEST", data)
+    console.log("1")
+    console.log(data)
+    console.log(await getDocs(data))
+
     // Update page
     const documentSnapshots = await getDocs(data);
+
+    // console.log(documentSnapshots)
+    console.log("2")
+    console.log(documentSnapshots)
 
     setData(
       documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
 
+    console.log("3")
+
     // Update first and last documents after updating page
     lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1];
     firstVisibleDoc = documentSnapshots.docs[0];
 
+    console.log("4")
+    console.log("First doc: ", firstVisibleDoc.data().userID)
+    console.log("Last doc: ", lastVisibleDoc.data().userID)
+
     // Set states
     await isFirstPageFunc(firstVisibleDoc);
     await isLastPageFunc(lastVisibleDoc);
+
+    console.log("\n")
   };
 
   const [originalData] = React.useState(data);
@@ -526,7 +547,7 @@ function FirebaseDataTable(props) {
   const makeSearch = (data) => {
     // Update searchCritiera var before querying
     searchCriteria = data;
-    console.log(searchCriteria);
+    // console.log(searchCriteria);
 
     // Call table refresh with specific search query
     // Same query as before, but with an added "searchCritiera" obj
@@ -536,27 +557,9 @@ function FirebaseDataTable(props) {
     // Reset on refresh
   };
 
-  // This func is called when collection listener hits new doc
-  const onListenerHit = async (data) => {
-    console.log("Collection listener hit new doc...")
-    getSigninData("refresh");
-  }
-
   React.useEffect(() => {
-    // After data changes, we turn the flag back off
-    // so that if data actually changes when we're not
-    // editing it, the page is reset
-    skipResetRef.current = false;
     getSigninData("refresh");
-
-    // If query result changes, call func to issue a refresh
-    const q = query(collection(db, "sign-ins"), limit(1), orderBy("sortKey"));
-    var unsubscribe = onSnapshot(q, (querySnapshot) => {
-      onListenerHit()
-    });
-
-    return () => unsubscribe()
-  }, []);
+  }, []);   
 
   return (
     <Fragment>
