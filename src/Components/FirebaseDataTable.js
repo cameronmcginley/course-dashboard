@@ -409,6 +409,8 @@ function FirebaseDataTable(props) {
   const [isFirstPage, setIsFirstPage] = React.useState(null);
   const [isLastPage, setIsLastPage] = React.useState(null);
 
+  const [firstDocEverSortkey, setFirstDocEverSortkey] = React.useState(null)
+
   const isFirstPageFunc = async (pageZero) => {
     if (!pageZero) {
       setIsFirstPage(true);
@@ -426,10 +428,15 @@ function FirebaseDataTable(props) {
 
       const documentSnapshots = await getDocs(data);
 
-      // Returns false if page exists, otherwise true
+      // Sets false if page exists, otherwise true
       setIsFirstPage(!documentSnapshots.docs[0]);
-      // console.log(documentSnapshots.docs[0]);
       console.log("First page: ", Boolean(!documentSnapshots.docs[0]))
+
+      // Don't allow user to go back further than firstDocEverSortkey
+      // in case new data was added while user was browsing
+      if (pageZero.data().sortKey === firstDocEverSortkey) {
+        setIsFirstPage(true)
+      }
     }
   };
 
@@ -506,6 +513,12 @@ function FirebaseDataTable(props) {
     // Update first and last documents after updating page
     lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1];
     firstVisibleDoc = documentSnapshots.docs[0];
+
+    // Set if not already set
+    if (!firstDocEverSortkey) {
+      console.log(firstDocEverSortkey)
+      setFirstDocEverSortkey(firstVisibleDoc.data().sortKey)
+    }
 
     console.log("4")
     console.log("First doc: ", firstVisibleDoc.data().userID)
