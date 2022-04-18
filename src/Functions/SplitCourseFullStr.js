@@ -1,5 +1,3 @@
-import react from "react";
-
 // Takes in CourseFullStr, returns [courseName, courseID] both as string
 const SplitCourseFullStr = (courseFullStr) => {
   console.log("Splitting course full str", courseFullStr);

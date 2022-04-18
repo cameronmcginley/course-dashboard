@@ -1,25 +1,15 @@
-import React from "react";
 import {
   collection,
   getDocs,
   addDoc,
   updateDoc,
-  deleteDoc,
   doc,
-  FieldValue,
   query,
   limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
   where,
-  serverTimestamp,
   Timestamp,
 } from "firebase/firestore";
-import { db, auth } from "../firebase-config";
+import { db } from "../firebase-config";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr";
 import getSortKey from "./getSortKey";
 

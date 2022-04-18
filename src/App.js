@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React from "react";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import Courses from "./Pages/Courses";
@@ -9,30 +9,8 @@ import Register from "./Pages/register";
 import Reset from "./Pages/reset";
 import Attendance from "./Pages/Attendance";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Link,
-  Redirect,
-} from "react-router-dom";
-import { auth } from "./firebase-config";
-import { signOut, onAuthStateChanged } from "firebase/auth";
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
-  AlertTitle,
-  TextField,
-  Alert,
-  OutlinedInput,
-  Button,
-  Checkbox,
-  Box,
-  Paper,
-} from "@mui/material";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Paper } from "@mui/material";
 
 function App() {
   return (

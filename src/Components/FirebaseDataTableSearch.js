@@ -1,40 +1,23 @@
-import React, { Component, useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
 import {
   FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
   InputLabel,
-  AlertTitle,
   TextField,
-  Alert,
   OutlinedInput,
   Button,
   Checkbox,
   Box,
-  Paper,
   Card,
-  Select,
   MenuItem,
 } from "@mui/material";
-import { Timestamp } from "firebase/firestore";
 import "../App.css";
-import TableHeaders from "../Functions/TableHeaders";
 import CourseDropDown from "./CourseDropDown";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr";
 
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { DateRangePicker, defaultStaticRanges } from "react-date-range";
-import {
-  subDays,
-  startOfYear,
-  addYears,
-  endOfYear,
-  isSameDay,
-  endOfDay,
-} from "date-fns";
-import DialogHandler from './DialogBox/DialogHandler'
+import { endOfDay } from "date-fns";
+import DialogHandler from "./DialogBox/DialogHandler";
 
 const FirebaseDataTableSearch = (props) => {
   // Styling
@@ -118,7 +101,7 @@ const FirebaseDataTableSearch = (props) => {
     }
 
     if (doArchiveAfter) {
-      console.log("F\nF\nF\nF\nF\nF\nF\nF\nF\nArchiving Data")
+      console.log("F\nF\nF\nF\nF\nF\nF\nF\nF\nArchiving Data");
       // Give everything an archive date
       // Page to delete archived date older than certain period?
     }
@@ -133,12 +116,12 @@ const FirebaseDataTableSearch = (props) => {
     // Map list of courseFullStrs to just their ID
     // console.log("X\nX\nX\nX\nX\nX\nX\nX\nX\nX\nX\n")
     // console.log(data.map(x => SplitCourseFullStr(x.course)[1]))
-    setSearchCourseIDList(data.map(x => SplitCourseFullStr(x.course)[1]))
+    setSearchCourseIDList(data.map((x) => SplitCourseFullStr(x.course)[1]));
   };
 
   const handleDateRange = (data) => {
-    console.log("Handling date range...", data)
-    setDateRange(data)
+    console.log("Handling date range...", data);
+    setDateRange(data);
   };
 
   return (
@@ -168,7 +151,11 @@ const FirebaseDataTableSearch = (props) => {
 
           {/* Calendar in dialog box, selectedDateRange passed up after select
           button is pressed */}
-          <DialogHandler isSingleDate={false} type="dateRangePicker" sendDateRangeUp={handleDateRange} />
+          <DialogHandler
+            isSingleDate={false}
+            type="dateRangePicker"
+            sendDateRangeUp={handleDateRange}
+          />
 
           <div className="break"></div>
 
@@ -190,13 +177,13 @@ const FirebaseDataTableSearch = (props) => {
             <Card variant="outlined" className="csvArchiveCheckbox">
               <h3>Archive after export: </h3>
               <Checkbox
-                sx={{ height: '50%' }} // Remove margin
+                sx={{ height: "50%" }} // Remove margin
                 checked={doArchiveAfter}
                 onChange={(e) => setDoArchiveAfter(!doArchiveAfter)}
                 inputProps={{ "aria-label": "controlled" }}
               />
               <h3>{doArchiveAfter ? "True" : "False"}</h3>
-            </Card >
+            </Card>
           )}
 
           <div className="break"></div>

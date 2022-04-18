@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React from "react";
 import QRCodeReact from "qrcode.react";
 import "../App.css";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr";

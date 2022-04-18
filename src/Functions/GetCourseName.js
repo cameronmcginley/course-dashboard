@@ -1,23 +1,5 @@
-import react from "react";
 import { FirebaseReadQueries } from "./FirebaseReadQueries";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-} from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 
 // Takes in CourseFullStr, returns [courseName, courseID] both as string
 export const GetCourseName = async (courseID) => {

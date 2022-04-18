@@ -5,24 +5,9 @@ import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 // import FirebaseDataTable2 from "../Components/FirebaseDataTable2";
-import FirebaseForm from "../Components/FirebaseForm";
 import DialogHandler from "../Components/DialogBox/DialogHandler";
-import '../App.css'
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
-  AlertTitle,
-  TextField,
-  Alert,
-  OutlinedInput,
-  Button,
-  Box,
-  CircularProgress,
-  Paper,
-} from "@mui/material";
+import "../App.css";
+import { Box } from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -58,7 +43,6 @@ const Home = () => {
         accessor={"courses"}
         sortKey={"courseName"}
       />
-      
     </div>
   );
 };

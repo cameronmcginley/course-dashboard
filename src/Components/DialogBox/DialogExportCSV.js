@@ -1,39 +1,11 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CSVLink } from "react-csv";
 
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-} from "firebase/firestore";
+import { getDocs, updateDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import moment from "moment";
 import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
-  AlertTitle,
-  TextField,
-  Alert,
-  OutlinedInput,
-  Button,
-} from "@mui/material";
+
 import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
 
 // Which data to export to csv
@@ -96,17 +68,17 @@ export default function DialogExportCSV(props) {
       // console.log("No data found")
       setBlockingError([true, "No Data Found"]);
       buttonClickFail();
-      return
+      return;
     }
 
     // Passed by searchCriteria from FirebaseDataTableSearch
     // From an option in csv export
     if (searchCriteria.doArchiveAfter) {
-      console.log("T\nT\nT\nT\nT\nT\nT\nArchiving...")
+      console.log("T\nT\nT\nT\nT\nT\nT\nArchiving...");
 
       await documentSnapshots.forEach((docSnapshot) => {
-        let docRef = doc(db, 'sign-ins', docSnapshot.id);
-        updateDoc(docRef, { isArchived: true })
+        let docRef = doc(db, "sign-ins", docSnapshot.id);
+        updateDoc(docRef, { isArchived: true });
       });
     }
   };

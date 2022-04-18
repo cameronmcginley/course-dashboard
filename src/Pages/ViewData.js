@@ -5,22 +5,8 @@ import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
 import DialogHandler from "../Components/DialogBox/DialogHandler";
-import '../App.css'
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
-  AlertTitle,
-  TextField,
-  Alert,
-  OutlinedInput,
-  Button,
-  Box,
-  CircularProgress,
-  Paper,
-} from "@mui/material";
+import "../App.css";
+import { Box } from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -38,11 +24,11 @@ const Home = () => {
     <div className="tableSplit">
       {/* CSV Export */}
       <Box sx={{ mt: 5 }}>
-        <DialogHandler type="csvExport"/>
+        <DialogHandler type="csvExport" />
       </Box>
 
-      <DialogHandler type="deleteData"/>
-      
+      <DialogHandler type="deleteData" />
+
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}
       {/* Collection = name of firebase collection */}

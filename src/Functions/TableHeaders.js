@@ -1,9 +1,8 @@
-import React, { Fragment, Component, useState, useEffect, useRef } from "react";
+import React, { Fragment } from "react";
 
 // Dependencies for data
 import moment from "moment";
 import QRCode from "../Components/QRCode";
-import ReactToPrint from "react-to-print";
 import PrintQRReport from "../Components/PrintQRReport";
 
 // Must create header data for each type of table used

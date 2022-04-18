@@ -2,24 +2,7 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, limit, orderBy } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 function sleep(delay = 0) {
@@ -89,7 +72,7 @@ export default function CourseDropDown(props) {
 
   return (
     <Autocomplete
-    multiple
+      multiple
       // onChange={(e, newVal) => props.selectedCourse(newVal)} //Sends selected value to parent
       // newVal is list of all selected elements
       onChange={(e, newVal) => props.selectedCourse(newVal)}
@@ -104,7 +87,6 @@ export default function CourseDropDown(props) {
         setOpen(false);
         // props.selectedCourse(selectedCourses)
       }}
-
       isOptionEqualToValue={(option, value) => option.course === value.course}
       getOptionLabel={(option) => option.course}
       options={options}

@@ -1,23 +1,9 @@
-import React, { Component, useState, useEffect, Fragment } from "react";
-import { db, auth } from "../firebase-config";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  serverTimestamp,
-} from "firebase/firestore";
+import React, { useState, Fragment } from "react";
+import { getDocs } from "firebase/firestore";
 import {
   FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
   InputLabel,
   AlertTitle,
-  TextField,
   Alert,
   OutlinedInput,
   Button,

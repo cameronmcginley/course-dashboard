@@ -1,43 +1,11 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import {
-  useTable,
-  usePagination,
-  useSortBy,
-  useFilters,
-  useExpanded,
-  useRowSelect,
-} from "react-table";
-import { matchSorter } from "match-sorter";
-import moment from "moment";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-  onSnapshot,
-} from "firebase/firestore";
-import { db, auth } from "../firebase-config";
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { IconButton } from '@mui/material';
-
-import makeData from "../Functions/makeData";
-
-import { CSVLink, CSVDownload } from "react-csv";
-import DialogHandler from "./DialogBox/DialogHandler";
+import { useTable } from "react-table";
+import { getDocs } from "firebase/firestore";
+import { auth } from "../firebase-config";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { IconButton } from "@mui/material";
 
 import { useState, useRef } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -98,19 +66,13 @@ const Styles = styled.div`
   }
 `;
 
-
-function Table({ columns, data, isFirstPage, isLastPage, getSigninData, }) {
+function Table({ columns, data, isFirstPage, isLastPage, getSigninData }) {
   // Use the state and functions returned from useTable to build your UI
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    });
 
   const [isNextDisabled, setIsNextDisabled] = React.useState();
   const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
@@ -119,71 +81,70 @@ function Table({ columns, data, isFirstPage, isLastPage, getSigninData, }) {
   // Render the UI for your table
   return (
     <>
-    <table {...getTableProps()}>
-
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row)
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              ))}
             </tr>
-          )
-        })}
-      </tbody>
+          ))}
+        </thead>
 
-    </table>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
 
-    <div className="pagination">
-      <IconButton
-        onClick={() => {
-          setPageNum(pageNum - 1);
-          setIsPreviousDisabled(true);
-          setTimeout(() => {
-            setIsPreviousDisabled(false);
-          }, 300);
-          getSigninData("previous");
-        }}
-        // Disabled based on click delay, or if its first page (the timeout would re-enable even if first page)
-        disabled={isPreviousDisabled || isFirstPage}
-      >
-        <ArrowBackIcon />
-      </IconButton>{" "}
-
-      <span>
-        <p>Page
-        <strong> {pageNum} </strong>
-        </p>
-      </span>
-
-      <IconButton
-        onClick={() => {
-          setPageNum(pageNum + 1);
-          setIsNextDisabled(true);
-          setTimeout(() => {
-            setIsNextDisabled(false);
-          }, 300);
-          getSigninData("next");
-        }}
-        disabled={isNextDisabled || isLastPage}
-      >
-        <ArrowForwardIcon />
-      </IconButton>{" "}
-    </div>
+      <div className="pagination">
+        <IconButton
+          onClick={() => {
+            setPageNum(pageNum - 1);
+            setIsPreviousDisabled(true);
+            setTimeout(() => {
+              setIsPreviousDisabled(false);
+            }, 300);
+            getSigninData("previous");
+          }}
+          // Disabled based on click delay, or if its first page (the timeout would re-enable even if first page)
+          disabled={isPreviousDisabled || isFirstPage}
+        >
+          <ArrowBackIcon />
+        </IconButton>{" "}
+        <span>
+          <p>
+            Page
+            <strong> {pageNum} </strong>
+          </p>
+        </span>
+        <IconButton
+          onClick={() => {
+            setPageNum(pageNum + 1);
+            setIsNextDisabled(true);
+            setTimeout(() => {
+              setIsNextDisabled(false);
+            }, 300);
+            getSigninData("next");
+          }}
+          disabled={isNextDisabled || isLastPage}
+        >
+          <ArrowForwardIcon />
+        </IconButton>{" "}
+      </div>
     </>
-  )
+  );
 }
 
 let lastVisibleDoc = null;
@@ -216,7 +177,7 @@ function FirebaseDataTable(props) {
   const [isFirstPage, setIsFirstPage] = React.useState(null);
   const [isLastPage, setIsLastPage] = React.useState(null);
 
-  const [firstDocEverSortkey, setFirstDocEverSortkey] = React.useState(null)
+  const [firstDocEverSortkey, setFirstDocEverSortkey] = React.useState(null);
 
   const isFirstPageFunc = async (pageZero) => {
     if (!pageZero) {
@@ -229,20 +190,20 @@ function FirebaseDataTable(props) {
         firstVisibleDoc: pageZero,
         searchCriteria: searchCriteria,
         // Include some extras if request is coming from attendance page
-        isAttendance: (props.type === "attendance"),
-        courseID: (props.type === "attendance") && props.pageCourseID,
+        isAttendance: props.type === "attendance",
+        courseID: props.type === "attendance" && props.pageCourseID,
       });
 
       const documentSnapshots = await getDocs(data);
 
       // Sets false if page exists, otherwise true
       setIsFirstPage(!documentSnapshots.docs[0]);
-      console.log("First page: ", Boolean(!documentSnapshots.docs[0]))
+      console.log("First page: ", Boolean(!documentSnapshots.docs[0]));
 
       // Don't allow user to go back further than firstDocEverSortkey
       // in case new data was added while user was browsing
       if (pageZero.data().sortKey === firstDocEverSortkey) {
-        setIsFirstPage(true)
+        setIsFirstPage(true);
       }
     }
   };
@@ -259,8 +220,8 @@ function FirebaseDataTable(props) {
         lastVisibleDoc: pageLast,
         searchCriteria: searchCriteria,
         // Include some extras if request is coming from attendance page
-        isAttendance: (props.type === "attendance"),
-        courseID: (props.type === "attendance") && props.pageCourseID,
+        isAttendance: props.type === "attendance",
+        courseID: props.type === "attendance" && props.pageCourseID,
       });
 
       const documentSnapshots = await getDocs(data);
@@ -268,7 +229,7 @@ function FirebaseDataTable(props) {
       // Returns false if page exists, otherwise true
       setIsLastPage(!documentSnapshots.docs[0]);
       // console.log(documentSnapshots.docs[0]);
-      console.log("Last page: ", Boolean(!documentSnapshots.docs[0]))
+      console.log("Last page: ", Boolean(!documentSnapshots.docs[0]));
     }
   };
 
@@ -300,22 +261,22 @@ function FirebaseDataTable(props) {
     });
 
     // console.log("TEST", data)
-    console.log("1")
-    console.log(data)
-    console.log(await getDocs(data))
+    console.log("1");
+    console.log(data);
+    console.log(await getDocs(data));
 
     // Update page
     const documentSnapshots = await getDocs(data);
 
     // console.log(documentSnapshots)
-    console.log("2")
-    console.log(documentSnapshots)
+    console.log("2");
+    console.log(documentSnapshots);
 
     setData(
       documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
 
-    console.log("3")
+    console.log("3");
 
     // Update first and last documents after updating page
     lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1];
@@ -323,11 +284,11 @@ function FirebaseDataTable(props) {
 
     // Set if not already set
     if (!firstDocEverSortkey) {
-      console.log(firstDocEverSortkey)
-      setFirstDocEverSortkey(firstVisibleDoc.data().sortKey)
+      console.log(firstDocEverSortkey);
+      setFirstDocEverSortkey(firstVisibleDoc.data().sortKey);
     }
 
-    console.log("4")
+    console.log("4");
     // console.log("First doc: ", firstVisibleDoc.data().userID)
     // console.log("Last doc: ", lastVisibleDoc.data().userID)
 
@@ -335,7 +296,7 @@ function FirebaseDataTable(props) {
     await isFirstPageFunc(firstVisibleDoc);
     await isLastPageFunc(lastVisibleDoc);
 
-    console.log("\n")
+    console.log("\n");
   };
 
   // We need to keep the table from resetting the pageIndex when we
@@ -358,7 +319,7 @@ function FirebaseDataTable(props) {
 
   React.useEffect(() => {
     getSigninData("refresh");
-  }, []);   
+  }, []);
 
   return (
     <Fragment>
@@ -374,13 +335,13 @@ function FirebaseDataTable(props) {
         />
       </Styles>
 
-      {!props.excludeSearch &&
-      <FirebaseDataTableSearch
-        searchType={props.type}
-        searchCriteria={makeSearch}
-        hasSubmit={true}
-      />
-      }
+      {!props.excludeSearch && (
+        <FirebaseDataTableSearch
+          searchType={props.type}
+          searchCriteria={makeSearch}
+          hasSubmit={true}
+        />
+      )}
     </Fragment>
   );
 }

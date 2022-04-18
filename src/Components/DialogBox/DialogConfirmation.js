@@ -1,55 +1,8 @@
-import React, { Component, useEffect, useState } from "react";
-import { CSVLink } from "react-csv";
+import React, { useState } from "react";
 
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-  Timestamp,
-} from "firebase/firestore";
-import { db } from "../../firebase-config";
-import moment from "moment";
-import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
-  AlertTitle,
-  TextField,
-  Alert,
-  OutlinedInput,
-  Button,
-  Box,
-} from "@mui/material";
-import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
+import { Button, Box } from "@mui/material";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { DateRangePicker, defaultStaticRanges } from "react-date-range";
-import {
-  subDays,
-  startOfYear,
-  addYears,
-  endOfYear,
-  isSameDay,
-  endOfDay,
-} from "date-fns";
-import DialogHandler from './DialogHandler';
-import getSortKey from '../../Functions/getSortKey';
 
 export default function DialogDeleteData(props) {
   // Styling
@@ -63,7 +16,6 @@ export default function DialogDeleteData(props) {
 
   const [date, setDate] = useState(null);
   const [dateStr, setDateStr] = useState("");
-
 
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
@@ -83,14 +35,11 @@ export default function DialogDeleteData(props) {
     }, 2000);
   };
 
-
   return (
     <div>
-      <p>
-        {props.message}
-      </p>
+      <p>{props.message}</p>
 
-      <Box textAlign='center' sx={{ mt: 2, mb: 3 }}>
+      <Box textAlign="center" sx={{ mt: 2, mb: 3 }}>
         <Button
           variant="outlined"
           onClick={props.sendConfirm}
@@ -99,7 +48,6 @@ export default function DialogDeleteData(props) {
           {props.buttonTxt}
         </Button>
       </Box>
-
     </div>
   );
 }

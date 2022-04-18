@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase-config";
@@ -7,44 +7,9 @@ import FirebaseDataTable from "../Components/FirebaseDataTable";
 import FirebaseForm from "../Components/FirebaseForm";
 import { GetCourseName } from "../Functions/GetCourseName";
 import DialogHandler from "../Components/DialogBox/DialogHandler";
-import '../App.css'
+import "../App.css";
 import QRCode from "../Components/QRCode";
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
-  AlertTitle,
-  TextField,
-  Alert,
-  OutlinedInput,
-  Button,
-  Box,
-  CircularProgress,
-  Paper,
-} from "@mui/material";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-  Timestamp,
-  query,
-  onSnapshot,
-} from "firebase/firestore";
-import { db } from "../firebase-config";
+import { Box, CircularProgress, Paper } from "@mui/material";
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -107,12 +72,16 @@ const Attendance = () => {
                     <FirebaseForm
                       formType="userSignIn"
                       collectionName="sign-ins"
-                      userCourseFullStr={courseName + " (ID " + pageCourseID + ")"}
+                      userCourseFullStr={
+                        courseName + " (ID " + pageCourseID + ")"
+                      }
                     />
                   </Box>
 
-                  <Box className="attendanceSigninOR"><p>Or</p></Box>
-                  
+                  <Box className="attendanceSigninOR">
+                    <p>Or</p>
+                  </Box>
+
                   <Box className="attendanceQR">
                     <QRCode value={courseName + " (ID " + pageCourseID + ")"} />
                   </Box>
