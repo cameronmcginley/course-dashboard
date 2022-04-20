@@ -41,8 +41,6 @@ export const FirebaseReadQueries = async (data) => {
 
   //CSV Queries
   if (data.type === "CSV") {
-    console.log("CSV read with data: ", data);
-
     const params = [collection(db, "sign-ins"), orderBy("sortKey"), limit(10)];
 
     // If there are courseIDs to search by, push a firebase query for each
@@ -207,9 +205,6 @@ export const FirebaseReadQueries = async (data) => {
   }
 
   if (data.collectionName === "sign-ins") {
-    console.log("11");
-    console.log(data);
-
     const params = [
       collection(db, data.collectionName),
       where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
@@ -226,14 +221,11 @@ export const FirebaseReadQueries = async (data) => {
       params.push(limit(10));
     }
     if (data.getSigninDataType === "previous") {
-      console.log(data.firstVisibleDoc.data());
       params.push(endBefore(data.firstVisibleDoc));
       params.push(limitToLast(11));
       // params.push(startAfter(data.lastVisibleDoc));
       // params.push(limit(10));
     }
-    console.log("12");
-    // console.log(data.firstVisibleDoc, data.lastVisibleDoc)
 
     // Attendance page sends courseID over props and not searchCriteria
     if (data.type === "attendance") {
@@ -279,12 +271,10 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("isArchived", "==", false));
     }
 
-    console.log(params);
     return query(...params);
   }
 
   if (data.collectionName === "courses") {
-    // console.log("Courses read");
     const params = [collection(db, data.collectionName), orderBy(data.sortKey)];
 
     // Type

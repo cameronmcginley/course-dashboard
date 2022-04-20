@@ -6,7 +6,6 @@ import { QRReport } from "./QRReport";
 
 const PrintQRReport = (props) => {
   const componentRef = useRef();
-  console.log(props);
 
   return (
     <div>

@@ -46,7 +46,7 @@ const createSubstringArray = (text) => {
   // Remove duplicates from array
   substringArray = [...new Set(substringArray)];
 
-  console.log(substringArray);
+  // console.log(substringArray);
   return substringArray;
 };
 
@@ -119,7 +119,7 @@ export const FirebaseWriteQueries = async (data) => {
 
   if (data.collectionName === "sign-ins") {
     let courseArray = SplitCourseFullStr(data.newCourseFullStr);
-    console.log("Write course data: ", courseArray);
+    // console.log("Write course data: ", courseArray);
 
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,

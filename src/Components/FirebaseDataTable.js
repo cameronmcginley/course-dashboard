@@ -260,23 +260,14 @@ function FirebaseDataTable(props) {
       searchCriteria: searchCriteria,
     });
 
-    // console.log("TEST", data)
-    console.log("1");
-    console.log(data);
-    console.log(await getDocs(data));
 
     // Update page
     const documentSnapshots = await getDocs(data);
 
-    // console.log(documentSnapshots)
-    console.log("2");
-    console.log(documentSnapshots);
 
     setData(
       documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
-
-    console.log("3");
 
     // Update first and last documents after updating page
     lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1];
@@ -284,19 +275,12 @@ function FirebaseDataTable(props) {
 
     // Set if not already set
     if (!firstDocEverSortkey && firstVisibleDoc) {
-      console.log(firstDocEverSortkey);
       setFirstDocEverSortkey(firstVisibleDoc.data().sortKey);
     }
-
-    console.log("4");
-    // console.log("First doc: ", firstVisibleDoc.data().userID)
-    // console.log("Last doc: ", lastVisibleDoc.data().userID)
 
     // Set states
     await isFirstPageFunc(firstVisibleDoc);
     await isLastPageFunc(lastVisibleDoc);
-
-    console.log("\n");
   };
 
   // We need to keep the table from resetting the pageIndex when we
