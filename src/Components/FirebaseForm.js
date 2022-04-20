@@ -11,6 +11,7 @@ import {
 import "../App.css";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
+import { CheckCourseSubmission } from "../Functions/InputChecks/CheckCourseSubmission";
 
 // Can pass props in to exclude certain buttons, e.g. "userCourseID=123" in props
 const FirebaseInputForm = (props) => {
@@ -62,40 +63,28 @@ const FirebaseInputForm = (props) => {
     e.preventDefault();
 
     let hasRequiredData = false;
-    let hasUniqueID = null;
+
+    if (props.formType === "courseEntry") {
+      var isCourseValid = await CheckCourseSubmission(
+        false,
+        newCourseName,
+        newCourseID
+      );
+      console.log(isCourseValid);
+    }
 
     // Check whether necessary data has been input to form
     if (props.formType === "userSignIn") {
       newUserID && newUserCourseFullStr
         ? (hasRequiredData = true)
         : (hasRequiredData = false);
-    } else if (props.formType === "courseEntry") {
-      newCourseName && newCourseID
-        ? (hasRequiredData = true)
-        : (hasRequiredData = false);
     }
 
-    // Check whether course ID is unique when entering new course
-    if (hasRequiredData && props.formType === "courseEntry") {
-      // Returns bool for if course id exists in database
-      const data = await FirebaseReadQueries({
-        type: "checkCourseID",
-        collectionName: "courses",
-        courseID: newCourseID,
-      });
-      const documentSnapshots = await getDocs(data);
-
-      documentSnapshots.docs[0] ? (hasUniqueID = false) : (hasUniqueID = true);
-    } else {
-      hasUniqueID = true;
-    }
-
+    
     // On success
-    if (hasRequiredData && hasUniqueID) {
+    if (hasRequiredData || isCourseValid) {
       buttonClickSuccess();
       setBlockingError([false, ""]); //Clear error if it's there
-
-      console.log(newUserID, newUserCourseFullStr);
 
       // Write to database, just passes all possible params
       // Only uses what it needs for the desired collection

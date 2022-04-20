@@ -10,7 +10,8 @@ export const CheckCourseSubmission = async (isEdit, courseName, courseID) => {
   }
   // Don't need both if editing
   else if (isEdit) {
-  } else {
+  } 
+  else {
     return [false, "Invalid Input(s)"];
   }
 
@@ -27,5 +28,6 @@ export const CheckCourseSubmission = async (isEdit, courseName, courseID) => {
   }
 
   // No errors found
+  console.log("Verified: ",courseName, courseID)
   return [true, ""];
 };
