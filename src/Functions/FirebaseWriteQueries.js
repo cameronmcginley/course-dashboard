@@ -8,6 +8,7 @@ import {
   limit,
   where,
   Timestamp,
+  increment,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr";
@@ -62,6 +63,16 @@ export const FirebaseWriteQueries = async (data) => {
     logTime = Timestamp.now();
   }
   console.log("Write Time: ", logTime);
+
+  if (data.type === "incrementAutoCourseID") {
+    // Long string is the doc id
+    const docRef = doc(db, "constants", "Iw8s0y01fiokNk81heh1");
+
+    // Atomically increment the population of the city by 50.
+    await updateDoc(docRef, {
+        nextCourseIDIncrement: increment(1)
+    });
+  }
 
   if (data.type === "courseEdit") {
     // Assign the values to be set, if no change just set to current value

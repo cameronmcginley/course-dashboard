@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { getDocs } from "firebase/firestore";
 import {
   FormControl,
@@ -7,12 +7,15 @@ import {
   Alert,
   OutlinedInput,
   Button,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import "../App.css";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 import { CheckCourseSubmission } from "../Functions/InputChecks/CheckCourseSubmission";
 import { CheckUserSignin } from "../Functions/InputChecks/CheckUserSignin";
+import { AutoCourseID } from "../Functions/InputChecks/AutoCourseID";
 
 // Can pass props in to exclude certain buttons, e.g. "userCourseID=123" in props
 const FirebaseInputForm = (props) => {
@@ -36,6 +39,8 @@ const FirebaseInputForm = (props) => {
   //courseEntry
   const [newCourseName, setNewCourseName] = useState(props.courseName);
   const [newCourseID, setNewCourseID] = useState(props.courseID);
+  // const [autoCourseID, setAutoCourseID] = useState(null);
+  const [useAutoCourseID, setUseAutoCourseID] = useState(false)
 
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
@@ -62,6 +67,11 @@ const FirebaseInputForm = (props) => {
   const handleSubmit = async (e) => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
+
+    // Increment auto course id
+    FirebaseWriteQueries({
+      type: "incrementAutoCourseID",
+    });
 
     // Form can either be for course input, or user sign in
     let isCourseValid = [null, null];
@@ -120,6 +130,20 @@ const FirebaseInputForm = (props) => {
       buttonClickFail("Error");
     }
   };
+
+
+  // Updating useAutoCourseID (checkbox) calls useEffect to get autoCourseID
+  useEffect(async () => {
+    // If enabled, fill the ID input box was constant
+    console.log(newCourseID)
+    if (useAutoCourseID) {
+      setNewCourseID(String(await AutoCourseID()))
+    }
+    else {
+      setNewCourseID(null)
+    }
+    console.log(newCourseID)
+  }, [useAutoCourseID])
 
   return (
     <div className="firebase-signin-form">
@@ -199,16 +223,28 @@ const FirebaseInputForm = (props) => {
           <br />
           {!props.courseID && (
             <FormControl>
+              {/* Disable course ID input if we use auto generate */}
               <InputLabel htmlFor="firebase-form-courseid">
                 Course ID
               </InputLabel>
               <OutlinedInput
                 required
+                disabled={useAutoCourseID}
                 id="firebase-form-courseid"
                 value={newCourseID}
                 onChange={(e) => setNewCourseID(e.target.value)}
                 label="Course ID"
               />
+
+              {/* Select whether you want to auto generate course ID */}
+              <FormControlLabel 
+                control={
+                <Checkbox
+                  checked={useAutoCourseID}
+                  onChange={(e) => setUseAutoCourseID(!useAutoCourseID)}
+                />} 
+                label={"Auto Generate ID: " + (useAutoCourseID ? "True" : "False")} />
+
             </FormControl>
           )}
           <br />

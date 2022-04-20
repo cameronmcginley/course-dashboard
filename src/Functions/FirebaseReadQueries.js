@@ -22,6 +22,14 @@ export const FirebaseReadQueries = async (data) => {
     data.type
   );
 
+  // If looking for constants, grab the only doc there
+  if (data.type === "constantsFetch") {
+    return query(
+      collection(db, "constants"),
+      limit(1)
+    );
+  }
+
   if (data.type === "getCourseName") {
     return query(
       collection(db, "courses"),
