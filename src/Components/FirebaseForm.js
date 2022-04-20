@@ -12,6 +12,7 @@ import "../App.css";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 import { CheckCourseSubmission } from "../Functions/InputChecks/CheckCourseSubmission";
+import { CheckUserSignin } from "../Functions/InputChecks/CheckUserSignin";
 
 // Can pass props in to exclude certain buttons, e.g. "userCourseID=123" in props
 const FirebaseInputForm = (props) => {
@@ -62,27 +63,32 @@ const FirebaseInputForm = (props) => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    let hasRequiredData = false;
+    // Form can either be for course input, or user sign in
+    let isCourseValid = [null, null];
+    let isUserSignInValid = [null, null]
 
+    // Check for each, and if its valid
     if (props.formType === "courseEntry") {
-      var isCourseValid = await CheckCourseSubmission(
+      isCourseValid = await CheckCourseSubmission(
         false,
         newCourseName,
         newCourseID
       );
-      console.log(isCourseValid);
+      // console.log(isCourseValid);
     }
-
-    // Check whether necessary data has been input to form
-    if (props.formType === "userSignIn") {
-      newUserID && newUserCourseFullStr
-        ? (hasRequiredData = true)
-        : (hasRequiredData = false);
+    else if (props.formType === "userSignIn") {
+      isUserSignInValid = await CheckUserSignin(
+        newUserID,
+        newUserCourseFullStr
+      );
+      console.log(isUserSignInValid);
+      console.log(isUserSignInValid[1]);
     }
-
     
-    // On success
-    if (hasRequiredData || isCourseValid) {
+    // On success, write data
+    // Either can be successful, FirebaseWriteQueries will handle all
+    // the data given to it and use whats needed based on collectionName
+    if (isCourseValid[0] || isUserSignInValid[0]) {
       buttonClickSuccess();
       setBlockingError([false, ""]); //Clear error if it's there
 
@@ -102,11 +108,15 @@ const FirebaseInputForm = (props) => {
       setNewUserCourseID("");
       setNewCourseName("");
       setNewCourseID("");
-    } else if (!hasRequiredData) {
-      setBlockingError([true, "Missing Required Field(s)"]);
+    } 
+    // Check which was false, output error message
+    else if (isUserSignInValid[0] === false) {
+      setBlockingError([true, isUserSignInValid[1]]);
       buttonClickFail("Error");
-    } else if (!hasUniqueID) {
-      setBlockingError([true, "Must Enter Unique Course ID"]);
+      console.log(blockingError)
+    } 
+    else if (isCourseValid[0] === false) {
+      setBlockingError([true, isCourseValid[1]]);
       buttonClickFail("Error");
     }
   };
