@@ -4,24 +4,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
-import FirebaseForm from "../Components/FirebaseForm";
+// import FirebaseDataTable2 from "../Components/FirebaseDataTable2";
 import DialogHandler from "../Components/DialogBox/DialogHandler";
-import '../App.css'
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
-  AlertTitle,
-  TextField,
-  Alert,
-  OutlinedInput,
-  Button,
-  Box,
-  CircularProgress,
-  Paper,
-} from "@mui/material";
+import "../App.css";
+import { Box } from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -37,6 +23,12 @@ const Home = () => {
 
   return (
     <div className="tableSplit">
+      {/* <FirebaseDataTable2
+        type={"courses"}
+        accessor={"courses"}
+        sortKey={"courseName"}
+      /> */}
+
       {/* Course entry form, contained in popout box */}
       <Box sx={{ mt: 5 }}>
         <DialogHandler type="courseEntry" />

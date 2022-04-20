@@ -1,17 +1,9 @@
-import React, { Fragment, Component, useState, useEffect, useRef } from "react";
-
-// FirebaseDataTable Functions
-import DateBetweenFilter from "./DateBetweenFilter";
-import DefaultColumnFilter from "./DefaultColumnFilter";
-import FilterGreaterThan from "./FilterGreaterThan";
-import SelectColumnFilter from "./SelectColumnFilter";
-import DateRangeColumnFilter from "./DateRangeColumnFilter";
+import React, { Fragment } from "react";
 
 // Dependencies for data
 import moment from "moment";
-import QRCode from "../../Components/QRCode";
-import ReactToPrint from "react-to-print";
-import PrintQRReport from "../../Components/PrintQRReport";
+import QRCode from "../Components/QRCode";
+import PrintQRReport from "../Components/PrintQRReport";
 
 // Must create header data for each type of table used
 const TableHeaders = (props) => {
@@ -25,8 +17,6 @@ const TableHeaders = (props) => {
           accessor: (d) => {
             return d.userID;
           },
-          aggregate: "count",
-          Aggregated: ({ value }) => `${value} Names`,
         },
       ],
     },
@@ -38,22 +28,14 @@ const TableHeaders = (props) => {
         {
           Header: "User ID",
           accessor: "userID",
-          aggregate: "count",
-          Aggregated: ({ value }) => `${value} Names`,
         },
         {
           Header: "Course Name",
           accessor: "courseName",
-          filter: "fuzzyText",
-          aggregate: "uniqueCount",
-          Aggregated: ({ value }) => `${value} Unique Names`,
         },
         {
           Header: "Course ID",
           accessor: "courseID",
-          filter: "fuzzyText",
-          aggregate: "uniqueCount",
-          Aggregated: ({ value }) => `${value} Unique Names`,
         },
         {
           Header: "Date",
@@ -62,18 +44,12 @@ const TableHeaders = (props) => {
               .local()
               .format("MM-DD-YYYY hh:mm:ss a");
           },
-          Filter: DateRangeColumnFilter,
-          filter: "dateBetween",
-          aggregate: "sum",
-          Aggregated: ({ value }) => `${value} (total)`,
         },
         {
           Header: "Archival Status",
           accessor: (d) => {
             return d.isArchived ? "True" : "False";
           },
-          Filter: SelectColumnFilter,
-          filter: "includes",
         },
       ],
     },
@@ -85,16 +61,10 @@ const TableHeaders = (props) => {
         {
           Header: "Course Name",
           accessor: "courseName",
-          filter: "fuzzyText",
-          aggregate: "uniqueCount",
-          Aggregated: ({ value }) => `${value} Unique Names`,
         },
         {
           Header: "Course ID",
           accessor: "courseID",
-          filter: "fuzzyText",
-          aggregate: "uniqueCount",
-          Aggregated: ({ value }) => `${value} Unique Names`,
         },
         {
           Header: "Attendance Sheet",
@@ -108,9 +78,6 @@ const TableHeaders = (props) => {
               </a>
             );
           },
-          filter: "fuzzyText",
-          aggregate: "uniqueCount",
-          Aggregated: ({ value }) => `${value} Unique Names`,
         },
         {
           Header: "QR Code",
@@ -125,9 +92,6 @@ const TableHeaders = (props) => {
               </Fragment>
             );
           },
-          filter: "fuzzyText",
-          aggregate: "uniqueCount",
-          Aggregated: ({ value }) => `${value} Unique Names`,
         },
         {
           Header: "Time Created",
@@ -136,10 +100,6 @@ const TableHeaders = (props) => {
               .local()
               .format("MM-DD-YYYY hh:mm:ss a");
           },
-          Filter: DateRangeColumnFilter,
-          filter: "dateBetween",
-          aggregate: "sum",
-          Aggregated: ({ value }) => `${value} (total)`,
         },
       ],
     },

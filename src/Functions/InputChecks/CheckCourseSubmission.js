@@ -1,4 +1,3 @@
-import react from "react";
 import { getDocs } from "firebase/firestore";
 import { FirebaseReadQueries } from "../FirebaseReadQueries";
 

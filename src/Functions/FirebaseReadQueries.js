@@ -1,12 +1,5 @@
-import React from "react";
 import {
   collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
   query,
   limit,
   orderBy,
@@ -14,12 +7,9 @@ import {
   startAt,
   endBefore,
   limitToLast,
-  setState,
   where,
-  Timestamp,
-  endAt,
 } from "firebase/firestore";
-import { db, auth } from "../firebase-config";
+import { db } from "../firebase-config";
 import { endOfDay, startOfDay } from "date-fns";
 import getSortKey from "./getSortKey";
 
@@ -51,13 +41,16 @@ export const FirebaseReadQueries = async (data) => {
 
   //CSV Queries
   if (data.type === "CSV") {
-    console.log("CSV read with data: ", data);
-
     const params = [collection(db, "sign-ins"), orderBy("sortKey"), limit(10)];
 
     // If there are courseIDs to search by, push a firebase query for each
-    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
-      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
+    if (
+      data.searchCriteria.searchCourseIDList &&
+      data.searchCriteria.searchCourseIDList.length != 0
+    ) {
+      params.push(
+        where("courseID", "in", data.searchCriteria.searchCourseIDList)
+      );
     }
     if (data.searchCriteria.searchUserID) {
       params.push(
@@ -87,7 +80,6 @@ export const FirebaseReadQueries = async (data) => {
     return query(...params);
   }
 
-
   if (data.type === "DeleteArchivedBeforeDate") {
     console.log("Data to delete with: ", data);
 
@@ -95,7 +87,7 @@ export const FirebaseReadQueries = async (data) => {
       collection(db, "sign-ins"),
       orderBy("sortKey"),
       limit(10),
-      where("isArchived", "==", true)
+      where("isArchived", "==", true),
     ];
 
     if (data.searchCriteria.deleteDate) {
@@ -105,7 +97,6 @@ export const FirebaseReadQueries = async (data) => {
 
     return query(...params);
   }
-
 
   // Is first page
   if (data.type === "isFirstPage") {
@@ -122,7 +113,7 @@ export const FirebaseReadQueries = async (data) => {
 
       // Gets data more recent than the startDate (midnight of current day)
       let d = new Date();
-      d.setHours(0,0,0,0);
+      d.setHours(0, 0, 0, 0);
       d = getSortKey(d);
       params.push(where("sortKey", "<=", d));
     }
@@ -135,8 +126,13 @@ export const FirebaseReadQueries = async (data) => {
         )
       );
     }
-    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
-      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
+    if (
+      data.searchCriteria.searchCourseIDList &&
+      data.searchCriteria.searchCourseIDList.length != 0
+    ) {
+      params.push(
+        where("courseID", "in", data.searchCriteria.searchCourseIDList)
+      );
     }
     if (data.searchCriteria.startDate) {
       const startDateKey = getSortKey(data.searchCriteria.startDate);
@@ -164,13 +160,12 @@ export const FirebaseReadQueries = async (data) => {
       limit(1),
     ];
 
-
     if (data.isAttendance) {
       params.push(where("courseID", "==", data.courseID));
 
       // Gets data more recent than the startDate (midnight of current day)
       let d = new Date();
-      d.setHours(0,0,0,0);
+      d.setHours(0, 0, 0, 0);
       d = getSortKey(d);
       params.push(where("sortKey", "<=", d));
     }
@@ -184,8 +179,13 @@ export const FirebaseReadQueries = async (data) => {
         )
       );
     }
-    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
-      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
+    if (
+      data.searchCriteria.searchCourseIDList &&
+      data.searchCriteria.searchCourseIDList.length != 0
+    ) {
+      params.push(
+        where("courseID", "in", data.searchCriteria.searchCourseIDList)
+      );
     }
     if (data.searchCriteria.startDate) {
       const startDateKey = getSortKey(data.searchCriteria.startDate);
@@ -205,9 +205,6 @@ export const FirebaseReadQueries = async (data) => {
   }
 
   if (data.collectionName === "sign-ins") {
-    console.log("11")
-    console.log(data)
-
     const params = [
       collection(db, data.collectionName),
       where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
@@ -224,14 +221,11 @@ export const FirebaseReadQueries = async (data) => {
       params.push(limit(10));
     }
     if (data.getSigninDataType === "previous") {
-      console.log(data.firstVisibleDoc.data())
       params.push(endBefore(data.firstVisibleDoc));
       params.push(limitToLast(11));
       // params.push(startAfter(data.lastVisibleDoc));
       // params.push(limit(10));
     }
-    console.log("12")
-    // console.log(data.firstVisibleDoc, data.lastVisibleDoc)
 
     // Attendance page sends courseID over props and not searchCriteria
     if (data.type === "attendance") {
@@ -239,13 +233,18 @@ export const FirebaseReadQueries = async (data) => {
 
       // Gets data more recent than the startDate (midnight of current day)
       let d = new Date();
-      d.setHours(0,0,0,0);
+      d.setHours(0, 0, 0, 0);
       d = getSortKey(d);
       params.push(where("sortKey", "<=", d));
     }
     // Optional Queries
-    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
-      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
+    if (
+      data.searchCriteria.searchCourseIDList &&
+      data.searchCriteria.searchCourseIDList.length != 0
+    ) {
+      params.push(
+        where("courseID", "in", data.searchCriteria.searchCourseIDList)
+      );
     }
     if (data.searchCriteria.startDate) {
       const startDateKey = getSortKey(data.searchCriteria.startDate);
@@ -265,20 +264,18 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("isArchived", "==", true));
     }
     // searchCriteria empty on default loads without queries, only search for unarchived data
-    if (!data.searchCriteria.searchArchived || data.searchCriteria.searchArchived === "unarchived") {
+    if (
+      !data.searchCriteria.searchArchived ||
+      data.searchCriteria.searchArchived === "unarchived"
+    ) {
       params.push(where("isArchived", "==", false));
     }
 
-    console.log(params)
     return query(...params);
   }
 
   if (data.collectionName === "courses") {
-    // console.log("Courses read");
-    const params = [
-      collection(db, data.collectionName),
-      orderBy(data.sortKey),
-    ];
+    const params = [collection(db, data.collectionName), orderBy(data.sortKey)];
 
     // Type
     if (data.getSigninDataType === "refresh") {
@@ -295,8 +292,13 @@ export const FirebaseReadQueries = async (data) => {
     }
 
     // Optional queries
-    if (data.searchCriteria.searchCourseIDList && data.searchCriteria.searchCourseIDList.length != 0) {
-      params.push(where("courseID", "in", data.searchCriteria.searchCourseIDList));
+    if (
+      data.searchCriteria.searchCourseIDList &&
+      data.searchCriteria.searchCourseIDList.length != 0
+    ) {
+      params.push(
+        where("courseID", "in", data.searchCriteria.searchCourseIDList)
+      );
     }
 
     return query(...params);

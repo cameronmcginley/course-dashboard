@@ -1,28 +1,8 @@
 import namor from "namor";
-import moment from "moment";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import { db } from "../firebase-config";
-import React, { useMemo } from "react";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-  Timestamp,
-} from "firebase/firestore";
+import { collection, getDocs, query, limit, orderBy } from "firebase/firestore";
 
 // const range = len => {
 //   const arr = []
@@ -113,19 +93,18 @@ function randomDate(start, end, startHour, endHour) {
 
 const makeSigninData = async () => {
   let courseList = await getCourseList();
-  const IDList = await makeIDList()
-  const useIDList = true
+  const IDList = await makeIDList();
+  const useIDList = true;
 
-  console.log("Generating data...")
+  console.log("Generating data...");
 
   for (let i = 0; i < 6454; i++) {
     // Random id unless ISList exists
-    let userID = null
+    let userID = null;
     if (!useIDList) {
-      userID = namor.generate({ words: 1, numbers: 0 })
-    }
-    else {
-      userID = IDList[Math.floor(Math.random()*IDList.length)];
+      userID = namor.generate({ words: 1, numbers: 0 });
+    } else {
+      userID = IDList[Math.floor(Math.random() * IDList.length)];
     }
 
     FirebaseWriteQueries({
@@ -137,7 +116,7 @@ const makeSigninData = async () => {
     });
   }
 
-  console.log("Finished generating data")
+  console.log("Finished generating data");
 };
 
 const makeCourseData = async () => {
@@ -152,23 +131,23 @@ const makeCourseData = async () => {
 };
 
 const makeIDList = async () => {
-  let chars = '1234567890'
-  let IDList = []
+  let chars = "1234567890";
+  let IDList = [];
 
   for (let i = 0; i < 50; i++) {
-    let result = ''
+    let result = "";
 
     // Generate string
-    for (let j = 0; j < 5; j++){
-      result += chars.charAt(Math.floor(Math.random() * chars.length))
+    for (let j = 0; j < 5; j++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
 
-    IDList.push(result)
+    IDList.push(result);
   }
 
-  console.log(IDList)
-  return IDList
-}
+  console.log(IDList);
+  return IDList;
+};
 
 // makeSigninData()
 // makeCourseData()

@@ -30,4 +30,4 @@ onSnapshot(q, (querySnapshot) => {
   });
   console.log("Current cities in CA: ", signins.join(", "));
 });
-console.log("g\ng\ng\ng\ng\n")
+console.log("g\ng\ng\ng\ng\n");

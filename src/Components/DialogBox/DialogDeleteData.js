@@ -1,56 +1,14 @@
-import React, { Component, useEffect, useState } from "react";
-import { CSVLink } from "react-csv";
+import React, { useState } from "react";
 
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-  Timestamp,
-} from "firebase/firestore";
+import { getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase-config";
-import moment from "moment";
 import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  InputLabel,
-  AlertTitle,
-  TextField,
-  Alert,
-  OutlinedInput,
-  Button,
-  CircularProgress,
-  Box,
-} from "@mui/material";
-import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
+import { CircularProgress, Box } from "@mui/material";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { DateRangePicker, defaultStaticRanges } from "react-date-range";
-import {
-  subDays,
-  startOfYear,
-  addYears,
-  endOfYear,
-  isSameDay,
-  endOfDay,
-} from "date-fns";
-import DialogHandler from './DialogHandler';
-import getSortKey from '../../Functions/getSortKey';
+import { endOfDay } from "date-fns";
+import DialogHandler from "./DialogHandler";
+import getSortKey from "../../Functions/getSortKey";
 
 export default function DialogDeleteData(props) {
   // Styling
@@ -67,7 +25,6 @@ export default function DialogDeleteData(props) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isDoneLoading, setDoneLoading] = useState(false);
-
 
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
@@ -88,79 +45,75 @@ export default function DialogDeleteData(props) {
   };
 
   const handleDateSelect = (dateSelected) => {
-    setDate(dateSelected)
-    setDateStr(dateSelected.toDateString())
-  }
+    setDate(dateSelected);
+    setDateStr(dateSelected.toDateString());
+  };
 
   const deleteData = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     // props.hasCloseBtn = false
-    setTimeout(function() {
-      setIsLoading(false)
-      setDoneLoading(true)
-    }, 5000)
+    setTimeout(function () {
+      setIsLoading(false);
+      setDoneLoading(true);
+    }, 5000);
 
     console.log("Deleting data on and before: ", endOfDay(date));
-    console.log(getSortKey(endOfDay(date)))
+    console.log(getSortKey(endOfDay(date)));
 
     const data = await FirebaseReadQueries({
       type: "DeleteArchivedBeforeDate",
-      searchCriteria: {deleteDate: getSortKey(endOfDay(date))},
+      searchCriteria: { deleteDate: getSortKey(endOfDay(date)) },
     });
 
     var documentSnapshots = await getDocs(data);
 
     await documentSnapshots.forEach((docSnapshot) => {
-      let docRef = doc(db, 'sign-ins', docSnapshot.id);
-      deleteDoc(docRef)
-      
+      let docRef = doc(db, "sign-ins", docSnapshot.id);
+      deleteDoc(docRef);
+
       // console.log((new Date(docSnapshot.data().timestampLogged.seconds*1000)).toDateString())
     });
-
-
-  }
+  };
 
   return (
     <div>
       <p>
-        All previously archived data on and before the selected day will be permanently deleted.
+        All previously archived data on and before the selected day will be
+        permanently deleted.
       </p>
       <p>Date Selected: {dateStr}</p>
 
       {isLoading && <CircularProgress />}
 
-      {(!isLoading && !isDoneLoading) &&
-      <>
-        <DialogHandler
-          type="dateRangePicker"
-          sendDateRangeUp={handleDateSelect}
-          noCloseBtn={false}
-          isSingleDate={true}
-        />
-
-        <div className="break" />
-
-        {/* Box to center just the delete button */}
-        <Box textAlign='center' sx={{ mt: 2, mb: 3 }}>
-          <DialogHandler 
-            type="confirmation" 
-            message="Are you sure you wish to delete all data archived before" 
+      {!isLoading && !isDoneLoading && (
+        <>
+          <DialogHandler
+            type="dateRangePicker"
+            sendDateRangeUp={handleDateSelect}
             noCloseBtn={false}
-            sendConfirm={deleteData}
-            dialogBtnColor="error"
-            confirmBtnColor="error"
-            buttonTxt="delete"
+            isSingleDate={true}
           />
-        </Box>
-      </>
-      }
 
-      {isDoneLoading && 
-        <p>yo</p>
-      }
+          <div className="break" />
+
+          {/* Box to center just the delete button */}
+          <Box textAlign="center" sx={{ mt: 2, mb: 3 }}>
+            <DialogHandler
+              type="confirmation"
+              message="Are you sure you wish to delete all data archived before"
+              noCloseBtn={false}
+              sendConfirm={deleteData}
+              dialogBtnColor="error"
+              confirmBtnColor="error"
+              buttonTxt="delete"
+            />
+          </Box>
+        </>
+      )}
+
+      {isDoneLoading && <p>yo</p>}
 
       {/* <Button variant="outlined">Delete</Button> */}
-
     </div>
   );
 }

@@ -1,25 +1,15 @@
-import React from "react";
 import {
   collection,
   getDocs,
   addDoc,
   updateDoc,
-  deleteDoc,
   doc,
-  FieldValue,
   query,
   limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
   where,
-  serverTimestamp,
   Timestamp,
 } from "firebase/firestore";
-import { db, auth } from "../firebase-config";
+import { db } from "../firebase-config";
 import SplitCourseFullStr from "../Functions/SplitCourseFullStr";
 import getSortKey from "./getSortKey";
 
@@ -56,7 +46,7 @@ const createSubstringArray = (text) => {
   // Remove duplicates from array
   substringArray = [...new Set(substringArray)];
 
-  console.log(substringArray);
+  // console.log(substringArray);
   return substringArray;
 };
 
@@ -129,7 +119,7 @@ export const FirebaseWriteQueries = async (data) => {
 
   if (data.collectionName === "sign-ins") {
     let courseArray = SplitCourseFullStr(data.newCourseFullStr);
-    console.log("Write course data: ", courseArray);
+    // console.log("Write course data: ", courseArray);
 
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,

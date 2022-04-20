@@ -1,44 +1,9 @@
 import React, { Fragment, useState } from "react";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
-import {
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Autocomplete,
-  Checkbox,
-  Alert,
-  AlertTitle,
-} from "@mui/material";
-import CourseDropDown from "../CourseDropDown";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  FieldValue,
-  query,
-  limit,
-  orderBy,
-  startAfter,
-  startAt,
-  endBefore,
-  limitToLast,
-  setState,
-  where,
-} from "firebase/firestore";
-import { db } from "../../firebase-config";
+import { TextField, Checkbox, Alert, AlertTitle } from "@mui/material";
+
 import CircularProgress from "@mui/material/CircularProgress";
-import FirebaseForm from "../FirebaseForm";
-import FirebaseDataTableSearch from "../FirebaseDataTableSearch";
 import { FirebaseWriteQueries } from "../../Functions/FirebaseWriteQueries";
-import { FirebaseReadQueries } from "../../Functions/FirebaseReadQueries";
 import { CheckCourseSubmission } from "../../Functions/InputChecks/CheckCourseSubmission";
 
 export default function DialogCourseEdit(props) {

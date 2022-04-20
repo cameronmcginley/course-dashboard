@@ -1,29 +1,8 @@
 import { useState } from "react";
-import {
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
-import {
-	FormControl,
-	FormLabel,
-	FormHelperText,
-	Input,
-	InputLabel,
-	AlertTitle,
-	TextField,
-	Alert,
-	OutlinedInput,
-	Button,
-	Box,
-	Container,
-	Checkbox,
-	Typography,
-	FormControlLabel,
-	Grid,
-  } from "@mui/material";
+import { TextField, Button, Box, Container, Grid } from "@mui/material";
 
 function Login() {
   const navigate = useNavigate();
@@ -31,7 +10,7 @@ function Login() {
   const [loginPassword, setLoginPassword] = useState("");
   const [user, setUser] = useState({});
   const [passwordShown, setPasswordShown] = useState(false);
-	
+
   const errMessage = document.getElementById("errorMessage");
 
   const togglePassword = () => {
@@ -43,93 +22,93 @@ function Login() {
   });
 
   const login = async (event) => {
-	event.preventDefault();
-	console.log("test")
+    event.preventDefault();
+    console.log("test");
 
-	const user = await signInWithEmailAndPassword(
-	auth,
-	loginEmail,
-	loginPassword
-	).then().catch(error => {
-	switch (error.code) {
-		case 'auth/user-not-found':
-				errMessage.innerHTML = "User with given e-mail address not found.";
-		errMessage.style.color = "red";
-				break;
-		case 'auth/user-disabled':
-				errMessage.innerHTML = "The account with that email address has been disabled.";
-		errMessage.style.color = "red";
-				break;
-		case 'auth/wrong-password':
-				errMessage.innerHTML = "The password given is incorrect.";
-		errMessage.style.color = "red";
-				break;
-		case 'auth/invalid-email':
-				errMessage.innerHTML = "E-mail address invalid.";
-		errMessage.style.color = "red";
-		break;
-		default:
-	}
-    });
-	
-	if (user)
-	{
-	  navigate('/home');
-	}
+    const user = await signInWithEmailAndPassword(
+      auth,
+      loginEmail,
+      loginPassword
+    )
+      .then()
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/user-not-found":
+            errMessage.innerHTML = "User with given e-mail address not found.";
+            errMessage.style.color = "red";
+            break;
+          case "auth/user-disabled":
+            errMessage.innerHTML =
+              "The account with that email address has been disabled.";
+            errMessage.style.color = "red";
+            break;
+          case "auth/wrong-password":
+            errMessage.innerHTML = "The password given is incorrect.";
+            errMessage.style.color = "red";
+            break;
+          case "auth/invalid-email":
+            errMessage.innerHTML = "E-mail address invalid.";
+            errMessage.style.color = "red";
+            break;
+          default:
+        }
+      });
+
+    if (user) {
+      navigate("/home");
+    }
   };
-  
+
   return (
-	<Container className="App" maxWidth="xs">
-        <Box
-          sx={{
-            paddingTop: 4,
-			paddingBottom: 4,
-          }}
-        >
-          <h1>
-            Sign in
-          </h1>
-          <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Email Address"
-              autoFocus
-			  onInput={ e=> setLoginEmail(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Password"
-              type={passwordShown ? "text" : "password"}
-			  onInput={ e=> setLoginPassword(e.target.value)}
-            />
-			<Button onClick={togglePassword}>Show Password</Button>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/reset" variant="body2">
-                  {"Forgot password"}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/register" variant="body2">
-                  {"Register account"}
-                </Link>
-              </Grid>
+    <Container className="App" maxWidth="xs">
+      <Box
+        sx={{
+          paddingTop: 4,
+          paddingBottom: 4,
+        }}
+      >
+        <h1>Sign in</h1>
+        <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="Email Address"
+            autoFocus
+            onInput={(e) => setLoginEmail(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="Password"
+            type={passwordShown ? "text" : "password"}
+            onInput={(e) => setLoginPassword(e.target.value)}
+          />
+          <Button onClick={togglePassword}>Show Password</Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link to="/reset" variant="body2">
+                {"Forgot password"}
+              </Link>
             </Grid>
-          </Box>
+            <Grid item>
+              <Link to="/register" variant="body2">
+                {"Register account"}
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
-      </Container>
+      </Box>
+    </Container>
   );
 }
 
