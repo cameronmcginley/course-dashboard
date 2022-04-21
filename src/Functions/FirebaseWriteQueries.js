@@ -70,7 +70,7 @@ export const FirebaseWriteQueries = async (data) => {
 
     // Atomically increment the population of the city by 50.
     await updateDoc(docRef, {
-        nextCourseIDIncrement: increment(1)
+        nextCourseIDIncrement: increment(data.incrementAmt)
     });
   }
 

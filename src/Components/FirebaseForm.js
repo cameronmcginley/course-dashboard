@@ -68,31 +68,44 @@ const FirebaseInputForm = (props) => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    // Increment auto course id
-    FirebaseWriteQueries({
-      type: "incrementAutoCourseID",
-    });
+    let submittedCourseID = newCourseID
+    let submittedCourseName = newCourseName
+    let submittedUserID = newUserID
+    let submittedUserCourseFullStr = newUserCourseFullStr
+    let submittedUserCourseID = newUserCourseID
 
     // Form can either be for course input, or user sign in
     let isCourseValid = [null, null];
     let isUserSignInValid = [null, null]
 
+    let autoIDIncrementAmount = 1
+
     // Check for each, and if its valid
     if (props.formType === "courseEntry") {
       isCourseValid = await CheckCourseSubmission(
         false,
-        newCourseName,
-        newCourseID
+        submittedCourseName,
+        submittedCourseID
       );
-      // console.log(isCourseValid);
+      
+      // Keep incrementing if using auto course id
+      while (isCourseValid[0] === false && useAutoCourseID) {
+        // ID is stored as string, switch it to add, then back
+        submittedCourseID = String(Number(submittedCourseID) + 1)
+        autoIDIncrementAmount += 1
+
+        isCourseValid = await CheckCourseSubmission(
+          false,
+          submittedCourseName,
+          submittedCourseID
+        );
+      }
     }
     else if (props.formType === "userSignIn") {
-      isUserSignInValid = await CheckUserSignin(
-        newUserID,
-        newUserCourseFullStr
+      isUserSignInValid = CheckUserSignin(
+        submittedUserID,
+        submittedUserCourseFullStr
       );
-      console.log(isUserSignInValid);
-      console.log(isUserSignInValid[1]);
     }
     
     // On success, write data
@@ -106,12 +119,20 @@ const FirebaseInputForm = (props) => {
       // Only uses what it needs for the desired collection
       FirebaseWriteQueries({
         collectionName: props.collectionName,
-        newCourseName: newCourseName,
-        newCourseID: newCourseID,
-        newUserID: newUserID,
-        newUserCourseID: newUserCourseID,
-        newCourseFullStr: newUserCourseFullStr,
+        newCourseName: submittedCourseName,
+        newCourseID: submittedCourseID,
+        newUserID: submittedUserID,
+        newUserCourseID: submittedUserCourseID,
+        newCourseFullStr: submittedUserCourseFullStr,
       });
+
+      // Increment auto id if it was used
+      if (useAutoCourseID) {
+        FirebaseWriteQueries({
+          type: "incrementAutoCourseID",
+          incrementAmt: autoIDIncrementAmount,
+        });
+      }
 
       // Empty the inputs
       setNewUserID("");
