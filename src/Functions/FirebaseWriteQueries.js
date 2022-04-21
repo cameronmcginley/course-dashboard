@@ -85,7 +85,7 @@ export const FirebaseWriteQueries = async (data) => {
       ? (setCourseID = data.newCourseID)
       : (setCourseID = data.currCourseID);
 
-    const newCourseFullStr = setCourseName + " " + "(ID " + setCourseID + ")";
+    const newCourseFullStr = setCourseName + " " + "{ID " + setCourseID + "}";
 
     // Find doc id by reading old course id
     var data = query(
@@ -112,7 +112,7 @@ export const FirebaseWriteQueries = async (data) => {
 
   if (data.collectionName === "courses") {
     const newCourseFullStr =
-      data.newCourseName + " " + "(ID " + data.newCourseID + ")";
+      data.newCourseName + " " + "{ID " + data.newCourseID + "}";
 
     addDoc(collection(db, data.collectionName), {
       courseID: data.newCourseID,
@@ -121,8 +121,8 @@ export const FirebaseWriteQueries = async (data) => {
       timeCreated: logTime,
       lastModified: logTime,
 
-      substrCourseID: createSubstringArray(data.newCourseID),
-      substrCourseName: createSubstringArray(data.newCourseName),
+      // substrCourseID: createSubstringArray(data.newCourseID),
+      // substrCourseName: createSubstringArray(data.newCourseName),
     });
 
     return;

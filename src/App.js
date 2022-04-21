@@ -8,11 +8,15 @@ import Login from "./Pages/login";
 import Register from "./Pages/register";
 import Reset from "./Pages/reset";
 import Attendance from "./Pages/Attendance";
+import makeData from "./Functions/makeData";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Paper } from "@mui/material";
 
 function App() {
+  // For generating test data
+  makeData()
+
   return (
     <Router>
       <div className="App">

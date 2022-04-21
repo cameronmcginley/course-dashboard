@@ -75,7 +75,7 @@ const Attendance = () => {
                       formType="userSignIn"
                       collectionName="sign-ins"
                       userCourseFullStr={
-                        courseName + " (ID " + pageCourseID + ")"
+                        courseName + " {ID " + pageCourseID + "}"
                       }
                     />
                   </Box>
@@ -85,7 +85,7 @@ const Attendance = () => {
                   </Box>
 
                   <Box className="attendanceQR">
-                    <QRCode value={courseName + " (ID " + pageCourseID + ")"} />
+                    <QRCode value={courseName + " {ID " + pageCourseID + "}"} />
                   </Box>
                 </Paper>
               </div>
