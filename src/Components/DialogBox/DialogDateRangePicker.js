@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker, defaultStaticRanges } from "react-date-range";
@@ -27,7 +27,7 @@ export default function DialogDateRangePicker(props) {
   const [date, setDate] = useState(null);
 
   return (
-    <div>
+    <Box textAlign="center" sx={{ mt: 2, mb: 3 }}>
       {props.isSingleDate ? (
         <>
           <Calendar onChange={(item) => setDate(item)} date={date} />
@@ -85,6 +85,7 @@ export default function DialogDateRangePicker(props) {
           />
 
           <Button
+            variant="outlined"
             className="dateRangeSelect"
             onClick={() => {
               // Pass the dateRange to parent (DialogDeleteData component)
@@ -95,6 +96,6 @@ export default function DialogDateRangePicker(props) {
           </Button>
         </>
       )}
-    </div>
+    </Box>
   );
 }

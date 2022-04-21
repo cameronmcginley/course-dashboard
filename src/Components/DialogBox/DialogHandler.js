@@ -43,13 +43,17 @@ export default function DialogHandler(props) {
     // Send the selected date(s) to FirebaseDataTableSearch
     props.sendDateRangeUp(data);
 
-    // Set the text
-    setDateButtonText(
-      "Selected: " +
-        data[0].startDate.toLocaleDateString("en-US") +
-        " - " +
-        data[0].endDate.toLocaleDateString("en-US")
-    );
+    // Set the button text to include the selection
+    // Only do for the date range buttons, single date select
+    // is displayed elsewhere on delete data dialog
+    if (Array.isArray(data)) {
+      setDateButtonText(
+        "Selected: " +
+          data[0].startDate.toLocaleDateString("en-US") +
+          " - " +
+          data[0].endDate.toLocaleDateString("en-US")
+      );
+    }
 
     handleClose();
   };

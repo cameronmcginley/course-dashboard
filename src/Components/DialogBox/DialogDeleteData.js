@@ -81,23 +81,24 @@ export default function DialogDeleteData(props) {
         All previously archived data on and before the selected day will be
         permanently deleted.
       </p>
-      <p>Date Selected: {dateStr}</p>
 
-      {isLoading && <CircularProgress />}
+      {/* Box to center just the delete button */}
+      <Box textAlign="center" sx={{ mt: 2, mb: 3 }}>
+        <p>Date Selected: {dateStr}</p>
 
-      {!isLoading && !isDoneLoading && (
-        <>
-          <DialogHandler
-            type="dateRangePicker"
-            sendDateRangeUp={handleDateSelect}
-            noCloseBtn={false}
-            isSingleDate={true}
-          />
+        {isLoading && <CircularProgress />}
 
-          <div className="break" />
+        {!isLoading && !isDoneLoading && (
+          <>
+            <DialogHandler
+              type="dateRangePicker"
+              sendDateRangeUp={handleDateSelect}
+              noCloseBtn={false}
+              isSingleDate={true}
+            />
 
-          {/* Box to center just the delete button */}
-          <Box textAlign="center" sx={{ mt: 2, mb: 3 }}>
+            <div className="break" />
+
             <DialogHandler
               type="confirmation"
               message="Are you sure you wish to delete all data archived before"
@@ -107,9 +108,9 @@ export default function DialogDeleteData(props) {
               confirmBtnColor="error"
               buttonTxt="delete"
             />
-          </Box>
-        </>
-      )}
+          </>
+        )}
+      </Box>
 
       {isDoneLoading && <p>yo</p>}
 
