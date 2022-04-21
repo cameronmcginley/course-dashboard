@@ -202,7 +202,8 @@ function FirebaseDataTable(props) {
 
       // Don't allow user to go back further than firstDocEverSortkey
       // in case new data was added while user was browsing
-      if (pageZero.data().sortKey === firstDocEverSortkey) {
+      // Only do this for sign-ins
+      if (props.accessor === "sign-ins" && pageZero.data().sortKey === firstDocEverSortkey) {
         setIsFirstPage(true);
       }
     }
