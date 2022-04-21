@@ -70,7 +70,8 @@ export default function DialogHandler(props) {
         variant="outlined"
         color={props.dialogBtnColor}
         onClick={handleClickOpen}
-        fullWidth
+        // Only full width on the date picker in search box
+        fullWidth={props.fullWidth}
       >
         {props.type === "csvExport" && "Export to CSV"}
         {props.type === "courseEntry" && "Add New Course"}

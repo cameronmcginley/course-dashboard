@@ -9,7 +9,7 @@ import { GetCourseName } from "../Functions/GetCourseName";
 import DialogHandler from "../Components/DialogBox/DialogHandler";
 import "../App.css";
 import QRCode from "../Components/QRCode";
-import { Box, CircularProgress, Paper } from "@mui/material";
+import { Box, CircularProgress, Paper, Container } from "@mui/material";
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -53,15 +53,17 @@ const Attendance = () => {
           {courseName != "error" ? (
             // If not, do...
             <>
-              <div className="attendanceCourseInfo">
-                <p>Course ID: {pageCourseID}</p>
-                <p>Course Name: {courseName}</p>
-                <DialogHandler
-                  type="courseEdit"
-                  currCourseName={courseName}
-                  currCourseID={pageCourseID}
-                />
-              </div>
+              <Container maxWidth="xs">
+                <div className="attendanceCourseInfo">
+                  <p>Course ID: {pageCourseID}</p>
+                  <p>Course Name: {courseName}</p>
+                  <DialogHandler
+                    type="courseEdit"
+                    currCourseName={courseName}
+                    currCourseID={pageCourseID}
+                  />
+                </div>
+              </Container>
 
               <div className="attendanceSignIn">
                 <p>Course Sign In</p>

@@ -155,6 +155,7 @@ const FirebaseDataTableSearch = (props) => {
             isSingleDate={false}
             type="dateRangePicker"
             sendDateRangeUp={handleDateRange}
+            fullWidth={true}
           />
 
           <div className="break"></div>
