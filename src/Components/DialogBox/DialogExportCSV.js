@@ -36,17 +36,15 @@ export default function DialogExportCSV(props) {
   const getData = async (searchCriteria) => {
     console.log("Generating CSV report with all data");
 
-    const data = await FirebaseReadQueries({
+    const docs = await FirebaseReadQueries({
       type: "CSV",
       searchCriteria: searchCriteria,
     });
 
-    var documentSnapshots = await getDocs(data);
-
     // Push all data to array
     // Only maps specific data, and reformats timestamps
     let signinData = [];
-    documentSnapshots.forEach((doc) => {
+    docs.forEach((doc) => {
       signinData.push({
         userID: doc.data().userID,
         courseName: doc.data().courseName,
@@ -76,7 +74,7 @@ export default function DialogExportCSV(props) {
     if (searchCriteria.doArchiveAfter) {
       console.log("T\nT\nT\nT\nT\nT\nT\nArchiving...");
 
-      await documentSnapshots.forEach((docSnapshot) => {
+      await docs.forEach((docSnapshot) => {
         let docRef = doc(db, "sign-ins", docSnapshot.id);
         updateDoc(docRef, { isArchived: true });
       });

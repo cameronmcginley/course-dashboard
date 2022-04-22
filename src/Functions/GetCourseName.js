@@ -6,20 +6,17 @@ export const GetCourseName = async (courseID) => {
   // Takes course ID
   // Reads from database to get this course
 
-  const data = await FirebaseReadQueries({
+  const docs = await FirebaseReadQueries({
     type: "getCourseName",
     courseID: courseID,
   });
 
-  // Get course name from the data
-  const documentSnapshots = await getDocs(data);
-
   // If course name doesn't exist, return an error message
-  if (!documentSnapshots.docs[0]) {
+  if (!docs[0]) {
     return "error";
   }
 
-  console.log("Course Name: ", documentSnapshots.docs[0].data().courseName);
+  console.log("Course Name: ", docs[0].data().courseName);
 
-  return documentSnapshots.docs[0].data().courseName;
+  return docs[0].data().courseName;
 };

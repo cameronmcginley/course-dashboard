@@ -16,14 +16,13 @@ export const CheckCourseSubmission = async (isEdit, courseName, courseID) => {
   }
 
   // Check if course ID already exists
-  const data = await FirebaseReadQueries({
+  const docs = await FirebaseReadQueries({
     type: "checkCourseID",
     collectionName: "courses",
     courseID: courseID,
   });
-  const documentSnapshots = await getDocs(data);
 
-  if (documentSnapshots.docs[0]) {
+  if (docs[0]) {
     return [false, "ID Already In Use"];
   }
 

@@ -60,14 +60,12 @@ export default function DialogDeleteData(props) {
     console.log("Deleting data on and before: ", endOfDay(date));
     console.log(getSortKey(endOfDay(date)));
 
-    const data = await FirebaseReadQueries({
+    const docs = await FirebaseReadQueries({
       type: "DeleteArchivedBeforeDate",
       searchCriteria: { deleteDate: getSortKey(endOfDay(date)) },
     });
 
-    var documentSnapshots = await getDocs(data);
-
-    await documentSnapshots.forEach((docSnapshot) => {
+    await docs.forEach((docSnapshot) => {
       let docRef = doc(db, "sign-ins", docSnapshot.id);
       deleteDoc(docRef);
 

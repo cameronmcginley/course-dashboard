@@ -44,12 +44,11 @@ const makeData = () => {
 
   const getCourseList = async () => {
     // Get all courses for the dropdown
-    var data = query(collection(db, "courses"), orderBy("courseName"), limit(10));
-    var documentSnapshots = await getDocs(data);
+    var docs = query(collection(db, "courses"), orderBy("courseName"), limit(10));
 
     // Only get course, give it a display name with name + id
     let courseList = [];
-    documentSnapshots.forEach((doc) => {
+    docs.forEach((doc) => {
       courseList.push(doc.data().courseFullStr);
     });
 

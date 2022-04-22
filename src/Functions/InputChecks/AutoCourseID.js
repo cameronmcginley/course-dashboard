@@ -5,13 +5,11 @@ import { FirebaseReadQueries } from "../FirebaseReadQueries";
 // Returns [bool, "error text"]
 export const AutoCourseID = async () => {
   // Get the nextCourseIDIncrement value from constants > only doc > field
-  const data = await FirebaseReadQueries({
+  const docs = await FirebaseReadQueries({
     type: "constantsFetch",
   });
 
-  const documentSnapshots = await getDocs(data);
-
-  const nextCourseIDIncrement = documentSnapshots.docs[0].data().nextCourseIDIncrement;
+  const nextCourseIDIncrement = docs[0].data().nextCourseIDIncrement;
   console.log(nextCourseIDIncrement)
 
   return nextCourseIDIncrement

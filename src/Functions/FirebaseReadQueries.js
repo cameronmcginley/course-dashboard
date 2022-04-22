@@ -27,27 +27,27 @@ export const FirebaseReadQueries = async (data) => {
 
   // If looking for constants, grab the only doc there
   if (data.type === "constantsFetch") {
-    return query(
+    params.push(...[
       collection(db, "constants"),
       limit(1)
-    );
+    ]);
   }
 
   if (data.type === "getCourseName") {
-    return query(
+    params.push(...[
       collection(db, "courses"),
       where("courseID", "==", data.courseID),
       limit(1)
-    );
+    ]);
   }
 
   // Return true/false if course id already exists in database
   if (data.type === "checkCourseID") {
-    return query(
+    params.push(...[
       collection(db, "courses"),
       where("courseID", "==", data.courseID),
       limit(1)
-    );
+    ]);
   }
 
   //CSV Queries
