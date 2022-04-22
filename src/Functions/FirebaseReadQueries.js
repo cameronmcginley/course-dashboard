@@ -8,12 +8,15 @@ import {
   endBefore,
   limitToLast,
   where,
+  getDocs,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { endOfDay, startOfDay } from "date-fns";
 import getSortKey from "./getSortKey";
 
 export const FirebaseReadQueries = async (data) => {
+  let params = []
+
   console.log(
     "Firebase Read",
     // "\nSearch Critera: ",
@@ -49,7 +52,7 @@ export const FirebaseReadQueries = async (data) => {
 
   //CSV Queries
   if (data.type === "CSV") {
-    const params = [collection(db, "sign-ins"), orderBy("sortKey"), limit(10)];
+    params.push(...[collection(db, "sign-ins"), orderBy("sortKey"), limit(10)]);
 
     // If there are courseIDs to search by, push a firebase query for each
     if (
@@ -85,35 +88,35 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("isArchived", "==", false));
     }
 
-    return query(...params);
+    // return query(...params);
   }
 
   if (data.type === "DeleteArchivedBeforeDate") {
     console.log("Data to delete with: ", data);
 
-    const params = [
+    params.push(...[
       collection(db, "sign-ins"),
       orderBy("sortKey"),
       limit(10),
       where("isArchived", "==", true),
-    ];
+    ]);
 
     if (data.searchCriteria.deleteDate) {
       // deleteDate already provided in sortKey format
       params.push(where("sortKey", ">=", data.searchCriteria.deleteDate));
     }
 
-    return query(...params);
+    // return query(...params);
   }
 
   // Is first page
   if (data.type === "isFirstPage") {
-    const params = [
+    params.push(...[
       collection(db, data.collectionName),
       orderBy(data.sortKey),
       endBefore(data.firstVisibleDoc),
       limit(1),
-    ];
+    ]);
 
     // Optional Queries
     if (data.isAttendance) {
@@ -156,17 +159,17 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("isArchived", "==", false));
     }
 
-    return query(...params);
+    // return query(...params);
   }
 
   // Is last page
   if (data.type === "isLastPage") {
-    const params = [
+    params.push(...[
       collection(db, data.collectionName),
       orderBy(data.sortKey),
       startAfter(data.lastVisibleDoc),
       limit(1),
-    ];
+    ]);
 
     if (data.isAttendance) {
       params.push(where("courseID", "==", data.courseID));
@@ -209,15 +212,16 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("isArchived", "==", false));
     }
 
-    return query(...params);
+    // return query(...params);
   }
 
-  if (data.collectionName === "sign-ins") {
-    const params = [
+  // if (data.collectionName === "sign-ins") {
+  if (data.type === "sign-ins" || data.type === "attendance") {
+    params.push(...[
       collection(db, data.collectionName),
       where("substrUserID", "array-contains", data.searchCriteria.searchUserID),
       orderBy(data.sortKey),
-    ];
+    ]);
 
     // Type
     if (data.getSigninDataType === "refresh") {
@@ -279,11 +283,12 @@ export const FirebaseReadQueries = async (data) => {
       params.push(where("isArchived", "==", false));
     }
 
-    return query(...params);
+    // return query(...params);
   }
 
-  if (data.collectionName === "courses") {
-    const params = [collection(db, data.collectionName), orderBy(data.sortKey)];
+  // if (data.collectionName === "courses") {
+  if (data.type === "courses") {
+    params.push(...[collection(db, data.collectionName), orderBy(data.sortKey)]);
 
     // Type
     if (data.getSigninDataType === "refresh") {
@@ -309,6 +314,13 @@ export const FirebaseReadQueries = async (data) => {
       );
     }
 
-    return query(...params);
+    // console.log(query(...params))
+    // return query(...params);
+    // const docSnapshot = await getDocs(query(...params));
+    // return docSnapshot.docs
   }
+
+  const docSnapshot = await getDocs(query(...params));
+  console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
+  return docSnapshot.docs
 };
