@@ -2,8 +2,7 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-import { collection, getDocs, query, limit, orderBy } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 function sleep(delay = 0) {
   return new Promise((resolve) => {
@@ -13,12 +12,16 @@ function sleep(delay = 0) {
 
 const getCourseList = async () => {
   // Get all courses for the dropdown
-  var data = query(collection(db, "courses"), orderBy("courseName"), limit(10));
-  var documentSnapshots = await getDocs(data);
+  // var data = query(collection(db, "courses"), orderBy("courseName"), limit(10));
+  const docs = await FirebaseReadQueries({
+    type: "courses",
+    collectionName: "courses",
+    sortKey: "courseName",
+  });
 
   // Only get course, give it a display name with name + id
   let courseList = [];
-  documentSnapshots.forEach((doc) => {
+  docs.forEach((doc) => {
     courseList.push({
       course: doc.data().courseFullStr,
     });

@@ -306,6 +306,7 @@ export const FirebaseReadQueries = async (data) => {
 
     // Optional queries
     if (
+      data.searchCriteria && 
       data.searchCriteria.searchCourseIDList &&
       data.searchCriteria.searchCourseIDList.length != 0
     ) {

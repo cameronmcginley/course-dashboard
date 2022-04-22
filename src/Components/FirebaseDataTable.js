@@ -257,7 +257,7 @@ function FirebaseDataTable(props) {
       searchCriteria: searchCriteria,
     });
 
-    console.log(docs)
+    // console.log(docs)
     setData(
       docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
@@ -274,46 +274,6 @@ function FirebaseDataTable(props) {
     // Set states
     await isFirstPageFunc(firstVisibleDoc);
     await isLastPageFunc(lastVisibleDoc);
-
-    // const data = await FirebaseReadQueries({
-    //   type: props.type, // Specific id for queries
-    //   collectionName: props.accessor,
-    //   getSigninDataType: getSigninDataType, //type of request, e.g. next page, previous page, or refresh
-    //   // daySortKeyLargest: props.daySortKeyLargest, //if defined, then only request past day's data
-    //   sortKey: props.sortKey, //field to sort by
-    //   firstVisibleDoc: firstVisibleDoc, //first doc currently shown in table
-    //   lastVisibleDoc: lastVisibleDoc, //last doc currently shown in table
-    //   courseID: props.pageCourseID,
-    //   //sortKey field in sign-ins collection is based off timestamp, essentially a way
-    //   //to sort by latest data, rather than firebase default of oldest data
-    //   //daySortKeyLargest is passed by Attendance.js, and is the sortKey given by 12am,
-    //   //so any sortKey smaller than this value is within the past day
-
-    //   // Given by the search component
-    //   searchCriteria: searchCriteria,
-    // });
-
-
-    // // Update page
-    // const documentSnapshots = await getDocs(data);
-    // console.log(documentSnapshots.docs)
-
-    // setData(
-    //   documentSnapshots.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-    // );
-
-    // // Update first and last documents after updating page
-    // lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    // firstVisibleDoc = documentSnapshots.docs[0];
-
-    // // Set if not already set
-    // if (!firstDocEverSortkey && firstVisibleDoc) {
-    //   setFirstDocEverSortkey(firstVisibleDoc.data().sortKey);
-    // }
-
-    // // Set states
-    // await isFirstPageFunc(firstVisibleDoc);
-    // await isLastPageFunc(lastVisibleDoc);
   };
 
   // We need to keep the table from resetting the pageIndex when we
