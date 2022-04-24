@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged, emailVerified, reload } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField, Button, Box, Container, Grid } from "@mui/material";
@@ -17,46 +17,46 @@ function Login() {
     setPasswordShown(!passwordShown);
   };
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
+  onAuthStateChanged(auth, () => {
+	auth.currentUser.reload();
+	if (auth.currentUser.emailVerified)
+	{
+		navigate('/home');
+	}
+	else
+	{
+		errMessage.innerHTML = "User account not verified. Will not redirect to the home page until user is verified.";
+		errMessage.style.color = "red";
+	}
   });
 
-  const login = async (event) => {
-    event.preventDefault();
-    console.log("test");
-
+  const login = async () => {
+	errMessage.innerHTML = "";
     const user = await signInWithEmailAndPassword(
-      auth,
-      loginEmail,
-      loginPassword
-    )
-      .then()
-      .catch((error) => {
-        switch (error.code) {
-          case "auth/user-not-found":
-            errMessage.innerHTML = "User with given e-mail address not found.";
-            errMessage.style.color = "red";
-            break;
-          case "auth/user-disabled":
-            errMessage.innerHTML =
-              "The account with that email address has been disabled.";
-            errMessage.style.color = "red";
-            break;
-          case "auth/wrong-password":
-            errMessage.innerHTML = "The password given is incorrect.";
-            errMessage.style.color = "red";
-            break;
-          case "auth/invalid-email":
-            errMessage.innerHTML = "E-mail address invalid.";
-            errMessage.style.color = "red";
-            break;
-          default:
-        }
-      });
-
-    if (user) {
-      navigate("/home");
-    }
+        auth,
+        loginEmail,
+        loginPassword
+    ).then().catch(error => {
+	    switch (error.code) {
+			  case 'auth/user-not-found':
+          errMessage.innerHTML = "User with given e-mail address not found.";
+				  errMessage.style.color = "red";
+          break;
+		  	case 'auth/user-disabled':
+          errMessage.innerHTML = "The account with that email address has been disabled.";
+			    errMessage.style.color = "red";
+          break;
+		  	case 'auth/wrong-password':
+          errMessage.innerHTML = "The password given is incorrect.";
+				  errMessage.style.color = "red";
+          break;
+		  	case 'auth/invalid-email':
+          errMessage.innerHTML = "E-mail address invalid.";
+				  errMessage.style.color = "red";
+			    break;
+		  	default:
+	  	}
+    });
   };
 
   return (
