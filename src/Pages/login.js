@@ -37,25 +37,25 @@ function Login() {
         loginEmail,
         loginPassword
     ).then().catch(error => {
-	    switch (error.code) {
-			  case 'auth/user-not-found':
-          errMessage.innerHTML = "User with given e-mail address not found.";
-				  errMessage.style.color = "red";
-          break;
-		  	case 'auth/user-disabled':
-          errMessage.innerHTML = "The account with that email address has been disabled.";
-			    errMessage.style.color = "red";
-          break;
-		  	case 'auth/wrong-password':
-          errMessage.innerHTML = "The password given is incorrect.";
-				  errMessage.style.color = "red";
-          break;
-		  	case 'auth/invalid-email':
-          errMessage.innerHTML = "E-mail address invalid.";
-				  errMessage.style.color = "red";
-			    break;
-		  	default:
-	  	}
+	  switch (error.code) {
+		  case 'auth/user-not-found':
+        		errMessage.innerHTML = "User with given e-mail address not found.";
+			errMessage.style.color = "red";
+          		break;
+		  case 'auth/user-disabled':
+          		errMessage.innerHTML = "The account with that email address has been disabled.";
+			errMessage.style.color = "red";
+          		break;
+		  case 'auth/wrong-password':
+          		errMessage.innerHTML = "The password given is incorrect.";
+			errMessage.style.color = "red";
+          		break;
+		  case 'auth/invalid-email':
+          		errMessage.innerHTML = "E-mail address invalid.";
+			errMessage.style.color = "red";
+			break;
+		  default:
+	  }
     });
   };
 
