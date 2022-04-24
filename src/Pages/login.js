@@ -21,7 +21,7 @@ function Login() {
 	auth.currentUser.reload();
 	if (auth.currentUser.emailVerified)
 	{
-		navigate('/home');
+		navigate('/Home');
 	}
 	else
 	{
