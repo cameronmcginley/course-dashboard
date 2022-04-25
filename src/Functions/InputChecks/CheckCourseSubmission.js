@@ -15,11 +15,11 @@ export const CheckCourseSubmission = async (isEdit, courseName, courseID, useAut
       return [false, "Missing input(s)"]
     }
   }
-  else {
-    if (!courseName && !courseID) {
-      return [false, "Missing input(s)"]
-    }
-  }
+  // else {
+  //   if (!courseName && !courseID) {
+  //     return [false, "Missing input(s)"]
+  //   }
+  // }
   
   // Individually check name and ID
   if (courseName) {

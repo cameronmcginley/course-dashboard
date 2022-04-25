@@ -121,6 +121,9 @@ export default function DialogCourseEdit(props) {
   return (
     <div className="flexForm">
 
+      <p>Note: modified course information will not be reflected by sign-in data</p>
+      <div className="break" />
+
       {/* Course Name */}
       <TextField
         disabled={!editingCourseName}
