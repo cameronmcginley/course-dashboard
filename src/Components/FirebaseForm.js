@@ -39,8 +39,12 @@ const FirebaseInputForm = (props) => {
   //courseEntry
   const [newCourseName, setNewCourseName] = useState(props.courseName);
   const [newCourseID, setNewCourseID] = useState(props.courseID);
-  // const [autoCourseID, setAutoCourseID] = useState(null);
-  const [useAutoCourseID, setUseAutoCourseID] = useState(false)
+  const [useAutoCourseID, setUseAutoCourseID] = useState(false);
+  const [courseInstructor, setCourseInstructor] = useState("")
+  const [sponsorAgency, setSponsorAgency] = useState("Wichita Police Department")
+  const [instructorAgency, setInstructorAgency] = useState("Wichita Police Department")
+  const [coordinator, setCoordinator] = useState("")
+  const [synopsis, setSynopsis] = useState("")
 
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
@@ -116,6 +120,12 @@ const FirebaseInputForm = (props) => {
         newUserID: submittedUserID,
         newUserCourseID: submittedUserCourseID,
         newCourseFullStr: submittedUserCourseFullStr,
+        // 
+        courseInstructor: courseInstructor,
+        sponsorAgency: sponsorAgency,
+        instructorAgency: instructorAgency,
+        coordinator: coordinator,
+        synopsis: synopsis,
       });
 
       // Empty the inputs
@@ -208,51 +218,126 @@ const FirebaseInputForm = (props) => {
         </Fragment>
       )}
 
+
       {/* Course Entry Form */}
       {props.formType === "courseEntry" && (
         <Fragment>
-          {!props.userID && (
-            <FormControl>
-              <InputLabel htmlFor="firebase-form-userid">
-                Course Name
-              </InputLabel>
-              <OutlinedInput
-                required
-                id="firebase-form-userid"
-                value={newCourseName}
-                onChange={(e) => setNewCourseName(e.target.value)}
-                label="Course Name"
-              />
-            </FormControl>
-          )}
-          <br />
-          {!props.courseID && (
-            <FormControl>
-              {/* Disable course ID input if we use auto generate */}
-              <InputLabel htmlFor="firebase-form-courseid">
-                Course ID
-              </InputLabel>
-              <OutlinedInput
-                required
-                disabled={useAutoCourseID}
-                id="firebase-form-courseid"
-                value={newCourseID}
-                onChange={(e) => setNewCourseID(e.target.value)}
-                label="Course ID"
-              />
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-userid">
+              Course Name
+            </InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              value={newCourseName}
+              onChange={(e) => setNewCourseName(e.target.value)}
+              label="Course Name"
+            />
+          </FormControl>
 
-              {/* Select whether you want to auto generate course ID */}
-              <FormControlLabel 
-                control={
-                <Checkbox
-                  checked={useAutoCourseID}
-                  onChange={(e) => setUseAutoCourseID(!useAutoCourseID)}
-                />} 
-                label={"Auto Generate ID: " + (useAutoCourseID ? "True" : "False")} />
+          <div className="break"></div>
 
-            </FormControl>
-          )}
-          <br />
+          <FormControl>
+            {/* Disable course ID input if we use auto generate */}
+            <InputLabel htmlFor="firebase-form-courseid">
+              Course ID
+            </InputLabel>
+            <OutlinedInput
+              required
+              disabled={useAutoCourseID}
+              id="firebase-form-courseid"
+              value={newCourseID}
+              onChange={(e) => setNewCourseID(e.target.value)}
+              label="Course ID"
+            />
+
+            {/* Select whether you want to auto generate course ID */}
+            <FormControlLabel 
+              control={
+              <Checkbox
+                checked={useAutoCourseID}
+                onChange={(e) => setUseAutoCourseID(!useAutoCourseID)}
+              />} 
+              label={"Auto Generate ID: " + (useAutoCourseID ? "True" : "False")} />
+          </FormControl>
+
+          <div className="break"></div>
+
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-userid">
+              Instructor(s)
+            </InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              value={courseInstructor}
+              onChange={(e) => setCourseInstructor(e.target.value)}
+              label="Course Name"
+            />
+          </FormControl>
+
+          <div className="break"></div>
+
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-userid">
+              Sponsor Agency
+            </InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              value={sponsorAgency}
+              onChange={(e) => setSponsorAgency(e.target.value)}
+              label="Course Name"
+            />
+          </FormControl>
+
+          <div className="break"></div>
+
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-userid">
+              Instructor Agency
+            </InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              value={instructorAgency}
+              onChange={(e) => setInstructorAgency(e.target.value)}
+              label="Course Name"
+            />
+          </FormControl>
+
+          <div className="break"></div>
+
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-userid">
+              Coordinator
+            </InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              value={coordinator}
+              onChange={(e) => setCoordinator(e.target.value)}
+              label="Course Name"
+            />
+          </FormControl>
+
+          <div className="break"></div>
+
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-userid">
+              Course Synopsis
+            </InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              value={synopsis}
+              onChange={(e) => setSynopsis(e.target.value)}
+              label="Course Name"
+            />
+          </FormControl>
+
+          <div className="break"></div>
+
           {blockingError[0] && (
             <Alert
               severity="error"
@@ -262,6 +347,7 @@ const FirebaseInputForm = (props) => {
               {blockingError[1]}
             </Alert>
           )}
+
           <FormControl>
             <Button
               // Disables pointer when disabled
@@ -274,6 +360,7 @@ const FirebaseInputForm = (props) => {
               {submitBtnText}
             </Button>
           </FormControl>
+
         </Fragment>
       )}
     </div>

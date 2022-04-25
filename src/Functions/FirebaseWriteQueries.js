@@ -123,6 +123,12 @@ export const FirebaseWriteQueries = async (data) => {
 
       // substrCourseID: createSubstringArray(data.newCourseID),
       substrCourseName: createSubstringArray(data.newCourseName),
+
+      courseInstructor: data.courseInstructor,
+      sponsorAgency: data.sponsorAgency,
+      instructorAgency: data.instructorAgency,
+      coordinator: data.coordinator,
+      synopsis: data.synopsis,
     });
 
     return;
