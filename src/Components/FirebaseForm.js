@@ -78,27 +78,19 @@ const FirebaseInputForm = (props) => {
     let isCourseValid = [null, null];
     let isUserSignInValid = [null, null]
 
-    let autoIDIncrementAmount = 1
-
     // Check for each, and if its valid
     if (props.formType === "courseEntry") {
       isCourseValid = await CheckCourseSubmission(
         false,
         submittedCourseName,
-        submittedCourseID
+        submittedCourseID,
+        useAutoCourseID
       );
-      
-      // Keep incrementing if using auto course id
-      while (isCourseValid[0] === false && useAutoCourseID) {
-        // ID is stored as string, switch it to add, then back
-        submittedCourseID = String(Number(submittedCourseID) + 1)
-        autoIDIncrementAmount += 1
 
-        isCourseValid = await CheckCourseSubmission(
-          false,
-          submittedCourseName,
-          submittedCourseID
-        );
+      // If useAutoCourseID is true, CheckCourseSubmission will return a new courseID
+      // That has been incremented
+      if (isCourseValid[0] && useAutoCourseID) {
+        submittedCourseID = isCourseValid[2]
       }
     }
     else if (props.formType === "userSignIn") {
@@ -125,14 +117,6 @@ const FirebaseInputForm = (props) => {
         newUserCourseID: submittedUserCourseID,
         newCourseFullStr: submittedUserCourseFullStr,
       });
-
-      // Increment auto id if it was used
-      if (useAutoCourseID) {
-        FirebaseWriteQueries({
-          type: "incrementAutoCourseID",
-          incrementAmt: autoIDIncrementAmount,
-        });
-      }
 
       // Empty the inputs
       setNewUserID("");

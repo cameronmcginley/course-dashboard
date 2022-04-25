@@ -44,19 +44,17 @@ export default function DialogCourseEdit(props) {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    console.log(newCourseName, newCourseID);
+    // Check if the submission is valid
     const isCourseValid = await CheckCourseSubmission(
       true,
       newCourseName,
       newCourseID
     );
-    console.log(isCourseValid);
 
+    // If valid...
     if (isCourseValid[0]) {
       buttonClickSuccess();
       setBlockingError([false, ""]); //Clear error if it's there
-
-      console.log(newCourseName, newCourseID);
 
       // Set the changed data in firebase
       FirebaseWriteQueries({
@@ -77,7 +75,8 @@ export default function DialogCourseEdit(props) {
               "/courses/" + props.currCourseID + "/attendance");
         setSuccessPage(false);
       }, 3000);
-    } else {
+    }
+    else {
       setBlockingError([true, isCourseValid[1]]);
       buttonClickFail("Error");
     }
