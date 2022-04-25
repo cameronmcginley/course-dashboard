@@ -102,6 +102,11 @@ export default function DialogHandler(props) {
               <DialogCourseEdit
                 currCourseName={props.currCourseName}
                 currCourseID={props.currCourseID}
+                currCourseInstructor={props.currCourseInstructor}
+                currSponsorAgency={props.currSponsorAgency}
+                currInstructorAgency={props.currInstructorAgency}
+                currCoordinator={props.currCoordinator}
+                currSynopsis={props.currSynopsis}
               />
             )}
             {props.type === "deleteData" && <DialogDeleteData />}

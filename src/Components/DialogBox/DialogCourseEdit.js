@@ -23,6 +23,21 @@ export default function DialogCourseEdit(props) {
   const [newCourseID, setNewCourseID] = useState("");
   const [editingCourseID, setEditingCourseID] = useState(false);
 
+  const [newCourseInstructor, setNewCourseInstructor] = useState("");
+  const [editingCourseInstructor, setEditingCourseInstructor] = useState(false);
+
+  const [newSponsorAgency, setNewSponsorAgency] = useState("");
+  const [editingSponsorAgency, setEditingSponsorAgency] = useState(false);
+
+  const [newInstructorAgency, setNewInstructorAgency] = useState("");
+  const [editingInstructorAgency, setEditingInstructorAgency] = useState(false);
+
+  const [newCoordinator, setNewCoordinator] = useState("");
+  const [editingCoordinator, setEditingCoordinator] = useState(false);
+
+  const [newSynopsis, setNewSynopsis] = useState("");
+  const [editingSynopsis, setEditingSynopsis] = useState(false);
+
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
     setSubmitBtnText("Success");
@@ -57,12 +72,32 @@ export default function DialogCourseEdit(props) {
       setBlockingError([false, ""]); //Clear error if it's there
 
       // Set the changed data in firebase
+      // console.log("t\nt\nt\n", props.currCourseID, newCourseID)
+
+      // Data is passed as props: Attendance.js > DialogHandler > DialogCourseEdit > FirebaseWriteQueries
+      // Tracks current and new versions
       FirebaseWriteQueries({
         type: "courseEdit",
         currCourseName: props.currCourseName,
-        currCourseID: props.currCourseID,
         newCourseName: newCourseName,
+
+        currCourseID: props.currCourseID,
         newCourseID: newCourseID,
+
+        currCourseInstructor: props.currCourseInstructor,
+        newCourseInstructor: newCourseInstructor,
+
+        currSponsorAgency: props.currSponsorAgency,
+        newSponsorAgency: newSponsorAgency,
+
+        currInstructorAgency: props.currInstructorAgency,
+        newInstructorAgency: newInstructorAgency,
+
+        currCoordinator: props.currCoordinator,
+        newCoordinator: newCoordinator,
+
+        currSynopsis: props.currSynopsis,
+        newSynopsis: newSynopsis,
       });
 
       // Loading bar on success, waits for data to save then reloads
@@ -85,6 +120,7 @@ export default function DialogCourseEdit(props) {
   // Contains multiple types depending on passed in prop
   return (
     <div className="flexForm">
+
       {/* Course Name */}
       <TextField
         disabled={!editingCourseName}
@@ -100,6 +136,7 @@ export default function DialogCourseEdit(props) {
       />
       <div className="break" />
 
+
       {/* Course ID */}
       <TextField
         disabled={!editingCourseID}
@@ -114,6 +151,87 @@ export default function DialogCourseEdit(props) {
         inputProps={{ "aria-label": "controlled" }}
       />
       <div className="break" />
+
+
+      {/* Course Instructor */}
+      <TextField
+        disabled={!editingCourseInstructor}
+        id="outlined-disabled"
+        label="Course Instructor"
+        defaultValue={props.currCourseInstructor}
+        onChange={(e) => setNewCourseInstructor(e.target.value)}
+      />
+      <Checkbox
+        checked={editingCourseInstructor}
+        onChange={(e) => setEditingCourseInstructor(!editingCourseInstructor)}
+        inputProps={{ "aria-label": "controlled" }}
+      />
+      <div className="break" />
+
+
+      {/* SponsorAgency */}
+      <TextField
+        disabled={!editingSponsorAgency}
+        id="outlined-disabled"
+        label="Sponsor Agency"
+        defaultValue={props.currSponsorAgency}
+        onChange={(e) => setNewSponsorAgency(e.target.value)}
+      />
+      <Checkbox
+        checked={editingSponsorAgency}
+        onChange={(e) => setEditingSponsorAgency(!editingSponsorAgency)}
+        inputProps={{ "aria-label": "controlled" }}
+      />
+      <div className="break" />
+
+
+      {/* InstructorAgency */}
+      <TextField
+        disabled={!editingInstructorAgency}
+        id="outlined-disabled"
+        label="Instructor Agency"
+        defaultValue={props.currInstructorAgency}
+        onChange={(e) => setNewInstructorAgency(e.target.value)}
+      />
+      <Checkbox
+        checked={editingInstructorAgency}
+        onChange={(e) => setEditingInstructorAgency(!editingInstructorAgency)}
+        inputProps={{ "aria-label": "controlled" }}
+      />
+      <div className="break" />
+
+
+      {/* Coordinator */}
+      <TextField
+        disabled={!editingCoordinator}
+        id="outlined-disabled"
+        label="Coordinator"
+        defaultValue={props.currCoordinator}
+        onChange={(e) => setNewCoordinator(e.target.value)}
+      />
+      <Checkbox
+        checked={editingCoordinator}
+        onChange={(e) => setEditingCoordinator(!editingCoordinator)}
+        inputProps={{ "aria-label": "controlled" }}
+      />
+      <div className="break" />
+
+
+      {/* Synopsis */}
+      <TextField
+        disabled={!editingSynopsis}
+        id="outlined-disabled"
+        label="Synopsis"
+        defaultValue={props.currSynopsis}
+        onChange={(e) => setNewSynopsis(e.target.value)}
+      />
+      <Checkbox
+        checked={editingSynopsis}
+        onChange={(e) => setEditingSynopsis(!editingSynopsis)}
+        inputProps={{ "aria-label": "controlled" }}
+      />
+      <div className="break" />
+
 
       {blockingError[0] && (
         <Alert

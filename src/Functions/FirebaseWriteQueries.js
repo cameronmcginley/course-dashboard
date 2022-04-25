@@ -78,12 +78,35 @@ export const FirebaseWriteQueries = async (data) => {
     // Assign the values to be set, if no change just set to current value
     let setCourseName;
     let setCourseID;
+    let setCourseInstructor;
+    let setSponsorAgency;
+    let setInstructorAgency;
+    let setCoordinator;
+    let setSynopsis;
+
+    // console.log(data.type, data.newCourseID, data.currCourseID)
+
     data.newCourseName
       ? (setCourseName = data.newCourseName)
       : (setCourseName = data.currCourseName);
     data.newCourseID
       ? (setCourseID = data.newCourseID)
       : (setCourseID = data.currCourseID);
+    data.newCourseInstructor
+      ? (setCourseInstructor = data.newCourseInstructor)
+      : (setCourseInstructor = data.currCourseInstructor);
+    data.newSponsorAgency
+      ? (setSponsorAgency = data.newSponsorAgency)
+      : (setSponsorAgency = data.currSponsorAgency);
+    data.newInstructorAgency
+      ? (setInstructorAgency = data.newInstructorAgency)
+      : (setInstructorAgency = data.currInstructorAgency);
+    data.newCoordinator
+      ? (setCoordinator = data.newCoordinator)
+      : (setCoordinator = data.currCoordinator);
+    data.newSynopsis
+      ? (setSynopsis = data.newSynopsis)
+      : (setSynopsis = data.currSynopsis);
 
     const newCourseFullStr = setCourseName + " " + "{ID " + setCourseID + "}";
 
@@ -93,19 +116,24 @@ export const FirebaseWriteQueries = async (data) => {
       limit(1),
       where("courseID", "==", data.currCourseID)
     );
+
     const documentSnapshots = await getDocs(data);
     const docID = documentSnapshots.docs[0].id;
-    console.log("Editing DocID: ", docID);
 
+    console.log("Editing DocID: ", docID);
     await updateDoc(doc(db, "courses", docID), {
       courseFullStr: newCourseFullStr,
       courseID: setCourseID,
       courseName: setCourseName,
       lastModified: logTime,
+      courseInstructor: setCourseInstructor,
+      sponsorAgency: setSponsorAgency,
+      instructorAgency: setInstructorAgency,
+      coordinator: setCoordinator,
+      synopsis: setSynopsis,
     });
 
-    // Set substr coursename or id?
-    // May not need to, when do we ever search by this?
+    // Set substr coursename
 
     return;
   }

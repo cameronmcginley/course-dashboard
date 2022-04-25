@@ -12,13 +12,15 @@ import QRCode from "../Components/QRCode";
 import { Box, CircularProgress, Paper, Container } from "@mui/material";
 import PrintQRReport from "../Components/PrintQRReport"
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries"
-import { getDocs, deleteDoc, doc } from "firebase/firestore";
+import { getDocs, deleteDoc, doc, query, collection, limit,where } from "firebase/firestore";
 import { db } from "../firebase-config";
+
 
 const Attendance = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [courseName, setCourseName] = useState("");
+  const [currData, setCurrData] = useState([]);
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -40,6 +42,19 @@ const Attendance = () => {
   // since i can't make this entire component async
   const asyncGetCourseName = async () => {
     setCourseName(await GetCourseName(pageCourseID));
+
+    // Get all data
+    // Find doc id by reading old course id
+    var data = query(
+      collection(db, "courses"),
+      limit(1),
+      where("courseID", "==", pageCourseID)
+    );
+
+    const documentSnapshots = await getDocs(data);
+    setCurrData(documentSnapshots.docs[0].data())
+    console.log("h\nh\nh\n", currData)
+    console.log(courseName)
   };
 
   const deleteCourse = async () => {
@@ -62,6 +77,7 @@ const Attendance = () => {
   };
 
   // Update the courseName based on the page's course ID
+  // Get other data with it
   useEffect(() => {
     if (!courseName) {
       asyncGetCourseName();
@@ -86,6 +102,11 @@ const Attendance = () => {
                 type="courseEdit"
                 currCourseName={courseName}
                 currCourseID={pageCourseID}
+                currCourseInstructor={currData.courseInstructor}
+                currSponsorAgency={currData.sponsorAgency}
+                currInstructorAgency={currData.instructorAgency}
+                currCoordinator={currData.coordinator}
+                currSynopsis={currData.synopsis}
               />
 
               <DialogHandler
