@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { emailVerified } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import FirebaseDataTable from "../Components/FirebaseDataTable";
@@ -13,12 +13,13 @@ const Home = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
-  if (!user) {
-    navigate("/login");
+  if (!auth.currentUser)
+  {
+	  navigate('/login');
+  }
+  else if (!auth.currentUser.emailVerified)
+  {
+	  navigate('/login');
   }
 
   return (
