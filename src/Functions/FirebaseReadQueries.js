@@ -260,6 +260,12 @@ export const FirebaseReadQueries = async (data) => {
     // return query(...params);
   }
 
+  if (data.type === "attendanceInfo") {
+    params.push(collection(db, "courses"));
+    params.push(where("courseID", "==", data.courseID));
+    params.push(limit(1));
+  }
+
   // if (data.collectionName === "sign-ins") {
   if (data.type === "sign-ins" || data.type === "attendance") {
     params.push(...[

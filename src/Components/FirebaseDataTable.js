@@ -66,7 +66,7 @@ const Styles = styled.div`
   }
 `;
 
-function Table({ columns, data, isFirstPage, isLastPage, getSigninData }) {
+function Table({ columns, data, isFirstPage, isLastPage, getSigninData, isAttendanceInfo }) {
   // Use the state and functions returned from useTable to build your UI
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
@@ -108,7 +108,8 @@ function Table({ columns, data, isFirstPage, isLastPage, getSigninData }) {
         </tbody>
       </table>
 
-      <div className="pagination">
+      {/* Dont show paging for attendance info table */}
+      {!isAttendanceInfo && (<div className="pagination">
         <IconButton
           onClick={() => {
             setPageNum(pageNum - 1);
@@ -142,7 +143,8 @@ function Table({ columns, data, isFirstPage, isLastPage, getSigninData }) {
         >
           <ArrowForwardIcon />
         </IconButton>{" "}
-      </div>
+      </div>)}
+
     </>
   );
 }
@@ -309,6 +311,7 @@ function FirebaseDataTable(props) {
           isLastPage={isLastPage}
           getSigninData={getSigninData}
           minRows={0}
+          isAttendanceInfo={props.type === "attendanceInfo"}
         />
       </Styles>
 

@@ -94,13 +94,61 @@ const TableHeaders = (props) => {
           },
         },
         {
-          Header: "Time Created",
-          accessor: (d) => {
-            return moment(d.timeCreated.toDate())
-              .local()
-              .format("MM-DD-YYYY hh:mm:ss a");
-          },
+          Header: "Course Instructor(s)",
+          accessor: "courseInstructor",
         },
+        // {
+        //   Header: "Time Created",
+        //   accessor: (d) => {
+        //     return moment(d.timeCreated.toDate())
+        //       .local()
+        //       .format("MM-DD-YYYY hh:mm:ss a");
+        //   },
+        // },
+      ],
+    },
+
+
+    attendanceInfo: {
+      collection: "courses",
+      Header: "Course Data",
+      columns: [
+        {
+          Header: "Course Name",
+          accessor: "courseName",
+        },
+        {
+          Header: "Course ID",
+          accessor: "courseID",
+        },
+        {
+          Header: "Course Instructor(s)",
+          accessor: "courseInstructor",
+        },
+        {
+          Header: "Sponsor Agency",
+          accessor: "sponsorAgency",
+        },
+        {
+          Header: "Instructor Agency",
+          accessor: "instructorAgency",
+        },
+        {
+          Header: "Coordinator",
+          accessor: "coordinator",
+        },
+        {
+          Header: "Synopsis",
+          accessor: "synopsis",
+        },
+        // {
+        //   Header: "Time Created",
+        //   accessor: (d) => {
+        //     return moment(d.timeCreated.toDate())
+        //       .local()
+        //       .format("MM-DD-YYYY hh:mm:ss a");
+        //   },
+        // },
       ],
     },
   };

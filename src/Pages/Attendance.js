@@ -10,6 +10,7 @@ import DialogHandler from "../Components/DialogBox/DialogHandler";
 import "../App.css";
 import QRCode from "../Components/QRCode";
 import { Box, CircularProgress, Paper, Container } from "@mui/material";
+import PrintQRReport from "../Components/PrintQRReport"
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Attendance = () => {
           {courseName != "error" ? (
             // If not, do...
             <>
-              <Container maxWidth="xs">
+              {/* <Container maxWidth="xs">
                 <div className="attendanceCourseInfo">
                   <p>Course ID: {pageCourseID}</p>
                   <p>Course Name: {courseName}</p>
@@ -63,7 +64,12 @@ const Attendance = () => {
                     currCourseID={pageCourseID}
                   />
                 </div>
-              </Container>
+              </Container> */}
+              <FirebaseDataTable
+                type={"attendanceInfo"}
+                pageCourseID={pageCourseID}
+                excludeSearch={true}
+              />
 
               <div className="attendanceSignIn">
                 <p>Course Sign In</p>
@@ -86,6 +92,7 @@ const Attendance = () => {
 
                   <Box className="attendanceQR">
                     <QRCode value={courseName + " {ID " + pageCourseID + "}"} />
+                    <PrintQRReport value={courseName + " {ID " + pageCourseID + "}"} />
                   </Box>
                 </Paper>
               </div>
