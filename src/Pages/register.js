@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -20,35 +16,45 @@ function Register() {
     setPasswordShown(!passwordShown);
   };
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
   const register = async () => {
-    const user = await createUserWithEmailAndPassword(
-      auth,
-      registerEmail,
-      registerPassword
-    )
-      .then()
-      .catch((error) => {
-        switch (error.code) {
-          case "auth/email-already-in-use":
-            errMessage.innerHTML =
-              "User with given e-mail address already exists.";
-            errMessage.style.color = "red";
-            break;
-          case "auth/invalid-email":
-            errMessage.innerHTML = "E-mail address invalid.";
-            errMessage.style.color = "red";
-            break;
-          default:
-        }
-      });
-  };
-
-  const logout = async () => {
-    await signOut(auth);
+	  errMessage.innerHTML = "";
+	  
+	  if (registerEmail.endsWith('gmail.com'))
+	  {
+	  	createUserWithEmailAndPassword(
+	  		auth,
+	  		registerEmail,
+	  		registerPassword
+	  	).then().catch(error => {
+		  	switch (error.code) {
+		  		case 'auth/email-already-in-use':
+					errMessage.innerHTML = "User with given e-mail address already exists.";
+					errMessage.style.color = "red";
+           			break;
+			  	case 'auth/invalid-email':
+            		errMessage.innerHTML = "E-mail address invalid.";
+					errMessage.style.color = "red";
+					break;
+				default:
+		  	}
+	  	});
+  	}
+		
+  	if (user)
+  	{
+	  	if (!registerEmail.endsWith('gmail.com'))
+  		{
+		  	errMessage.style.color = "red";
+	  		errMessage.innerHTML = "E-mail address must be @wichita.gov";
+	  	}
+	  	else
+	  	{
+		  	sendEmailVerification(auth.currentUser);
+	  		errMessage.innerHTML = "Verification e-mail has been sent. Verify and then sign-out above. Then use the login page to sign in to redirect to the home page.";
+		  	errMessage.style.color = "green";
+	  		signOut(auth);
+	  	}
+  	}
   };
 
   return (
