@@ -36,7 +36,7 @@ const Navbar = () => {
         </Button>
       </div>
 
-      {user && (
+      {auth.currentUser && (
         <div className="nav-account">
           {user?.email}
           <Button
