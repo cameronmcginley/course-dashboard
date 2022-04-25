@@ -20,7 +20,7 @@ function Register() {
 	auth.currentUser.reload();
 	if (auth.currentUser.emailVerified())
 	{
-		navigate('/Home');
+		navigate('/home');
 	}
 	else
 	{
@@ -41,14 +41,14 @@ function Register() {
 	  	).then().catch(error => {
 		  	switch (error.code) {
 		  		case 'auth/email-already-in-use':
-           				errMessage.innerHTML = "User with given e-mail address already exists.";
-					errMessage.style.color = "red";
-           				 break;
+            errMessage.innerHTML = "User with given e-mail address already exists.";
+					  errMessage.style.color = "red";
+            break;
 			  	case 'auth/invalid-email':
-            				errMessage.innerHTML = "E-mail address invalid.";
-					errMessage.style.color = "red";
-					break;
-				default:
+            errMessage.innerHTML = "E-mail address invalid.";
+					  errMessage.style.color = "red";
+					  break;
+				  default:
 		  	}
 	  	});
   	}
