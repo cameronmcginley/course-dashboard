@@ -32,6 +32,8 @@ function Login() {
   });
 
   const login = async () => {
+	  console.log("logged in")
+
 	setErrMessage("");
     signInWithEmailAndPassword(
         auth,
@@ -57,6 +59,65 @@ function Login() {
   };
 
   return (
+	  <>
+	<Container className="App" maxWidth="xs">
+		<Box
+		sx={{
+			paddingTop: 4,
+			paddingBottom: 4,
+		}}
+		>
+			<p style={{ color: "red" }}>{errMessage}</p>
+			
+			{/* <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}> */}
+			<Box sx={{ mt: 1 }}>
+				<h1>Sign in</h1>
+
+				<TextField
+				margin="normal"
+				required
+				fullWidth
+				label="Email Address"
+				autoFocus
+				onInput={(e) => setLoginEmail(e.target.value)}
+				/>
+
+				<TextField
+				margin="normal"
+				required
+				fullWidth
+				label="Password"
+				type={passwordShown ? "text" : "password"}
+				onInput={(e) => setLoginPassword(e.target.value)}
+				/>
+
+				<Button onClick={togglePassword}>Show Password</Button>
+
+				<Button
+				onClick={login}
+				fullWidth
+				variant="contained"
+				sx={{ mt: 3, mb: 2 }}
+				>
+				Sign In
+				</Button>
+
+				<Grid container>
+				<Grid item xs>
+					<Link to="/reset" variant="body2">
+					{"Forgot password"}
+					</Link>
+				</Grid>
+				<Grid item>
+					<Link to="/register" variant="body2">
+					{"Register account"}
+					</Link>
+				</Grid>
+				</Grid>
+			</Box>
+		</Box>
+	</Container>
+
 	<div className="App">
 
 		<div>
@@ -82,6 +143,7 @@ function Login() {
 		</div>
       
 	</div>
+	</>
   );
 }
 
