@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -21,18 +21,18 @@ function Register() {
 	  
 	  if (registerEmail.endsWith('gmail.com'))
 	  {
-	  	createUserWithEmailAndPassword(
+	  	const user = await createUserWithEmailAndPassword(
 	  		auth,
 	  		registerEmail,
 	  		registerPassword
 	  	).then().catch(error => {
 		  	switch (error.code) {
-		  		case 'auth/email-already-in-use':
+				case 'auth/email-already-in-use':
 					errMessage.innerHTML = "User with given e-mail address already exists.";
 					errMessage.style.color = "red";
-           			break;
+           				break;
 			  	case 'auth/invalid-email':
-            		errMessage.innerHTML = "E-mail address invalid.";
+            				errMessage.innerHTML = "E-mail address invalid.";
 					errMessage.style.color = "red";
 					break;
 				default:
@@ -40,21 +40,21 @@ function Register() {
 	  	});
   	}
 		
-  	if (user)
-  	{
-	  	if (!registerEmail.endsWith('gmail.com'))
-  		{
-		  	errMessage.style.color = "red";
-	  		errMessage.innerHTML = "E-mail address must be @wichita.gov";
-	  	}
-	  	else
-	  	{
-		  	sendEmailVerification(auth.currentUser);
-	  		errMessage.innerHTML = "Verification e-mail has been sent. Verify and then sign-out above. Then use the login page to sign in to redirect to the home page.";
-		  	errMessage.style.color = "green";
-	  		signOut(auth);
-	  	}
-  	}
+	if (auth.currentUser)
+	{
+		if (!registerEmail.endsWith('gmail.com'))
+		{
+			errMessage.style.color = "red";
+			errMessage.innerHTML = "E-mail address must be @wichita.gov";
+		}
+		else
+		{
+			sendEmailVerification(auth.currentUser);
+			errMessage.innerHTML = "Verification e-mail has been sent. Verify and then sign-out above. Then use the login page to sign in to redirect to the home page.";
+			errMessage.style.color = "green";
+			signOut(auth);
+		}
+	}
   };
 
   return (
