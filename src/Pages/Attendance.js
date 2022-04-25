@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { onAuthStateChanged, reload, emailVerified } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase-config";
 import { useParams } from "react-router-dom";
@@ -16,13 +16,12 @@ const Attendance = () => {
   const [user, setUser] = useState({});
   const [courseName, setCourseName] = useState("");
 
-  if (!auth.currentUser)
-  {
-    navigate('/login');
-  }
-  else if (!auth.currentUser.emailVerified)
-  {
-	  navigate('/login');
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  if (!user) {
+    navigate("/login");
   }
 
   // Get course id from url
