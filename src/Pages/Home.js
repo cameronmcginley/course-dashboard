@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { onAuthStateChanged, reload, emailVerified } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
@@ -9,13 +9,12 @@ const Home = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
 
-  if (!auth.currentUser)
-  {
-	  navigate('/login');
-  }
-  else if (!auth.currentUser.emailVerified)
-  {
-	  navigate('/login');
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  if (!user) {
+    navigate("/login");
   }
 
   return (
