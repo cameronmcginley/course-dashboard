@@ -122,7 +122,7 @@ export const FirebaseWriteQueries = async (data) => {
       lastModified: logTime,
 
       // substrCourseID: createSubstringArray(data.newCourseID),
-      // substrCourseName: createSubstringArray(data.newCourseName),
+      substrCourseName: createSubstringArray(data.newCourseName),
     });
 
     return;

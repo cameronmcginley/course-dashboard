@@ -137,7 +137,9 @@ export const FirebaseReadQueries = async (data) => {
         )
       );
     }
+    // Course search for sign-in table
     if (
+      data.collectionName === "sign-ins" &&
       data.searchCriteria.searchCourseIDList &&
       data.searchCriteria.searchCourseIDList.length != 0
     ) {
@@ -145,6 +147,26 @@ export const FirebaseReadQueries = async (data) => {
         where("courseID", "in", data.searchCriteria.searchCourseIDList)
       );
     }
+    // Course search for course table
+    if (
+      data.collectionName === "courses" &&
+      data.searchCriteria && 
+      data.searchCriteria.searchCourseName
+    ) {
+      params.push(
+        where("substrCourseName", "array-contains", data.searchCriteria.searchCourseName),
+      );
+    }
+    if (
+      data.collectionName === "courses" &&
+      data.searchCriteria && 
+      data.searchCriteria.searchCourseID
+    ) {
+      params.push(
+        where("courseID", "==", data.searchCriteria.searchCourseID),
+      );
+    }
+    // More queries
     if (data.searchCriteria.startDate) {
       const startDateKey = getSortKey(data.searchCriteria.startDate);
       const endDateKey = getSortKey(data.searchCriteria.endDate);
@@ -180,6 +202,7 @@ export const FirebaseReadQueries = async (data) => {
       d = getSortKey(d);
       params.push(where("sortKey", "<=", d));
     }
+
     // Optional Queries
     if (data.searchCriteria.searchUserID) {
       params.push(
@@ -190,7 +213,9 @@ export const FirebaseReadQueries = async (data) => {
         )
       );
     }
+    // Course search for sign-in table
     if (
+      data.collectionName === "sign-ins" &&
       data.searchCriteria.searchCourseIDList &&
       data.searchCriteria.searchCourseIDList.length != 0
     ) {
@@ -198,6 +223,26 @@ export const FirebaseReadQueries = async (data) => {
         where("courseID", "in", data.searchCriteria.searchCourseIDList)
       );
     }
+    // Course search for course table
+    if (
+      data.collectionName === "courses" &&
+      data.searchCriteria && 
+      data.searchCriteria.searchCourseName
+    ) {
+      params.push(
+        where("substrCourseName", "array-contains", data.searchCriteria.searchCourseName),
+      );
+    }
+    if (
+      data.collectionName === "courses" &&
+      data.searchCriteria && 
+      data.searchCriteria.searchCourseID
+    ) {
+      params.push(
+        where("courseID", "==", data.searchCriteria.searchCourseID),
+      );
+    }
+    //More queries
     if (data.searchCriteria.startDate) {
       const startDateKey = getSortKey(data.searchCriteria.startDate);
       const endDateKey = getSortKey(data.searchCriteria.endDate);
@@ -292,7 +337,7 @@ export const FirebaseReadQueries = async (data) => {
 
     // Type
     if (data.getSigninDataType === "refresh") {
-      params.push(startAt(data.firstVisibleDoc));
+      // params.push(startAt(data.firstVisibleDoc));
       params.push(limit(10));
     }
     if (data.getSigninDataType === "next") {
@@ -307,18 +352,20 @@ export const FirebaseReadQueries = async (data) => {
     // Optional queries
     if (
       data.searchCriteria && 
-      data.searchCriteria.searchCourseIDList &&
-      data.searchCriteria.searchCourseIDList.length != 0
+      data.searchCriteria.searchCourseName
     ) {
       params.push(
-        where("courseID", "in", data.searchCriteria.searchCourseIDList)
+        where("substrCourseName", "array-contains", data.searchCriteria.searchCourseName),
       );
     }
-
-    // console.log(query(...params))
-    // return query(...params);
-    // const docSnapshot = await getDocs(query(...params));
-    // return docSnapshot.docs
+    if (
+      data.searchCriteria && 
+      data.searchCriteria.searchCourseID
+    ) {
+      params.push(
+        where("courseID", "==", data.searchCriteria.searchCourseID),
+      );
+    }
   }
 
   const docSnapshot = await getDocs(query(...params));

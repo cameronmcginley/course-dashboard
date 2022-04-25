@@ -33,6 +33,9 @@ const FirebaseDataTableSearch = (props) => {
   const [searchUserID, setSearchUserID] = useState("");
   const [searchCourseName, setSearchCourseName] = useState("");
 
+  // const [searchCourseName, setSearchCourseName] = useState("");
+  const [searchCourseID, setSearchCourseID] = useState("");
+
   // const [searchCourseID, setSearchCourseID] = useState("");
   const [searchCourseIDList, setSearchCourseIDList] = useState([]);
 
@@ -79,6 +82,7 @@ const FirebaseDataTableSearch = (props) => {
       "Search by",
       searchUserID,
       searchCourseName,
+      searchCourseID,
       searchCourseIDList,
       searchArchived
     );
@@ -86,7 +90,7 @@ const FirebaseDataTableSearch = (props) => {
     console.log("Date range picked: ", dateRange);
 
     // On success
-    if (true) {
+    if (props.searchType === "sign-ins") {
       buttonClickSuccess();
       setBlockingError([false, ""]); //Clear error if it's there
       props.searchCriteria({
@@ -99,12 +103,20 @@ const FirebaseDataTableSearch = (props) => {
         doArchiveAfter: doArchiveAfter,
       });
     }
-
-    if (doArchiveAfter) {
-      console.log("F\nF\nF\nF\nF\nF\nF\nF\nF\nArchiving Data");
-      // Give everything an archive date
-      // Page to delete archived date older than certain period?
+    if (props.searchType === "courses") {
+      buttonClickSuccess();
+      setBlockingError([false, ""]); //Clear error if it's there
+      props.searchCriteria({
+        searchCourseName: searchCourseName,
+        searchCourseID: searchCourseID,
+      });
     }
+
+    // if (doArchiveAfter) {
+    //   console.log("F\nF\nF\nF\nF\nF\nF\nF\nF\nArchiving Data");
+    //   // Give everything an archive date
+    //   // Page to delete archived date older than certain period?
+    // }
   };
 
   // This function is called when user selects course from dropdown
@@ -114,8 +126,6 @@ const FirebaseDataTableSearch = (props) => {
     console.log("Dropdown select", data);
 
     // Map list of courseFullStrs to just their ID
-    // console.log("X\nX\nX\nX\nX\nX\nX\nX\nX\nX\nX\n")
-    // console.log(data.map(x => SplitCourseFullStr(x.course)[1]))
     setSearchCourseIDList(data.map((x) => SplitCourseFullStr(x.course)[1]));
   };
 
@@ -207,9 +217,28 @@ const FirebaseDataTableSearch = (props) => {
       {/* Course table search */}
       {props.searchType === "courses" && (
         <Box className="searchQueries courses">
-          <CourseDropDown selectedCourse={getDropdownData} />
+          {/* <CourseDropDown selectedCourse={getDropdownData} /> */}
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-userid">Course Name</InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              // value={newUserID}
+              onChange={(e) => setSearchCourseName(e.target.value)}
+              label="User ID"
+            />
+          </FormControl>
 
-          {/* <div className="break" /> */}
+          <FormControl>
+            <InputLabel htmlFor="firebase-form-userid">Course ID</InputLabel>
+            <OutlinedInput
+              required
+              id="firebase-form-userid"
+              // value={newUserID}
+              onChange={(e) => setSearchCourseID(e.target.value)}
+              label="User ID"
+            />
+          </FormControl>
 
           <FormControl>
             <Button
