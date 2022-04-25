@@ -11,6 +11,9 @@ import "../App.css";
 import QRCode from "../Components/QRCode";
 import { Box, CircularProgress, Paper, Container } from "@mui/material";
 import PrintQRReport from "../Components/PrintQRReport"
+import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries"
+import { getDocs, deleteDoc, doc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -39,6 +42,25 @@ const Attendance = () => {
     setCourseName(await GetCourseName(pageCourseID));
   };
 
+  const deleteCourse = async () => {
+    console.log("Deleting course ID ", pageCourseID)
+
+    // Uses type checkCourseID since this is just matching ID to one doc
+    // which is what we want to do here
+    const courseDoc = await FirebaseReadQueries({
+      type: "checkCourseID",
+      collectionName: "courses",
+      courseID: pageCourseID,
+    });
+
+    console.log(courseDoc[0].data())
+
+    let docRef = doc(db, "courses", courseDoc[0].id);
+    deleteDoc(docRef);
+
+    navigate("/courses");
+  };
+
   // Update the courseName based on the page's course ID
   useEffect(() => {
     if (!courseName) {
@@ -54,21 +76,26 @@ const Attendance = () => {
           {courseName != "error" ? (
             // If not, do...
             <>
-              {/* <Container maxWidth="xs">
-                <div className="attendanceCourseInfo">
-                  <p>Course ID: {pageCourseID}</p>
-                  <p>Course Name: {courseName}</p>
-                  <DialogHandler
-                    type="courseEdit"
-                    currCourseName={courseName}
-                    currCourseID={pageCourseID}
-                  />
-                </div>
-              </Container> */}
               <FirebaseDataTable
                 type={"attendanceInfo"}
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
+              />
+
+              <DialogHandler
+                type="courseEdit"
+                currCourseName={courseName}
+                currCourseID={pageCourseID}
+              />
+
+              <DialogHandler
+                type="confirmation"
+                message="Are you sure you wish to delete this course permanently?"
+                noCloseBtn={false}
+                sendConfirm={deleteCourse}
+                dialogBtnColor="error"
+                confirmBtnColor="error"
+                buttonTxt="delete"
               />
 
               <div className="attendanceSignIn">
