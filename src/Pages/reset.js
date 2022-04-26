@@ -2,28 +2,29 @@ import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link } from "react-router-dom";
+import { TextField, Button, Box, Container, Grid } from "@mui/material";
 
 function Reset() {
   const [email, setEmail] = useState("");
   const [user, setUser] = useState({});
+  const [sentMessage, setSentMessage] = useState(null);
+  const [errMessage, setErrMessage] = useState(null);
 
-  const sentMessage = document.getElementById("successMessage");
 
   const resetPass = async () => {
+	setSentMessage("");
+	setErrMessage("");
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        sentMessage.innerHTML = "Password reset email sent successfully.";
-        sentMessage.style.color = "green";
+        setSentMessage("Password reset email sent successfully.");
       })
       .catch((error) => {
         switch (error.code) {
           case "auth/user-not-found":
-            sentMessage.innerHTML = "User with given e-mail address not found.";
-            sentMessage.style.color = "red";
+            setErrMessage("User with given e-mail address not found.");
             break;
           case "auth/invalid-email":
-            sentMessage.innerHTML = "E-mail address invalid.";
-            sentMessage.style.color = "red";
+            setErrMessage("E-mail address invalid.");
             break;
           default:
         }
@@ -31,29 +32,54 @@ function Reset() {
   };
 
   return (
-    <div className="App">
-      <div>
-        <h3>Password Reset</h3>
-        <input
-          placeholder="E-Mail"
-          value={email}
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
-        <p></p>
-        <button onClick={resetPass}>Send Reset E-Mail</button>
-        <p></p>
-        <div id="successMessage"></div>
-        <p></p>
-        <div>
-          Don't have an account? <Link to="/register">Register</Link> now.
-        </div>
-        <div>
-          Already have an account? <Link to="/login">Login</Link> now.
-        </div>
-      </div>
-    </div>
+		  <>
+	<Container className="App" maxWidth="xs">
+		<Box
+		sx={{
+			paddingTop: 4,
+			paddingBottom: 4,
+		}}
+		>
+			<p style={{ color: "red" }}>{errMessage}</p>
+			<p style={{ color: "green" }}>{sentMessage}</p>
+			
+			<Box sx={{ mt: 1 }}>
+				<h1>Sign in</h1>
+
+				<TextField
+				margin="normal"
+				required
+				fullWidth
+				label="Email Address"
+				autoFocus
+				onInput={(e) => setEmail(e.target.value)}
+				/>
+
+				<Button
+				onClick={resetPass}
+				fullWidth
+				variant="contained"
+				sx={{ mt: 3, mb: 2 }}
+				>
+				Send Reset Password Email
+				</Button>
+
+				<Grid container>
+				<Grid item xs>
+					<Link to="/login" variant="body2">
+					{"Login Here"}
+					</Link>
+				</Grid>
+				<Grid item>
+					<Link to="/register" variant="body2">
+					{"Register account"}
+					</Link>
+				</Grid>
+				</Grid>
+			</Box>
+		</Box>
+	</Container>
+	</>
   );
 }
 
