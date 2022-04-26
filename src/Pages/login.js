@@ -117,32 +117,6 @@ function Login() {
 			</Box>
 		</Box>
 	</Container>
-
-	<div className="App">
-
-		<div>
-			<h3>User Login</h3>
-			<input placeholder="E-Mail" onChange={ (event) => { setLoginEmail(event.target.value); } } />
-			<p></p>
-			<input type={passwordShown ? "text" : "password"} placeholder="Password" onChange={ (event) => { setLoginPassword(event.target.value); } } />
-			<p></p>
-			<button onClick={togglePassword}>Show Password</button>
-			<p></p>
-			<button onClick={login}>Login</button>
-			<p></p>
-			<p style={{ color: "red" }}>
-				{errMessage}
-			</p>
-			<p></p>
-			<div>
-				Forgot Password? <Link to="/reset">Send Reset Email</Link> now.
-			</div>
-			<div>
-				Don't have an account? <Link to="/register">Register</Link> now.
-			</div>
-		</div>
-      
-	</div>
 	</>
   );
 }
