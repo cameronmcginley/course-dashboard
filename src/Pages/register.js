@@ -1,86 +1,112 @@
 import { useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
+import { TextField, Button, Box, Container, Grid } from "@mui/material";
 
 function Register() {
   const navigate = useNavigate();
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [user, setUser] = useState({});
+  const [errMessage, setErrMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [passwordShown, setPasswordShown] = useState(false);
-
-  const errMessage = document.getElementById("errorMessage");
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
-
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
+  
   const register = async () => {
-    const user = await createUserWithEmailAndPassword(
-      auth,
-      registerEmail,
-      registerPassword
-    )
-      .then()
-      .catch((error) => {
-        switch (error.code) {
-          case "auth/email-already-in-use":
-            errMessage.innerHTML =
-              "User with given e-mail address already exists.";
-            errMessage.style.color = "red";
-            break;
-          case "auth/invalid-email":
-            errMessage.innerHTML = "E-mail address invalid.";
-            errMessage.style.color = "red";
-            break;
-          default:
-        }
-      });
-  };
-
-  const logout = async () => {
-    await signOut(auth);
+	  setErrMessage("");
+	  setSuccessMessage("");
+	  
+	  if (registerEmail.endsWith('gmail.com'))
+	  {
+	  	const user = await createUserWithEmailAndPassword(
+	  		auth,
+	  		registerEmail,
+	  		registerPassword
+	  	).then().catch(error => {
+		  	switch (error.code) {
+		  		case 'auth/email-already-in-use':
+					setErrMessage("User with given e-mail address already exists.");
+           			break;
+			  	case 'auth/invalid-email':
+            		setErrMessage("E-mail address invalid.");
+					break;
+				default:
+		  	}
+	  	});
+  	}
+	else
+	{
+		setErrMessage("E-mail address must be @wichita.gov");
+	}
+		
+	if (auth.currentUser)
+	{
+		sendEmailVerification(auth.currentUser);
+		setSuccessMessage("Verification e-mail has been sent. Verify and then sign-out above. Then use the login page to sign in to redirect to the home page.");
+		signOut(auth);
+	}
   };
 
   return (
-    <div className="App">
-      <div>
-        <h3>Create Account</h3>
-        <input
-          placeholder="E-Mail"
-          onChange={(event) => {
-            setRegisterEmail(event.target.value);
-          }}
-        />
-        <p></p>
-        <input
-          type={passwordShown ? "text" : "password"}
-          placeholder="Password"
-          onChange={(event) => {
-            setRegisterPassword(event.target.value);
-          }}
-        />
-        <p></p>
-        <button onClick={togglePassword}>Show Password</button>
-        <p></p>
-        <button onClick={register}>Create Account</button>
-        <p></p>
-        <div id="errorMessage"></div>
-        <p></p>
-        <div>
-          Already have an account? <Link to="/login">Login</Link> now.
-        </div>
-      </div>
-    </div>
+	  <>
+	<Container className="App" maxWidth="xs">
+		<Box
+		sx={{
+			paddingTop: 4,
+			paddingBottom: 4,
+		}}
+		>
+			<p style={{ color: "red" }}>{errMessage}</p>
+			<p style={{ color: "green" }}>{successMessage}</p>
+			
+			<Box sx={{ mt: 1 }}>
+				<h1>Create Account</h1>
+
+				<TextField
+				margin="normal"
+				required
+				fullWidth
+				label="Email Address"
+				autoFocus
+				onInput={(e) => setRegisterEmail(e.target.value)}
+				/>
+
+				<TextField
+				margin="normal"
+				required
+				fullWidth
+				label="Password"
+				type={passwordShown ? "text" : "password"}
+				onInput={(e) => setRegisterPassword(e.target.value)}
+				/>
+
+				<Button onClick={togglePassword}>Show Password</Button>
+
+				<Button
+				onClick={register}
+				fullWidth
+				variant="contained"
+				sx={{ mt: 3, mb: 2 }}
+				>
+				Create Account
+				</Button>
+
+				<Grid container>
+				<Grid item xs>
+					<Link to="/login" variant="body2">
+					{"Login Here"}
+					</Link>
+				</Grid>
+				</Grid>
+			</Box>
+		</Box>
+	</Container>
+	</>
   );
 }
 
