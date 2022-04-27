@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useMediaQuery } from 'react-responsive'
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Navbar = () => {
   const [user, setUser] = useState({});
@@ -21,7 +21,7 @@ const Navbar = () => {
     await signOut(auth);
   };
 
-  const isMobile = useMediaQuery({ query: '(max-resolution: 768px)'})
+  const isMobile = useMediaQuery('(max-width:768px)')
 
   const [state, setState] = React.useState({
     top: false,
