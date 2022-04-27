@@ -25,7 +25,7 @@ const Navbar = () => {
       </div>
 
       <div className="nav-links">
-        <Button color="primary" variant="text" href="/home">
+        <Button color="primary" variant="text" href="/">
           Home
         </Button>
         <Button color="primary" variant="text" href="/courses">

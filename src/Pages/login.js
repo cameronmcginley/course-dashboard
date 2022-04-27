@@ -22,7 +22,7 @@ function Login() {
 	  {
 		  if (user.emailVerified)
 		  {
-			  navigate('/Home');
+			  navigate('/');
 		  }
 		  else if (user.emailVerified == false)
 		  {
