@@ -315,13 +315,14 @@ function FirebaseDataTable(props) {
         />
       </Styles>
 
-      {!props.excludeSearch && (
+      {!props.excludeSearch && (<div>
+        <h1>Search Data</h1>
         <FirebaseDataTableSearch
           searchType={props.type}
           searchCriteria={makeSearch}
           hasSubmit={true}
         />
-      )}
+      </div>)}
     </Fragment>
   );
 }

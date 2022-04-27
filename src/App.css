@@ -60,7 +60,7 @@ For table and search feature */
     row-gap: 2rem;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .tableSplit {
     display: flex;
     flex-direction: column;

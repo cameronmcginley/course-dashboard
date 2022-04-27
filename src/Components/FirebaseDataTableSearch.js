@@ -137,7 +137,7 @@ const FirebaseDataTableSearch = (props) => {
   return (
     <div className="tableSearch">
       {/* {console.log(TableHeaders(props)["sign-ins"])} */}
-      <h1>Search Data</h1>
+      {/* <h1>Search Data</h1> */}
 
       {/* Sign in table search */}
       {props.searchType === "sign-ins" && (

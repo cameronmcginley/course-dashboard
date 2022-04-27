@@ -6,17 +6,7 @@ import { Link } from "react-router-dom";
 import { Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
-
-function debounce(fn, ms) {
-  let timer
-  return _ => {
-    clearTimeout(timer)
-    timer = setTimeout(_ => {
-      timer = null
-      fn.apply(this, arguments)
-    }, ms)
-  };
-}
+import { useMediaQuery } from 'react-responsive'
 
 const Navbar = () => {
   const [user, setUser] = useState({});
@@ -31,32 +21,7 @@ const Navbar = () => {
     await signOut(auth);
   };
 
-
-  const [dimensions, setDimensions] = React.useState({ 
-    height: window.innerHeight,
-    width: window.innerWidth
-  })
-
-  // Debounce of 1s, only updates page size that often
-  React.useEffect(() => {
-    const debouncedHandleResize = debounce(function handleResize() {
-      setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth
-      })
-    }, 1000)
-
-    // This listens for page size changes
-    window.addEventListener('resize', debouncedHandleResize)
-
-    // Must remove the listener, else they stack up and crash the app
-    return _ => {
-      window.removeEventListener('resize', debouncedHandleResize)
-    }
-  })
-
-
-
+  const isMobile = useMediaQuery({ query: '(max-resolution: 768px)'})
 
   const [state, setState] = React.useState({
     top: false,
@@ -112,7 +77,7 @@ const Navbar = () => {
   return (
     <>
       {/* Call the phone-navbar for <768 pixel width */}
-      {dimensions.width < 768 &&
+      {isMobile &&
         <Paper className="navbarphone" square={true}>
           <p><b>WPD Course Sign In Dashboard</b></p>
 
@@ -130,7 +95,7 @@ const Navbar = () => {
           </>)}
         </Paper>
       }
-      {dimensions.width >= 768 &&
+      {!isMobile &&
         <Paper className="navbar" square={true}>
           {/* <h1>Demo Application</h1> */}
           <div className="nav-title">
