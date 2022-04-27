@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { auth } from "../firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import "../App.css";
-import { Button, Paper } from "@mui/material";
+import { Link } from "react-router-dom";
+import { Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
 
 function debounce(fn, ms) {
   let timer
@@ -17,6 +18,8 @@ function debounce(fn, ms) {
 
 const Navbar = () => {
   const [user, setUser] = useState({});
+
+  
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -50,12 +53,75 @@ const Navbar = () => {
     }
   })
 
+
+
+
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        <ListItem>
+          <ListItemText primary={user?.email}/>
+        </ListItem>
+        <ListItem button>
+          <ListItemText primary={"Sign Out"} />
+        </ListItem>
+        <Divider />
+        <ListItem button component={Link} to="/">
+          <ListItemText primary={"Home"}/>
+        </ListItem>
+        <ListItem button component={Link} to="/courses">
+          <ListItemText primary={"Courses"} />
+        </ListItem>
+        <ListItem button component={Link} to="/viewdata">
+          <ListItemText primary={"View Data"} />
+        </ListItem>
+      </List>
+    </Box>
+  );
+
+
+
+
+
   return (
     <>
       {/* Call the phone-navbar for <768 pixel width */}
       {dimensions.width < 768 &&
-        <Paper className="navbar" square={true}>
-
+        <Paper className="navbarphone" square={true}>
+          <p>WPD Course Sign In Dashboard</p>
+          <Button onClick={toggleDrawer("right", true)}>{"right"}</Button>
+          <SwipeableDrawer
+            anchor={"right"}
+            open={state["right"]}
+            onClose={toggleDrawer("right", false)}
+            onOpen={toggleDrawer("right", true)}
+          >
+            {list("right")}
+          </SwipeableDrawer>
         </Paper>
       }
       {dimensions.width >= 768 &&
