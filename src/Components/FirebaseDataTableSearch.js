@@ -184,7 +184,7 @@ const FirebaseDataTableSearch = (props) => {
 
           <div className="break"></div>
 
-          {props.isCSV && (
+          {props.isCSV && (<>
             <Card variant="outlined" className="csvArchiveCheckbox">
               <h3>Archive after export: </h3>
               <Checkbox
@@ -195,9 +195,10 @@ const FirebaseDataTableSearch = (props) => {
               />
               <h3>{doArchiveAfter ? "True" : "False"}</h3>
             </Card>
-          )}
 
-          <div className="break"></div>
+            <div className="break"></div>
+            </>
+          )}
 
           <FormControl>
             <Button
@@ -229,6 +230,8 @@ const FirebaseDataTableSearch = (props) => {
             />
           </FormControl>
 
+          <div className="break"></div>
+
           <FormControl>
             <InputLabel htmlFor="firebase-form-userid">Course ID</InputLabel>
             <OutlinedInput
@@ -239,6 +242,8 @@ const FirebaseDataTableSearch = (props) => {
               label="User ID"
             />
           </FormControl>
+
+          <div className="break"></div>
 
           <FormControl>
             <Button
