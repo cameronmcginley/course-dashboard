@@ -50,12 +50,24 @@ body, html{
 
 /* Grid that splits div to 2 cols
 For table and search feature */
-.tableSplit {
-  display: grid;
-  grid-template-columns: [first] 60% [second] 40%;
-  justify-items: center;
-  align-items: center;
-  row-gap: 2rem;
+/* In mobile or small screen, put in 1 column */
+@media only screen and (min-width: 768px) {
+  .tableSplit {
+    display: grid;
+    grid-template-columns: [first] 60% [second] 40%;
+    justify-items: center;
+    align-items: center;
+    row-gap: 2rem;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .tableSplit {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    row-gap: 2rem;
+  }
 }
 
 .col2row1 {

@@ -5,6 +5,7 @@ import "../App.css";
 import { Link } from "react-router-dom";
 import { Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MenuIcon from '@mui/icons-material/Menu';
 
 function debounce(fn, ms) {
   let timer
@@ -113,11 +114,11 @@ const Navbar = () => {
       {/* Call the phone-navbar for <768 pixel width */}
       {dimensions.width < 768 &&
         <Paper className="navbarphone" square={true}>
-          <p>WPD Course Sign In Dashboard</p>
+          <p><b>WPD Course Sign In Dashboard</b></p>
 
           {/* Only show the drawer button if signed in */}
           {user && (<>
-          <Button onClick={toggleDrawer("right", true)}>{"right"}</Button>
+          <Button onClick={toggleDrawer("right", true)}><MenuIcon/></Button>
           <SwipeableDrawer
             anchor={"right"}
             open={state["right"]}
@@ -133,9 +134,7 @@ const Navbar = () => {
         <Paper className="navbar" square={true}>
           {/* <h1>Demo Application</h1> */}
           <div className="nav-title">
-            <p>
-              <b>WPD Course Sign In Dashboard</b>
-            </p>
+            <p><b>WPD Course Sign In Dashboard</b></p>
           </div>
 
           {/* Only show nav links and account info if signed in */}
