@@ -3,7 +3,8 @@ import { auth } from "../firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import "../App.css";
 import { Link } from "react-router-dom";
-import { Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
+import { Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function debounce(fn, ms) {
   let timer
@@ -147,7 +148,12 @@ const Navbar = () => {
 
           {auth.currentUser && (
             <div className="nav-account">
-              {user?.email}
+              {/* {user?.email} */}
+              {/* Display user email when mouseover accoutn icon */}
+              <Tooltip title={<Typography fontSize={'1rem'}>{user?.email}</Typography>}>
+                <AccountCircleIcon  />
+              </Tooltip>
+
               <Button
                 color="primary"
                 sx={{ ml: 2 }}
