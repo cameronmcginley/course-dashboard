@@ -11,6 +11,7 @@ import "../../App.css";
 import DialogDeleteData from "./DialogDeleteData";
 import DialogDateRangePicker from "./DialogDateRangePicker";
 import DialogConfirmation from "./DialogConfirmation";
+import { Box } from "@mui/material";
 
 export default function DialogHandler(props) {
   const [open, setOpen] = React.useState(false);
@@ -94,7 +95,13 @@ export default function DialogHandler(props) {
         <DialogTitle id="alert-dialog-title">{"Dialog Title"}</DialogTitle>
 
         <DialogActions>
-          <div className="dialogMain">
+          <Box 
+            className="dialogMain"
+            sx={{
+              padding: "2rem",
+              minWidth: "20rem",
+            }}  
+          >
             {/* Handles things scpecific to type of dialog box */}
             {props.type === "csvExport" && <DialogExportCSV />}
             {props.type === "courseEntry" && <DialogCourseEntry />}
@@ -128,11 +135,11 @@ export default function DialogHandler(props) {
 
             {/* Hide close button date pickers, custom select button instead */}
             {!props.noCloseBtn && (
-              <Button onClick={handleClose} color="primary" autoFocus>
+              <Button variant="outlined" onClick={handleClose} color="error" autoFocus sx={{mt: "2rem"}}>
                 Cancel
               </Button>
             )}
-          </div>
+          </Box>
         </DialogActions>
       </Dialog>
     </div>
