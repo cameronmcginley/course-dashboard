@@ -87,7 +87,7 @@ const Navbar = () => {
         <ListItem>
           <ListItemText primary={user?.email}/>
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={logout}>
           <ListItemText primary={"Sign Out"} />
         </ListItem>
         <Divider />
@@ -114,6 +114,9 @@ const Navbar = () => {
       {dimensions.width < 768 &&
         <Paper className="navbarphone" square={true}>
           <p>WPD Course Sign In Dashboard</p>
+
+          {/* Only show the drawer button if signed in */}
+          {user && (<>
           <Button onClick={toggleDrawer("right", true)}>{"right"}</Button>
           <SwipeableDrawer
             anchor={"right"}
@@ -123,6 +126,7 @@ const Navbar = () => {
           >
             {list("right")}
           </SwipeableDrawer>
+          </>)}
         </Paper>
       }
       {dimensions.width >= 768 &&
@@ -134,19 +138,20 @@ const Navbar = () => {
             </p>
           </div>
 
-          <div className="nav-links">
-            <Button color="primary" variant="text" href="/">
-              Home
-            </Button>
-            <Button color="primary" variant="text" href="/courses">
-              Courses
-            </Button>
-            <Button color="primary" variant="text" href="/viewdata">
-              View Data
-            </Button>
-          </div>
+          {/* Only show nav links and account info if signed in */}
+          {user && (<>
+            <div className="nav-links">
+              <Button color="primary" variant="text" href="/">
+                Home
+              </Button>
+              <Button color="primary" variant="text" href="/courses">
+                Courses
+              </Button>
+              <Button color="primary" variant="text" href="/viewdata">
+                View Data
+              </Button>
+            </div>
 
-          {auth.currentUser && (
             <div className="nav-account">
               {/* {user?.email} */}
               {/* Display user email when mouseover accoutn icon */}
@@ -163,7 +168,7 @@ const Navbar = () => {
                 Sign Out
               </Button>
             </div>
-          )}
+            </>)}
         </Paper>
       }
     </>
