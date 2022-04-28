@@ -46,6 +46,7 @@ const Home = () => {
         sortKey={"sortKey"}
         dataType={"sign-ins"}
         dataTypeHeader={"sign-ins-header"}
+        tableTitle={"Sign In Data"}
       />
 
 

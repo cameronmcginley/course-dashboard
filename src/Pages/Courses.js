@@ -7,7 +7,7 @@ import FirebaseDataTable from "../Components/FirebaseDataTable";
 // import FirebaseDataTable2 from "../Components/FirebaseDataTable2";
 import DialogHandler from "../Components/DialogBox/DialogHandler";
 import "../App.css";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -51,6 +51,7 @@ const Home = () => {
         sortKey={"courseName"}
         dataType={"courses"}
         dataTypeHeader={"courses-header"}
+        tableTitle={"Course Information"}
       />
     </div>
   );

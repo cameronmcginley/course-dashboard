@@ -97,11 +97,6 @@ const Attendance = () => {
             flexDirection="column"
             justifyContent="center"
             alignItems="center">
-              {/* <FirebaseDataTable
-                type={"attendanceInfo"}
-                pageCourseID={pageCourseID}
-                excludeSearch={true}
-              /> */}
               <FirebaseDataTable
                 type={"attendance-info"}
                 pageCourseID={pageCourseID}
@@ -110,6 +105,8 @@ const Attendance = () => {
                 dataType={"attendance-info"}
                 dataTypeHeader={"attendance-info-header"}
               />
+
+              <div className="break"/>
 
               <DialogHandler
                 type="courseEdit"

@@ -29,13 +29,14 @@ import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
-function BasicTable({ dataType, dataTypeHeader, rowData, isAttendanceInfo, isFirstPage, isLastPage, getSigninData, tableStyle }) {
+function BasicTable({ tableTitle, dataType, dataTypeHeader, rowData, isAttendanceInfo, isFirstPage, isLastPage, getSigninData, tableStyle }) {
   const [isNextDisabled, setIsNextDisabled] = React.useState();
   const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
   const [pageNum, setPageNum] = React.useState(1);
 
   return (
     <Box sx={TableStyles(tableStyle)}>
+    <h1>{tableTitle}</h1>
     <TableContainer component={Paper} variant="outlined" square >
       <Table sx={{ minWidth: 0 }} aria-label="simple table">
         <TableHead>
@@ -258,6 +259,7 @@ function FirebaseDataTable(props) {
         isAttendanceInfo={props.type === "attendance-info"}
         // Default style if none specified
         tableStyle={props.tableStyle ? props.tableStyle : "default"}
+        tableTitle={props.tableTitle}
       />
 
       {!props.excludeSearch && (<div>
