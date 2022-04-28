@@ -92,7 +92,11 @@ const Attendance = () => {
           {/* If courseName exists, check if it matches error message */}
           {courseName != "error" ? (
             // If not, do...
-            <>
+            <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center">
               {/* <FirebaseDataTable
                 type={"attendanceInfo"}
                 pageCourseID={pageCourseID}
@@ -165,6 +169,7 @@ const Attendance = () => {
                 // daySortKeyLargest={daySortKeyLargest}
               /> */}
 
+              {/* <Box sx={{ width: "25%" }}> */}
               <FirebaseDataTable
                 type={"attendance"}
                 accessor={"sign-ins"}
@@ -174,10 +179,12 @@ const Attendance = () => {
                 // daySortKeyLargest={daySortKeyLargest}
                 dataType={"attendance"}
                 dataTypeHeader={"attendance-header"}
+                tableStyle={"attendance"}
               />
+              {/* </Box> */}
 
 
-            </>
+            </Box>
           ) : (
             <div>Error</div>
           )}

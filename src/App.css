@@ -43,9 +43,11 @@ body, html{
   max-width: 1080px;
   /* width: 90%; */
   margin: 0 auto;
+  padding: 1rem;
   /* outline: .1rem solid #eee;
   background-color: white; */
   /* border-radius: .5rem; */
+  margin-bottom: 4rem;
 }
 
 /* Grid that splits div to 2 cols

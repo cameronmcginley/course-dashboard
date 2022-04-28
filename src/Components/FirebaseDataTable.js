@@ -13,7 +13,8 @@ import { getDocs } from "firebase/firestore";
 import { auth } from "../firebase-config";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { IconButton, Box } from "@mui/material";
+import { IconButton, Box, ThemeProvider, createTheme } from "@mui/material";
+import { green, orange } from '@mui/material/colors';
 
 import { useState, useRef } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -22,21 +23,22 @@ import { useNavigate } from "react-router-dom";
 // FirebaseDataTable Table Data
 import TableHeaders from "../Functions/TableHeaders";
 import TableHeaders2 from "../Functions/TableHeaders2";
+import TableStyles from "../Functions/TableStyles";
 
 // DB Queries
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
-function BasicTable({ dataType, dataTypeHeader, rowData, isAttendanceInfo, isFirstPage, isLastPage, getSigninData }) {
+function BasicTable({ dataType, dataTypeHeader, rowData, isAttendanceInfo, isFirstPage, isLastPage, getSigninData, tableStyle }) {
   const [isNextDisabled, setIsNextDisabled] = React.useState();
   const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
   const [pageNum, setPageNum] = React.useState(1);
 
   return (
-    <Box sx={{ gridRow: '1 / 8', m: "1rem", width: "95%",}}>
+    <Box sx={TableStyles(tableStyle)}>
     <TableContainer component={Paper} variant="outlined" square >
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 0 }} aria-label="simple table">
         <TableHead>
           <TableHeaders2 type={dataTypeHeader} />
         </TableHead>
@@ -101,6 +103,7 @@ let searchCriteria = {
   searchUserID: "",
   searchCourseID: "",
 };
+
 
 function FirebaseDataTable(props) {
   const navigate = useNavigate();
@@ -256,6 +259,8 @@ function FirebaseDataTable(props) {
         isLastPage={isLastPage}
         getSigninData={getSigninData}
         isAttendanceInfo={props.type === "attendanceInfo"}
+        // Default style if none specified
+        tableStyle={props.tableStyle ? props.tableStyle : "default"}
       />
 
       {!props.excludeSearch && (<div>
