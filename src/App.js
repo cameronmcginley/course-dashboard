@@ -24,6 +24,7 @@ const darkTheme = createTheme({
 });
 function App() {
   // For generating test data
+  // makeData()
   
   const [user, setUser] = useState({});
   

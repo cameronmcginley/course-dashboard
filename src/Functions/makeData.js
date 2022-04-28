@@ -3,6 +3,7 @@ import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import { db } from "../firebase-config";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 import { collection, getDocs, query, limit, orderBy } from "firebase/firestore";
+import Chance from 'chance';
 
 const makeData = () => {
   const dates = eachDayOfInterval({
@@ -92,12 +93,24 @@ const makeData = () => {
   };
 
   const makeCourseData = async () => {
-    for (let i = 0; i < 23; i++) {
+    var Chance = require('chance');
+    var chance = new Chance();
+    for (let i = 0; i < 13; i++) {
       FirebaseWriteQueries({
         collectionName: "courses",
         newCourseName: namor.generate({ words: 1, numbers: 0 }),
         newCourseID: String(Math.floor(Math.random() * 100)),
         timestamp: randomDate(new Date(2015, 0, 1), new Date(), 0, 24),
+
+        // New fields
+        courseInstructor: namor.generate({ words: 2, saltLength: 0 }),
+        // 50% change of WPD, 50% random
+        sponsorAgency: Math.random() < 0.5 ? "Wichita Police Department" : namor.generate({ words: 3, saltLength: 0 }),
+        instructorAgency: Math.random() < 0.5 ? "Wichita Police Department" : namor.generate({ words: 3, saltLength: 0 }),
+        coordinator: namor.generate({ words: 2, saltLength: 0 }),
+        // Length between 20 and 70 for synopsis
+        // synopsis: namor.generate({ words: Math.floor(Math.random() * (70 - 20 + 1) + 20), saltLength: 0 }),
+        synopsis: chance.paragraph(),
       });
     }
   };
