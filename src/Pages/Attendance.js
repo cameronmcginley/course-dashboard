@@ -93,11 +93,19 @@ const Attendance = () => {
           {courseName != "error" ? (
             // If not, do...
             <>
-              <FirebaseDataTable
+              {/* <FirebaseDataTable
                 type={"attendanceInfo"}
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
-              />
+              /> */}
+                <FirebaseDataTable
+                  type={"attendanceInfo"}
+                  pageCourseID={pageCourseID}
+                  excludeSearch={true}
+                  // sortKey={"sortKey"}
+                  dataType={"attendance-info"}
+                  dataTypeHeader={"attendance-info-header"}
+                />
 
               <DialogHandler
                 type="courseEdit"
@@ -148,6 +156,15 @@ const Attendance = () => {
                 </Paper>
               </div>
 
+              {/* <FirebaseDataTable
+                type={"attendance"}
+                accessor={"sign-ins"}
+                sortKey={"sortKey"}
+                pageCourseID={pageCourseID}
+                excludeSearch={true}
+                // daySortKeyLargest={daySortKeyLargest}
+              /> */}
+
               <FirebaseDataTable
                 type={"attendance"}
                 accessor={"sign-ins"}
@@ -155,7 +172,11 @@ const Attendance = () => {
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
                 // daySortKeyLargest={daySortKeyLargest}
+                dataType={"attendance"}
+                dataTypeHeader={"attendance-header"}
               />
+
+
             </>
           ) : (
             <div>Error</div>

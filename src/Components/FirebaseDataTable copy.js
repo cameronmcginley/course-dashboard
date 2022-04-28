@@ -1,10 +1,3 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useTable } from "react-table";
@@ -21,35 +14,145 @@ import { useNavigate } from "react-router-dom";
 
 // FirebaseDataTable Table Data
 import TableHeaders from "../Functions/TableHeaders";
-import TableHeaders2 from "../Functions/TableHeaders2";
 
 // DB Queries
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
-function BasicTable({ dataType, dataTypeHeader, rowData }) {
+const Styles = styled.div`
+  // overflow: "scroll",
+  padding: 1rem;
+  grid-row: 1 / 8;
+  // outline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // width: 5%;
+  // font-size: 15px;
+  overflow: 'auto';
+
+  table {
+    border-spacing: 0;
+    border: 1px solid black;
+
+    tr {
+      :last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    th,
+    td {
+      margin: 0;
+      padding: 0.5rem;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+
+      :last-child {
+        border-right: 0;
+      }
+    }
+
+    td {
+      input {
+        font-size: 1rem;
+        padding: 0;
+        margin: 0;
+        border: 0;
+      }
+    }
+  }
+
+  .pagination {
+    padding: 0.5rem;
+  }
+`;
+
+function Table({ columns, data, isFirstPage, isLastPage, getSigninData, isAttendanceInfo }) {
+  // Use the state and functions returned from useTable to build your UI
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    });
+
+  const [isNextDisabled, setIsNextDisabled] = React.useState();
+  const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
+  const [pageNum, setPageNum] = React.useState(1);
+
+  // Render the UI for your table
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableHeaders2 type={dataTypeHeader} />
-        </TableHead>
-        <TableBody>
-          {rowData.map((row) => (
-            <TableRow
-              // key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableHeaders2 type={dataType} row={row} />
-            </TableRow>
+    <>
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              ))}
+            </tr>
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </thead>
+
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+
+      {/* Dont show paging for attendance info table */}
+      {!isAttendanceInfo && (<div className="pagination">
+        <IconButton
+          onClick={() => {
+            setPageNum(pageNum - 1);
+            setIsPreviousDisabled(true);
+            setTimeout(() => {
+              setIsPreviousDisabled(false);
+            }, 300);
+            getSigninData("previous");
+          }}
+          // Disabled based on click delay, or if its first page (the timeout would re-enable even if first page)
+          disabled={isPreviousDisabled || isFirstPage}
+        >
+          <ArrowBackIcon />
+        </IconButton>{" "}
+        <span>
+          <p>
+            Page
+            <strong> {pageNum} </strong>
+          </p>
+        </span>
+        <IconButton
+          onClick={() => {
+            setPageNum(pageNum + 1);
+            setIsNextDisabled(true);
+            setTimeout(() => {
+              setIsNextDisabled(false);
+            }, 300);
+            getSigninData("next");
+          }}
+          disabled={isNextDisabled || isLastPage}
+        >
+          <ArrowForwardIcon />
+        </IconButton>{" "}
+      </div>)}
+
+    </>
   );
 }
-
 
 let lastVisibleDoc = null;
 let firstVisibleDoc = null;
@@ -166,8 +269,6 @@ function FirebaseDataTable(props) {
       docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
 
-    console.log("y\ny\ny\n", data)
-
     // Update first and last documents after updating page
     lastVisibleDoc = docs[docs.length - 1];
     firstVisibleDoc = docs[0];
@@ -207,7 +308,7 @@ function FirebaseDataTable(props) {
   return (
     <Fragment>
       {/* <Box component="div" sx={{ overflow: 'auto' }}> */}
-        {/* <Styles>
+        <Styles>
             <Table
               columns={columns}
               data={data}
@@ -218,13 +319,8 @@ function FirebaseDataTable(props) {
               minRows={0}
               isAttendanceInfo={props.type === "attendanceInfo"}
             />
-        </Styles> */}
+        </Styles>
       {/* </Box> */}
-      <BasicTable 
-        rowData={data}
-        dataType={props.dataType}
-        dataTypeHeader={props.dataTypeHeader}
-      />
 
       {!props.excludeSearch && (<div>
         <h1>Search Data</h1>

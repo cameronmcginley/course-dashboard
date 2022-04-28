@@ -4,6 +4,7 @@ import React, { Fragment } from "react";
 import moment from "moment";
 import QRCode from "../Components/QRCode";
 import PrintQRReport from "../Components/PrintQRReport";
+import { IconButton, Box } from "@mui/material";
 
 // Must create header data for each type of table used
 const TableHeaders = (props) => {
@@ -39,11 +40,23 @@ const TableHeaders = (props) => {
         },
         {
           Header: "Date",
+          style: { 'white-space': 'unset' },
           accessor: (d) => {
-            return moment(d.timestampLogged.toDate())
+            return (moment(d.timestampLogged.toDate())
               .local()
-              .format("MM-DD-YYYY hh:mm a");
+              .format("MM-DD-YYYY hh:mm a")
+            )
           },
+          // accessor: (d) => {
+          //   return (
+          //   <Box component="div" sx={{ textOverflow: 'ellipsis' }}>
+          //   {/* Try scrolling this overflow auto box */}
+          //   {moment(d.timestampLogged.toDate())
+          //     .local()
+          //     .format("MM-DD-YYYY hh:mm a")}
+          //   </Box>
+          //   )
+          // },
         },
         {
           Header: "Archival Status",
