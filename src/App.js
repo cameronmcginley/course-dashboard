@@ -15,7 +15,13 @@ import { useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Paper } from "@mui/material";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 function App() {
   // For generating test data
   
@@ -26,28 +32,30 @@ function App() {
   });
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
+    // <ThemeProvider theme={darkTheme}>
+      <Router>
+        <div className="App">
+          <Navbar />
 
-        {/* Pages exist in the content div */}
-        <Paper className="content">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/reset" element={<Reset />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/form" element={<Form />} />
-            <Route path="/viewdata" element={<ViewData />} />
-            <Route
-              path="/courses/:pageCourseID/attendance"
-              element={<Attendance />}
-            />
-          </Routes>
-        </Paper>
-      </div>
-    </Router>
+          {/* Pages exist in the content div */}
+          <Paper className="content">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/reset" element={<Reset />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/form" element={<Form />} />
+              <Route path="/viewdata" element={<ViewData />} />
+              <Route
+                path="/courses/:pageCourseID/attendance"
+                element={<Attendance />}
+              />
+            </Routes>
+          </Paper>
+        </div>
+      </Router>
+    // </ThemeProvider>
   );
 }
 

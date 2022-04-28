@@ -30,6 +30,10 @@
 }
 
 
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
 
 
 body, html{
@@ -70,10 +74,13 @@ For table and search feature */
     align-items: center;
     row-gap: 2rem;
   }
-  html {
+  /* html {
     font-size: 16px;
+  } */
+  .content {
+    padding-left: 0;
+    padding-right: 0;
   }
-  
 }
 
 .col2row1 {

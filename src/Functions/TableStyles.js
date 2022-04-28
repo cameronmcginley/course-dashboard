@@ -17,7 +17,7 @@ import { IconButton, Box } from "@mui/material";
 const TableStyles = (style) => {
   if (style === "default") {
     // return ({ gridRow: '1 / 8', m: "1rem", width: "95%",})
-    return ({ gridRow: '1 / 8', width: "100%" })
+    return ({ gridRow: '1 / 8', width: "100%", })
   }
 
   if (style === "attendance") {

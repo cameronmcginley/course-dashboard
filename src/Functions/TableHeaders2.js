@@ -33,7 +33,7 @@ const TableHeaders2 = (props) => {
       <TableCell>{props.row.userID}</TableCell>
       <TableCell>{props.row.courseName}</TableCell>
       <TableCell>{props.row.courseID}</TableCell>
-      <TableCell>{moment(props.row.timestampLogged.toDate())
+      <TableCell sx={{ minWidth: "110px" }}>{moment(props.row.timestampLogged.toDate())
               .local()
               .format("MM-DD-YYYY hh:mm a")
       }</TableCell>
