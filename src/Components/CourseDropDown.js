@@ -27,16 +27,19 @@ const getCourseList = async () => {
     });
   });
 
-  console.log(courseList);
+  // console.log(courseList);
   return courseList;
 };
+
+let courseList = []
 
 export default function CourseDropDown(props) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
   // const courseList = props.courseList;
-  let [courseList, setCourseList] = React.useState([]);
+  // let [courseList, setCourseList] = React.useState([]);
+  // let courseList = []
 
   let [selectedCourses, setSelectedCourses] = React.useState([]);
 
@@ -48,15 +51,19 @@ export default function CourseDropDown(props) {
     }
 
     (async () => {
-      setCourseList(await getCourseList());
+      // Only re-get course list if it isn't stored already
+      // if (!courseList.length) {await setCourseList(await getCourseList());}
+      if (!courseList.length) {courseList = await getCourseList()}
 
-      setTimeout(function () {
-        if (active) {
-          // const courseList = await getCourseList()
-          console.log(courseList);
-          setOptions([...courseList]);
-        }
-      }, 100);
+      // setTimeout(function () {
+      if (active) {
+        // const courseList = await getCourseList()
+        // console.log(courseList);
+        // console.log("Set dropdown options")
+        // console.log(courseList)
+        setOptions(courseList);
+      }
+      // }, 100);
     })();
 
     return () => {
