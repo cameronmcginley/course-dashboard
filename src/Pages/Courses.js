@@ -32,7 +32,7 @@ const Home = () => {
 
       {/* Course entry form, contained in popout box */}
       <Box sx={{ mt: 5 }}>
-        <DialogHandler type="courseEntry" />
+        <DialogHandler type="courseEntry" DialogTitle="Enter New Course"/>
       </Box>
 
       {/* Table with User Signin Data */}

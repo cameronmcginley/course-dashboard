@@ -117,6 +117,7 @@ const Attendance = () => {
                 currInstructorAgency={courseData.instructorAgency}
                 currCoordinator={courseData.coordinator}
                 currSynopsis={courseData.synopsis}
+                DialogTitle="Edit Course"
               />
               
               <div className="break"/>
@@ -129,6 +130,7 @@ const Attendance = () => {
                 dialogBtnColor="error"
                 confirmBtnColor="error"
                 buttonTxt="delete"
+                DialogTitle="Delete Course"
               />
 
               <div className="attendanceSignIn">

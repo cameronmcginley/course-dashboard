@@ -93,6 +93,7 @@ export default function DialogDeleteData(props) {
               sendDateRangeUp={handleDateSelect}
               noCloseBtn={false}
               isSingleDate={true}
+              DialogTitle="Select Date"
             />
 
             <div className="break" />
@@ -105,6 +106,7 @@ export default function DialogDeleteData(props) {
               dialogBtnColor="error"
               confirmBtnColor="error"
               buttonTxt="delete"
+              DialogTitle="Delete Data"
             />
           </>
         )}

@@ -166,6 +166,7 @@ const FirebaseDataTableSearch = (props) => {
             type="dateRangePicker"
             sendDateRangeUp={handleDateRange}
             fullWidth={true}
+            DialogTitle="Select Date Range"
           />
 
           <div className="break"></div>

@@ -92,17 +92,17 @@ export default function DialogHandler(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Dialog Title"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title" textAlign="center">{props.DialogTitle}</DialogTitle>
 
         <DialogActions>
           <Box 
             className="dialogMain"
             sx={{
-              padding: "2rem",
+              // margin: "2rem",
               minWidth: "20rem",
             }}  
           >
-            {/* Handles things scpecific to type of dialog box */}
+            {/* Handles component scpecific to type of dialog box */}
             {props.type === "csvExport" && <DialogExportCSV />}
             {props.type === "courseEntry" && <DialogCourseEntry />}
             {props.type === "courseEdit" && (
