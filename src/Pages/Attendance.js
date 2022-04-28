@@ -20,7 +20,7 @@ const Attendance = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [courseName, setCourseName] = useState("");
-  const [currData, setCurrData] = useState([]);
+  const [courseData, setCourseData] = useState([]);
 
   if (!auth.currentUser)
   {
@@ -53,8 +53,8 @@ const Attendance = () => {
     );
 
     const documentSnapshots = await getDocs(data);
-    setCurrData(documentSnapshots.docs[0].data())
-    console.log("h\nh\nh\n", currData)
+    setCourseData(documentSnapshots.docs[0].data())
+    console.log("h\nh\nh\n", courseData)
     console.log(courseName)
   };
 
@@ -115,11 +115,11 @@ const Attendance = () => {
                 type="courseEdit"
                 currCourseName={courseName}
                 currCourseID={pageCourseID}
-                currCourseInstructor={currData.courseInstructor}
-                currSponsorAgency={currData.sponsorAgency}
-                currInstructorAgency={currData.instructorAgency}
-                currCoordinator={currData.coordinator}
-                currSynopsis={currData.synopsis}
+                currCourseInstructor={courseData.courseInstructor}
+                currSponsorAgency={courseData.sponsorAgency}
+                currInstructorAgency={courseData.instructorAgency}
+                currCoordinator={courseData.coordinator}
+                currSynopsis={courseData.synopsis}
               />
               
               <div className="break"/>
@@ -155,7 +155,7 @@ const Attendance = () => {
 
                   <Box className="attendanceQR">
                     <QRCode value={courseName + " {ID " + pageCourseID + "}"} />
-                    <PrintQRReport value={courseName + " {ID " + pageCourseID + "}"} />
+                    <PrintQRReport QRvalue={courseName + " {ID " + pageCourseID + "}"} courseData={courseData} />
                   </Box>
                 </Paper>
               </div>

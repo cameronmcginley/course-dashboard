@@ -37,9 +37,7 @@ export default function CourseDropDown(props) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
-  // const courseList = props.courseList;
   // let [courseList, setCourseList] = React.useState([]);
-  // let courseList = []
 
   let [selectedCourses, setSelectedCourses] = React.useState([]);
 
@@ -58,9 +56,6 @@ export default function CourseDropDown(props) {
       // setTimeout(function () {
       if (active) {
         // const courseList = await getCourseList()
-        // console.log(courseList);
-        // console.log("Set dropdown options")
-        // console.log(courseList)
         setOptions(courseList);
       }
       // }, 100);
