@@ -26,12 +26,15 @@ export class QRReport extends React.PureComponent {
           <h1 className="qrReport body"><b>Synopsis: </b>{this.props.courseData.synopsis}</h1>
         </Box>
 
-        <QRCodeReact
-          renderAs="svg"
-          className="qrReport qrCode"
-          size={200}
-          value={this.props.QRvalue}
-        />
+        <div className="qrReport qrCode">
+          <QRCodeReact
+            renderAs="svg"
+            // className="qrReport qrCode"
+            size={200}
+            value={this.props.QRvalue}
+          />
+          <h1 className="qrReport qrCodeText">Must scan via official "Course Sign In" app</h1>
+        </div>
       </div>
     );
   }

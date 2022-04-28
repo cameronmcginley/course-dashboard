@@ -22,7 +22,6 @@ import { useNavigate } from "react-router-dom";
 
 // FirebaseDataTable Table Data
 import TableHeaders from "../Functions/TableHeaders";
-import TableHeaders2 from "../Functions/TableHeaders2";
 import TableStyles from "../Functions/TableStyles";
 
 // DB Queries
@@ -40,7 +39,7 @@ function BasicTable({ dataType, dataTypeHeader, rowData, isAttendanceInfo, isFir
     <TableContainer component={Paper} variant="outlined" square >
       <Table sx={{ minWidth: 0 }} aria-label="simple table">
         <TableHead>
-          <TableHeaders2 type={dataTypeHeader} />
+          <TableHeaders type={dataTypeHeader} />
         </TableHead>
         <TableBody>
           {rowData.map((row) => (
@@ -48,7 +47,7 @@ function BasicTable({ dataType, dataTypeHeader, rowData, isAttendanceInfo, isFir
               // key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableHeaders2 type={dataType} row={row} />
+              <TableHeaders type={dataType} row={row} />
             </TableRow>
           ))}
         </TableBody>
@@ -117,8 +116,6 @@ function FirebaseDataTable(props) {
   if (!user) {
     navigate("/login");
   }
-
-  const columns = React.useMemo(() => [TableHeaders(props)[props.type]], []);
 
   const [data, setData] = React.useState([]);
 
@@ -258,7 +255,7 @@ function FirebaseDataTable(props) {
         isFirstPage={isFirstPage}
         isLastPage={isLastPage}
         getSigninData={getSigninData}
-        isAttendanceInfo={props.type === "attendanceInfo"}
+        isAttendanceInfo={props.type === "attendance-info"}
         // Default style if none specified
         tableStyle={props.tableStyle ? props.tableStyle : "default"}
       />

@@ -260,7 +260,7 @@ export const FirebaseReadQueries = async (data) => {
     // return query(...params);
   }
 
-  if (data.type === "attendanceInfo") {
+  if (data.type === "attendance-info") {
     params.push(collection(db, "courses"));
     params.push(where("courseID", "==", data.courseID));
     params.push(limit(1));

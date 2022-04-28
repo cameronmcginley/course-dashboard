@@ -1,4 +1,11 @@
 import React, { Fragment } from "react";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import styled from "styled-components";
 
 // Dependencies for data
 import moment from "moment";
@@ -8,163 +15,145 @@ import { IconButton, Box } from "@mui/material";
 
 // Must create header data for each type of table used
 const TableHeaders = (props) => {
-  return {
-    attendance: {
-      collection: "sign-ins",
-      Header: "Signed In Today",
-      columns: [
-        {
-          Header: "User ID",
-          accessor: (d) => {
-            return d.userID;
-          },
-        },
-      ],
-    },
+  if (props.type === "sign-ins-header") {
+    return (
+      <TableRow>
+        <TableCell>User ID</TableCell>
+        <TableCell>Course Name</TableCell>
+        <TableCell>Course ID</TableCell>
+        <TableCell>Date</TableCell>
+        <TableCell>Archival Status</TableCell>
+      </TableRow>
+    )
+  }
 
-    "sign-ins": {
-      collection: "sign-ins",
-      Header: "Sign In Data",
-      columns: [
-        {
-          Header: "User ID",
-          accessor: "userID",
-        },
-        {
-          Header: "Course Name",
-          accessor: "courseName",
-        },
-        {
-          Header: "Course ID",
-          accessor: "courseID",
-        },
-        {
-          Header: "Date",
-          style: { 'white-space': 'unset' },
-          accessor: (d) => {
-            return (moment(d.timestampLogged.toDate())
+  if (props.type === "sign-ins") {
+    return (
+      <>
+      <TableCell>{props.row.userID}</TableCell>
+      <TableCell>{props.row.courseName}</TableCell>
+      <TableCell>{props.row.courseID}</TableCell>
+      <TableCell sx={{ minWidth: "110px" }}>{moment(props.row.timestampLogged.toDate())
               .local()
               .format("MM-DD-YYYY hh:mm a")
-            )
-          },
-          // accessor: (d) => {
-          //   return (
-          //   <Box component="div" sx={{ textOverflow: 'ellipsis' }}>
-          //   {/* Try scrolling this overflow auto box */}
-          //   {moment(d.timestampLogged.toDate())
-          //     .local()
-          //     .format("MM-DD-YYYY hh:mm a")}
-          //   </Box>
-          //   )
-          // },
-        },
-        {
-          Header: "Archival Status",
-          accessor: (d) => {
-            return d.isArchived ? "True" : "False";
-          },
-        },
-      ],
-    },
+      }</TableCell>
+      <TableCell>{props.row.isArchived ? "True" : "False"}</TableCell>
+      </>
+    )
+  }
 
-    courses: {
-      collection: "courses",
-      Header: "Course Data",
-      columns: [
-        {
-          Header: "Name",
-          accessor: "courseName",
-        },
-        {
-          Header: " ID",
-          accessor: "courseID",
-        },
-        {
-          Header: "Info Page",
-          accessor: (d) => {
-            return (
-              <a
-                href={"/courses/" + d.courseID + "/attendance"}
-                rel="noreferrer"
-              >
-                Link
-              </a>
-            );
-          },
-        },
-        {
-          Header: "QR Code",
-          accessor: (d) => {
-            return (
-              <Fragment>
-                <QRCode value={d.courseFullStr.toString()} />
+  if (props.type === "courses-header") {
+    return (
+      <TableRow>
+        <TableCell>Name</TableCell>
+        <TableCell>ID</TableCell>
+        <TableCell>Info Page</TableCell>
+        <TableCell>QR Code</TableCell>
+        <TableCell>Instructor</TableCell>
+      </TableRow>
+    )
+  }
 
-                {/* Pass props to this component, which handles
-                            the ReactToPrint and QRReport references */}
-                <PrintQRReport value={d.courseFullStr.toString()} />
-              </Fragment>
-            );
-          },
-        },
-        {
-          Header: "Instructor",
-          accessor: "courseInstructor",
-        },
-        // {
-        //   Header: "Time Created",
-        //   accessor: (d) => {
-        //     return moment(d.timeCreated.toDate())
-        //       .local()
-        //       .format("MM-DD-YYYY hh:mm:ss a");
-        //   },
-        // },
-      ],
-    },
+  if (props.type === "courses") {
+    return (
+      <>
+      <TableCell>{props.row.courseName}</TableCell>
+      <TableCell>{props.row.courseID}</TableCell>
+      <TableCell>{
+        <a
+          href={"/courses/" + props.row.courseID + "/attendance"}
+          rel="noreferrer"
+        >
+          Link
+        </a>
+      }</TableCell>
+      <TableCell>{
+        <Fragment>
+          {/* <QRCode value={props.row.courseFullStr.toString()} /> */}
+
+          {/* Pass props to this component, which handles
+          the ReactToPrint and QRReport references */}
+          <PrintQRReport QRvalue={props.row.courseFullStr.toString()} courseData={props.row} />
+        </Fragment>
+      }</TableCell>
+      <TableCell>{props.row.courseInstructor}</TableCell>
+      </>
+    )
+  }
+
+  if (props.type === "attendance-header") {
+    return (
+      <TableRow>
+        <TableCell>User ID</TableCell>
+      </TableRow>
+    )
+  }
+
+  if (props.type === "attendance") {
+    return (
+      <>
+      <TableCell>{props.row.userID}</TableCell>
+      </>
+    )
+  }
+
+  if (props.type === "attendance-info-header") {
+    return (
+      <TableRow>
+        <TableCell>Course Name</TableCell>
+        <TableCell>Course ID</TableCell>
+        <TableCell>Course Instructor</TableCell>
+        <TableCell>Sponsor Agency</TableCell>
+        <TableCell>Instructor Agency</TableCell>
+        <TableCell>Coordinator</TableCell>
+        <TableCell>Synopsis</TableCell>
+      </TableRow>
+    )
+  }
+
+  if (props.type === "attendance-info") {
+    return (
+      <>
+      <TableCell>{props.row.courseName}</TableCell>
+      <TableCell>{props.row.courseID}</TableCell>
+      <TableCell>{props.row.courseInstructor}</TableCell>
+      <TableCell>{props.row.sponsorAgency}</TableCell>
+      <TableCell>{props.row.instructorAgency}</TableCell>
+      <TableCell>{props.row.coordinator}</TableCell>
+      <TableCell>{props.row.synopsis}</TableCell>
+      </>
+    )
+  }
 
 
-    attendanceInfo: {
-      collection: "courses",
-      Header: "Course Data",
-      columns: [
-        {
-          Header: "Course Name",
-          accessor: "courseName",
-        },
-        {
-          Header: "Course ID",
-          accessor: "courseID",
-        },
-        {
-          Header: "Course Instructor(s)",
-          accessor: "courseInstructor",
-        },
-        {
-          Header: "Sponsor Agency",
-          accessor: "sponsorAgency",
-        },
-        {
-          Header: "Instructor Agency",
-          accessor: "instructorAgency",
-        },
-        {
-          Header: "Coordinator",
-          accessor: "coordinator",
-        },
-        {
-          Header: "Synopsis",
-          accessor: "synopsis",
-        },
-        // {
-        //   Header: "Time Created",
-        //   accessor: (d) => {
-        //     return moment(d.timeCreated.toDate())
-        //       .local()
-        //       .format("MM-DD-YYYY hh:mm:ss a");
-        //   },
-        // },
-      ],
-    },
-  };
+
+
+
+
+
+
+
+
+
+  // return {
+  //   attendance: {
+  //   },
+
+  //   "sign-ins": (
+  //     <TableCell>{row.userID}</TableCell>
+  //     <TableCell>{row.courseName}</TableCell>
+  //     <TableCell>{row.courseID}</TableCell>
+  //     <TableCell>{row.timestampLogged.seconds}</TableCell>
+  //     <TableCell>{row.archivalStatus}</TableCell>
+  //   ),
+
+  //   courses: {
+  //   },
+
+
+  //   attendanceInfo: {
+  //   },
+  // };
 };
 
 export default TableHeaders;

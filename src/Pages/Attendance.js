@@ -103,7 +103,7 @@ const Attendance = () => {
                 excludeSearch={true}
               /> */}
               <FirebaseDataTable
-                type={"attendanceInfo"}
+                type={"attendance-info"}
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
                 // sortKey={"sortKey"}
