@@ -98,14 +98,14 @@ const Attendance = () => {
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
               /> */}
-                <FirebaseDataTable
-                  type={"attendanceInfo"}
-                  pageCourseID={pageCourseID}
-                  excludeSearch={true}
-                  // sortKey={"sortKey"}
-                  dataType={"attendance-info"}
-                  dataTypeHeader={"attendance-info-header"}
-                />
+              <FirebaseDataTable
+                type={"attendanceInfo"}
+                pageCourseID={pageCourseID}
+                excludeSearch={true}
+                // sortKey={"sortKey"}
+                dataType={"attendance-info"}
+                dataTypeHeader={"attendance-info-header"}
+              />
 
               <DialogHandler
                 type="courseEdit"

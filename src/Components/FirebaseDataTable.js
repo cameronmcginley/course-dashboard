@@ -28,9 +28,13 @@ import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
-function BasicTable({ dataType, dataTypeHeader, rowData }) {
+function BasicTable({ dataType, dataTypeHeader, rowData, isAttendanceInfo, isFirstPage, isLastPage, getSigninData }) {
+  const [isNextDisabled, setIsNextDisabled] = React.useState();
+  const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
+  const [pageNum, setPageNum] = React.useState(1);
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ gridRow: '1 / 8' }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableHeaders2 type={dataTypeHeader} />
@@ -46,6 +50,41 @@ function BasicTable({ dataType, dataTypeHeader, rowData }) {
           ))}
         </TableBody>
       </Table>
+      {!isAttendanceInfo && (<div className="pagination">
+        <IconButton
+          onClick={() => {
+            setPageNum(pageNum - 1);
+            setIsPreviousDisabled(true);
+            setTimeout(() => {
+              setIsPreviousDisabled(false);
+            }, 300);
+            getSigninData("previous");
+          }}
+          // Disabled based on click delay, or if its first page (the timeout would re-enable even if first page)
+          disabled={isPreviousDisabled || isFirstPage}
+        >
+          <ArrowBackIcon />
+        </IconButton>{" "}
+        <span>
+          <p>
+            Page
+            <strong> {pageNum} </strong>
+          </p>
+        </span>
+        <IconButton
+          onClick={() => {
+            setPageNum(pageNum + 1);
+            setIsNextDisabled(true);
+            setTimeout(() => {
+              setIsNextDisabled(false);
+            }, 300);
+            getSigninData("next");
+          }}
+          disabled={isNextDisabled || isLastPage}
+        >
+          <ArrowForwardIcon />
+        </IconButton>{" "}
+      </div>)}
     </TableContainer>
   );
 }
@@ -206,24 +245,15 @@ function FirebaseDataTable(props) {
 
   return (
     <Fragment>
-      {/* <Box component="div" sx={{ overflow: 'auto' }}> */}
-        {/* <Styles>
-            <Table
-              columns={columns}
-              data={data}
-              skipReset={skipResetRef.current}
-              isFirstPage={isFirstPage}
-              isLastPage={isLastPage}
-              getSigninData={getSigninData}
-              minRows={0}
-              isAttendanceInfo={props.type === "attendanceInfo"}
-            />
-        </Styles> */}
-      {/* </Box> */}
       <BasicTable 
         rowData={data}
         dataType={props.dataType}
         dataTypeHeader={props.dataTypeHeader}
+        skipReset={skipResetRef.current}
+        isFirstPage={isFirstPage}
+        isLastPage={isLastPage}
+        getSigninData={getSigninData}
+        isAttendanceInfo={props.type === "attendanceInfo"}
       />
 
       {!props.excludeSearch && (<div>

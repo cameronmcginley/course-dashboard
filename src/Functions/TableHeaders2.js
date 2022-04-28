@@ -68,7 +68,7 @@ const TableHeaders2 = (props) => {
       }</TableCell>
       <TableCell>{
         <Fragment>
-          <QRCode value={props.row.courseFullStr.toString()} />
+          {/* <QRCode value={props.row.courseFullStr.toString()} /> */}
 
           {/* Pass props to this component, which handles
           the ReactToPrint and QRReport references */}
