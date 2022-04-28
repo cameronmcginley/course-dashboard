@@ -34,7 +34,8 @@ function BasicTable({ dataType, dataTypeHeader, rowData, isAttendanceInfo, isFir
   const [pageNum, setPageNum] = React.useState(1);
 
   return (
-    <TableContainer component={Paper} sx={{ gridRow: '1 / 8' }}>
+    <Box sx={{ gridRow: '1 / 8', m: "1rem", width: "95%",}}>
+    <TableContainer component={Paper} variant="outlined" square >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableHeaders2 type={dataTypeHeader} />
@@ -86,6 +87,7 @@ function BasicTable({ dataType, dataTypeHeader, rowData, isAttendanceInfo, isFir
         </IconButton>{" "}
       </div>)}
     </TableContainer>
+    </Box>
   );
 }
 

@@ -54,7 +54,7 @@ For table and search feature */
 @media only screen and (min-width: 768px) {
   .tableSplit {
     display: grid;
-    grid-template-columns: [first] 60% [second] 40%;
+    grid-template-columns: [first] 65% [second] 35%;
     justify-items: center;
     align-items: center;
     row-gap: 2rem;
