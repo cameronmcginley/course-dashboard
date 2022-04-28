@@ -42,7 +42,7 @@ const TableHeaders = (props) => {
           accessor: (d) => {
             return moment(d.timestampLogged.toDate())
               .local()
-              .format("MM-DD-YYYY hh:mm:ss a");
+              .format("MM-DD-YYYY hh:mm a");
           },
         },
         {
@@ -59,15 +59,15 @@ const TableHeaders = (props) => {
       Header: "Course Data",
       columns: [
         {
-          Header: "Course Name",
+          Header: "Name",
           accessor: "courseName",
         },
         {
-          Header: "Course ID",
+          Header: " ID",
           accessor: "courseID",
         },
         {
-          Header: "Attendance Sheet",
+          Header: "Info Page",
           accessor: (d) => {
             return (
               <a
@@ -94,7 +94,7 @@ const TableHeaders = (props) => {
           },
         },
         {
-          Header: "Course Instructor(s)",
+          Header: "Instructor",
           accessor: "courseInstructor",
         },
         // {

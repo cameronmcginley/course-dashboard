@@ -161,7 +161,7 @@ const FirebaseInputForm = (props) => {
   }, [useAutoCourseID])
 
   return (
-    <div className="firebase-signin-form">
+    <div className="firebase-signin-form ">
       {/* User Sign In Form */}
       {props.formType === "userSignIn" && (
         <Fragment>
@@ -221,7 +221,7 @@ const FirebaseInputForm = (props) => {
 
       {/* Course Entry Form */}
       {props.formType === "courseEntry" && (
-        <Fragment>
+        <div className="searchQueries">
           <FormControl>
             <InputLabel htmlFor="firebase-form-userid">
               Course Name
@@ -361,7 +361,7 @@ const FirebaseInputForm = (props) => {
             </Button>
           </FormControl>
 
-        </Fragment>
+        </div>
       )}
     </div>
   );

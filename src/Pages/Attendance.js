@@ -109,6 +109,8 @@ const Attendance = () => {
                 currCoordinator={currData.coordinator}
                 currSynopsis={currData.synopsis}
               />
+              
+              <div className="break"/>
 
               <DialogHandler
                 type="confirmation"
