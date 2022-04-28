@@ -8,7 +8,6 @@ import { Box, Container } from "@mui/material";
 export class QRReport extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.courseTitleData = SplitCourseFullStr(props.QRvalue);
   }
 
   render() {
