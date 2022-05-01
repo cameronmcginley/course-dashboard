@@ -3,12 +3,24 @@ import { auth } from "../firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import "../App.css";
 import { Link } from "react-router-dom";
-import { IconButton, Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
+import { Tabs, Tab, IconButton, Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+
+function LinkTab(props) {
+  return (
+    <Tab
+      component="a"
+      onClick={(event) => {
+        event.preventDefault();
+      }}
+      {...props}
+    />
+  );
+}
 
 const Navbar = (props) => {
   const [user, setUser] = useState({});
@@ -103,15 +115,20 @@ const Navbar = (props) => {
           {/* Only show nav links and account info if signed in */}
           {user && (<>
             <div className="nav-links">
-              <Button color="primary" variant="text" href="/">
+              <Button color="primary" variant="text" href="/" sx={window.location.pathname === "/" && { borderBottom:1 }}>
                 Home
               </Button>
-              <Button color="primary" variant="text" href="/courses">
+              <Button color="primary" variant="text" href="/courses" sx={window.location.pathname === "/courses" && { borderBottom:1 }}>
                 Courses
               </Button>
-              <Button color="primary" variant="text" href="/viewdata">
+              <Button color="primary" variant="text" href="/viewdata" sx={window.location.pathname === "/viewdata" && { borderBottom:1 }}>
                 View Data
               </Button>
+              {/* <Tabs>
+                <LinkTab label="Home" href="/" />
+                <LinkTab label="Courses" href="/courses" />
+                <LinkTab label="View Data" href="/viewdata" />
+              </Tabs> */}
             </div>
 
             <div className="nav-account">
