@@ -46,6 +46,7 @@ function BasicTable({ pageNum, setPageNum, tableTitle, dataType, dataTypeHeader,
             <TableRow
               // key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              style={{ verticalAlign: 'top' }}
             >
               <TableHeaders type={dataType} row={row} />
             </TableRow>

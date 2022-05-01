@@ -104,6 +104,7 @@ const Attendance = () => {
                 // sortKey={"sortKey"}
                 dataType={"attendance-info"}
                 dataTypeHeader={"attendance-info-header"}
+                tableStyle={"attendance-info"}
               />
 
               <div className="break"/>
