@@ -11,7 +11,7 @@ import styled from "styled-components";
 import moment from "moment";
 import QRCode from "../Components/QRCode";
 import PrintQRReport from "../Components/PrintQRReport";
-import { IconButton, Box } from "@mui/material";
+import { IconButton, Box, Link } from "@mui/material";
 
 // Must create header data for each type of table used
 const TableHeaders = (props) => {
@@ -60,12 +60,9 @@ const TableHeaders = (props) => {
       <TableCell>{props.row.courseName}</TableCell>
       <TableCell>{props.row.courseID}</TableCell>
       <TableCell>{
-        <a
-          href={"/courses/" + props.row.courseID + "/attendance"}
-          rel="noreferrer"
-        >
-          Link
-        </a>
+        <Link href={"/courses/" + props.row.courseID + "/attendance"} underline="always">
+          {'Info Page'}
+        </Link>
       }</TableCell>
       <TableCell>{
         <Fragment>
@@ -124,36 +121,6 @@ const TableHeaders = (props) => {
       </>
     )
   }
-
-
-
-
-
-
-
-
-
-
-
-  // return {
-  //   attendance: {
-  //   },
-
-  //   "sign-ins": (
-  //     <TableCell>{row.userID}</TableCell>
-  //     <TableCell>{row.courseName}</TableCell>
-  //     <TableCell>{row.courseID}</TableCell>
-  //     <TableCell>{row.timestampLogged.seconds}</TableCell>
-  //     <TableCell>{row.archivalStatus}</TableCell>
-  //   ),
-
-  //   courses: {
-  //   },
-
-
-  //   attendanceInfo: {
-  //   },
-  // };
 };
 
 export default TableHeaders;
