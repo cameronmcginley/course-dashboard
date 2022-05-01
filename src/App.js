@@ -35,8 +35,19 @@ const lightTheme = createTheme({
 function App() {
   // For generating test data
   // makeData()
+
+  const handleDarkModeChange = () => {
+    // Write to local storage
+    console.log("Writing to localstorage, DarkMode: ", (!isDarkTheme).toString())
+    // console.log(localStorage.getItem("DarkMode"))
+    localStorage.setItem("DarkMode", (!isDarkTheme).toString());
+
+    // Toggle dark mode
+    setIsDarkTheme(!isDarkTheme)
+    // console.log(isDarkTheme)
+  }
   
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(localStorage.getItem("DarkMode") === "true" ? true : false);
   const [user, setUser] = useState({});
   
   onAuthStateChanged(auth, (currentUser) => {
@@ -50,7 +61,7 @@ function App() {
       <Router>
         <Box className="App">
           {/* Navbar has dark mode button, call this func when clicked */}
-          <Navbar isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
+          <Navbar isDarkTheme={isDarkTheme} handleDarkModeChange={handleDarkModeChange} />
 
           {/* Pages exist in the content div */}
           <Paper className="content">

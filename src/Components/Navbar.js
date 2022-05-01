@@ -117,7 +117,7 @@ const Navbar = (props) => {
             <div className="nav-account">
               {/* Dark mode button stored here also */}
               {/* https://stackoverflow.com/questions/67030576/i-have-this-error-that-say-cannot-update-a-components-while-rendering-a-differe */}
-              <IconButton sx={{ mr: ".5rem" }} onClick={() => props.setIsDarkTheme(!props.isDarkTheme)}>
+              <IconButton sx={{ mr: ".5rem" }} onClick={() => props.handleDarkModeChange(!props.isDarkTheme)}>
                 <DarkModeIcon />
               </IconButton>
 
