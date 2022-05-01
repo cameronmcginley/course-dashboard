@@ -10,18 +10,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 
-function LinkTab(props) {
-  return (
-    <Tab
-      component="a"
-      onClick={(event) => {
-        event.preventDefault();
-      }}
-      {...props}
-    />
-  );
-}
-
 const Navbar = (props) => {
   const [user, setUser] = useState({});
 
@@ -124,11 +112,6 @@ const Navbar = (props) => {
               <Button color="primary" variant="text" href="/viewdata" sx={window.location.pathname === "/viewdata" && { borderBottom:1 }}>
                 View Data
               </Button>
-              {/* <Tabs>
-                <LinkTab label="Home" href="/" />
-                <LinkTab label="Courses" href="/courses" />
-                <LinkTab label="View Data" href="/viewdata" />
-              </Tabs> */}
             </div>
 
             <div className="nav-account">

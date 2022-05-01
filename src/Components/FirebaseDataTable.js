@@ -29,10 +29,9 @@ import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
-function BasicTable({ tableTitle, dataType, dataTypeHeader, rowData, isAttendanceInfo, isFirstPage, isLastPage, getSigninData, tableStyle }) {
+function BasicTable({ pageNum, setPageNum, tableTitle, dataType, dataTypeHeader, rowData, isAttendanceInfo, isFirstPage, isLastPage, getSigninData, tableStyle }) {
   const [isNextDisabled, setIsNextDisabled] = React.useState();
   const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
-  const [pageNum, setPageNum] = React.useState(1);
 
   return (
     <Box sx={TableStyles(tableStyle)}>
@@ -109,6 +108,7 @@ function FirebaseDataTable(props) {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const componentRef = useRef();
+  const [pageNum, setPageNum] = React.useState(1);
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -222,6 +222,11 @@ function FirebaseDataTable(props) {
     // Set states
     await isFirstPageFunc(firstVisibleDoc);
     await isLastPageFunc(lastVisibleDoc);
+
+    // Reset page num
+    if (getSigninDataType === "refresh") {
+      setPageNum(1)
+    }
   };
 
   // We need to keep the table from resetting the pageIndex when we
@@ -260,6 +265,8 @@ function FirebaseDataTable(props) {
         // Default style if none specified
         tableStyle={props.tableStyle ? props.tableStyle : "default"}
         tableTitle={props.tableTitle}
+        pageNum={pageNum}
+        setPageNum={setPageNum}
       />
 
       {!props.excludeSearch && (<div>
