@@ -94,7 +94,7 @@ const FirebaseDataTableSearch = (props) => {
       buttonClickSuccess();
       setBlockingError([false, ""]); //Clear error if it's there
       props.searchCriteria({
-        searchUserID: searchUserID,
+        searchUserID: searchUserID.toLowerCase(),
         searchCourseIDList: searchCourseIDList,
         searchCourseName: searchCourseName,
         startDate: dateRange[0].startDate,
@@ -107,7 +107,7 @@ const FirebaseDataTableSearch = (props) => {
       buttonClickSuccess();
       setBlockingError([false, ""]); //Clear error if it's there
       props.searchCriteria({
-        searchCourseName: searchCourseName,
+        searchCourseName: searchCourseName.toLowerCase(),
         searchCourseID: searchCourseID,
       });
     }
