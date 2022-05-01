@@ -25,7 +25,7 @@ const TableStyles = (style) => {
   }
 
   if (style === "attendance-info") {
-    return ({ maxHeight: "250px", overflow: "auto"})
+    return ({ maxHeight: "250px", maxWidth: "100%", overflow: "auto"})
   }
   
  
