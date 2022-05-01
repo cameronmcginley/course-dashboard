@@ -58,7 +58,14 @@ const Navbar = (props) => {
         <ListItem button onClick={logout}>
           <ListItemText primary={"Sign Out"} />
         </ListItem>
+        <ListItem>
+          <IconButton sx={{ mr: ".5rem" }} onClick={() => props.handleDarkModeChange(!props.isDarkTheme)}>
+            <DarkModeIcon />
+          </IconButton>
+        </ListItem>
+
         <Divider />
+
         <ListItem button component={Link} to="/">
           <ListItemText primary={"Home"}/>
         </ListItem>
