@@ -3,12 +3,14 @@ import { auth } from "../firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import "../App.css";
 import { Link } from "react-router-dom";
-import { Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
+import { IconButton, Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [user, setUser] = useState({});
 
   
@@ -70,10 +72,6 @@ const Navbar = () => {
     </Box>
   );
 
-
-
-
-
   return (
     <>
       {/* Call the phone-navbar for <768 pixel width */}
@@ -117,7 +115,12 @@ const Navbar = () => {
             </div>
 
             <div className="nav-account">
-              {/* {user?.email} */}
+              {/* Dark mode button stored here also */}
+              {/* https://stackoverflow.com/questions/67030576/i-have-this-error-that-say-cannot-update-a-components-while-rendering-a-differe */}
+              <IconButton sx={{ mr: ".5rem" }} onClick={() => props.setIsDarkTheme(!props.isDarkTheme)}>
+                <DarkModeIcon />
+              </IconButton>
+
               {/* Display user email when mouseover accoutn icon */}
               <Tooltip title={<Typography fontSize={'1rem'}>{user?.email}</Typography>}>
                 <AccountCircleIcon  />

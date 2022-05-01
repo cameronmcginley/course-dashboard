@@ -11,21 +11,32 @@ import Attendance from "./Pages/Attendance";
 import makeData from "./Functions/makeData";
 import "./App.css";
 import { auth } from "./firebase-config";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Paper } from "@mui/material";
+import { Paper, Box } from "@mui/material";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
+
+const lightTheme = createTheme({
+  palette: {
+    background: {
+      default: "#f6f6f6"
+    }
+  }
+});
+
 function App() {
   // For generating test data
   // makeData()
   
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [user, setUser] = useState({});
   
   onAuthStateChanged(auth, (currentUser) => {
@@ -33,10 +44,13 @@ function App() {
   });
 
   return (
-    // <ThemeProvider theme={darkTheme}>
+    <Fragment>
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+      <CssBaseline />
       <Router>
-        <div className="App">
-          <Navbar />
+        <Box className="App">
+          {/* Navbar has dark mode button, call this func when clicked */}
+          <Navbar isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
 
           {/* Pages exist in the content div */}
           <Paper className="content">
@@ -54,9 +68,10 @@ function App() {
               />
             </Routes>
           </Paper>
-        </div>
+        </Box>
       </Router>
-    // </ThemeProvider>
+    </ThemeProvider>
+    </Fragment>
   );
 }
 

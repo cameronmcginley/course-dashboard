@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  /* background-color: #f6f6f6; */
 }
 
 @media screen {
@@ -53,7 +54,7 @@ body {
 body, html{
   margin: 0;
   padding: 0;
-  background-color: #f6f6f6;
+  /* background-color: #f6f6f6; */
   font-family: Verdana, sans-serif;
 }
 
