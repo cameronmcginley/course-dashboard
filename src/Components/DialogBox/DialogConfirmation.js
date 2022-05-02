@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 import { Button, Box } from "@mui/material";
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
+import CircularProgress from '@mui/material/CircularProgress';
 
-export default function DialogDeleteData(props) {
+
+export default function DialogConfirmation(props) {
   // Styling
   const [submitBtnColor, setSubmitBtnColor] = useState("primary");
   const [submitBtnText, setSubmitBtnText] = useState("Export All To CSV");
@@ -14,8 +14,11 @@ export default function DialogDeleteData(props) {
     "Default Error Message",
   ]);
 
-  const [date, setDate] = useState(null);
-  const [dateStr, setDateStr] = useState("");
+  const [showButton, setShowButton] = useState(false);
+
+  setTimeout(() => {
+    setShowButton(true);
+  }, 5000)
 
   const buttonClickSuccess = () => {
     setSubmitBtnColor("success");
@@ -40,13 +43,18 @@ export default function DialogDeleteData(props) {
       <p>{props.message}</p>
 
       <Box textAlign="center" sx={{ mt: 2, mb: 3 }}>
-        <Button
+        {/* Confirmation button */}
+        {/* Wait n seconds before showing */}
+        {showButton && <Button
           variant="outlined"
           onClick={props.sendConfirm}
           color={props.confirmBtnColor}
         >
           {props.buttonTxt}
-        </Button>
+        </Button>}
+
+        {/* If not shown yet, put loading */}
+        {!showButton && <CircularProgress />}
       </Box>
     </div>
   );

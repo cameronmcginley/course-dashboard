@@ -12,7 +12,7 @@ This website serves as the dashboard for course instructors and administrators t
 
 ## Course Tracker
 ---
-The course tracker, found in the courses tab, is a table storing all data related to all courses. Here, an instructor can create a new course and input the desired fields, and a unique QR Code will be generated in the courses "info page". This info page also stores information such as the instructor, agencies, and synopsis.
+The course tracker, found in the courses tab, is a table storing all data related to all courses. Here, an instructor can create a new course and input the desired fields, and a unique QR Code will be generated in the course's "info page". This info page also stores information such as the instructor, agencies, and synopsis.
 
 Courses can be searched either by name, or by ID. It is worth noting that when searching by ID, you must enter the exact course ID for it to pop up.
 

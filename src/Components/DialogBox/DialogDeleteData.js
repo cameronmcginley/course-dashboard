@@ -100,7 +100,7 @@ export default function DialogDeleteData(props) {
 
             <DialogHandler
               type="confirmation"
-              message="Are you sure you wish to delete all data archived before"
+              message="Are you sure you wish to delete all data before this date?"
               noCloseBtn={false}
               sendConfirm={deleteData}
               dialogBtnColor="error"
