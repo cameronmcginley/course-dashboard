@@ -131,7 +131,13 @@ h1 {
 
 .home > h1 {
   all: revert;
+  text-align: center;
 }
+
+.home > ul li {
+  margin-top: 1rem;
+}
+
 
 h3 {
   margin: 0;

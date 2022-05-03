@@ -68,12 +68,49 @@ Deleting data, from the "Delete Archived Data" button, is only performed on alre
 
 ## Account & Login System
 ---
-Dean
+
+### Login Page
+
+When logging into an account, there are a few cases that are checked to make sure the account is valid. The following are all the error cases this web app watches for when attempting to log in:
+  
+- The account must be one that has already been registered. If the account does not exist, an error message will display to the screen stating that a user with that email was not found. If this is the case, the user will need to try again with a different email or create a new account with that email address.
+
+- If the user has entered an incorrect password, an error message will be displayed to the screen. The user can try again or click the “reset password” button and enter their email address to be sent a link to reset the password.
+
+- An account must be verified to redirect to the application’s main pages. If the user has not been verified, they will still be loggedin but will not be able to access any of the main pages of the application until they have accepted the email verification.
+
+- An account can be disabled through the firebase website where the application is hosted. If a user tries to login to an account that has been disabled an error message will display to the screen. If this is the case talk to an administrator and see why the account was suspended.
+
+- The entry into the email address text box must be a valid email address and follow the format for an email. This means that it must have an “@” symbol and also include an extension, for example “.gov”. If this criterion is not met, an error message will display to the screen.
+
+When a user has entered a correct email and password combination, they will be redirected to the home page of the application. From here courses can be viewed and created and the data can be viewed, queried, and exported.
+
+### Create Account Page
+
+When creating an account, there are a few restrictions and errors that can occur if not followed. The following are all the possible cases to watch for when registering with a new account:
+
+- The email address being registered must be of the extension “@wichita.gov”. If any other email type is entered, there will be an error message displayed to the screen.
+
+- The email address must be one that is not already registered to an account. If an email entered that is already registered to an account, an error message will display to the screen.
+
+- The entry into the email address text box must be a valid email address and follow the format for an email. This means that it must have an “@” symbol and also include an extension, for example “.gov”. If this criterion is not met, an error message will display to the screen.
+
+If a valid email has been entered and a password is set, when then “create account” button is clicked there will be a green message appear on the screen notifying that a verification email has been sent to the given email address. The user must validate their email address to login and redirect to the application’s pages.
+
+### Reset Password Page
+
+When sending an email to reset a password, there are two things that are checked before attempting to send the email. The following are the errors that are checked for:
+
+- The account must be one that has already been registered. If the account does not exist, an error message will display to the screen stating that a user with that email was not found. If this is the case, the user will need to try again with a different email or create a new account with that email address.
+
+- The entry into the email address text box must be a valid email address and follow the format for an email. This means that it must have an “@” symbol and also include an extension, for example “.gov”. If this criterion is not met, an error message will display to the screen.
+
+Once a valid email address has been entered, a green message will appear on the screen saying that the email has been sent to the given address. The user can then go to the given email account and click the link sent to them to reset the password.
 
 ## Additional Features
 ---
 ### Dark Mode
-A moon icon in the upper right will toggle between dark and light designs for the web application
+A moon icon in the upper right will toggle between dark and light designs for the web application.
 
 ### Mobile Viewing
 This website is readily available on mobile web browsers in addition to its intended use on laptops or desktops. As data tables can be quite large, they are independently scrollable from the webpage. Navigation links and buttons can be found in the upper right hamburger icon.
