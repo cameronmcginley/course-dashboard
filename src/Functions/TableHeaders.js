@@ -30,7 +30,7 @@ const TableHeaders = (props) => {
   if (props.type === "sign-ins") {
     return (
       <>
-      <TableCell>{props.row.userID}</TableCell>
+      <TableCell>{props.row.userID.toUpperCase()}</TableCell>
       <TableCell>{props.row.courseName}</TableCell>
       <TableCell>{props.row.courseID}</TableCell>
       <TableCell sx={{ minWidth: "110px" }}>{moment(props.row.timestampLogged.toDate())
@@ -89,7 +89,7 @@ const TableHeaders = (props) => {
   if (props.type === "attendance") {
     return (
       <>
-      <TableCell>{props.row.userID}</TableCell>
+      <TableCell>{props.row.userID.toUpperCase()}</TableCell>
       </>
     )
   }
