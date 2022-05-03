@@ -14,7 +14,7 @@ export class QRReport extends React.PureComponent {
     return (
       <div className="printComponent">
         {/* <Box sx={{ backgroundColor: "red", m:0, p:0, width: '25%'}}> */}
-        <Box>
+        <Box className="printText">
           <h1 className="qrReport title"><b>Course: </b>{this.props.courseData.courseName}</h1>
           <h1 className="qrReport body"><b>ID: </b>{this.props.courseData.courseID}</h1>
           <br />
