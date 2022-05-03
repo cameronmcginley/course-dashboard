@@ -143,7 +143,7 @@ function FirebaseDataTable(props) {
 
       // Sets false if page exists, otherwise true
       setIsFirstPage(!docs[0]);
-      console.log("First page: ", Boolean(!docs[0]));
+      global.config.debug && console.log("First page: ", Boolean(!docs[0]));
 
       // Don't allow user to go back further than firstDocEverSortkey
       // in case new data was added while user was browsing
@@ -155,7 +155,6 @@ function FirebaseDataTable(props) {
   };
 
   const isLastPageFunc = async (pageLast) => {
-    // console.log(pageLast);
     if (!pageLast) {
       setIsLastPage(true);
     } else {
@@ -172,8 +171,7 @@ function FirebaseDataTable(props) {
 
       // Returns false if page exists, otherwise true
       setIsLastPage(!docs[0]);
-      // console.log(documentSnapshots.docs[0]);
-      console.log("Last page: ", Boolean(!docs[0]));
+      global.config.debug && console.log("Last page: ", Boolean(!docs[0]));
     }
   };
 
@@ -182,10 +180,7 @@ function FirebaseDataTable(props) {
   const getSigninData = async (getSigninDataType) => {
     // Add check for first/last pages. if "refresh" then use these instead of starting from 0
 
-    console.log("Getting sign in data with type: ", getSigninDataType);
-    // console.log(getSigninDataType);
-    // console.log(searchCriteria);
-
+    global.config.debug && console.log("Getting sign in data with type: ", getSigninDataType);
     const docs = await FirebaseReadQueries({
       type: props.type, // Specific id for queries
       collectionName: props.accessor,
@@ -204,12 +199,9 @@ function FirebaseDataTable(props) {
       searchCriteria: searchCriteria,
     });
 
-    // console.log(docs)
     setData(
       docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
-
-    console.log("y\ny\ny\n", data)
 
     // Update first and last documents after updating page
     lastVisibleDoc = docs[docs.length - 1];
@@ -238,7 +230,6 @@ function FirebaseDataTable(props) {
   const makeSearch = (data) => {
     // Update searchCritiera var before querying
     searchCriteria = data;
-    // console.log(searchCriteria);
 
     // Call table refresh with specific search query
     // Same query as before, but with an added "searchCritiera" obj

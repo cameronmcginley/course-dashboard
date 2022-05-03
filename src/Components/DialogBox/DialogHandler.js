@@ -23,7 +23,7 @@ export default function DialogHandler(props) {
     setOpen(true);
     // Only generate course list when opened
     // setCourseList(await getCourseList());
-    // console.log(courseList);
+    // global.config.debug && console.log(courseList);
   };
 
   function handleClose(event, reason) {

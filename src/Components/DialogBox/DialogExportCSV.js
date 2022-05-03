@@ -34,7 +34,7 @@ export default function DialogExportCSV(props) {
   // Called by downloadReport, called after button submit
   // Collects data from firebase based on given queries
   const getData = async (searchCriteria) => {
-    console.log("Generating CSV report with all data");
+    global.config.debug && console.log("Generating CSV report with all data");
 
     const docs = await FirebaseReadQueries({
       type: "CSV",
@@ -55,7 +55,7 @@ export default function DialogExportCSV(props) {
       });
     });
 
-    console.log(signinData);
+    global.config.debug && console.log(signinData);
 
     // Only download if data found
     if (signinData.length) {
@@ -63,7 +63,6 @@ export default function DialogExportCSV(props) {
       csvLink.current.link.click();
       buttonClickSuccess();
     } else {
-      // console.log("No data found")
       setBlockingError([true, "No Data Found"]);
       buttonClickFail();
       return;
@@ -72,7 +71,7 @@ export default function DialogExportCSV(props) {
     // Passed by searchCriteria from FirebaseDataTableSearch
     // From an option in csv export
     if (searchCriteria.doArchiveAfter) {
-      console.log("T\nT\nT\nT\nT\nT\nT\nArchiving...");
+      global.config.debug && console.log("T\nT\nT\nT\nT\nT\nT\nArchiving...");
 
       await docs.forEach((docSnapshot) => {
         let docRef = doc(db, "sign-ins", docSnapshot.id);

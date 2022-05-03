@@ -47,7 +47,7 @@ export const CheckCourseSubmission = async (isEdit, courseName, courseID, useAut
   if (useAutoCourseID){
     // docs[0] exists if courseID already in use
     while (docs[0]) {
-      console.log("\nCourse ID " + courseID + " already exists")
+      global.config.debug && console.log("\nCourse ID " + courseID + " already exists")
 
       // Increment the courseID and try again
       courseID = String(Number(courseID) + 1)
@@ -75,7 +75,7 @@ export const CheckCourseSubmission = async (isEdit, courseName, courseID, useAut
   }
 
   // No errors found
-  console.log("Verified: ", courseName, courseID)
-  console.log("Auto id incremented by " + autoIDIncrementAmount)
+  global.config.debug && console.log("Verified: ", courseName, courseID)
+  global.config.debug && console.log("Auto id incremented by " + autoIDIncrementAmount)
   return [true, "", courseID];
 };

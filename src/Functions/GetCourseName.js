@@ -16,7 +16,7 @@ export const GetCourseName = async (courseID) => {
     return "error";
   }
 
-  console.log("Course Name: ", docs[0].data().courseName);
+  global.config.debug && console.log("Course Name: ", docs[0].data().courseName);
 
   return docs[0].data().courseName;
 };

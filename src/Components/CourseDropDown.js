@@ -27,7 +27,6 @@ const getCourseList = async () => {
     });
   });
 
-  // console.log(courseList);
   return courseList;
 };
 

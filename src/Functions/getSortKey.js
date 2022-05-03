@@ -3,11 +3,11 @@ import { Timestamp } from "firebase/firestore";
 // Takes in JS Date
 // Converts to Firebase timestamp, then gets key
 const getSortKey = (dateToConvert) => {
-  // console.log("Converting to sortkey");
+  // global.config.debug && console.log("Converting to sortkey");
 
   // Check if it's already in Timestamp obj
   if (dateToConvert instanceof Timestamp) {
-    // console.log("Already Timestamp instance...");
+    // global.config.debug && console.log("Already Timestamp instance...");
   } else {
     dateToConvert = Timestamp.fromDate(dateToConvert);
   }

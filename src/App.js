@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import Courses from "./Pages/Courses";
-import Form from "./Pages/Form";
 import ViewData from "./Pages/ViewData";
 import Login from "./Pages/login";
 import Register from "./Pages/register";
@@ -38,13 +37,11 @@ function App() {
 
   const handleDarkModeChange = () => {
     // Write to local storage
-    console.log("Writing to localstorage, DarkMode: ", (!isDarkTheme).toString())
-    // console.log(localStorage.getItem("DarkMode"))
+    global.config.debug && console.log("Writing to localstorage, DarkMode: ", (!isDarkTheme).toString())
     localStorage.setItem("DarkMode", (!isDarkTheme).toString());
 
     // Toggle dark mode
     setIsDarkTheme(!isDarkTheme)
-    // console.log(isDarkTheme)
   }
   
   const [isDarkTheme, setIsDarkTheme] = useState(localStorage.getItem("DarkMode") === "true" ? true : false);
@@ -71,7 +68,6 @@ function App() {
               <Route path="/reset" element={<Reset />} />
               <Route path="/" element={<Home />} />
               <Route path="/courses" element={<Courses />} />
-              <Route path="/form" element={<Form />} />
               <Route path="/viewdata" element={<ViewData />} />
               <Route
                 path="/courses/:pageCourseID/attendance"

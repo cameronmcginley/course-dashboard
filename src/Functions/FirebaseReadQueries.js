@@ -17,7 +17,7 @@ import getSortKey from "./getSortKey";
 export const FirebaseReadQueries = async (data) => {
   let params = []
 
-  console.log(
+  global.config.debug && console.log(
     "Firebase Read",
     // "\nSearch Critera: ",
     // data.searchCriteria,
@@ -52,7 +52,7 @@ export const FirebaseReadQueries = async (data) => {
 
   //CSV Queries
   if (data.type === "CSV") {
-    params.push(...[collection(db, "sign-ins"), orderBy("sortKey"), limit(10)]);
+    params.push(...[collection(db, "sign-ins"), orderBy("sortKey"), limit(10000)]);
 
     // If there are courseIDs to search by, push a firebase query for each
     if (
@@ -92,7 +92,7 @@ export const FirebaseReadQueries = async (data) => {
   }
 
   if (data.type === "DeleteArchivedBeforeDate") {
-    console.log("Data to delete with: ", data);
+    global.config.debug && console.log("Data to delete with: ", data);
 
     params.push(...[
       collection(db, "sign-ins"),
@@ -375,6 +375,6 @@ export const FirebaseReadQueries = async (data) => {
   }
 
   const docSnapshot = await getDocs(query(...params));
-  console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
+  global.config.debug && global.config.debug && console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
   return docSnapshot.docs
 };

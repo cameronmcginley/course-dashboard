@@ -78,7 +78,7 @@ const FirebaseDataTableSearch = (props) => {
     // Prevent auto refresh when recieving event
     e.preventDefault();
 
-    console.log(
+    global.config.debug && console.log(
       "Search by",
       searchUserID,
       searchCourseName,
@@ -86,8 +86,7 @@ const FirebaseDataTableSearch = (props) => {
       searchCourseIDList,
       searchArchived
     );
-    // console.log(Boolean(searchArchived))
-    console.log("Date range picked: ", dateRange);
+    global.config.debug && console.log("Date range picked: ", dateRange);
 
     // On success
     if (props.searchType === "sign-ins") {
@@ -111,34 +110,25 @@ const FirebaseDataTableSearch = (props) => {
         searchCourseID: searchCourseID,
       });
     }
-
-    // if (doArchiveAfter) {
-    //   console.log("F\nF\nF\nF\nF\nF\nF\nF\nF\nArchiving Data");
-    //   // Give everything an archive date
-    //   // Page to delete archived date older than certain period?
-    // }
   };
 
   // This function is called when user selects course from dropdown
   const getDropdownData = (data) => {
     // if (data.length === 0) { return }
 
-    console.log("Dropdown select", data);
+    global.config.debug && console.log("Dropdown select", data);
 
     // Map list of courseFullStrs to just their ID
     setSearchCourseIDList(data.map((x) => SplitCourseFullStr(x.course)[1]));
   };
 
   const handleDateRange = (data) => {
-    console.log("Handling date range...", data);
+    global.config.debug && console.log("Handling date range...", data);
     setDateRange(data);
   };
 
   return (
     <div className="tableSearch">
-      {/* {console.log(TableHeaders(props)["sign-ins"])} */}
-      {/* <h1>Search Data</h1> */}
-
       {/* Sign in table search */}
       {props.searchType === "sign-ins" && (
         <div className="searchQueries sign-ins">

@@ -21,7 +21,6 @@ const makeData = () => {
     var characterCounter = 1;
     let textLowercased = text.toLowerCase();
     let characterCount = text.length;
-    // console.log(characterCount)
 
     // Create array of all substrings
     for (let _ = 0; _ < characterCount; _++) {
@@ -44,7 +43,7 @@ const makeData = () => {
     // Remove duplicates from array
     substringArray = [...new Set(substringArray)];
 
-    console.log(substringArray);
+    global.config.debug && console.log(substringArray);
     return substringArray;
   };
 
@@ -53,7 +52,7 @@ const makeData = () => {
     var docs = query(collection(db, "courses"), orderBy("courseName"));
     
     const docSnapshot = await getDocs(docs);
-    console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
+    global.config.debug && console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
 
     // Only get course, give it a display name with name + id
     let courseList = [];
@@ -61,7 +60,7 @@ const makeData = () => {
       courseList.push(doc.data().courseFullStr);
     });
 
-    console.log(courseList);
+    global.config.debug && console.log(courseList);
     return courseList;
   };
 
@@ -77,7 +76,7 @@ const makeData = () => {
     const IDList = await makeIDList();
     const useIDList = true;
 
-    console.log("Generating data...");
+    global.config.debug && console.log("Generating data...");
 
     for (let i = 0; i < 233; i++) {
       // Random id unless IDList exists
@@ -97,7 +96,7 @@ const makeData = () => {
       });
     }
 
-    console.log("Finished generating data");
+    global.config.debug && console.log("Finished generating data");
   };
 
   const makeCourseData = async () => {
@@ -138,7 +137,7 @@ const makeData = () => {
       IDList.push(result);
     }
 
-    console.log(IDList);
+    global.config.debug && console.log(IDList);
     return IDList;
   };
 

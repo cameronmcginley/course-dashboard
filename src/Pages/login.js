@@ -32,7 +32,7 @@ function Login() {
   });
 
   const login = async () => {
-	  console.log("logged in")
+	  global.config.debug && console.log("logged in")
 
 	setErrMessage("");
     signInWithEmailAndPassword(

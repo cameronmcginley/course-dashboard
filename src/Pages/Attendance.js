@@ -34,10 +34,6 @@ const Attendance = () => {
   // Get course id from url
   const { pageCourseID } = useParams();
 
-  // Get the sort key given at start of day
-  // const daySortKeyLargest = 9999999999999 - new Date().setHours(0, 0, 0, 0);
-  // console.log(daySortKeyLargest);
-
   // Was having issues with the async return, kind of a werid
   // fix to have this function just call a function, but it works
   // since i can't make this entire component async
@@ -54,12 +50,10 @@ const Attendance = () => {
 
     const documentSnapshots = await getDocs(data);
     setCourseData(documentSnapshots.docs[0].data())
-    console.log("h\nh\nh\n", courseData)
-    console.log(courseName)
   };
 
   const deleteCourse = async () => {
-    console.log("Deleting course ID ", pageCourseID)
+    global.config.debug && console.log("Deleting course ID ", pageCourseID)
 
     // Uses type checkCourseID since this is just matching ID to one doc
     // which is what we want to do here
@@ -69,7 +63,7 @@ const Attendance = () => {
       courseID: pageCourseID,
     });
 
-    console.log(courseDoc[0].data())
+    global.config.debug && console.log(courseDoc[0].data())
 
     let docRef = doc(db, "courses", courseDoc[0].id);
     deleteDoc(docRef);
