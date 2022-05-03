@@ -134,6 +134,11 @@ export default function DialogHandler(props) {
             )}
 
             {/* Hide close button date pickers, custom select button instead */}
+            {/* {!props.noCloseBtn && (
+              <Button variant="outlined" onClick={handleClose} color="error" autoFocus>
+                Cancel
+              </Button>
+            )} */}
             {!props.noCloseBtn && (
               <Button variant="outlined" onClick={handleClose} color="error" autoFocus sx={{mt: "2rem"}}>
                 Cancel

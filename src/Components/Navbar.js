@@ -110,13 +110,13 @@ const Navbar = (props) => {
           {/* Only show nav links and account info if signed in */}
           {user && (<>
             <div className="nav-links">
-              <Button color="primary" variant="text" href="/" sx={window.location.pathname === "/" && { borderBottom:1 }}>
+              <Button color="primary" variant="text" href="/" sx={{ borderBottom: window.location.pathname === "/" ? 1 : 0 }} >
                 Home
               </Button>
-              <Button color="primary" variant="text" href="/courses" sx={window.location.pathname === "/courses" && { borderBottom:1 }}>
+              <Button color="primary" variant="text" href="/courses" sx={{ borderBottom: window.location.pathname === "/courses" ? 1 : 0 }}>
                 Courses
               </Button>
-              <Button color="primary" variant="text" href="/viewdata" sx={window.location.pathname === "/viewdata" && { borderBottom:1 }}>
+              <Button color="primary" variant="text" href="/viewdata" sx={{ borderBottom: window.location.pathname === "/viewdata" ? 1 : 0 }}>
                 View Data
               </Button>
             </div>

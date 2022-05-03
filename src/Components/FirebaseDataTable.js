@@ -44,7 +44,8 @@ function BasicTable({ pageNum, setPageNum, tableTitle, dataType, dataTypeHeader,
         <TableBody>
           {rowData.map((row) => (
             <TableRow
-              // key={row.name}
+              // id is the firebase doc id
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               style={{ verticalAlign: 'top' }}
             >

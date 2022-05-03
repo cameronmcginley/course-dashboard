@@ -49,7 +49,7 @@ const Attendance = () => {
     );
 
     const documentSnapshots = await getDocs(data);
-    setCourseData(documentSnapshots.docs[0].data())
+    if (documentSnapshots.docs[0]) {setCourseData(documentSnapshots.docs[0].data())}
   };
 
   const deleteCourse = async () => {
@@ -95,7 +95,6 @@ const Attendance = () => {
                 type={"attendance-info"}
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
-                // sortKey={"sortKey"}
                 dataType={"attendance-info"}
                 dataTypeHeader={"attendance-info-header"}
                 tableStyle={"attendance-info"}
@@ -154,16 +153,6 @@ const Attendance = () => {
                 </Paper>
               </div>
 
-              {/* <FirebaseDataTable
-                type={"attendance"}
-                accessor={"sign-ins"}
-                sortKey={"sortKey"}
-                pageCourseID={pageCourseID}
-                excludeSearch={true}
-                // daySortKeyLargest={daySortKeyLargest}
-              /> */}
-
-              {/* <Box sx={{ width: "25%" }}> */}
               <FirebaseDataTable
                 type={"attendance"}
                 accessor={"sign-ins"}
@@ -175,12 +164,10 @@ const Attendance = () => {
                 dataTypeHeader={"attendance-header"}
                 tableStyle={"attendance"}
               />
-              {/* </Box> */}
-
 
             </Box>
           ) : (
-            <div>Error</div>
+            <div>Page Not Found</div>
           )}
         </>
       ) : (

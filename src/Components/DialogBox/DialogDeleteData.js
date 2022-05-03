@@ -110,9 +110,7 @@ export default function DialogDeleteData(props) {
         )}
       </Box>
 
-      {isDoneLoading && <p>yo</p>}
-
-      {/* <Button variant="outlined">Delete</Button> */}
+      {isDoneLoading && <h1 style={{textAlign: "center"}}>Success!</h1>}
     </div>
   );
 }

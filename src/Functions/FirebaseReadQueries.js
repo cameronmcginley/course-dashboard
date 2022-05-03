@@ -373,7 +373,7 @@ export const FirebaseReadQueries = async (data) => {
       );
     }
   }
-
+  
   const docSnapshot = await getDocs(query(...params));
   global.config.debug && global.config.debug && console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
   return docSnapshot.docs
