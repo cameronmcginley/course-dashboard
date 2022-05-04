@@ -1,6 +1,51 @@
 # Wichita Police Department - Course Sign-In Dashboard
 This website serves as the dashboard for course instructors and administrators to handle QR Codes and sign-in data for courses.
 
+## Usage and Deployment Notes
+---
+### Deploying to Live Website
+Website URL found at: https://console.firebase.google.com/project/sd-prototype-df519/hosting/sites
+   -- Custom domains can be purchased there
+
+Requirements
+1. Git
+   * Install at: https://git-scm.com/downloads
+2. Node.js
+   * Only if changes were made to the project
+   * Install at: https://nodejs.org/en/download/
+ 3. Firebase CLI
+    * Execute command in Commpand Prompt after installing Node.js:
+    `npm install -g firebase-tools`
+     * More Firebase CLI info found at: https://firebase.google.com/docs/cli
+
+Steps
+1. Clone the WPD-CourseSignIn-WebDashboard GitHub repository
+   * Open "Command Prompt" on Windows
+   * Move to the desired folder you would like to put this repository into
+     * Can copy a filepath from File Explorer using the command:
+    `cd "<filepath>"`
+   * Execute the command:
+ `git clone <url of the github repository>`
+   * More detailed steps for cloning can be found here: https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository
+
+4. Move to the newly cloned repository folder on "Command Prompt"
+5. Login to Firebase on Commpand Prompt
+`firebase login`
+6. If changes were made to the project, re-build the React App using the command:
+ `npm run build`
+ 7. Finally, deploy the project using this command
+  `firebase deploy`
+    -- The website will be automatically updated in a few minutes
+
+### Running on Local Server
+Follow previous steps, except:
+ - Firebase CLI is not needed
+ - Do not execute `firebase login`
+ - Instead of executing `npm run build`, execute `npm start`
+ - Do not execute `firebase deploy`
+ - Website will be available at http://localhost:3000/ by default
+
+
 ## Course Tracker
 ---
 The course tracker, found in the courses tab, is a table storing all data related to all courses. Here, an instructor can create a new course and input the desired fields, and a unique QR Code will be generated in the course's "info page". This info page also stores information such as the instructor, agencies, and synopsis.
