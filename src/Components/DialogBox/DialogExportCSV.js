@@ -46,7 +46,7 @@ export default function DialogExportCSV(props) {
     let signinData = [];
     docs.forEach((doc) => {
       signinData.push({
-        userID: doc.data().userID,
+        userID: doc.data().userID.toUpperCase(),
         courseName: doc.data().courseName,
         courseID: doc.data().courseID,
         timestampLogged: moment(doc.data().timestampLogged.toDate())

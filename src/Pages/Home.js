@@ -7,7 +7,7 @@ import "../App.css";
 import ReactMarkdown from 'react-markdown'
 
 const markdown = `
-# Wichita Police Department - Course Sign In Dashboard
+# Wichita Police Department - Course Sign-In Dashboard
 This website serves as the dashboard for course instructors and administrators to handle QR Codes and sign-in data for courses.
 
 ## Course Tracker
@@ -26,12 +26,12 @@ The possible fields when adding a course are:
  3. Instructor(s)
  4. Sponsor Agency (defaults to WPD)
  5. Instructor Agency (defaults to WPD)
- 6. Coodinator
+ 6. Coordinator
  7. Synopsis
 
 ## QR Codes
 ---
-QR Codes are unique to each course, and will never change (regardless of time or date) **unless** a user modifies a course's name and/or ID. This code is what users will scan from the WPD Course Sign In iOS App to sign into a course. 
+QR Codes are unique to each course, and will never change (regardless of time or date) **unless** a user modifies a course's name and/or ID. This code is what users will scan from the WPD Course Sign-In iOS App to sign into a course. 
 
 There are two methods for displaying this code to be scanned: either displaying the code on a screen (from the course's info page), or printing the code onto a paper. A small print icon will be displayed on the courses table, and on the info page, which will generate a report containing the QR code which can be saved as a PDF or printed. Since the code does not change **unless** a user modifies a course's name and/or ID, this paper does not need to be re-printed.
 
@@ -46,7 +46,7 @@ Users are able to modify any fields of a course from this page using the "Edit C
 In addition to editing the values of a course, a course can also be permanently deleted from this info page. Note: all sign-in data associated with this course will NOT be deleted if the course is deleted.
 
 ### Signing In
-As mentioned in the QR Codes section, this page contains the respective QR Code for this course. A user can scan this via the WPD Course Sign In iOS App to sign in. Additionally, a user can sign in via the User ID Form to the left of the code. Just enter your ID and hit submit! This is helpful should someone not have their phone available.
+As mentioned in the QR Codes section, this page contains the respective QR Code for this course. A user can scan this via the WPD Course Sign-In iOS App to sign in. Additionally, a user can sign in via the User ID Form to the left of the code. Just enter your ID and hit submit! This is helpful should someone not have their phone available.
 
 ### Attendance List
 The table at the bottom of this screen simply shows the IDs of everyone who has signed into this course (either via the User ID Form or the iOS app) on the current date.
@@ -55,7 +55,7 @@ The table at the bottom of this screen simply shows the IDs of everyone who has 
 ---
 Found in the "view data" tab, this table will present all sign-in data, from all courses. You can search though this table by IDs, course attended, dates, or whether the data has been archived. When searching by dates, you must select a "start" and "end" date to provide a range. Or, you can select from the left side preset date-ranges, such as "last year", "this motnh", etc.
 
-First and last names are not associated in any way with out database, all data is handled by unique user IDs instead.
+First and last names are not associated in any way with our database, all data is handled by unique user IDs instead.
 
 ### Exporting Data
 This data can also be exported to a .CSV file, which is an Excel readable text file. This is done through the "Export to CSV" button. The same searches can be performed here, and the desired data will be downloaded.

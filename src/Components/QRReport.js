@@ -33,7 +33,7 @@ export class QRReport extends React.PureComponent {
             size={200}
             value={this.props.QRvalue}
           />
-          <h1 className="qrReport qrCodeText">Must scan via official "Course Sign In" app</h1>
+          <h1 className="qrReport qrCodeText">Must scan via official "Course Sign-In" iOS app</h1>
         </div>
       </div>
     );

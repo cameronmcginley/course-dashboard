@@ -25,6 +25,8 @@ export const FirebaseReadQueries = async (data) => {
     data.type
   );
 
+  // global.config.debug && console.log(data)
+
   // If looking for constants, grab the only doc there
   if (data.type === "constantsFetch") {
     params.push(...[
@@ -52,7 +54,7 @@ export const FirebaseReadQueries = async (data) => {
 
   //CSV Queries
   if (data.type === "CSV") {
-    params.push(...[collection(db, "sign-ins"), orderBy("sortKey"), limit(10000)]);
+    params.push(...[collection(db, "sign-ins"), orderBy("sortKey"), limit(10)]);
 
     // If there are courseIDs to search by, push a firebase query for each
     if (

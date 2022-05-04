@@ -21,7 +21,7 @@ function Register() {
 	  setErrMessage("");
 	  setSuccessMessage("");
 	  
-	  if (registerEmail.endsWith('gmail.com'))
+	  if (registerEmail.endsWith('wichita.gov'))
 	  {
 	  	const user = await createUserWithEmailAndPassword(
 	  		auth,

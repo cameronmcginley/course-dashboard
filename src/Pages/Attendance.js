@@ -128,7 +128,7 @@ const Attendance = () => {
               />
 
               <div className="attendanceSignIn">
-                <p>Course Sign In</p>
+                <p>Course Sign-In</p>
                 <Paper className="attendanceFormAndQR" elevation={3}>
                   {/* Wait for courseName before loading the form, else
                   // // an empty prop will be passed */}

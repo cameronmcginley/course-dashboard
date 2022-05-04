@@ -84,7 +84,7 @@ const Navbar = (props) => {
       {/* Call the phone-navbar for <768 pixel width */}
       {isMobile &&
         <Paper className="navbarphone" square={true}>
-          <p><b>WPD Course Sign In Dashboard</b></p>
+          <p><b>WPD Course Sign-In Dashboard</b></p>
 
           {/* Only show the drawer button if signed in */}
           {user && (<>
@@ -104,7 +104,7 @@ const Navbar = (props) => {
         <Paper className="navbar" square={true}>
           {/* <h1>Demo Application</h1> */}
           <div className="nav-title">
-            <p><b>WPD Course Sign In Dashboard</b></p>
+            <p><b>WPD Course Sign-In Dashboard</b></p>
           </div>
 
           {/* Only show nav links and account info if signed in */}
