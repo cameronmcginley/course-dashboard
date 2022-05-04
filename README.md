@@ -14,7 +14,7 @@ Requirements
    * Only if changes were made to the project
    * Install at: https://nodejs.org/en/download/
  3. Firebase CLI
-    * Execute command in Commpand Prompt after installing Node.js:
+    * Execute command in Commpand Prompt after installing Node.js:\
     `npm install -g firebase-tools`
      * More Firebase CLI info found at: https://firebase.google.com/docs/cli
 
@@ -22,18 +22,18 @@ Steps
 1. Clone the WPD-CourseSignIn-WebDashboard GitHub repository
    * Open "Command Prompt" on Windows
    * Move to the desired folder you would like to put this repository into
-     * Can copy a filepath from File Explorer using the command:
+     * Can copy a filepath from File Explorer using the command:\
     `cd "<filepath>"`
-   * Execute the command:
+   * Execute the command:\
  `git clone <url of the github repository>`
    * More detailed steps for cloning can be found here: https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository
 
 4. Move to the newly cloned repository folder on "Command Prompt"
-5. Login to Firebase on Commpand Prompt
+5. Login to Firebase on Commpand Prompt using command:\
 `firebase login`
-6. If changes were made to the project, re-build the React App using the command:
+6. If changes were made to the project, re-build the React App using the command:\
  `npm run build`
- 7. Finally, deploy the project using this command
+ 7. Finally, deploy the project using this command:\
   `firebase deploy`
     -- The website will be automatically updated in a few minutes
 
