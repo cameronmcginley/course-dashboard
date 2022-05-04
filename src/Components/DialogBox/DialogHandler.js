@@ -23,7 +23,7 @@ export default function DialogHandler(props) {
     setOpen(true);
     // Only generate course list when opened
     // setCourseList(await getCourseList());
-    // console.log(courseList);
+    // global.config.debug && console.log(courseList);
   };
 
   function handleClose(event, reason) {
@@ -92,17 +92,17 @@ export default function DialogHandler(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Dialog Title"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title" textAlign="center">{props.DialogTitle}</DialogTitle>
 
         <DialogActions>
           <Box 
             className="dialogMain"
             sx={{
-              padding: "2rem",
+              // margin: "2rem",
               minWidth: "20rem",
             }}  
           >
-            {/* Handles things scpecific to type of dialog box */}
+            {/* Handles component scpecific to type of dialog box */}
             {props.type === "csvExport" && <DialogExportCSV />}
             {props.type === "courseEntry" && <DialogCourseEntry />}
             {props.type === "courseEdit" && (
@@ -134,6 +134,11 @@ export default function DialogHandler(props) {
             )}
 
             {/* Hide close button date pickers, custom select button instead */}
+            {/* {!props.noCloseBtn && (
+              <Button variant="outlined" onClick={handleClose} color="error" autoFocus>
+                Cancel
+              </Button>
+            )} */}
             {!props.noCloseBtn && (
               <Button variant="outlined" onClick={handleClose} color="error" autoFocus sx={{mt: "2rem"}}>
                 Cancel

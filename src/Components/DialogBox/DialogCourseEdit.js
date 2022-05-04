@@ -72,7 +72,6 @@ export default function DialogCourseEdit(props) {
       setBlockingError([false, ""]); //Clear error if it's there
 
       // Set the changed data in firebase
-      // console.log("t\nt\nt\n", props.currCourseID, newCourseID)
 
       // Data is passed as props: Attendance.js > DialogHandler > DialogCourseEdit > FirebaseWriteQueries
       // Tracks current and new versions

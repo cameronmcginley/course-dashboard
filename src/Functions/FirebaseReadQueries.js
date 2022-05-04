@@ -17,13 +17,15 @@ import getSortKey from "./getSortKey";
 export const FirebaseReadQueries = async (data) => {
   let params = []
 
-  console.log(
+  global.config.debug && console.log(
     "Firebase Read",
     // "\nSearch Critera: ",
     // data.searchCriteria,
     "\nType: ",
     data.type
   );
+
+  // global.config.debug && console.log(data)
 
   // If looking for constants, grab the only doc there
   if (data.type === "constantsFetch") {
@@ -92,7 +94,7 @@ export const FirebaseReadQueries = async (data) => {
   }
 
   if (data.type === "DeleteArchivedBeforeDate") {
-    console.log("Data to delete with: ", data);
+    global.config.debug && console.log("Data to delete with: ", data);
 
     params.push(...[
       collection(db, "sign-ins"),
@@ -260,7 +262,7 @@ export const FirebaseReadQueries = async (data) => {
     // return query(...params);
   }
 
-  if (data.type === "attendanceInfo") {
+  if (data.type === "attendance-info") {
     params.push(collection(db, "courses"));
     params.push(where("courseID", "==", data.courseID));
     params.push(limit(1));
@@ -373,8 +375,8 @@ export const FirebaseReadQueries = async (data) => {
       );
     }
   }
-
+  
   const docSnapshot = await getDocs(query(...params));
-  console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
+  global.config.debug && global.config.debug && console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
   return docSnapshot.docs
 };

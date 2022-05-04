@@ -10,7 +10,7 @@ export const AutoCourseID = async () => {
   });
 
   const nextCourseIDIncrement = docs[0].data().nextCourseIDIncrement;
-  console.log(nextCourseIDIncrement)
+  global.config.debug && console.log(nextCourseIDIncrement)
 
   return nextCourseIDIncrement
 };

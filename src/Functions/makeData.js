@@ -3,8 +3,14 @@ import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import { db } from "../firebase-config";
 import { FirebaseWriteQueries } from "../Functions/FirebaseWriteQueries";
 import { collection, getDocs, query, limit, orderBy } from "firebase/firestore";
+import Chance from 'chance';
+
+var executed = false
 
 const makeData = () => {
+  if (executed) { return }
+  executed = true
+
   const dates = eachDayOfInterval({
     start: new Date(2000, 9, 6),
     end: new Date(2040, 9, 10),
@@ -15,7 +21,6 @@ const makeData = () => {
     var characterCounter = 1;
     let textLowercased = text.toLowerCase();
     let characterCount = text.length;
-    // console.log(characterCount)
 
     // Create array of all substrings
     for (let _ = 0; _ < characterCount; _++) {
@@ -38,21 +43,24 @@ const makeData = () => {
     // Remove duplicates from array
     substringArray = [...new Set(substringArray)];
 
-    console.log(substringArray);
+    global.config.debug && console.log(substringArray);
     return substringArray;
   };
 
   const getCourseList = async () => {
     // Get all courses for the dropdown
-    var docs = query(collection(db, "courses"), orderBy("courseName"), limit(10));
+    var docs = query(collection(db, "courses"), orderBy("courseName"));
+    
+    const docSnapshot = await getDocs(docs);
+    global.config.debug && console.log("Read returned " + String(docSnapshot.docs.length) + " documents")
 
     // Only get course, give it a display name with name + id
     let courseList = [];
-    docs.forEach((doc) => {
+    docSnapshot.forEach((doc) => {
       courseList.push(doc.data().courseFullStr);
     });
 
-    console.log(courseList);
+    global.config.debug && console.log(courseList);
     return courseList;
   };
 
@@ -68,9 +76,9 @@ const makeData = () => {
     const IDList = await makeIDList();
     const useIDList = true;
 
-    console.log("Generating data...");
+    global.config.debug && console.log("Generating data...");
 
-    for (let i = 0; i < 1454; i++) {
+    for (let i = 0; i < 233; i++) {
       // Random id unless IDList exists
       let userID = null;
       if (!useIDList) {
@@ -84,40 +92,52 @@ const makeData = () => {
         newUserID: userID,
         newCourseFullStr:
           courseList[Math.floor(Math.random() * courseList.length)],
-        timestamp: randomDate(new Date(2015, 0, 1), new Date(), 0, 24),
+        timestamp: randomDate(new Date(2020, 9, 1), new Date(), 0, 24),
       });
     }
 
-    console.log("Finished generating data");
+    global.config.debug && console.log("Finished generating data");
   };
 
   const makeCourseData = async () => {
-    for (let i = 0; i < 23; i++) {
+    var Chance = require('chance');
+    var chance = new Chance();
+    for (let i = 0; i < 13; i++) {
       FirebaseWriteQueries({
         collectionName: "courses",
         newCourseName: namor.generate({ words: 1, numbers: 0 }),
         newCourseID: String(Math.floor(Math.random() * 100)),
         timestamp: randomDate(new Date(2015, 0, 1), new Date(), 0, 24),
+
+        // New fields
+        courseInstructor: namor.generate({ words: 2, saltLength: 0 }),
+        // 50% change of WPD, 50% random
+        sponsorAgency: Math.random() < 0.5 ? "Wichita Police Department" : namor.generate({ words: 3, saltLength: 0 }),
+        instructorAgency: Math.random() < 0.5 ? "Wichita Police Department" : namor.generate({ words: 3, saltLength: 0 }),
+        coordinator: namor.generate({ words: 2, saltLength: 0 }),
+        synopsis: chance.paragraph(),
       });
     }
   };
 
   const makeIDList = async () => {
     let chars = "1234567890";
+    let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwqyz"
     let IDList = [];
 
     for (let i = 0; i < 50; i++) {
       let result = "";
 
       // Generate string
-      for (let j = 0; j < 5; j++) {
+      result += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+      for (let j = 0; j < 4; j++) {
         result += chars.charAt(Math.floor(Math.random() * chars.length));
       }
 
       IDList.push(result);
     }
 
-    console.log(IDList);
+    global.config.debug && console.log(IDList);
     return IDList;
   };
 

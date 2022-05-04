@@ -57,8 +57,8 @@ export default function DialogDeleteData(props) {
       setDoneLoading(true);
     }, 5000);
 
-    console.log("Deleting data on and before: ", endOfDay(date));
-    console.log(getSortKey(endOfDay(date)));
+    global.config.debug && console.log("Deleting data on and before: ", endOfDay(date));
+    global.config.debug && console.log(getSortKey(endOfDay(date)));
 
     const docs = await FirebaseReadQueries({
       type: "DeleteArchivedBeforeDate",
@@ -68,8 +68,6 @@ export default function DialogDeleteData(props) {
     await docs.forEach((docSnapshot) => {
       let docRef = doc(db, "sign-ins", docSnapshot.id);
       deleteDoc(docRef);
-
-      // console.log((new Date(docSnapshot.data().timestampLogged.seconds*1000)).toDateString())
     });
   };
 
@@ -93,26 +91,26 @@ export default function DialogDeleteData(props) {
               sendDateRangeUp={handleDateSelect}
               noCloseBtn={false}
               isSingleDate={true}
+              DialogTitle="Select Date"
             />
 
             <div className="break" />
 
             <DialogHandler
               type="confirmation"
-              message="Are you sure you wish to delete all data archived before"
+              message="Are you sure you wish to delete all data before this date?"
               noCloseBtn={false}
               sendConfirm={deleteData}
               dialogBtnColor="error"
               confirmBtnColor="error"
               buttonTxt="delete"
+              DialogTitle="Delete Data"
             />
           </>
         )}
       </Box>
 
-      {isDoneLoading && <p>yo</p>}
-
-      {/* <Button variant="outlined">Delete</Button> */}
+      {isDoneLoading && <h1 style={{textAlign: "center"}}>Success!</h1>}
     </div>
   );
 }

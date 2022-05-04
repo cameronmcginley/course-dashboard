@@ -19,8 +19,8 @@ const PrintQRReport = (props) => {
       />
       <QRReport
         ref={componentRef}
-        value={props.value}
-        coursename={props.coursename}
+        QRvalue={props.QRvalue}
+        courseData={props.courseData}
       />
     </div>
   );

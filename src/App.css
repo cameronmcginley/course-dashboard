@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.home {
+  text-align: left;
+}
+
 @media screen {
   /* Hidden only on screen, not on print */
 	.printComponent {
@@ -12,30 +16,53 @@
 .printComponent {
   /* Have to reset bg color, adopts default otherwise */
   background-color: white; 
+  padding: 4rem;
+  /* width: 80%; */
+}
+
+.printText {
+  width: 80%;
 }
 
 .qrReport.title {
-  text-align: center;
-  margin-top: 20%;
+  font-size: 24px;
+  font-family: "Times New Roman", Times, serif;
+  color: black;
 }
 
-.qrReport.id {
-  text-align: center;
-  margin-bottom: 20%;
+.qrReport.body {
+  font-size: 20px;
+  font-family: "Times New Roman", Times, serif;
+  color: black;
 }
 
 .qrReport.qrCode {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin: auto;
+  margin-top: 48px;
+}
+
+.qrReport.qrCodeText {
+  margin-top: 16px;
+  font-size: 16px;
+  font-family: "Times New Roman", Times, serif;
+  color: black;
 }
 
 
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
 
 
 body, html{
   margin: 0;
   padding: 0;
-  background-color: #f6f6f6;
+  /* background-color: #f6f6f6; */
   font-family: Verdana, sans-serif;
 }
 
@@ -43,9 +70,11 @@ body, html{
   max-width: 1080px;
   /* width: 90%; */
   margin: 0 auto;
+  padding: 1rem;
   /* outline: .1rem solid #eee;
   background-color: white; */
   /* border-radius: .5rem; */
+  margin-bottom: 4rem;
 }
 
 /* Grid that splits div to 2 cols
@@ -54,7 +83,7 @@ For table and search feature */
 @media only screen and (min-width: 768px) {
   .tableSplit {
     display: grid;
-    grid-template-columns: [first] 60% [second] 40%;
+    grid-template-columns: [first] 65% [second] 35%;
     justify-items: center;
     align-items: center;
     row-gap: 2rem;
@@ -68,6 +97,10 @@ For table and search feature */
     align-items: center;
     row-gap: 2rem;
   }
+  .content {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .col2row1 {
@@ -76,15 +109,34 @@ For table and search feature */
 
 h1 {
   margin: 0;
-  /* margin-top: 2rem; */
   font-family: Verdana, sans-serif;
   font-weight: normal;
   font-size: 1.5rem;
 }
 
+.home > h3 {
+  all: revert;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.home > h2 {
+  margin-top: 2rem;
+  margin-bottom: .5rem;
+}
+
+.home > h1 {
+  all: revert;
+  text-align: center;
+}
+
+.home > ul li {
+  margin-top: 1rem;
+}
+
+
 h3 {
   margin: 0;
-  /* margin-top: 2rem; */
   font-family: Verdana, sans-serif;
   font-weight: normal;
   font-size: 1rem;
@@ -95,7 +147,6 @@ h3 {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  /* border: 1px solid lightgray */
 }
 
 .dialogMain {
@@ -110,9 +161,6 @@ p {
 /* Attendance Page Styles */
 /* ---------------------- */
 .attendanceCourseInfo {
-  /* display: grid;
-  grid-template-rows: repeat(3, 1fr);
-  row-gap: 1rem; */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -147,11 +195,6 @@ p {
 }
 /* ---------------------- */
 
-
-/* .firebase-signin-form {
-  outline:auto;
-} */
-
 @media screen and (max-width: 768px) {
   .content {
     width: 100%;
@@ -177,9 +220,6 @@ p {
   height: 10px;
 }
 
-
-
-
 .nav-title {
   display: flex;
   flex-direction: row;
@@ -197,8 +237,6 @@ p {
 
   justify-self: center;
   align-items: center;
-  /* justify-content: space-between; */
-  /* align-content: space-between; */
 
   gap: 1rem;
 }
@@ -208,25 +246,18 @@ p {
   grid-column: 3;
 
   justify-self: right;
-  /* justify-content: space-between; */
   align-items: center;
   align-content: space-between;
   margin-right: 1rem;
-
-  /* margin-left: 1rem; */
 }
 
 .navbar {
   display: grid;
   grid-template-columns: repeat(3, 30% [col-start]);
-  /* align-items: center; */
   justify-content: space-between;
-  /* justify-content: stretch;   */
-  /* border-bottom: .1rem solid black; */
   padding-top: 1rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-  /* background-color: white; */
 }
 
 .navbarphone {
@@ -239,7 +270,6 @@ p {
   padding: 1rem;
   margin-bottom: 1rem;
 }
-
 
 .pagination {
   display: flex;

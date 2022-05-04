@@ -20,7 +20,7 @@ const Attendance = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [courseName, setCourseName] = useState("");
-  const [currData, setCurrData] = useState([]);
+  const [courseData, setCourseData] = useState([]);
 
   if (!auth.currentUser)
   {
@@ -33,10 +33,6 @@ const Attendance = () => {
 
   // Get course id from url
   const { pageCourseID } = useParams();
-
-  // Get the sort key given at start of day
-  // const daySortKeyLargest = 9999999999999 - new Date().setHours(0, 0, 0, 0);
-  // console.log(daySortKeyLargest);
 
   // Was having issues with the async return, kind of a werid
   // fix to have this function just call a function, but it works
@@ -53,13 +49,11 @@ const Attendance = () => {
     );
 
     const documentSnapshots = await getDocs(data);
-    setCurrData(documentSnapshots.docs[0].data())
-    console.log("h\nh\nh\n", currData)
-    console.log(courseName)
+    if (documentSnapshots.docs[0]) {setCourseData(documentSnapshots.docs[0].data())}
   };
 
   const deleteCourse = async () => {
-    console.log("Deleting course ID ", pageCourseID)
+    global.config.debug && console.log("Deleting course ID ", pageCourseID)
 
     // Uses type checkCourseID since this is just matching ID to one doc
     // which is what we want to do here
@@ -69,7 +63,7 @@ const Attendance = () => {
       courseID: pageCourseID,
     });
 
-    console.log(courseDoc[0].data())
+    global.config.debug && console.log(courseDoc[0].data())
 
     let docRef = doc(db, "courses", courseDoc[0].id);
     deleteDoc(docRef);
@@ -92,22 +86,32 @@ const Attendance = () => {
           {/* If courseName exists, check if it matches error message */}
           {courseName != "error" ? (
             // If not, do...
-            <>
+            <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center">
               <FirebaseDataTable
-                type={"attendanceInfo"}
+                type={"attendance-info"}
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
+                dataType={"attendance-info"}
+                dataTypeHeader={"attendance-info-header"}
+                tableStyle={"attendance-info"}
               />
+
+              <div className="break"/>
 
               <DialogHandler
                 type="courseEdit"
                 currCourseName={courseName}
                 currCourseID={pageCourseID}
-                currCourseInstructor={currData.courseInstructor}
-                currSponsorAgency={currData.sponsorAgency}
-                currInstructorAgency={currData.instructorAgency}
-                currCoordinator={currData.coordinator}
-                currSynopsis={currData.synopsis}
+                currCourseInstructor={courseData.courseInstructor}
+                currSponsorAgency={courseData.sponsorAgency}
+                currInstructorAgency={courseData.instructorAgency}
+                currCoordinator={courseData.coordinator}
+                currSynopsis={courseData.synopsis}
+                DialogTitle="Edit Course"
               />
               
               <div className="break"/>
@@ -120,10 +124,11 @@ const Attendance = () => {
                 dialogBtnColor="error"
                 confirmBtnColor="error"
                 buttonTxt="delete"
+                DialogTitle="Delete Course"
               />
 
               <div className="attendanceSignIn">
-                <p>Course Sign In</p>
+                <p>Course Sign-In</p>
                 <Paper className="attendanceFormAndQR" elevation={3}>
                   {/* Wait for courseName before loading the form, else
                   // // an empty prop will be passed */}
@@ -143,7 +148,7 @@ const Attendance = () => {
 
                   <Box className="attendanceQR">
                     <QRCode value={courseName + " {ID " + pageCourseID + "}"} />
-                    <PrintQRReport value={courseName + " {ID " + pageCourseID + "}"} />
+                    <PrintQRReport QRvalue={courseName + " {ID " + pageCourseID + "}"} courseData={courseData} />
                   </Box>
                 </Paper>
               </div>
@@ -155,10 +160,14 @@ const Attendance = () => {
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
                 // daySortKeyLargest={daySortKeyLargest}
+                dataType={"attendance"}
+                dataTypeHeader={"attendance-header"}
+                tableStyle={"attendance"}
               />
-            </>
+
+            </Box>
           ) : (
-            <div>Error</div>
+            <div>Page Not Found</div>
           )}
         </>
       ) : (

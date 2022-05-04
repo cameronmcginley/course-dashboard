@@ -3,12 +3,14 @@ import { auth } from "../firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import "../App.css";
 import { Link } from "react-router-dom";
-import { Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
+import { Tabs, Tab, IconButton, Typography, Tooltip, Button, Paper, SwipeableDrawer, Box, List, ListItem, Divider, ListItemIcon, ListItemText } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [user, setUser] = useState({});
 
   
@@ -56,7 +58,14 @@ const Navbar = () => {
         <ListItem button onClick={logout}>
           <ListItemText primary={"Sign Out"} />
         </ListItem>
+        <ListItem>
+          <IconButton sx={{ mr: ".5rem" }} onClick={() => props.handleDarkModeChange(!props.isDarkTheme)}>
+            <DarkModeIcon />
+          </IconButton>
+        </ListItem>
+
         <Divider />
+
         <ListItem button component={Link} to="/">
           <ListItemText primary={"Home"}/>
         </ListItem>
@@ -70,16 +79,12 @@ const Navbar = () => {
     </Box>
   );
 
-
-
-
-
   return (
     <>
       {/* Call the phone-navbar for <768 pixel width */}
       {isMobile &&
         <Paper className="navbarphone" square={true}>
-          <p><b>WPD Course Sign In Dashboard</b></p>
+          <p><b>WPD Course Sign-In Dashboard</b></p>
 
           {/* Only show the drawer button if signed in */}
           {user && (<>
@@ -99,25 +104,30 @@ const Navbar = () => {
         <Paper className="navbar" square={true}>
           {/* <h1>Demo Application</h1> */}
           <div className="nav-title">
-            <p><b>WPD Course Sign In Dashboard</b></p>
+            <p><b>WPD Course Sign-In Dashboard</b></p>
           </div>
 
           {/* Only show nav links and account info if signed in */}
           {user && (<>
             <div className="nav-links">
-              <Button color="primary" variant="text" href="/">
+              <Button color="primary" variant="text" href="/" sx={{ borderBottom: window.location.pathname === "/" ? 1 : 0 }} >
                 Home
               </Button>
-              <Button color="primary" variant="text" href="/courses">
+              <Button color="primary" variant="text" href="/courses" sx={{ borderBottom: window.location.pathname === "/courses" ? 1 : 0 }}>
                 Courses
               </Button>
-              <Button color="primary" variant="text" href="/viewdata">
+              <Button color="primary" variant="text" href="/viewdata" sx={{ borderBottom: window.location.pathname === "/viewdata" ? 1 : 0 }}>
                 View Data
               </Button>
             </div>
 
             <div className="nav-account">
-              {/* {user?.email} */}
+              {/* Dark mode button stored here also */}
+              {/* https://stackoverflow.com/questions/67030576/i-have-this-error-that-say-cannot-update-a-components-while-rendering-a-differe */}
+              <IconButton sx={{ mr: ".5rem" }} onClick={() => props.handleDarkModeChange(!props.isDarkTheme)}>
+                <DarkModeIcon />
+              </IconButton>
+
               {/* Display user email when mouseover accoutn icon */}
               <Tooltip title={<Typography fontSize={'1rem'}>{user?.email}</Typography>}>
                 <AccountCircleIcon  />

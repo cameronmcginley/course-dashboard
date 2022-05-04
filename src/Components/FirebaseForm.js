@@ -138,7 +138,7 @@ const FirebaseInputForm = (props) => {
     else if (isUserSignInValid[0] === false) {
       setBlockingError([true, isUserSignInValid[1]]);
       buttonClickFail("Error");
-      console.log(blockingError)
+      global.config.debug && console.log(blockingError)
     } 
     else if (isCourseValid[0] === false) {
       setBlockingError([true, isCourseValid[1]]);
@@ -150,14 +150,14 @@ const FirebaseInputForm = (props) => {
   // Updating useAutoCourseID (checkbox) calls useEffect to get autoCourseID
   useEffect(async () => {
     // If enabled, fill the ID input box was constant
-    console.log(newCourseID)
+    global.config.debug && console.log(newCourseID)
     if (useAutoCourseID) {
       setNewCourseID(String(await AutoCourseID()))
     }
     else {
       setNewCourseID(null)
     }
-    console.log(newCourseID)
+    global.config.debug && console.log(newCourseID)
   }, [useAutoCourseID])
 
   return (

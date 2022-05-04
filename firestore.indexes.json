@@ -4,166 +4,331 @@
       "collectionGroup": "courses",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "courseID",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "courseName",
-          "order": "ASCENDING"
-        }
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "substrCourseName",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "courseName",
+        "order": "ASCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "courses",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "courseID",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isArchived",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "courseName",
-          "order": "ASCENDING"
-        }
+      {
+        "fieldPath": "substrCourseName",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "courseName",
+        "order": "ASCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "courses",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "substrCourseName",
-          "arrayConfig": "CONTAINS"
-        },
-        {
-          "fieldPath": "courseName",
-          "order": "ASCENDING"
-        }
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "courseName",
+        "order": "ASCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "courses",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "substrCourseName",
-          "arrayConfig": "CONTAINS"
-        },
-        {
-          "fieldPath": "courseName",
-          "order": "DESCENDING"
-        }
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "substrCourseName",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "courseName",
+        "order": "DESCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "substrCourseName",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "courseName",
+        "order": "DESCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "courseName",
+        "order": "DESCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "sign-ins",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "courseID",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isArchived",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "sortKey",
-          "order": "ASCENDING"
-        }
+      {
+        "fieldPath": "substrUserID",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "isArchived",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "ASCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "sign-ins",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "courseID",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "sortKey",
-          "order": "ASCENDING"
-        }
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "isArchived",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "ASCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "sign-ins",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "isArchived",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "sortKey",
-          "order": "ASCENDING"
-        }
+      {
+        "fieldPath": "substrUserID",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "isArchived",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "ASCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "sign-ins",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "substrUserID",
-          "arrayConfig": "CONTAINS"
-        },
-        {
-          "fieldPath": "courseID",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isArchived",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "sortKey",
-          "order": "ASCENDING"
-        }
+      {
+        "fieldPath": "substrUserID",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "ASCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "sign-ins",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "substrUserID",
-          "arrayConfig": "CONTAINS"
-        },
-        {
-          "fieldPath": "isArchived",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "sortKey",
-          "order": "ASCENDING"
-        }
+      {
+        "fieldPath": "substrUserID",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "ASCENDING"
+      }
       ]
     },
     {
       "collectionGroup": "sign-ins",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "substrUserID",
-          "arrayConfig": "CONTAINS"
-        },
-        {
-          "fieldPath": "isArchived",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "sortKey",
-          "order": "DESCENDING"
-        }
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "ASCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "sign-ins",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "isArchived",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "ASCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "sign-ins",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "substrUserID",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "isArchived",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "DESCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "sign-ins",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "isArchived",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "DESCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "sign-ins",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "substrUserID",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "isArchived",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "DESCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "sign-ins",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "substrUserID",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "DESCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "sign-ins",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "substrUserID",
+        "arrayConfig": "CONTAINS"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "DESCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "sign-ins",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "courseID",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "DESCENDING"
+      }
+      ]
+    },
+    {
+      "collectionGroup": "sign-ins",
+      "queryScope": "COLLECTION",
+      "fields": [
+      {
+        "fieldPath": "isArchived",
+        "order": "ASCENDING"
+      },
+      {
+        "fieldPath": "sortKey",
+        "order": "DESCENDING"
+      }
       ]
     }
+
   ],
   "fieldOverrides": []
 }

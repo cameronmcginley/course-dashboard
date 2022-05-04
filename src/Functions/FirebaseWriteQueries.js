@@ -21,7 +21,6 @@ const createSubstringArray = (text) => {
   var characterCounter = 1;
   let textLowercased = text.toString().toLowerCase();
   let characterCount = text.length;
-  // console.log(characterCount)
 
   // Create array of all substrings
   for (let _ = 0; _ < characterCount; _++) {
@@ -47,14 +46,13 @@ const createSubstringArray = (text) => {
   // Remove duplicates from array
   substringArray = [...new Set(substringArray)];
 
-  // console.log(substringArray);
   return substringArray;
 };
 
 // data.timestamp = JS Date obj, not Firebase Timestamp
 // Blank by default
 export const FirebaseWriteQueries = async (data) => {
-  console.log("Firebase Write");
+  global.config.debug && console.log("Firebase Write");
 
   let logTime = null;
   if (data.timestamp) {
@@ -62,7 +60,7 @@ export const FirebaseWriteQueries = async (data) => {
   } else {
     logTime = Timestamp.now();
   }
-  console.log("Write Time: ", logTime);
+  global.config.debug && console.log("Write Time: ", logTime);
 
   if (data.type === "incrementAutoCourseID") {
     // Long string is the doc id
@@ -83,8 +81,6 @@ export const FirebaseWriteQueries = async (data) => {
     let setInstructorAgency;
     let setCoordinator;
     let setSynopsis;
-
-    // console.log(data.type, data.newCourseID, data.currCourseID)
 
     data.newCourseName
       ? (setCourseName = data.newCourseName)
@@ -120,7 +116,7 @@ export const FirebaseWriteQueries = async (data) => {
     const documentSnapshots = await getDocs(data);
     const docID = documentSnapshots.docs[0].id;
 
-    console.log("Editing DocID: ", docID);
+    global.config.debug && console.log("Editing DocID: ", docID);
     await updateDoc(doc(db, "courses", docID), {
       courseFullStr: newCourseFullStr,
       courseID: setCourseID,
@@ -164,7 +160,6 @@ export const FirebaseWriteQueries = async (data) => {
 
   if (data.collectionName === "sign-ins") {
     let courseArray = SplitCourseFullStr(data.newCourseFullStr);
-    // console.log("Write course data: ", courseArray);
 
     addDoc(collection(db, data.collectionName), {
       userID: data.newUserID,

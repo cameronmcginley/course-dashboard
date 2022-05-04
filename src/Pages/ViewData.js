@@ -25,20 +25,31 @@ const Home = () => {
     <div className="tableSplit">
       {/* CSV Export */}
       <Box sx={{ mt: 5 }}>
-        <DialogHandler type="csvExport" />
+        <DialogHandler type="csvExport" DialogTitle="Export Sign In Data to CSV"/>
       </Box>
 
-      <DialogHandler type="deleteData" />
+      <DialogHandler type="deleteData" DialogTitle="Delete Data"/>
 
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}
       {/* Collection = name of firebase collection */}
       {/* sortKey = field (from firebase) to sort by */}
-      <FirebaseDataTable
+      {/* <FirebaseDataTable
         type={"sign-ins"}
         accessor={"sign-ins"}
         sortKey={"sortKey"}
+      /> */}
+
+    <FirebaseDataTable
+        type={"sign-ins"}
+        accessor={"sign-ins"}
+        sortKey={"sortKey"}
+        dataType={"sign-ins"}
+        dataTypeHeader={"sign-ins-header"}
+        tableTitle={"Sign In Data"}
       />
+
+
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { CheckUserID } from "./CheckUserID"
 export const CheckUserSignin = (userID, newUserCourseFullStr) => {
     // CourseFullStr just can't be empty. No way for user to modify this and submit
     const isUserIDValid = CheckUserID(userID)
-    console.log(isUserIDValid)
+    global.config.debug && console.log(isUserIDValid)
 
     if (!isUserIDValid) {
         return [false, "Invalid User ID"];
@@ -17,6 +17,6 @@ export const CheckUserSignin = (userID, newUserCourseFullStr) => {
     }
 
     // No errors found
-    console.log("Verified: ", userID, newUserCourseFullStr)
+    global.config.debug && console.log("Verified: ", userID, newUserCourseFullStr)
     return [true, ""];
 };

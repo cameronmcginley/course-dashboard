@@ -22,6 +22,6 @@ export const CheckUserID = (userID) => {
         return false
     }
 
-    console.log("\n\nVerified ID: ", userID)
+    global.config.debug && console.log("\n\nVerified ID: ", userID)
     return true
 };

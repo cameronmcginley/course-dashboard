@@ -1,11 +1,20 @@
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import { useTable } from "react-table";
+
 import { getDocs } from "firebase/firestore";
 import { auth } from "../firebase-config";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { IconButton } from "@mui/material";
+import { IconButton, Box, ThemeProvider, createTheme } from "@mui/material";
+import { green, orange } from '@mui/material/colors';
 
 import { useState, useRef } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -13,102 +22,38 @@ import { useNavigate } from "react-router-dom";
 
 // FirebaseDataTable Table Data
 import TableHeaders from "../Functions/TableHeaders";
+import TableStyles from "../Functions/TableStyles";
 
 // DB Queries
 import { FirebaseReadQueries } from "../Functions/FirebaseReadQueries";
 
 import FirebaseDataTableSearch from "./FirebaseDataTableSearch";
 
-const Styles = styled.div`
-  padding: 1rem;
-  grid-row: 1 / 8;
-  // outline: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  table {
-    border-spacing: 0;
-    border: 1px solid black;
-
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
-
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
-      :last-child {
-        border-right: 0;
-      }
-    }
-
-    td {
-      input {
-        font-size: 1rem;
-        padding: 0;
-        margin: 0;
-        border: 0;
-      }
-    }
-  }
-
-  .pagination {
-    padding: 0.5rem;
-  }
-`;
-
-function Table({ columns, data, isFirstPage, isLastPage, getSigninData, isAttendanceInfo }) {
-  // Use the state and functions returned from useTable to build your UI
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data,
-    });
-
+function BasicTable({ pageNum, setPageNum, tableTitle, dataType, dataTypeHeader, rowData, isAttendanceInfo, isFirstPage, isLastPage, getSigninData, tableStyle }) {
   const [isNextDisabled, setIsNextDisabled] = React.useState();
   const [isPreviousDisabled, setIsPreviousDisabled] = React.useState();
-  const [pageNum, setPageNum] = React.useState(1);
 
-  // Render the UI for your table
   return (
-    <>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-              ))}
-            </tr>
+    <Box sx={TableStyles(tableStyle)}>
+    <h1>{tableTitle}</h1>
+    <TableContainer component={Paper} variant="outlined" square >
+      <Table sx={{ minWidth: 0 }} aria-label="simple table">
+        <TableHead>
+          <TableHeaders type={dataTypeHeader} />
+        </TableHead>
+        <TableBody>
+          {rowData.map((row) => (
+            <TableRow
+              // id is the firebase doc id
+              key={row.id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              style={{ verticalAlign: 'top' }}
+            >
+              <TableHeaders type={dataType} row={row} />
+            </TableRow>
           ))}
-        </thead>
-
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-
-      {/* Dont show paging for attendance info table */}
+        </TableBody>
+      </Table>
       {!isAttendanceInfo && (<div className="pagination">
         <IconButton
           onClick={() => {
@@ -144,10 +89,11 @@ function Table({ columns, data, isFirstPage, isLastPage, getSigninData, isAttend
           <ArrowForwardIcon />
         </IconButton>{" "}
       </div>)}
-
-    </>
+    </TableContainer>
+    </Box>
   );
 }
+
 
 let lastVisibleDoc = null;
 let firstVisibleDoc = null;
@@ -159,10 +105,12 @@ let searchCriteria = {
   searchCourseID: "",
 };
 
+
 function FirebaseDataTable(props) {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const componentRef = useRef();
+  const [pageNum, setPageNum] = React.useState(1);
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -171,8 +119,6 @@ function FirebaseDataTable(props) {
   if (!user) {
     navigate("/login");
   }
-
-  const columns = React.useMemo(() => [TableHeaders(props)[props.type]], []);
 
   const [data, setData] = React.useState([]);
 
@@ -198,7 +144,7 @@ function FirebaseDataTable(props) {
 
       // Sets false if page exists, otherwise true
       setIsFirstPage(!docs[0]);
-      console.log("First page: ", Boolean(!docs[0]));
+      global.config.debug && console.log("First page: ", Boolean(!docs[0]));
 
       // Don't allow user to go back further than firstDocEverSortkey
       // in case new data was added while user was browsing
@@ -210,7 +156,6 @@ function FirebaseDataTable(props) {
   };
 
   const isLastPageFunc = async (pageLast) => {
-    // console.log(pageLast);
     if (!pageLast) {
       setIsLastPage(true);
     } else {
@@ -227,8 +172,7 @@ function FirebaseDataTable(props) {
 
       // Returns false if page exists, otherwise true
       setIsLastPage(!docs[0]);
-      // console.log(documentSnapshots.docs[0]);
-      console.log("Last page: ", Boolean(!docs[0]));
+      global.config.debug && console.log("Last page: ", Boolean(!docs[0]));
     }
   };
 
@@ -237,10 +181,7 @@ function FirebaseDataTable(props) {
   const getSigninData = async (getSigninDataType) => {
     // Add check for first/last pages. if "refresh" then use these instead of starting from 0
 
-    console.log("Getting sign in data with type: ", getSigninDataType);
-    // console.log(getSigninDataType);
-    // console.log(searchCriteria);
-
+    global.config.debug && console.log("Getting sign in data with type: ", getSigninDataType);
     const docs = await FirebaseReadQueries({
       type: props.type, // Specific id for queries
       collectionName: props.accessor,
@@ -259,7 +200,6 @@ function FirebaseDataTable(props) {
       searchCriteria: searchCriteria,
     });
 
-    // console.log(docs)
     setData(
       docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
@@ -276,6 +216,11 @@ function FirebaseDataTable(props) {
     // Set states
     await isFirstPageFunc(firstVisibleDoc);
     await isLastPageFunc(lastVisibleDoc);
+
+    // Reset page num
+    if (getSigninDataType === "refresh") {
+      setPageNum(1)
+    }
   };
 
   // We need to keep the table from resetting the pageIndex when we
@@ -286,7 +231,6 @@ function FirebaseDataTable(props) {
   const makeSearch = (data) => {
     // Update searchCritiera var before querying
     searchCriteria = data;
-    // console.log(searchCriteria);
 
     // Call table refresh with specific search query
     // Same query as before, but with an added "searchCritiera" obj
@@ -302,18 +246,21 @@ function FirebaseDataTable(props) {
 
   return (
     <Fragment>
-      <Styles>
-        <Table
-          columns={columns}
-          data={data}
-          skipReset={skipResetRef.current}
-          isFirstPage={isFirstPage}
-          isLastPage={isLastPage}
-          getSigninData={getSigninData}
-          minRows={0}
-          isAttendanceInfo={props.type === "attendanceInfo"}
-        />
-      </Styles>
+      <BasicTable 
+        rowData={data}
+        dataType={props.dataType}
+        dataTypeHeader={props.dataTypeHeader}
+        skipReset={skipResetRef.current}
+        isFirstPage={isFirstPage}
+        isLastPage={isLastPage}
+        getSigninData={getSigninData}
+        isAttendanceInfo={props.type === "attendance-info"}
+        // Default style if none specified
+        tableStyle={props.tableStyle ? props.tableStyle : "default"}
+        tableTitle={props.tableTitle}
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+      />
 
       {!props.excludeSearch && (<div>
         <h1>Search Data</h1>

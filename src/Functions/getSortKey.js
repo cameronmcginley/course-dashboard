@@ -1,18 +1,19 @@
 import { Timestamp } from "firebase/firestore";
 
-// Takes in JS Date
-// Converts to Firebase timestamp, then gets key
+// Takes in JS Date or Firebase Timestamp
+// sortKey is essentially an inverted date in seconds
+// Firebase handles ascending order better than descending, so
+// sorts by sortKey to handle date sorting/searching
 const getSortKey = (dateToConvert) => {
-  // console.log("Converting to sortkey");
-
-  // Check if it's already in Timestamp obj
+  // If Timestamp, convert to JS Date
+  // If JS Date, do nothing
   if (dateToConvert instanceof Timestamp) {
-    // console.log("Already Timestamp instance...");
-  } else {
-    dateToConvert = Timestamp.fromDate(dateToConvert);
+    dateToConvert = new Date(dateToConvert.seconds*1000)
   }
 
-  return 9999999999999 - dateToConvert;
+  // getTime returns date in ms
+  const dateSeconds = dateToConvert.getTime() / 1000;
+  return 9999999999999 - dateSeconds;
 };
 
 export default getSortKey;

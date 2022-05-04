@@ -7,7 +7,7 @@ import FirebaseDataTable from "../Components/FirebaseDataTable";
 // import FirebaseDataTable2 from "../Components/FirebaseDataTable2";
 import DialogHandler from "../Components/DialogBox/DialogHandler";
 import "../App.css";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,17 +32,26 @@ const Home = () => {
 
       {/* Course entry form, contained in popout box */}
       <Box sx={{ mt: 5 }}>
-        <DialogHandler type="courseEntry" />
+        <DialogHandler type="courseEntry" DialogTitle="Enter New Course"/>
       </Box>
 
       {/* Table with User Signin Data */}
       {/* Headers must be defined in src/Functions/FirebaseDataTable/TableHeaders.js */}
       {/* Collection = name of firebase collection */}
       {/* sortKey = field (from firebase) to sort by */}
+      {/* <FirebaseDataTable
+        type={"courses"}
+        accessor={"courses"}
+        sortKey={"courseName"}
+      /> */}
+
       <FirebaseDataTable
         type={"courses"}
         accessor={"courses"}
         sortKey={"courseName"}
+        dataType={"courses"}
+        dataTypeHeader={"courses-header"}
+        tableTitle={"Course Information"}
       />
     </div>
   );
