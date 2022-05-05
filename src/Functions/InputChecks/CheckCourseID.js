@@ -1,7 +1,7 @@
 // Return whether the given course is valid to submit to database
 // Returns [bool, "error text"]
 export const CheckCourseID = (courseID) => {
-    const maxCharLength = 8
+    const maxCharLength = 10
 
     const r = /^[a-z0-9 ()]+$/i
 
