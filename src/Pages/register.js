@@ -21,7 +21,7 @@ function Register() {
 	  setErrMessage("");
 	  setSuccessMessage("");
 	  
-	  if (registerEmail.endsWith('wichita.gov'))
+	  if (registerEmail.endsWith('gmail.com'))
 	  {
 	  	const user = await createUserWithEmailAndPassword(
 	  		auth,
@@ -65,7 +65,7 @@ function Register() {
 			<p style={{ color: "green" }}>{successMessage}</p>
 			
 			<Box sx={{ mt: 1 }}>
-				<h1>Create Account</h1>
+				<h1>Create Admin Account</h1>
 
 				<TextField
 				margin="normal"
@@ -93,7 +93,7 @@ function Register() {
 				variant="contained"
 				sx={{ mt: 3, mb: 2 }}
 				>
-				Create Account
+				Create Admin Account
 				</Button>
 
 				<Grid container>
