@@ -99,7 +99,6 @@ export const FirebaseReadQueries = async (data) => {
     params.push(...[
       collection(db, "sign-ins"),
       orderBy("sortKey"),
-      limit(10),
       where("isArchived", "==", true),
     ]);
 
