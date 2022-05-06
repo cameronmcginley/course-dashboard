@@ -47,7 +47,7 @@ function Register() {
 	if (auth.currentUser)
 	{
 		sendEmailVerification(auth.currentUser);
-		setSuccessMessage("Verification e-mail has been sent. Verify and then sign-out above. Then use the login page to sign in to redirect to the home page.");
+		setSuccessMessage("Verification e-mail has been sent. Please check your email. After verifying, navigate to login page to sign-in.");
 		signOut(auth);
 	}
   };
