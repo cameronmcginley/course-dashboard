@@ -54,7 +54,7 @@ export const FirebaseReadQueries = async (data) => {
 
   //CSV Queries
   if (data.type === "CSV") {
-    params.push(...[collection(db, "sign-ins"), orderBy("sortKey"), limit(10)]);
+    params.push(...[collection(db, "sign-ins"), orderBy("sortKey"), limit(10000)]);
 
     // If there are courseIDs to search by, push a firebase query for each
     if (

@@ -1,3 +1,3 @@
 module.exports = global.config = {
-    debug: true
+    debug: false
 }
