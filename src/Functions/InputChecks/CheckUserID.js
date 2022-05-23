@@ -11,14 +11,18 @@ export const CheckUserID = (userID) => {
     // a's in caandy, and 2 a's if theres 3 or more a's
     // To check if user id is valid, run this reg ex to get the first letter, then the next
     // 4 numbers. If equiv to input ID, the input is valid
-    const r = /[A-Za-z][0-9]{4}/
+    // const r = /[A-Za-z][0-9]{4}/
 
     // Exec gives list of [matchingStr, index, originalInput, groups]
     // or null if no match
-    const match = r.exec(userID)
+    // const match = r.exec(userID)
     
     // If no match found, or match is only substr of input, throw error
-    if (!match || match[0] != userID) {
+    // if (!match || match[0] != userID) {
+    //     return false
+    // }
+
+    if (userID.length > 30) {
         return false
     }
 
