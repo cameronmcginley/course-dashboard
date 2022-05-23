@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Courses from "./Pages/Courses";
 import ViewData from "./Pages/ViewData";
 import Attendance from "./Pages/Attendance";
+import SignIn from "./Pages/SignIn";
 import makeData from "./Functions/makeData";
 import "./App.css";
 import { auth } from "./firebase-config";
@@ -61,6 +62,10 @@ function App() {
               <Route
                 path="/courses/:pageCourseID/attendance"
                 element={<Attendance />}
+              />
+              <Route
+                path="/courses/:pageCourseID/signin"
+                element={<SignIn />}
               />
             </Routes>
           </Paper>

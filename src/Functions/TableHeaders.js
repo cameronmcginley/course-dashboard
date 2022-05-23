@@ -71,7 +71,7 @@ const TableHeaders = (props) => {
           {/* Pass props to this component, which handles
           the ReactToPrint and QRReport references */}
           <PrintQRReport 
-            QRvalue={"https://coursedashboard.web.app/courses/" + props.row.courseID + "/attendance"}
+            QRvalue={"https://coursedashboard.web.app/courses/" + props.row.courseID + "/signin"}
             // QRvalue={props.row.courseFullStr.toString()} 
             courseData={props.row} />
         </Fragment>

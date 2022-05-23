@@ -28,6 +28,7 @@ const FirebaseInputForm = (props) => {
     false,
     "Default Error Message",
   ]);
+  const[userSignInSuccess, setUserSignInSuccess] = useState([false, "default"])
 
   //userSignIn
   const [newUserID, setNewUserID] = useState(props.userID);
@@ -46,7 +47,7 @@ const FirebaseInputForm = (props) => {
   const [coordinator, setCoordinator] = useState("")
   const [synopsis, setSynopsis] = useState("")
 
-  const buttonClickSuccess = () => {
+  const buttonClickSuccess = (userID) => {
     setSubmitBtnColor("success");
     setSubmitBtnText("Success");
     setSubmitBtnDisabled(true);
@@ -55,6 +56,11 @@ const FirebaseInputForm = (props) => {
       setSubmitBtnText("Submit");
       setSubmitBtnDisabled(false);
     }, 2000);
+
+    if (userID) {
+      console.log(userID)
+      setUserSignInSuccess([true, userID + " has successfully signed in!"])
+    }
   };
 
   const buttonClickFail = (errMsg) => {
@@ -108,7 +114,7 @@ const FirebaseInputForm = (props) => {
     // Either can be successful, FirebaseWriteQueries will handle all
     // the data given to it and use whats needed based on collectionName
     if (isCourseValid[0] || isUserSignInValid[0]) {
-      buttonClickSuccess();
+      buttonClickSuccess(submittedUserID);
       setBlockingError([false, ""]); //Clear error if it's there
 
       // Write to database, just passes all possible params
@@ -203,6 +209,11 @@ const FirebaseInputForm = (props) => {
               {blockingError[1]}
             </Alert>
           )}
+
+          {userSignInSuccess[0] && (
+            <Alert severity="success">{userSignInSuccess[1]}</Alert>
+          )}
+
           <FormControl>
             <Button
               // Disables pointer when disabled

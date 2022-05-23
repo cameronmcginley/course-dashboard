@@ -17,7 +17,6 @@ import { db } from "../firebase-config";
 
 
 const Attendance = () => {
-  const navigate = useNavigate();
   const [courseName, setCourseName] = useState("");
   const [courseData, setCourseData] = useState([]);
   
@@ -42,25 +41,6 @@ const Attendance = () => {
     if (documentSnapshots.docs[0]) {setCourseData(documentSnapshots.docs[0].data())}
   };
 
-  const deleteCourse = async () => {
-    global.config.debug && console.log("Deleting course ID ", pageCourseID)
-
-    // Uses type checkCourseID since this is just matching ID to one doc
-    // which is what we want to do here
-    const courseDoc = await FirebaseReadQueries({
-      type: "checkCourseID",
-      collectionName: "courses",
-      courseID: pageCourseID,
-    });
-
-    global.config.debug && console.log(courseDoc[0].data())
-
-    let docRef = doc(db, "courses", courseDoc[0].id);
-    deleteDoc(docRef);
-
-    navigate("/courses");
-  };
-
   // Update the courseName based on the page's course ID
   // Get other data with it
   useEffect(() => {
@@ -71,6 +51,7 @@ const Attendance = () => {
 
   return (
     <Fragment>
+      {/* Uses course name to check if page is valid */}
       {courseName ? (
         <>
           {/* If courseName exists, check if it matches error message */}
@@ -81,7 +62,7 @@ const Attendance = () => {
             flexDirection="column"
             justifyContent="center"
             alignItems="center">
-              <FirebaseDataTable
+            <FirebaseDataTable
                 type={"attendance-info"}
                 pageCourseID={pageCourseID}
                 excludeSearch={true}
@@ -92,33 +73,9 @@ const Attendance = () => {
 
               <div className="break"/>
 
-              <DialogHandler
-                type="courseEdit"
-                currCourseName={courseName}
-                currCourseID={pageCourseID}
-                currCourseInstructor={courseData.courseInstructor}
-                currSponsorAgency={courseData.sponsorAgency}
-                currInstructorAgency={courseData.instructorAgency}
-                currCoordinator={courseData.coordinator}
-                currSynopsis={courseData.synopsis}
-                DialogTitle="Edit Course"
-              />
-              
-              <div className="break"/>
-
-              <DialogHandler
-                type="confirmation"
-                message="Are you sure you wish to delete this course permanently?"
-                noCloseBtn={false}
-                sendConfirm={deleteCourse}
-                dialogBtnColor="error"
-                confirmBtnColor="error"
-                buttonTxt="delete"
-                DialogTitle="Delete Course"
-              />
-
               <div className="attendanceSignIn">
                 <p>Course Sign-In</p>
+                <p>Course: {courseName}</p>
                 <Paper className="attendanceFormAndQR" elevation={3}>
                   {/* Wait for courseName before loading the form, else
                   // // an empty prop will be passed */}
@@ -131,30 +88,8 @@ const Attendance = () => {
                       }
                     />
                   </Box>
-
-                  <Box className="attendanceSigninOR">
-                    <p>Or</p>
-                  </Box>
-
-                  <Box className="attendanceQR">
-                    {/* <QRCode value={courseName + " {ID " + pageCourseID + "}"} /> */}
-                    <QRCode value={"https://coursedashboard.web.app/courses/" + pageCourseID + "/signin"} />
-                    <PrintQRReport QRvalue={courseName + " {ID " + pageCourseID + "}"} courseData={courseData} />
-                  </Box>
                 </Paper>
               </div>
-
-              <FirebaseDataTable
-                type={"attendance"}
-                accessor={"sign-ins"}
-                sortKey={"sortKey"}
-                pageCourseID={pageCourseID}
-                excludeSearch={true}
-                // daySortKeyLargest={daySortKeyLargest}
-                dataType={"attendance"}
-                dataTypeHeader={"attendance-header"}
-                tableStyle={"attendance"}
-              />
 
             </Box>
           ) : (

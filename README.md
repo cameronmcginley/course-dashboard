@@ -26,7 +26,7 @@ The possible fields when adding a course are:
 
 ## QR Codes
 
-QR Codes are unique to each course, and will never change (regardless of time or date) **unless** a user modifies a course's name and/or ID. This code is what users will scan from the Course Sign-In iOS App to sign into a course.
+QR Codes are unique to each course, and will never change (regardless of time or date) **unless** a user modifies a course's name and/or ID. This code can be scanned via the default camera app on your phone, which will display a prompt to sign into the course associated with the specific QR code you scanned.
 
 There are two methods for displaying this code to be scanned: either displaying the code on a screen (from the course's info page), or printing the code onto a paper. A small print icon will be displayed on the courses table, and on the info page, which will generate a report containing the QR code which can be saved as a PDF or printed. Since the code does not change **unless** a user modifies a course's name and/or ID, this paper does not need to be re-printed.
 
@@ -44,7 +44,7 @@ In addition to editing the values of a course, a course can also be permanently 
 
 ### Signing In
 
-As mentioned in the QR Codes section, this page contains the respective QR Code for this course. A user can scan this via the Course Sign-In iOS App to sign in. Additionally, a user can sign in via the User ID Form to the left of the code. Just enter your ID and hit submit! This is helpful should someone not have their phone available.
+As mentioned in the QR Codes section, this page contains the respective QR Code for this course. A user can scan this via their phone. Additionally, a user can sign in via the User ID Form to the left of the code. Just enter your ID and hit submit! This is helpful should someone not have their phone available.
 
 ### Attendance List
 
