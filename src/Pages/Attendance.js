@@ -18,19 +18,9 @@ import { db } from "../firebase-config";
 
 const Attendance = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
   const [courseName, setCourseName] = useState("");
   const [courseData, setCourseData] = useState([]);
-
-  if (!auth.currentUser)
-  {
-	  navigate('/login');
-  }
-  else if (!auth.currentUser.emailVerified)
-  {
-	  navigate('/login');
-  }
-
+  
   // Get course id from url
   const { pageCourseID } = useParams();
 

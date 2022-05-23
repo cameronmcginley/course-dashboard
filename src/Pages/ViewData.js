@@ -9,15 +9,6 @@ import "../App.css";
 import { Box } from "@mui/material";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState({});
-
-  if (!auth.currentUser) {
-    navigate("/login");
-  } else if (!auth.currentUser.emailVerified) {
-    navigate("/login");
-  }
-
   return (
     <div className="tableSplit">
       {/* CSV Export */}

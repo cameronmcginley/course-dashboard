@@ -1,12 +1,6 @@
-# Wichita Police Department - Course Sign-In Dashboard
+# Course Sign-In Dashboard
 
 This website serves as the dashboard for course instructors and administrators to handle QR Codes and sign-in data for courses. Notes for deploying to the web can be found at the bottom.
-
-## Editing this documentation
-
----
-
-This documentations is located at src/README.md in the code repository. It is written in markdown language so it can display via the webpage. A MS Word version of this documentation has also been provided, located as UserManual-CourseSignIn-WebDashboard.docx in the main (root) folder of the same repository. In order to edit the README.md, you can follow the formatting of other notes written there. Or, further markdown documentation can be found at: https://www.markdownguide.org/basic-syntax/
 
 ## Course Tracker
 
@@ -25,8 +19,8 @@ The possible fields when adding a course are:
 1.  Course Name (required)
 2.  Course ID (required)
 3.  Instructor(s)
-4.  Sponsor Agency (defaults to WPD)
-5.  Instructor Agency (defaults to WPD)
+4.  Sponsor Agency
+5.  Instructor Agency
 6.  Coordinator
 7.  Synopsis
 
@@ -34,7 +28,7 @@ The possible fields when adding a course are:
 
 ---
 
-QR Codes are unique to each course, and will never change (regardless of time or date) **unless** a user modifies a course's name and/or ID. This code is what users will scan from the WPD Course Sign-In iOS App to sign into a course.
+QR Codes are unique to each course, and will never change (regardless of time or date) **unless** a user modifies a course's name and/or ID. This code is what users will scan from the Course Sign-In iOS App to sign into a course.
 
 There are two methods for displaying this code to be scanned: either displaying the code on a screen (from the course's info page), or printing the code onto a paper. A small print icon will be displayed on the courses table, and on the info page, which will generate a report containing the QR code which can be saved as a PDF or printed. Since the code does not change **unless** a user modifies a course's name and/or ID, this paper does not need to be re-printed.
 
@@ -54,7 +48,7 @@ In addition to editing the values of a course, a course can also be permanently 
 
 ### Signing In
 
-As mentioned in the QR Codes section, this page contains the respective QR Code for this course. A user can scan this via the WPD Course Sign-In iOS App to sign in. Additionally, a user can sign in via the User ID Form to the left of the code. Just enter your ID and hit submit! This is helpful should someone not have their phone available.
+As mentioned in the QR Codes section, this page contains the respective QR Code for this course. A user can scan this via the Course Sign-In iOS App to sign in. Additionally, a user can sign in via the User ID Form to the left of the code. Just enter your ID and hit submit! This is helpful should someone not have their phone available.
 
 ### Attendance List
 
@@ -78,9 +72,9 @@ An additional feature when exporting data is "archiving". Should you select this
 
 ### Deleting Data
 
-Deleting data, from the "Delete Archived Data" button, is only performed on already archived data. This is to prevent deletion of data from our database which has not been transferred to WPD systems. Deleting data is done by selecting a date from the prompt, and ALL archived data before and ON this date will be permanently deleted.
+Deleting data, from the "Delete Archived Data" button, is only performed on already archived data. This is to prevent deletion of data from our database which has not been transferred to systems. Deleting data is done by selecting a date from the prompt, and ALL archived data before and ON this date will be permanently deleted.
 
-## Account & Login System
+## Account & Login System (Removed in this version)
 
 ---
 
@@ -104,7 +98,7 @@ When a user has entered a correct email and password combination, they will be r
 
 When creating an account, there are a few restrictions and errors that can occur if not followed. The following are all the possible cases to watch for when registering with a new account:
 
-- The email address being registered must be of the extension “@wichita.gov”. If any other email type is entered, there will be an error message displayed to the screen.
+- The email address can be restricted to a certain extesion, e.g. "gmail.com". If any other email type is entered, there will be an error message displayed to the screen.
 
 - The email address must be one that is not already registered to an account. If an email entered that is already registered to an account, an error message will display to the screen.
 
@@ -140,7 +134,7 @@ This website is readily available on mobile web browsers in addition to its inte
 
 ### Deploying to Live Website
 
-Website URL found at: https://console.firebase.google.com/project/sd-prototype-df519/hosting/sites
+Website URL found in firebase console.
 
 - Custom domains can be purchased there &nbsp;
 
@@ -149,7 +143,6 @@ Requirements
 1. Git
    - Install at: https://git-scm.com/downloads
 2. Node.js
-   - Only if changes were made to the project
    - Install at: https://nodejs.org/en/download/
 3. Firebase CLI
    - Execute command in Commpand Prompt after installing Node.js:\
@@ -158,7 +151,7 @@ Requirements
 
 Steps
 
-1. Clone the WPD-CourseSignIn-WebDashboard GitHub repository
+1. Clone the GitHub repository
 
    - Open "Command Prompt" on Windows
    - Move to the desired folder you would like to put this repository into
@@ -169,9 +162,9 @@ Steps
    - More detailed steps for cloning can be found here: https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository
 
 2. Move to the newly cloned repository folder on "Command Prompt"
-3. Login to Firebase on Commpand Prompt using command:\
+3. Login to Firebase on Commpand Prompt (git bash can have issues with this) using command:\
    `firebase login`
-4. If changes were made to the project, re-build the React App using the command:\
+4. Build the React App using the command:\
    `npm run build`
 5. Finally, deploy the project using this command:\
    `firebase deploy`

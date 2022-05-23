@@ -111,9 +111,9 @@ const makeData = () => {
 
         // New fields
         courseInstructor: namor.generate({ words: 2, saltLength: 0 }),
-        // 50% change of WPD, 50% random
-        sponsorAgency: Math.random() < 0.5 ? "Wichita Police Department" : namor.generate({ words: 3, saltLength: 0 }),
-        instructorAgency: Math.random() < 0.5 ? "Wichita Police Department" : namor.generate({ words: 3, saltLength: 0 }),
+        // 50% change of default, 50% random
+        sponsorAgency: Math.random() < 0.5 ? "Default" : namor.generate({ words: 3, saltLength: 0 }),
+        instructorAgency: Math.random() < 0.5 ? "Default" : namor.generate({ words: 3, saltLength: 0 }),
         coordinator: namor.generate({ words: 2, saltLength: 0 }),
         synopsis: chance.paragraph(),
       });

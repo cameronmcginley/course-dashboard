@@ -3,9 +3,6 @@ import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import Courses from "./Pages/Courses";
 import ViewData from "./Pages/ViewData";
-import Login from "./Pages/login";
-import Register from "./Pages/register";
-import Reset from "./Pages/reset";
 import Attendance from "./Pages/Attendance";
 import makeData from "./Functions/makeData";
 import "./App.css";
@@ -45,11 +42,6 @@ function App() {
   }
   
   const [isDarkTheme, setIsDarkTheme] = useState(localStorage.getItem("DarkMode") === "true" ? true : false);
-  const [user, setUser] = useState({});
-  
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
 
   return (
     <Fragment>
@@ -63,9 +55,6 @@ function App() {
           {/* Pages exist in the content div */}
           <Paper className="content">
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/reset" element={<Reset />} />
               <Route path="/" element={<Home />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="/viewdata" element={<ViewData />} />

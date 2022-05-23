@@ -41,8 +41,8 @@ const FirebaseInputForm = (props) => {
   const [newCourseID, setNewCourseID] = useState(props.courseID);
   const [useAutoCourseID, setUseAutoCourseID] = useState(false);
   const [courseInstructor, setCourseInstructor] = useState("")
-  const [sponsorAgency, setSponsorAgency] = useState("Wichita Police Department")
-  const [instructorAgency, setInstructorAgency] = useState("Wichita Police Department")
+  const [sponsorAgency, setSponsorAgency] = useState("")
+  const [instructorAgency, setInstructorAgency] = useState("")
   const [coordinator, setCoordinator] = useState("")
   const [synopsis, setSynopsis] = useState("")
 

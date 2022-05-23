@@ -116,9 +116,9 @@ function FirebaseDataTable(props) {
     setUser(currentUser);
   });
 
-  if (!user) {
-    navigate("/login");
-  }
+  // if (!user) {
+  //   navigate("/login");
+  // }
 
   const [data, setData] = React.useState([]);
 

@@ -8,15 +8,6 @@ import ReactMarkdown from "react-markdown";
 import readme from "../README.md";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState({});
-
-  if (!auth.currentUser) {
-    navigate("/login");
-  } else if (!auth.currentUser.emailVerified) {
-    navigate("/login");
-  }
-
   const [mdText, setMdText] = useState("");
   useEffect(() => {
     fetch(readme)

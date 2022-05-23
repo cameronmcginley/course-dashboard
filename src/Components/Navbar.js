@@ -11,18 +11,6 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 
 const Navbar = (props) => {
-  const [user, setUser] = useState({});
-
-  
-
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
-  const logout = async () => {
-    await signOut(auth);
-  };
-
   const isMobile = useMediaQuery('(max-width:768px)')
 
   const [state, setState] = React.useState({
@@ -52,12 +40,12 @@ const Navbar = (props) => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        <ListItem>
+        {/* <ListItem>
           <ListItemText primary={user?.email}/>
-        </ListItem>
-        <ListItem button onClick={logout}>
+        </ListItem> */}
+        {/* <ListItem button onClick={logout}>
           <ListItemText primary={"Sign Out"} />
-        </ListItem>
+        </ListItem> */}
         <ListItem>
           <IconButton sx={{ mr: ".5rem" }} onClick={() => props.handleDarkModeChange(!props.isDarkTheme)}>
             <DarkModeIcon />
@@ -84,10 +72,9 @@ const Navbar = (props) => {
       {/* Call the phone-navbar for <768 pixel width */}
       {isMobile &&
         <Paper className="navbarphone" square={true}>
-          <p><b>WPD Course Sign-In Dashboard</b></p>
+          <p><b>Course Sign-In Dashboard</b></p>
 
-          {/* Only show the drawer button if signed in */}
-          {user && (<>
+          <>
           <Button onClick={toggleDrawer("right", true)}><MenuIcon/></Button>
           <SwipeableDrawer
             anchor={"right"}
@@ -97,18 +84,19 @@ const Navbar = (props) => {
           >
             {list("right")}
           </SwipeableDrawer>
-          </>)}
+          </>
         </Paper>
       }
+
       {!isMobile &&
         <Paper className="navbar" square={true}>
           {/* <h1>Demo Application</h1> */}
           <div className="nav-title">
-            <p><b>WPD Course Sign-In Dashboard</b></p>
+            <p><b>Course Sign-In Dashboard</b></p>
           </div>
 
           {/* Only show nav links and account info if signed in */}
-          {user && (<>
+          <>
             <div className="nav-links">
               <Button color="primary" variant="text" href="/" sx={{ borderBottom: window.location.pathname === "/" ? 1 : 0 }} >
                 Home
@@ -129,20 +117,20 @@ const Navbar = (props) => {
               </IconButton>
 
               {/* Display user email when mouseover accoutn icon */}
-              <Tooltip title={<Typography fontSize={'1rem'}>{user?.email}</Typography>}>
+              {/* <Tooltip title={<Typography fontSize={'1rem'}>{user?.email}</Typography>}>
                 <AccountCircleIcon  />
-              </Tooltip>
+              </Tooltip> */}
 
-              <Button
+              {/* <Button
                 color="primary"
                 sx={{ ml: 2 }}
                 variant="contained"
                 onClick={logout}
               >
                 Sign Out
-              </Button>
+              </Button> */}
             </div>
-            </>)}
+          </>
         </Paper>
       }
     </>
