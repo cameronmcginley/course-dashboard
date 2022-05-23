@@ -2,7 +2,9 @@
 
 Website found at: https://coursedashboard.web.app/
 
-This website serves as a dashboard for courses and attendees. It is designed to provide an easy to use interface to attendees by using QR codes to allow a user to sign into a course. From the perspective of course instructors or administrators, courses can be easily added and tracked with auto-generated QR codes for each, and all users who sign into courses can be viewed along with various information for each. Additionally, data can all be exported to .CSV files.
+This web app serves as a dashboard for courses and attendees. It provides an easy to use back-end for course instructors or administrators to handle course data and attendee data. One primary feature is the course tracker, where instructors can input their courses to automatically generate QR codes. These QR codes allow attendees to sign into courses by scanning them, either via the webpage or a printable page. This tracker also displays a unique page for each course with various helpful info and features. The next main feature is the attendee/sign-in data, where all sign-ins are stored. This data can be exported to .CSV, and comes with wide support for querying data.
+
+The most unique challenge in this app was querying through Firebase. To minimize costs, data is read on demand as opposed to all at once, which is normally done to make querying and pagination easier. Firebase has interesting restrictions on queries, such as supporting 'array contains' type queries on only one field at a time, and requires unique workarounds to search for 'string contains'. Without the effort of developing these queries and workarounds, there is not an effective way of reading n documents matching a certain query at one time to result in the least amount of reads possible.
 
 This website is for demo purposes, so the account system has been removed and restricted features, e.g. deleting data, is available for anyone to use.
 
