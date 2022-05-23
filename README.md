@@ -1,5 +1,7 @@
 # Course Sign-In Dashboard
 
+Website found at: https://coursedashboard.web.app/
+
 This website serves as a dashboard for courses and attendees. It is designed to provide an easy to use interface to attendees by using QR codes to allow a user to sign into a course. From the perspective of course instructors or administrators, courses can be easily added and tracked with auto-generated QR codes for each, and all users who sign into courses can be viewed along with various information for each. Additionally, data can all be exported to .CSV files.
 
 This website is for demo purposes, so the account system has been removed and restricted features, e.g. deleting data, is available for anyone to use.
