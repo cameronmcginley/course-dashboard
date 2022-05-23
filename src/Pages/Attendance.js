@@ -137,7 +137,8 @@ const Attendance = () => {
                   </Box>
 
                   <Box className="attendanceQR">
-                    <QRCode value={courseName + " {ID " + pageCourseID + "}"} />
+                    {/* <QRCode value={courseName + " {ID " + pageCourseID + "}"} /> */}
+                    <QRCode value={"https://coursedashboard.web.app/courses/" + pageCourseID + "/attendance"} />
                     <PrintQRReport QRvalue={courseName + " {ID " + pageCourseID + "}"} courseData={courseData} />
                   </Box>
                 </Paper>
